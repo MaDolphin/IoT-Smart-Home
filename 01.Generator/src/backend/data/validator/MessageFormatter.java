@@ -1,7 +1,7 @@
 package backend.data.validator;
 
-import de.macoco.ocl._ast.ASTMessage;
-import de.macoco.ocl._ast.ASTMessageFragment;
+import de.montigem.ocl._ast.ASTMessage;
+import de.montigem.ocl._ast.ASTMessageFragment;
 import de.monticore.prettyprint.IndentPrinter;
 import frontend.data.validator.OCLTypeScriptExpressionsPrettyPrinter;
 

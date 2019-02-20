@@ -1,6 +1,6 @@
 package backend.data.validator;
 
-import de.macoco.ocl._visitor.OCLVisitor;
+import de.montigem.ocl._visitor.OCLVisitor;
 import de.monticore.commonexpressions._ast.*;
 import de.monticore.expressionsbasis._ast.ASTExpression;
 import de.monticore.literals.literals._ast.ASTDoubleLiteral;
