@@ -1,0 +1,67 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.diagramsforevaluation;
+
+classdiagram Credit{
+
+  class Bank{
+    String bic;
+  }
+
+  class BankAccount{
+    String iban;
+  }
+
+  class Creditor extends FinancialEntity{
+    String ics;
+    String address_line_1;
+    String address_line_2;
+  }
+
+  class Debtor extends FinancialEntity{
+    String rum;
+    Date mandate_signature_date;
+  }
+
+  class FinancialEntity{
+    String name;
+  }
+
+  class Payment{
+    String payment_information_id;
+    Date requested_collection_date;
+  }
+
+  class Transaction{
+    String eeid;
+    Float amount;
+  }
+
+  association Bank_BankAccount [1] BankAccount (bankAccount) <-> (bank) Bank [1] ;
+
+  association FinancialEntity_BankAccount [1] BankAccount (bankAccount) <- (financialEntity) FinancialEntity [1] ;
+
+  association Debtor_Transaction [1] Transaction (transaction) -> (debtor) Debtor [1] ;
+
+  association Creditor_Transaction [1] Transaction (transaction) -> (creditor) Creditor [1] ;
+
+  association Payment_Transaction [1] Transaction (transaction) <- (payment) Payment [1] ;
+
+}

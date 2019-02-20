@@ -1,0 +1,278 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- == PROJECT COORDINATES ============================================= -->
+
+	<parent>
+		<groupId>de.monticore.dex</groupId>
+		<artifactId>dex</artifactId>
+		<version>4.3.0-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>dex-use</artifactId>
+
+	<!-- == PROJECT METAINFORMATION ========================================= -->
+
+	<name>Data Explorer: Integration Test</name>
+	<description></description>
+	<url>http://www.monticore.de/</url>
+	<organization>
+		<name>SE RWTH Aachen</name>
+		<url>http://www.se-rwth.de/</url>
+	</organization>
+
+	<!-- == DEPENDENCIES ==================================================== -->
+
+	<dependencies>
+		<dependency>
+			<groupId>de.monticore.dex</groupId>
+			<artifactId>dex-rte</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>de.monticore.dex</groupId>
+			<artifactId>soap-client</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jidesoft</groupId>
+			<artifactId>jide-oss</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+
+		<!-- TODO GV: remove this again if using se-groovy plugin -->
+		<dependency>
+			<groupId>de.monticore.dex</groupId>
+			<artifactId>dex-gtr</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+	</dependencies>
+
+	<!-- == PROPERTIES ==================================================== -->
+
+	<properties>
+		<skip.scripts>true</skip.scripts>
+		<dexmodels>models/dex</dexmodels>
+		<successmodels>models/testmodels/handled/success</successmodels>
+		<failedmodels>models/testmodels/handled/failed</failedmodels>
+		<associationcd>models/associations</associationcd>
+	</properties>
+
+	<!-- == PROFILES ============================================================ -->
+
+	<profiles>
+		<!-- DexGenerator runs over models/dex (DEFAULT) -->
+		<profile>
+			<id>main</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<successmodels>${dexmodels}</successmodels>
+				<failedmodels>${dexmodels}</failedmodels>
+				<cmn-models>${basedir}/${dexmodels}</cmn-models>
+				<addSrcToModelPath>false</addSrcToModelPath>
+			</properties>
+		</profile>
+
+		<!-- DexGenerator runs over all handled models (models/dex, models/testmodels/handled/success, 
+			models/testmodels/handled/failed) -->
+		<profile>
+			<id>all</id>
+			<activation>
+				<property>
+					<name>all</name>
+				</property>
+			</activation>
+			<properties>
+				<cmn-models>${basedir}/${dexmodels} ${basedir}/${successmodels}
+					${basedir}/${failedmodels}</cmn-models>
+				<addSrcToModelPath>false</addSrcToModelPath>
+			</properties>
+		</profile>
+
+		<!-- DexGenerator runs over all models which can be handled successfully 
+			(models/dex, models/testmodels/handled/success) -->
+		<profile>
+			<id>all_success</id>
+			<activation>
+				<property>
+					<name>allsuccess</name>
+				</property>
+			</activation>
+			<properties>
+				<failedmodels>${dexmodels}</failedmodels>
+				<cmn-models>${basedir}/${dexmodels} ${basedir}/${successmodels}</cmn-models>
+				<addSrcToModelPath>false</addSrcToModelPath>
+			</properties>
+		</profile>
+
+		<!-- DexGenerator runs over test models which can be handled successfully 
+			(models/testmodels/handled/success) -->
+		<profile>
+			<id>test_success</id>
+			<activation>
+				<property>
+					<name>success</name>
+				</property>
+			</activation>
+			<properties>
+				<failedmodels>${successmodels}</failedmodels>
+				<dexmodels>${successmodels}</dexmodels>
+				<cmn-models>${basedir}/${successmodels}</cmn-models>
+				<addSrcToModelPath>false</addSrcToModelPath>
+			</properties>
+		</profile>
+
+		<!-- DexGenerator runs over test models which can't be handled successfully 
+			(models/testmodels/handled/failed) -->
+		<profile>
+			<id>test_failed</id>
+			<activation>
+				<property>
+					<name>failed</name>
+				</property>
+			</activation>
+			<properties>
+				<dexmodels>${failedmodels}</dexmodels>
+				<successmodels>${failedmodels}</successmodels>
+				<cmn-models>${basedir}/${failedmodels}</cmn-models>
+				<addSrcToModelPath>false</addSrcToModelPath>
+			</properties>
+		</profile>
+
+		<!-- DexGenerator runs over the association models (models/associations) -->
+		<profile>
+			<id>test_associations</id>
+			<activation>
+				<property>
+					<name>associations</name>
+				</property>
+			</activation>
+			<properties>
+				<successmodels>${associationcd}</successmodels>
+				<failedmodels>${associationcd}</failedmodels>
+				<cmn-models>${basedir}/${dexmodels} ${basedir}/${associationcd}</cmn-models>
+				<addSrcToModelPath>false</addSrcToModelPath>
+			</properties>
+		</profile>
+
+	</profiles>
+
+	<!-- == BUILD ============================================================ -->
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+
+		<!-- == PLUGINS ======================================================== -->
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>${maven.clean.version}</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}/gen</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>dex.testcard.TestCard</mainClass>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>models</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classifier>${model.classifier}</classifier>
+							<classesDirectory>${basedir}/models/</classesDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>de.se_rwth.maven</groupId>
+				<artifactId>se-groovy-maven-plugin</artifactId>
+				<configuration>
+					<arguments>
+						<model>${basedir}/models/TestCard.cd</model>
+						<out>${basedir}/gen</out>
+						<modelPath>${basedir}/models</modelPath>
+						<targetPath>${basedir}/src</targetPath>
+						<templatePath>${basedir}/src</templatePath>
+					</arguments>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.9.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/gen</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

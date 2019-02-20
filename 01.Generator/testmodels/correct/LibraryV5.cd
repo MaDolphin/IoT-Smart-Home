@@ -1,0 +1,120 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct;
+
+import java.util.Date;
+
+/**
+ Changes in attributes only: 
+ - Item has an additional attribute String "source"
+ - Book has an additional attribute int "price"
+ - AvailablityState enum has another value "repair"
+**/
+
+/**
+
+classes: 12
+attributes: 27
+interfaces: 0
+associations: 8
+enumeration values: 13
+primitive and other types: 3
+
+elements in total: 68
+
+**/
+classdiagram LibraryV5 {
+
+    abstract class Item {
+        String title;
+        Date published;
+        Language lang;
+        String source;
+    }
+    
+    class Book extends Item {
+        int numOfPages;
+        String ISBN;
+        int edition;
+        int price;
+    }
+    
+    class Map extends Item {
+        String area;
+        Date date;
+    }
+    
+    class NewsPaper extends Book;
+    
+    class Publisher {
+        String name;
+        String address;
+        Date estDate;
+        String phoneNumber;
+    }
+    
+    class Copy {
+        int id;
+        BookCondition cond;
+        AvailabilityState state;
+        Medium medium;      
+    }
+    
+    enum BookCondition { newone, used, broken; }
+    enum Medium {HardCover, PaperBack, EBook, AudioCD;}
+    enum AvailabilityState {available, taken, missing, repair; }
+    enum Language {German, English; }
+    
+    class Library;
+    
+    class Person {
+        String name;
+        String address;
+    }
+    
+    class Reader extends Person;
+    
+    class Author {
+        String name;
+        String address;
+    }
+  
+    class Loan {
+        Date startDate;
+        Date returnDate;
+        int numOfExtensions;
+    }
+    
+    class Comment {
+      Date date;
+      String comment;
+    }
+    
+    composition Copies [1] Book (isOf) -> (hasCopy) Copy [2..*];
+    association Comments [1] Loan (commentsOn) <-> (hasComment) Comment [*];
+    association Loans [1] Copy (borrowedCopy) <-> (loaned) Loan [*];
+    association Loaner [1] Reader (loans) <-> (readersLoan) Loan [*];
+    association AuthorsOfBook [1..*] Author (writtenBy) <-> (authorOf) Book [1..*];
+    
+    association ReaderOfLibrary [*] Reader (readers) <-> (knownLibraries) Library [1..*];
+    association ReaderOfLibrary [*] Copy (ownedCopies) <-> (copiesHome) Library [1];
+    
+    association Publishing [*] Item (publish) -> (publishedBy) Publisher [1];
+}

@@ -1,0 +1,267 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct;
+
+classdiagram Testcoverage {
+
+  class SimpleClass {
+    String attr;
+  }
+
+  // ===== Attribute Tests =====
+  // Testcase 1: 
+  // Inherit attributes from superclass
+  abstract class ASuper {
+    String abstractAttr;
+  }
+  
+  class A extends ASuper {
+    String concreteAttr;
+  }
+  
+  // Testcase 2:
+  // Override attributes from superclass
+  abstract class BSuper {
+    String abstractAttr;
+  }
+  
+  class B extends BSuper {
+    String abstractAttr;
+    String concreteAttr;
+  }
+  
+  // Testcase 3: 
+  // Testcase 3.1: Test all possible attribute fields
+  class AttributeTest {
+    String stringAttr;
+    Date dateAttr;
+    boolean boolAttr;
+    char charAttr;
+    float floatAttr;
+    double doubleAttr;
+    byte byteAttr;
+    short shortAttr;
+    int intAttr;
+    long longAttr;
+    SimpleClass objAttr;
+    // Enum hier noch hin
+  }
+ 
+  // Testcase 3: 
+  // Testcase 3.2: Test all possible attribute fields with predefined default values
+  class AttributeTestValues {
+    String stringAttr = "Test";
+    Date dateAttr;
+    boolean boolAttr;
+    char charAttr;
+    float floatAttr;
+    double doubleAttr;
+    byte byteAttr;
+    short shortAttr;
+    int intAttr;
+    long longAttr;
+  }
+  
+  // Testcase 4:
+  // Test all possible generic type fields (Optional, List, Set)
+  // Testcase 4.1 Test optionals
+  class OptionalTest {
+    Optional<String> optString;
+    Optional<Date> optDate;
+    Optional<boolean> optBool;
+    Optional<char> optChar;
+    Optional<float> optFloat;
+    Optional<double> optDouble;
+    Optional<byte> optByte;
+    Optional<short> optShort;
+    Optional<int> optInt;
+    Optional<long> optLong;
+    Optional<SimpleClass> optObject;
+  }
+  
+  // Testcase 4.2 Test collections (list and set)
+  class CollectionTest {
+    List<String> stringList;
+    // Note that Date is not supported here!
+    List<boolean> boolList;
+    List<char> charList;
+    List<float> floatList;
+    List<double> doubleList;
+    List<byte> byteList;
+    List<short> shortList;
+    List<int> intList;
+    List<long> longList;
+    // Note that Objects in general are not supported here!
+    
+    Set<String> stringSet;
+    // Note that Date is not supported here!
+    Set<boolean> boolSet;
+    Set<char> charSet;
+    Set<float> floatSet;
+    Set<double> doubleSet;
+    Set<byte> byteSet;
+    Set<short> shortSet;
+    Set<int> intSet;
+    Set<long> longSet;
+    // Note that Objects in general are not supported here!
+  }
+  
+  // ===== Association Tests =====
+  // Testcase 5:
+  // Associations between 2 classes
+  class Left {
+    String leftAttr;
+  }
+  
+  abstract class AbstractRight {
+    String abstractAttr;
+  }
+  
+  class Right extends AbstractRight {
+    String rightStringAttr;
+  }
+  
+  // Testcase 5.1:
+  // Simple (non-qualified) Associations
+
+  association a1 Left -> Right [1];
+  association a2 Left -> Right [*];
+  association a3 Left -> Right [1..*];
+  association a4 Left <-> Right [1];
+  association a5 Left <-> Right [*];
+  association a6 Left <-> Right [1..*];
+
+  // Testcase 5.2:
+  // Qualified-Name Associations
+
+  association qna1 Left [[stringAttr]] -> AttributeTest [1];
+  // association qna2 Left [[boolAttr]] -> AttributeTest [1];
+  // association qna3 Left [[dateAttr]] -> AttributeTest [1]; // ??
+  association qna4 Left [[byteAttr]] -> AttributeTest [1];
+  association qna5 Left [[shortAttr]] -> AttributeTest [1];
+  association qna6 Left [[intAttr]] -> AttributeTest [1];
+  association qna7 Left [[longAttr]] -> AttributeTest [1];
+  association qna8 Left [[floatAttr]] -> AttributeTest [1];
+  association qna9 Left [[doubleAttr]] -> AttributeTest [1];
+  // association qna10 Left [[charAttr]] -> AttributeTest [1];
+  
+  association qna11 Left [[stringAttr]] -> AttributeTest [*];
+  association qna12 Left [[boolAttr]] -> AttributeTest [*]; // BUGGED
+  association qna13 Left [[dateAttr]] -> AttributeTest [*]; // BUGGED
+  association qna14 Left [[byteAttr]] -> AttributeTest [*];
+  association qna15 Left [[shortAttr]] -> AttributeTest [*];
+  association qna16 Left [[intAttr]] -> AttributeTest [*];
+  association qna17 Left [[longAttr]] -> AttributeTest [*];
+  association qna18 Left [[floatAttr]] -> AttributeTest [*];
+  association qna19 Left [[doubleAttr]] -> AttributeTest [*];
+  // association qna20 Left [[charAttr]] -> AttributeTest [*];
+
+  association qna21 Left [[stringAttr]] -> AttributeTest [1..*];
+  // association qna22 Left [[boolAttr]] -> AttributeTest [1..*];
+  // association qna23 Left [[dateAttr]] -> AttributeTest [1..*]; // ??
+  association qna24 Left [[byteAttr]] -> AttributeTest [1..*];
+  association qna25 Left [[shortAttr]] -> AttributeTest [1..*];
+  association qna26 Left [[intAttr]] -> AttributeTest [1..*];
+  association qna27 Left [[longAttr]] -> AttributeTest [1..*];
+  association qna28 Left [[floatAttr]] -> AttributeTest [1..*];
+  association qna29 Left [[doubleAttr]] -> AttributeTest [1..*];
+  // association qna30 Left [[charAttr]] -> AttributeTest [1..*];
+  
+  // Special case: Assoc Target is abstract superclass of Right
+  //               The UI must display the concrete class and not just 
+  //               the abstract superpart of it.
+  association toAbstractRight Left -> AbstractRight;
+  
+  // Testcase 5.3
+  // A bidirectional qualified association:
+  association qna31 Left [[rightStringAttr]] <-> Right;
+
+  // Testcase 5.4:
+  // Qualified-Type Associations
+  
+  association qta1 Left [String] -> AttributeTest [1];
+  
+  /*
+  // association qta2 Left [boolean] -> AttributeTest [1];
+  // association qta3 Left [Date] -> AttributeTest [1]; // ??
+  association qta4 Left [byte] -> AttributeTest [1];
+  association qta5 Left [short] -> AttributeTest [1];
+  association qta6 Left [int] -> AttributeTest [1];
+  association qta7 Left [long] -> AttributeTest [1];
+  association qta8 Left [float] -> AttributeTest [1];
+  association qta9 Left [double] -> AttributeTest [1];
+  association qta10 Left [char] -> AttributeTest [1];
+  
+  association qta11 Left [String] -> AttributeTest [*];
+  
+  /*
+  // association qta12 Left [boolean] -> AttributeTest [*];
+  // association qta13 Left [Date] -> AttributeTest [*]; // ??
+  association qta14 Left [byte] -> AttributeTest [*];
+  association qta15 Left [short] -> AttributeTest [*];
+  association qta16 Left [int] -> AttributeTest [*];
+  association qta17 Left [long] -> AttributeTest [*];
+  association qta18 Left [float] -> AttributeTest [*];
+  association qta19 Left [double] -> AttributeTest [*];
+  association qta20 Left [char] -> AttributeTest [*];
+  */
+  
+  association qta21 Left [String] -> AttributeTest [1..*];
+  /*
+  // association qta22 Left [boolean] -> AttributeTest [1..*];
+  // association qta23 Left [Date] -> AttributeTest [1..*]; // ??
+  association qta24 Left [byte] -> AttributeTest [1..*];
+  association qta25 Left [short] -> AttributeTest [1..*];
+  association qta26 Left [int] -> AttributeTest [1..*];
+  association qta27 Left [long] -> AttributeTest [1..*];
+  association qta28 Left [float] -> AttributeTest [1..*];
+  association qta29 Left [double] -> AttributeTest [1..*];
+  association qta30 Left [char] -> AttributeTest [1..*];
+  */
+  // Testcase 5.5
+  // A bidirectional qualified association:
+  association qta31 Left [String] <-> Right;
+
+  // ===== Interface Tests =====
+  interface I1;
+  
+  abstract class AbstractClass;
+  
+  class ConcreteClass extends AbstractClass implements I1;
+  
+  association I1 -> Right [1]; // BUG IN DEX
+  
+  // Testcase 6 (Enums)
+  enum SampleEnum { VALUE1, VALUE2, VALUE3; }
+  
+  class EnumTest {
+    SampleEnum enumAsAttr;
+  }
+  
+  association toEnumOptional EnumTest -> SampleEnum [0..1];
+  
+  association toEnumSingle EnumTest -> SampleEnum [1];
+  
+  association toEnumAtLeastOne EnumTest -> SampleEnum [1..*];
+  
+  association toEnumMultiple EnumTest -> SampleEnum [*]; // named associations buggen hier...
+  
+  
+}

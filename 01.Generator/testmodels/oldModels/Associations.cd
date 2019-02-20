@@ -1,0 +1,212 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+// Ticket #537(fixed)
+
+package testmodels.correct; // CP Associations
+
+classdiagram Associations {
+
+  // Unidir ->
+  
+  <<entity>> public class AleftToRight {
+  }
+  
+  <<entity>> public class BleftToRight {
+  }
+  
+  association AleftToRight -> BleftToRight;
+  
+  <<entity>> public class CleftToRight {
+  }
+  
+  <<entity>> public class DleftToRight {
+  }
+  
+  association CleftToRight -> DleftToRight [*];
+  
+  <<entity>> public class EleftToRight {
+  }
+  
+  <<entity>> public class FleftToRight {
+  }
+  
+  association [*] EleftToRight -> FleftToRight;
+  
+  <<entity>> public class GleftToRight {
+  }
+  
+  <<entity>> public class HleftToRight {
+  }
+  
+  association [*] GleftToRight -> HleftToRight [*];
+  
+  // Unidir <-
+  
+  <<entity>> public class ArightToLeft {
+  }
+  
+  <<entity>> public class BrightToLeft {
+  }
+  
+  association ArightToLeft <- BrightToLeft;
+  
+  <<entity>> public class CrightToLeft {
+  }
+  
+  <<entity>> public class DrightToLeft {
+  }
+  
+  association [*] CrightToLeft <- DrightToLeft;
+  
+  <<entity>> public class ErightToLeft {
+  }
+  
+  <<entity>> public class FrightToLeft {
+  }
+  
+  association ErightToLeft <- FrightToLeft [*];
+  
+  <<entity>> public class GrightToLeft {
+  }
+  
+  <<entity>> public class HrightToLeft {
+  }
+  
+  association [*] GrightToLeft <- HrightToLeft [*];
+  
+  // Bidir left owner
+  
+  <<entity>> public class AleftOwner {
+  }
+  
+  <<entity>> public class BleftOwner {
+  }
+  
+  association <<owner>> AleftOwner  <-> BleftOwner;
+  
+  <<entity>> public class CleftOwner {
+  }
+  
+  <<entity>> public class DleftOwner {
+  }
+  
+  association <<owner>> CleftOwner  <-> DleftOwner [*];
+  
+  <<entity>> public class EleftOwner {
+  }
+  
+  <<entity>> public class FleftOwner {
+  }
+  
+  association <<owner>> [*]  EleftOwner  <-> FleftOwner;
+  
+  <<entity>> public class GleftOwner {
+  }
+  
+  <<entity>> public class HleftOwner {
+  }
+  
+  association <<owner>> [*]  GleftOwner  <-> HleftOwner [*];
+  
+  // Bidir Right owner
+  
+  <<entity>> public class ArightOwner {
+  }
+  
+  <<entity>> public class BrightOwner {
+  }
+  
+  association ArightOwner  <-> BrightOwner <<owner>>;
+  
+  <<entity>> public class CrightOwner {
+  }
+  
+  <<entity>> public class DrightOwner {
+  }
+  
+  association [*] CrightOwner  <-> DrightOwner  <<owner>>;
+  
+  <<entity>> public class ErightOwner {
+  }
+  
+  <<entity>> public class FrightOwner {
+  }
+  
+  association   ErightOwner  <-> FrightOwner [*]  <<owner>>;
+  
+  <<entity>> public class GrightOwner {
+  }
+  
+  <<entity>> public class HrightOwner {
+  }
+  
+  association  [*]  GrightOwner  <-> HrightOwner [*] <<owner>>;
+  
+  // Bidir no owner
+  
+  <<entity>> public class AnoOwner {
+  }
+  
+  <<entity>> public class BnoOwner {
+  }
+  
+  association AnoOwner  <-> BnoOwner;
+  
+  <<entity>> public class CnoOwner {
+  }
+  
+  <<entity>> public class DnoOwner {
+  }
+  
+  association  CnoOwner  <-> DnoOwner [*];
+  
+  <<entity>> public class EnoOwner {
+  }
+  
+  <<entity>> public class FnoOwner {
+  }
+  
+  association  [*]  EnoOwner  <-> FnoOwner;
+  
+  <<entity>> public class GnoOwner {
+  }
+  
+  <<entity>> public class HnoOwner {
+  }
+  
+  association  [*]  GnoOwner  <-> HnoOwner [*];
+  
+  
+  //Compositions
+  /*
+  <<entity>> public class A {}
+  <<entity>> public class B {}
+  
+  composition [*] A <-> B ; */
+  
+  
+  //Multiple cascade annotations
+  /*<<entity>> public class A {}
+  
+  <<entity>> public class B {}
+  
+  <<cascade = "CascadeType.MERGE",cascade="CascadeType.PERSIST",cascade="CascadeType.REFRESH", fetch = "FetchType.EAGER">> association A -> B;*/
+
+}

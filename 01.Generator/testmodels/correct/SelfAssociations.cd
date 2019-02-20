@@ -1,0 +1,116 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+// Ticket #567(fixed)
+
+package testmodels.correct; // ML
+
+classdiagram SelfAssociations {
+   
+  // Unidir ->
+  
+  class A_OneToOne;
+  
+  association A_OneToOne -> A_OneToOne;
+  
+  class A_OneToMany;
+  
+  association A_OneToMany -> A_OneToMany [*];
+  
+  class A_ManyToOne;
+  
+  association [*] A_ManyToOne -> A_ManyToOne;
+  
+  class A_ManyToMany;
+  
+  association [*] A_ManyToMany -> A_ManyToMany [*];
+  
+  // Unidir <-
+  
+  class B_OneToOne;
+  
+  association B_OneToOne <- B_OneToOne;
+  
+  class B_OneToMany;
+  
+  association B_OneToMany <- B_OneToMany [*];
+  
+  class B_ManyToOne;
+  
+  association [*] B_ManyToOne <- B_ManyToOne;
+  
+  class B_ManyToMany;
+  
+  association [*] B_ManyToMany <- B_ManyToMany [*];
+  
+  // Bidir <->  // no Owner
+  
+  class C_OneToOne;
+  
+  association C_OneToOne <-> (rightHandSide) C_OneToOne;
+  
+  class C_OneToMany;
+  
+  association C_OneToMany <-> (rightHandSide) C_OneToMany [*];
+  
+  class C_ManyToOne;
+  
+  association [*] C_ManyToOne <-> (rightHandSide) C_ManyToOne;
+  
+  class C_ManyToMany;
+  
+  association [*] C_ManyToMany <-> (rightHandSide) C_ManyToMany [*];
+  
+  // Bidir <->  // left Owner
+  
+  class D_OneToOne;
+  
+  association  D_OneToOne <-> (rightHandSide) D_OneToOne;
+  
+  class D_OneToMany;
+  
+  association  D_OneToMany <-> (rightHandSide) D_OneToMany [*];
+  
+  class D_ManyToOne;
+  
+  association  [*] D_ManyToOne <-> (rightHandSide) D_ManyToOne;
+  
+  class D_ManyToMany;
+  
+  association  [*] D_ManyToMany <-> (rightHandSide) D_ManyToMany [*];
+  
+  // Bidir <->  // right Owner
+  
+  class E_OneToOne;
+  
+  association E_OneToOne <-> (rightHandSide) E_OneToOne ;
+  
+  class E_OneToMany;
+  
+  association E_OneToMany <-> (rightHandSide) E_OneToMany [*] ;
+  
+  class E_ManyToOne;
+  
+  association [*] E_ManyToOne <-> (rightHandSide) E_ManyToOne ;
+  
+  class E_ManyToMany;
+  
+  association [*] E_ManyToMany <-> (rightHandSide) E_ManyToMany [*] ;
+
+}

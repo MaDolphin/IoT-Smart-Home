@@ -1,0 +1,255 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct; 
+import java.util.Date;
+
+classdiagram WB2DB {
+    class Firma {
+    String name;
+    String strasse;
+    String telefon;
+    String fax;
+    String email;
+    String info;
+    int anzahlMitarbeiter;
+  }
+
+  class Mitarbeiter {
+    String name;
+    String vorname;
+    String mobiltelefon;
+    String festnetzdurchwahl;
+    String email;
+  }
+
+  class Position {
+    String name;
+  }
+
+  class Taetigkeit {
+    String name;
+  }
+
+  class Branche {
+    String name;
+    String beschreibung;
+  }
+
+  class FruehereTaetigkeit {
+    int buttonmonatsgehalt;
+    int urlaubsgeld;
+    int weihnachtsgeld;
+    int tantieme;
+    int vwl;
+    String arbeitgeber;
+    String personalverantwortung;
+    int mitarbeiterzahl;
+    String wilbersvermittelt;
+  }
+
+  enum Geschlecht { maennlich, weiblich; }
+
+  class Stellensucher {
+    String name;
+    String vorname;
+    Date geburtsdatum;
+    String familienstand;
+    int anzahlKinder;
+    String staatsangehoerigkeit;
+    String strasse;
+    String plz;
+    String ort;
+    String telefon;
+    String fax;
+    String email;
+    String handynummer;
+    String aktuelleFirmaSeit;
+    String aktuelleFirmaPosition;
+    String aktuelleFirmaTaetigkeitsbeschreibung;
+    String aktuelleFirmaDienstlicheEmail;
+    String kuendigungsfrist;
+    String schulbildung;
+    String berufsausbildung;
+    String hochschulausbildung;
+    String titel;
+    String edvKentnisse;
+    String berufsspezifischeKentnisse;
+    String ausbildereignung;
+    String auslandsaufenthalte;
+    String fortbildungen;
+  }
+
+
+  class Land {
+    String isoCode;
+    String en;
+    String de;
+    Boolean isEurope;
+  }
+
+  class Region {
+    String name;
+  }
+
+  class DirekteRegion extends Region {
+    Double longitude;
+    Double latitude;
+    Double radius;
+  }
+
+  class ZusammengesetzteRegion extends Region;
+
+
+  class Stadt {
+    String plz;
+  }
+
+  enum Sprache { Deutsch, Englisch, Franzoesisch; }
+  enum Sprachlevel { Muttersprachler, Verhandlungssicher; }
+
+  enum Bewerbungsstatus { freigegeben, weisichnicht; }
+
+  class Bewerbung {
+    String farbe;
+    Date lastUpdateTime;
+    String bemerkung;
+  }
+
+  class User {
+    String name;
+  }
+
+  class Stellengesuch {
+    int buttonmonatsgehalt;
+    int urlaubsgeld;
+    int weihnachtsgeld;
+    int tantieme;
+    int vwl;
+    /int jahresbrutto;
+    String sonstigeGeldwerteLeistungen;
+    Double wochenarbeitszeitInStunden;
+    String personalverantwortung;
+    String motivationFuerDieAnnahmeEinerStelle;
+    String freierTextDesBewerbers;
+    String vorgestellteAuftraggeber;
+    Date aufnahmedatum;
+    Date datumAenderung;
+    String vonWilbersvermittelt;
+    String sperrvermerk;
+    String bemerkungenWilbers;
+    String bearbeitetmit;
+  }
+
+  enum Gesuchstatus { freigegeben, geloescht; }
+
+  enum Anstellung { Vollzeit, Teilzeit, Freiberufler; }
+
+  enum Auftragstyp { Preselect, Complete; }
+
+  enum Veroeffentlichung { Zeitschrift, Internet, Sonder; }
+
+  enum Angebotsstatus { freigegeben, geloescht; }
+
+  class Stellenangebot {
+    String stellenbezeichnung;
+    String stellenbeschreibung;
+    String berufsspezifischeKentnisse;
+    String edvKentnisse;
+    String ausbildereignung;
+    String berichtetAn;
+    Boolean beginnASAP;
+    Date beginn;
+    String ausbildung;
+    Boolean personalverantwortung;
+    String personalverantwortungDetails;
+    Double jahresbuttogehaltFixMin;
+    Double jahresbuttogehaltFixMax;
+    Double urlaubsgeld;
+    Double weihnachtsgeld;
+    Double bonusMin;
+    Double bonusMax;
+    /Double bruttoMin;
+    /Double bruttoMax;
+    /Double jahresbruttoMin;
+    /Double jahresbruttoMax;
+    Double wochenstunden;
+    String arbeitszeit;
+    String bemerkungen;
+    Boolean befristet;
+    String befristetDetails;
+    int anzahlTeamkollege;
+    String ursache;
+    String kostenpflichtigeSonderveroeffentlichung;
+    Date aenderungsdatum;
+    Date erfassungsdatum;
+  }
+
+  class Sprachkentniss;
+
+  association gesuchteTaetigkeit [*] Stellenangebot -> Taetigkeit [1..*];
+  association gesuchtePosition [*] Stellenangebot -> Position [1..*];
+  association ansprechpartner [*] Stellenangebot <-> Mitarbeiter [1..*];
+  association auftraggeber [*] Stellenangebot <-> Firma [1];
+  association [*] Stellenangebot -> Auftragstyp [1];
+  association [*] Stellenangebot -> Veroeffentlichung [1..*];
+  association [*] Stellenangebot -> Angebotsstatus [1];
+  association [*] Stellenangebot -> Anstellung [1];
+  association [*] Stellenangebot -> Sprachkentniss [1];
+  association dienstregion_a [*] Stellenangebot -> (dienstregion) Region [1..*];
+  association reisebereitschaft_a [*] Stellenangebot -> (reisebereitschaft) Region [1..*];
+  association dienstsitz_a [*] Stellenangebot -> (dienstsitz) Stadt [1..*];
+  association bearbeiter_a [*] Stellenangebot -> (bearbeiter) User [1];
+
+  association [*] ZusammengesetzteRegion (gehoertZu) <-> (zusammengesetztAus) Region [1..*];
+
+  association [1] Stellenangebot <-> Bewerbung [*];
+  association [1] Bewerbungsstatus <- Bewerbung [*];
+  association [1] Stellensucher <-> Bewerbung [*];
+
+  association [*] Mitarbeiter -> Position [1..*];
+  association [*] Mitarbeiter <-> Firma [1];
+  association sitz [*] Firma -> Stadt [1];
+  association [*] Firma <-> Branche [1];
+  association [*] Firma <-> Land [1];
+  association [*] Stadt <-> Land [1];
+
+  association [*] Sprachkentniss -> Sprache [1];
+  association [*] Sprachkentniss -> Sprachlevel [1];
+
+  association angestrebteTaetigkeit [*] Stellengesuch -> Taetigkeit [1..*];
+  association angestrebtePosition [*] Stellengesuch -> Position [1..*];
+  association [*] Stellengesuch -> Gesuchstatus [1];
+  association aktuelleFirma [*] Stellengesuch -> Firma [1];
+  association [*] Stellengesuch -> Branche [1..*];
+  association [*] Stellengesuch -> Land [1];
+  association [*] Stellengesuch -> Anstellung [1];
+  association [*] Stellengesuch -> Sprachkentniss [1];
+  association dienstregion_g [*] Stellengesuch -> (dienstregion) Region [1..*];
+  association reisebereitschaft_g [*] Stellengesuch -> (reisebereitschaft) Region [1..*];
+  association dienstsitz_g [*] Stellengesuch -> (dienstsitz) Stadt [1..*];
+  association bearbeite_g [*] Stellengesuch -> (bearbeiter) User [1];
+  association sucher [*] Stellengesuch <-> Stellensucher [1];
+
+  association [*] Stellensucher -> Geschlecht [1];
+  association [*] Stellensucher -> FruehereTaetigkeit [1];
+
+  association [1] Taetigkeit <- FruehereTaetigkeit [*];
+  association [1] Position <- FruehereTaetigkeit [*];
+}

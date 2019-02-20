@@ -1,0 +1,65 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct; 
+
+import java.util.Date;
+
+classdiagram DummyValues1 {
+
+    class Member {
+       String name;
+       int age;
+      
+       String alias;
+       String email;
+        
+       Date birthDay;
+       Date lastHere;
+       Date question;
+       Date answer;
+      
+       String birthDay1;
+       String age1;
+       Integer name1;
+        
+	   Integer aIntegerName;
+	   Boolean aBooleanName;
+	   Character aCharacterName;
+	   Short aShortName;
+	   Long aLongName;
+	   Double aDoubleName;
+	   Float aFloatName;
+	   int intName;
+	   boolean booleanName;
+	   char charName;
+	   short shortName;
+	   long longName;
+	   double doubleName;
+	   float floatName;
+    }
+    
+    enum MediaType{
+      DOCUMENT,
+      PICTURE,
+      LINK,
+      MOVIE;
+    }
+    
+}

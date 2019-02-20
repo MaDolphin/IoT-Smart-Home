@@ -1,0 +1,73 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package extendedsocnet;
+
+import java.util.List;
+import java.util.Set;
+import java.util.Date;
+
+classdiagram XSocNet {
+  class Bla{
+   String blubb;
+  }
+
+  class Blubber {
+    int bl;
+  }
+
+  association one               Bla -> Blubber [1];
+  association optional          Bla -> Blubber [0..1];
+  association multiple          Bla -> Blubber [*];
+  association oneToMultiple     Bla -> Blubber [1..*];
+
+  // ----------------------------------------------------------
+  class Bla1{
+   String blubb;
+  }
+
+  class Blubber1 {
+    int bl;
+  }
+  association one1              [*] Bla1 <-> Blubber1 [1];
+  association optional1         [*] Bla1 <-> Blubber1 [0..1];
+  association multiple1         [*] Bla1 <-> Blubber1 [*];
+  association oneToMultiple1    [*] Bla1 <-> Blubber1 [1..*];
+
+  // ----------------------------------------------------------
+  class Bla2{
+   String blubb;
+  }
+
+  class Blubber2 {
+    int bl;
+  }
+  association optional2         [1] Bla2 <-> Blubber2 [0..1];
+
+  // ----------------------------------------------------------
+  class Bla3{
+   String blubb;
+  }
+
+  class Blubber3 {
+    int bl;
+  }
+  association optional3         [0..1] Bla3 <-> Blubber3 [0..1];
+  association oneToMultiple3    [0..1] Bla3 <-> Blubber3 [1..*];
+}

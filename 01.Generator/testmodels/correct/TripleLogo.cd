@@ -1,0 +1,77 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+// Ticket #522(fixed), 531(fixed), 532(fixed), 533, 534(fixed for this example), 651(fixed)
+
+package testmodels.correct; // MS TripleLogo
+
+import java.awt.Color;
+import java.lang.String;
+
+classdiagram TripleLogo {
+
+  class Controller {
+    public void run();
+    public boolean check(Animal a);
+    public void update(Animal a);
+    public void place(Animal a);
+  }
+  
+  class Position {
+    public int x;
+    public int y;
+  }
+  
+  abstract class Animal {
+    public boolean visible;
+    public Color color; // Ticket #533
+    readonly String species; // Ticket #651
+    
+    public void meet(Animal a) {}
+    public void turn(Rotation r);
+    protected void step();
+    public abstract void move(int distance);
+    public abstract void reverse();
+  }
+  
+  class Turtle extends Animal {
+    readonly String species = "Turtle"; 
+  }
+  
+  class Bird extends Animal {
+    readonly String species = "Bird";
+  }
+  
+  class Snake extends Animal {
+    readonly String species = "Snake";
+  }
+  
+  enum Rotation {
+    LEFT, RIGHT;
+  }
+  
+  enum Orientation {
+    NORTH, SOUTH, EAST, WEST;
+  }
+  
+  association Controller <-> Animal [0..3];
+  association Animal -> Orientation;
+  association Animal -> Position;
+
+}

@@ -1,0 +1,677 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package diagramswithassociations;
+
+classdiagram Classes_10_diagram_934 {
+
+  // generated from abstract definition : ClassDef-496650
+  +  class BfhVCHo_class implements HxBvamC_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  int qYYNW_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496651
+  +  class XocYejG_class implements IpXXbav_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  float zrNNs_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496652
+  +  class HRVtcjA_class implements AfJFiho_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  byte dUfbU_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496653
+  +  class UaAWVgD_class implements UyyFxDI_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String fnQuM_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496654
+  +  class TuspSGr_class implements NZpNAEQ_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String lPikk_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496655
+  +  class AZoRhIt_class implements IrVqMgz_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  float qbSTA_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496656
+  +  class ABYTxpq_class implements YEdBAfW_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  short jumaG_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496657
+  +  class RfsEytA_class implements RErOyti_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  boolean fufEF_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496658
+  +  class CLhUhKo_class implements SjWzyVG_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  boolean crRqg_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496659
+  +  class TVNcjno_class implements LaZGDdn_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  boolean yHYeT_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496660
+  +  class GTPLYgy_class implements WjRqwzF_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String qNQEk_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496661
+  +  class OfjqBUZ_class implements IEaYknO_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String bQhtb_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496662
+  +  class VWfAjcM_class implements Pxmsyxv_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  byte rQHlN_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496663
+  +  class VEGlwPU_class implements NxthgYY_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  byte kKilL_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496664
+  +  class YXosuzy_class implements ZJkLhMq_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  byte lRjpZ_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496665
+  +  class RxneGih_class implements YtRwbnj_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  double jxDZW_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496666
+  +  class SdgDJaS_class implements PnWnhXG_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String fwRfG_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496667
+  +  class RfroFkY_class implements YxBovfS_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  double eRWZi_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496668
+  +  class KHJQpui_class implements IDHkIUm_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String nXtBu_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496669
+  +  class MXqCSKK_class implements FzcvHDl_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  double kFMHW_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496670
+  +  class IHRAGbk_class implements LRvmrUe_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  int nhVjh_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496671
+  +  class IcsMXaQ_class implements KyUcHLj_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  short iwVmM_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496672
+  +  class PsGobkM_class implements HyMumpJ_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  int sijFH_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496673
+  +  class XZWjQlJ_class implements LuYwvHY_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  short wcBdB_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496674
+  +  class EFfgLUt_class implements JaTsXjP_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  boolean aRdud_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496675
+  +  class AOrRILD_class implements ELCkMyi_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String gThyi_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496676
+  +  class NaLTZgG_class implements QlbTgWh_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  boolean uaHPI_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496677
+  +  class RItyvsm_class implements ZpStXlS_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  boolean glsOb_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496678
+  +  class JOjsJZA_class implements EsviASo_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  float uwGFB_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496679
+  +  class AicGwJN_class implements EnXwQhs_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  byte bYsjR_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496680
+  +  class ZAYyYDy_class implements TctQihE_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  float xaNgs_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496681
+  +  class VLElVvp_class implements DOHBSCF_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  int gIjVk_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496682
+  +  class QOSnWqg_class implements OxoTZOI_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  double vlgia_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496683
+  +  class REHkYBT_class implements AHafwPM_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  byte wvDod_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496684
+  +  class KZnCWnM_class implements JnlVNUp_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  boolean bDfLm_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496685
+  +  class OTfeRJD_class implements WUZkcLe_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  short uABlK_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496686
+  +  class TBjzunV_class implements GadYRiV_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  int mhYgQ_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496687
+  +  class CXIxcbI_class implements ALqinrY_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  char vhaRD_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496688
+  +  class FlKyuAz_class implements VsofBcK_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  int mjkFQ_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496689
+  +  class IaalAoX_class implements QKQIpst_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  short yZfSw_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496690
+  +  class OLdEVFz_class implements EupqwKL_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  byte tIzbh_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496691
+  +  class TwfFusI_class implements ZJJnebY_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String kUklw_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496692
+  +  class PEeBeQU_class implements CrBMYIS_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  long vPSEI_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496693
+  +  class LaUDgyK_class implements PEXnOSB_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  String yQAUu_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496694
+  +  class Xpdonef_class implements XSHRUxm_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  double eERmv_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496695
+  +  class OMWYEJi_class implements YNVEQVv_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  long kCxdj_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496696
+  +  class NlamGur_class implements LbhkThw_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  float nHObi_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496697
+  +  class GNirxHS_class implements XqGbvoJ_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  long vpJsf_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496698
+  +  class YIBmwnD_class implements LTiDobC_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  short iFySg_attribute ;
+
+  }
+
+  // generated from abstract definition : ClassDef-496699
+  +  class YHYHgja_class implements ZZFjQBJ_interface {
+
+    // generated from abstract definition : [AttributeDef-14]
+    ? static final  long mhYWz_attribute ;
+
+  }
+
+
+  // generated from abstract definition : 
+   interface HxBvamC_interface ;
+
+  // generated from abstract definition : 
+   interface IpXXbav_interface ;
+
+  // generated from abstract definition : 
+   interface AfJFiho_interface ;
+
+  // generated from abstract definition : 
+   interface UyyFxDI_interface ;
+
+  // generated from abstract definition : 
+   interface NZpNAEQ_interface ;
+
+  // generated from abstract definition : 
+   interface IrVqMgz_interface ;
+
+  // generated from abstract definition : 
+   interface YEdBAfW_interface ;
+
+  // generated from abstract definition : 
+   interface RErOyti_interface ;
+
+  // generated from abstract definition : 
+   interface SjWzyVG_interface ;
+
+  // generated from abstract definition : 
+   interface LaZGDdn_interface ;
+
+  // generated from abstract definition : 
+   interface WjRqwzF_interface ;
+
+  // generated from abstract definition : 
+   interface IEaYknO_interface ;
+
+  // generated from abstract definition : 
+   interface Pxmsyxv_interface ;
+
+  // generated from abstract definition : 
+   interface NxthgYY_interface ;
+
+  // generated from abstract definition : 
+   interface ZJkLhMq_interface ;
+
+  // generated from abstract definition : 
+   interface YtRwbnj_interface ;
+
+  // generated from abstract definition : 
+   interface PnWnhXG_interface ;
+
+  // generated from abstract definition : 
+   interface YxBovfS_interface ;
+
+  // generated from abstract definition : 
+   interface IDHkIUm_interface ;
+
+  // generated from abstract definition : 
+   interface FzcvHDl_interface ;
+
+  // generated from abstract definition : 
+   interface LRvmrUe_interface ;
+
+  // generated from abstract definition : 
+   interface KyUcHLj_interface ;
+
+  // generated from abstract definition : 
+   interface HyMumpJ_interface ;
+
+  // generated from abstract definition : 
+   interface LuYwvHY_interface ;
+
+  // generated from abstract definition : 
+   interface JaTsXjP_interface ;
+
+  // generated from abstract definition : 
+   interface ELCkMyi_interface ;
+
+  // generated from abstract definition : 
+   interface QlbTgWh_interface ;
+
+  // generated from abstract definition : 
+   interface ZpStXlS_interface ;
+
+  // generated from abstract definition : 
+   interface EsviASo_interface ;
+
+  // generated from abstract definition : 
+   interface EnXwQhs_interface ;
+
+  // generated from abstract definition : 
+   interface TctQihE_interface ;
+
+  // generated from abstract definition : 
+   interface DOHBSCF_interface ;
+
+  // generated from abstract definition : 
+   interface OxoTZOI_interface ;
+
+  // generated from abstract definition : 
+   interface AHafwPM_interface ;
+
+  // generated from abstract definition : 
+   interface JnlVNUp_interface ;
+
+  // generated from abstract definition : 
+   interface WUZkcLe_interface ;
+
+  // generated from abstract definition : 
+   interface GadYRiV_interface ;
+
+  // generated from abstract definition : 
+   interface ALqinrY_interface ;
+
+  // generated from abstract definition : 
+   interface VsofBcK_interface ;
+
+  // generated from abstract definition : 
+   interface QKQIpst_interface ;
+
+  // generated from abstract definition : 
+   interface EupqwKL_interface ;
+
+  // generated from abstract definition : 
+   interface ZJJnebY_interface ;
+
+  // generated from abstract definition : 
+   interface CrBMYIS_interface ;
+
+  // generated from abstract definition : 
+   interface PEXnOSB_interface ;
+
+  // generated from abstract definition : 
+   interface XSHRUxm_interface ;
+
+  // generated from abstract definition : 
+   interface YNVEQVv_interface ;
+
+  // generated from abstract definition : 
+   interface LbhkThw_interface ;
+
+  // generated from abstract definition : 
+   interface XqGbvoJ_interface ;
+
+  // generated from abstract definition : 
+   interface LTiDobC_interface ;
+
+  // generated from abstract definition : 
+   interface ZZFjQBJ_interface ;
+
+
+
+    association   ?   [ 63..* ] BfhVCHo_class (qkFeW_role)   ->  (tJIWQ_role)  [[qYYNW_attribute]]  BfhVCHo_class [ 72..380]  <<frozen>> final ;
+
+    association   ?   [ 11..* ] XocYejG_class (ngzTl_role)   ->  (xbDUk_role)  [[zrNNs_attribute]]  XocYejG_class [ 70..345]  <<frozen>> ? ;
+
+    association   ?   [ 77..* ] HRVtcjA_class (qNOlc_role)   ->  (fwpBZ_role)  [[dUfbU_attribute]]  HRVtcjA_class [ 92..373]  <<frozen>> ;
+
+    association   ?   [ 44..* ] UaAWVgD_class (eOokg_role)   ->  [[fnQuM_attribute]]  UaAWVgD_class [ 76..354]  <<addonly>> ;
+
+    association   ?   [ 73..* ] TuspSGr_class (irflO_role)   ->  (pauVM_role)  [[lPikk_attribute]]  TuspSGr_class [ 0..37]  <<addonly>> + ;
+
+    association   ?   [ 25..* ] AZoRhIt_class (oZYHY_role)   ->  (olNOT_role)  [[qbSTA_attribute]]  AZoRhIt_class [ 80..219]  <<addonly>> - ;
+
+    association   ?   [ 51..* ] ABYTxpq_class (fUbkT_role)   ->  (nsemL_role)  [[jumaG_attribute]]  ABYTxpq_class [ 59..193]  <<addonly>> # ;
+
+    association   ?   [ 34..* ] RfsEytA_class (oFMQv_role)   ->  (gVwal_role)  [[fufEF_attribute]]  RfsEytA_class [ 22..132]  <<addonly>> static ;
+
+    association   ?   [ 78..* ] CLhUhKo_class (hGlOC_role)   ->  (ecupW_role)  [[crRqg_attribute]]  CLhUhKo_class [ 66..278]  <<addonly>> final ;
+
+    association   ?   [ 79..* ] TVNcjno_class (kIcAP_role)   ->  (zUmmV_role)  [[yHYeT_attribute]]  TVNcjno_class [ 82..230]  <<addonly>> ? ;
+
+    association   ?   [ 38..* ] GTPLYgy_class (zyurm_role)   ->  (vyxeF_role)  [[qNQEk_attribute]]  GTPLYgy_class [ 63..487]  <<addonly>> ;
+
+    association   ?   [ 74..* ] OfjqBUZ_class (mZHKc_role)   ->  [[bQhtb_attribute]]  OfjqBUZ_class [ 0..29]  <<ordered>> ;
+
+    association   ?   [ 16..* ] VWfAjcM_class (eXXpL_role)   ->  (vuGuc_role)  [[rQHlN_attribute]]  VWfAjcM_class [ 80..196]  <<ordered>> + ;
+
+    association   ?   [ 2..* ] VEGlwPU_class (qxZhc_role)   ->  (bkQGm_role)  [[kKilL_attribute]]  VEGlwPU_class [ 14..302]  <<ordered>> - ;
+
+    association   ?   [ 9..* ] YXosuzy_class (tyJSV_role)   ->  (ztuoy_role)  [[lRjpZ_attribute]]  YXosuzy_class [ 74..231]  <<ordered>> # ;
+
+    association   ?   [ 49..* ] RxneGih_class (rTCPt_role)   ->  (rnwIZ_role)  [[jxDZW_attribute]]  RxneGih_class [ 50..113]  <<ordered>> static ;
+
+    association   ?   [ 6..* ] SdgDJaS_class (yNwYR_role)   ->  (sYDNU_role)  [[fwRfG_attribute]]  SdgDJaS_class [ 45..388]  <<ordered>> final ;
+
+    association   ?   [ 88..* ] RfroFkY_class (fyVdS_role)   ->  (zRqfj_role)  [[eRWZi_attribute]]  RfroFkY_class [ 76..493]  <<ordered>> ? ;
+
+    association   ?   [ 71..* ] KHJQpui_class (usgkn_role)   ->  (rBgKQ_role)  [[nXtBu_attribute]]  KHJQpui_class [ 48..193]  <<ordered>> ;
+
+    association   ?   [ 27..* ] MXqCSKK_class (lAqWO_role)   -- MXqCSKK_class [ 33..*]   ;
+
+    association   ?   [ 1..* ] IHRAGbk_class (wfmKa_role)   -- (vvSfG_role)  IHRAGbk_class [ 88..*]   + ;
+
+    association   ?   [ 45..* ] IcsMXaQ_class (acMme_role)   -- (wZJxm_role)  IcsMXaQ_class [ 94..*]   - ;
+
+    association   ?   [ 11..* ] PsGobkM_class (lJUJA_role)   -- (mdjjE_role)  PsGobkM_class [ 82..*]   # ;
+
+    association   ?   [ 70..* ] XZWjQlJ_class (ndWDU_role)   -- (jjeil_role)  XZWjQlJ_class [ 71..*]   static ;
+
+    association   ?   [ 0..* ] EFfgLUt_class (pmqGj_role)   -- (nKpaa_role)  EFfgLUt_class [ 72..*]   final ;
+
+    association   ?   [ 97..* ] AOrRILD_class (uoLky_role)   -- (rGubN_role)  AOrRILD_class [ 41..*]   ? ;
+
+    association   ?   [ 72..* ] NaLTZgG_class (ehfQl_role)   -- (jyibV_role)  NaLTZgG_class [ 34..*]   ;
+
+    association   ?   [ 57..* ] RItyvsm_class (nYixP_role)   -- RItyvsm_class [ 3..*]  <<frozen>> ;
+
+    association   ?   [ 11..* ] JOjsJZA_class (aKyFC_role)   -- (yxuox_role)  JOjsJZA_class [ 22..*]  <<frozen>> + ;
+
+    association   ?   [ 84..* ] AicGwJN_class (hXuGf_role)   -- (wGmcT_role)  AicGwJN_class [ 79..*]  <<frozen>> - ;
+
+    association   ?   [ 46..* ] ZAYyYDy_class (gczgB_role)   -- (xAAdp_role)  ZAYyYDy_class [ 14..*]  <<frozen>> # ;
+
+    association   ?   [ 34..* ] VLElVvp_class (vzbKD_role)   -- (pqBKg_role)  VLElVvp_class [ 77..*]  <<frozen>> static ;
+
+    association   ?   [ 30..* ] QOSnWqg_class (oAWBU_role)   -- (qhzjh_role)  QOSnWqg_class [ 12..*]  <<frozen>> final ;
+
+    association   ?   [ 69..* ] REHkYBT_class (efcHn_role)   -- (kpblZ_role)  REHkYBT_class [ 78..*]  <<frozen>> ? ;
+
+    association   ?   [ 66..* ] KZnCWnM_class (phGhh_role)   -- (vtDEl_role)  KZnCWnM_class [ 90..*]  <<frozen>> ;
+
+    association   ?   [ 88..* ] OTfeRJD_class (nHpMX_role)   -- OTfeRJD_class [ 15..*]  <<addonly>> ;
+
+    association   ?   [ 58..* ] TBjzunV_class (zXWgK_role)   -- (fpALg_role)  TBjzunV_class [ 27..*]  <<addonly>> + ;
+
+    association   ?   [ 57..* ] CXIxcbI_class (hZGuZ_role)   -- (oxadV_role)  CXIxcbI_class [ 17..*]  <<addonly>> - ;
+
+    association   ?   [ 35..* ] FlKyuAz_class (xSHZw_role)   -- (iNxMW_role)  FlKyuAz_class [ 86..*]  <<addonly>> # ;
+
+    association   ?   [ 22..* ] IaalAoX_class (yKkUr_role)   -- (jPGlz_role)  IaalAoX_class [ 22..*]  <<addonly>> static ;
+
+    association   ?   [ 54..* ] OLdEVFz_class (wDyIo_role)   -- (nKbnP_role)  OLdEVFz_class [ 83..*]  <<addonly>> final ;
+
+    association   ?   [ 96..* ] TwfFusI_class (vNxco_role)   -- (iICnr_role)  TwfFusI_class [ 86..*]  <<addonly>> ? ;
+
+    association   ?   [ 19..* ] PEeBeQU_class (tRQTJ_role)   -- (fXLso_role)  PEeBeQU_class [ 7..*]  <<addonly>> ;
+
+    association   ?   [ 65..* ] LaUDgyK_class (iZyvp_role)   -- LaUDgyK_class [ 91..*]  <<ordered>> ;
+
+    association   ?   [ 5..* ] Xpdonef_class (hUsuq_role)   -- (opYDm_role)  Xpdonef_class [ 2..*]  <<ordered>> + ;
+
+    association   ?   [ 8..* ] OMWYEJi_class (svMdK_role)   -- (ukXff_role)  OMWYEJi_class [ 5..*]  <<ordered>> - ;
+
+    association   ?   [ 1..* ] NlamGur_class (wKaho_role)   -- (bBUwn_role)  NlamGur_class [ 81..*]  <<ordered>> # ;
+
+    association   ?   [ 69..* ] GNirxHS_class (mJbVP_role)   -- (jzuaC_role)  GNirxHS_class [ 76..*]  <<ordered>> static ;
+
+    association   ?   [ 22..* ] YIBmwnD_class (lXAWC_role)   -- (yJFGE_role)  YIBmwnD_class [ 69..*]  <<ordered>> final ;
+
+    association   ?   [ 78..* ] YHYHgja_class (vAlrX_role)   -- (iiUbp_role)  YHYHgja_class [ 27..*]  <<ordered>> ? ;
+
+} 

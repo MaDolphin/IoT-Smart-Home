@@ -1,0 +1,49 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+// Ticket #562 (fixed), #563 (fixed)
+
+package dex;  // ML
+
+classdiagram AbstractClassNoImplementation {
+
+  public interface IMethod {
+    public void method();
+  }
+  
+  public interface IExtendsMethod extends IMethod {
+    public void method2();
+  }
+  
+  public abstract class AbstractSuperClass implements IExtendsMethod {
+    public abstract void method3();
+  }
+  
+  public abstract class AbstractClass extends AbstractSuperClass {}
+  
+  public class ClassImpl extends AbstractClass {}
+  
+  public abstract class MixedClass extends AbstractSuperClass {
+    public void method2();
+    public void method3();
+  }
+  
+  public class MixedClassImpl extends MixedClass {}
+
+}

@@ -1,0 +1,254 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct;
+
+classdiagram StaticAttributes {  
+ class TestByte {   
+    private static byte attrPrivate;
+    private static byte attrPrivateInitialized = 1;
+    protected static byte attrProtected;
+    protected static byte attrProtectedInitialized = 2;
+    public static byte attrPublic;
+    public static byte attrPublicInitialized = 3;
+    //readonly static byte attrReadonly;
+    //readonly static byte attrReadonlyInitialized = 4;
+    static byte attrDefault;
+    static byte attrDefaultInitialized = 5;
+  }
+  
+  class TestByteWrapper {   
+    private static Byte attrPrivate;
+    private static Byte attrPrivateInitialized = 1;
+    protected static Byte attrProtected;
+    protected static Byte attrProtectedInitialized = 2;
+    public static Byte attrPublic;
+    public static Byte attrPublicInitialized = 3;
+    //readonly static Byte attrReadonly;
+    //readonly static Byte attrReadonlyInitialized = 4;
+    static Byte attrDefault;
+    static Byte attrDefaultInitialized = 5;
+  }
+
+  class TestShort {   
+    private static short attrPrivate;
+    private static short attrPrivateInitialized = 1;
+    protected static short attrProtected;
+    protected static short attrProtectedInitialized = 2;
+    public static short attrPublic;
+    public static short attrPublicInitialized = 3;
+    //readonly static short attrReadonly;
+    //readonly static short attrReadonlyInitialized = 4;
+    static short attrDefault;
+    static short attrDefaultInitialized = 5;
+  }
+  
+  class TestShortWrapper {   
+    private static Short attrPrivate;
+    private static Short attrPrivateInitialized = 1;
+    protected static Short attrProtected;
+    protected static Short attrProtectedInitialized = 2;
+    public static Short attrPublic;
+    public static Short attrPublicInitialized = 3;
+   // readonly static Short attrReadonly;
+   // readonly static Short attrReadonlyInitialized = 4;
+    static Short attrDefault;
+    static Short attrDefaultInitialized = 5;
+  }
+ 
+  class TestInt {   
+    private static int attrPrivate;
+    private static int attrPrivateInitialized = 1;
+    protected static int attrProtected;
+    protected static int attrProtectedInitialized = 2;
+    public static int attrPublic;
+    public static int attrPublicInitialized = 3;
+   // readonly static int attrReadonly;
+   // readonly static int attrReadonlyInitialized = 4;
+    static int attrDefault;
+    static int attrDefaultInitialized = 5;
+  }
+  
+  class TestInteger {   
+    private static Integer attrPrivate;
+    private static Integer attrPrivateInitialized = 1;
+    protected static Integer attrProtected;
+    protected static Integer attrProtectedInitialized = 2;
+    public static Integer attrPublic;
+    public static Integer attrPublicInitialized = 3;
+  //  readonly static Integer attrReadonly;
+   // readonly static Integer attrReadonlyInitialized = 4;
+    static Integer attrDefault;
+    static Integer attrDefaultInitialized = 5;
+  }  
+  
+  class TestLong {   
+    private static long attrPrivate;
+    private static long attrPrivateInitialized = 1l;
+    protected static long attrProtected;
+    protected static long attrProtectedInitialized = 2l;
+    public static long attrPublic;
+    public static long attrPublicInitialized = 3l;
+   // readonly static long attrReadonly;
+   // readonly static long attrReadonlyInitialized = 4l;
+    static long attrDefault;
+    static long attrDefaultInitialized = 5l;
+  }
+  
+  class TestLongWrapper {   
+    private static Long attrPrivate;
+    private static Long attrPrivateInitialized = 1l;
+    protected static Long attrProtected;
+    protected static Long attrProtectedInitialized = 2l;
+    public static Long attrPublic;
+    public static Long attrPublicInitialized = 3l;
+   // readonly static Long attrReadonly;
+   // readonly static Long attrReadonlyInitialized = 4l;
+    static Long attrDefault;
+    static Long attrDefaultInitialized = 5l;
+  }
+
+  class TestFloat {   
+    private static float attrPrivate;
+    private static float attrPrivateInitialized = 1f;
+    protected static float attrProtected;
+    protected static float attrProtectedInitialized = 2f;
+    public static float attrPublic;
+    public static float attrPublicInitialized = 3f;
+  //  readonly static float attrReadonly;
+  //  readonly static float attrReadonlyInitialized = 4f;
+    static float attrDefault;
+    static float attrDefaultInitialized = 5f;
+  }
+  
+  class TestFloatWrapper {   
+    private static Float attrPrivate;
+    private static Float attrPrivateInitialized = 1f;
+    protected static Float attrProtected;
+    protected static Float attrProtectedInitialized = 2f;
+    public static Float attrPublic;
+    public static Float attrPublicInitialized = 3f;
+  //  readonly static Float attrReadonly;
+  //  readonly static Float attrReadonlyInitialized = 4f;
+    static Float attrDefault;
+    static Float attrDefaultInitialized = 5f;
+  }
+  
+  class TestDouble {   
+    private static double attrPrivate;
+    private static double attrPrivateInitialized = 1d;
+    protected static double attrProtected;
+    protected static double attrProtectedInitialized = 2d;
+    public static double attrPublic;
+    public static double attrPublicInitialized = 3d;
+  //  readonly static double attrReadonly;
+  //  readonly static double attrReadonlyInitialized = 4d;
+    static double attrDefault;
+    static double attrDefaultInitialized = 5d;
+  }
+  
+  class TestDoubleWrapper {   
+    private static Double attrPrivate;
+    private static Double attrPrivateInitialized = 1d;
+    protected static Double attrProtected;
+    protected static Double attrProtectedInitialized = 2d;
+    public static Double attrPublic;
+    public static Double attrPublicInitialized = 3d;
+  //  readonly static Double attrReadonly;
+  //  readonly static Double attrReadonlyInitialized = 4d;
+    static Double attrDefault;
+    static Double attrDefaultInitialized = 5d;
+  }
+  
+  class TestBoolean {   
+    private static boolean attrPrivate;
+    private static boolean attrPrivateInitialized = true;
+    protected static boolean attrProtected;
+    protected static boolean attrProtectedInitialized = true;
+    public static boolean attrPublic;
+    public static boolean attrPublicInitialized = true;
+   // readonly static boolean attrReadonly;
+   // readonly static boolean attrReadonlyInitialized = true;
+    static boolean attrDefault;
+    static boolean attrDefaultInitialized = true;
+  }
+  
+  class TestBooleanWrapper {   
+    private static Boolean attrPrivate;
+    private static Boolean attrPrivateInitialized = true;
+    protected static Boolean attrProtected;
+    protected static Boolean attrProtectedInitialized = true;
+    public static Boolean attrPublic;
+    public static Boolean attrPublicInitialized = true;
+   // readonly static Boolean attrReadonly;
+   // readonly static Boolean attrReadonlyInitialized = true;
+    static Boolean attrDefault;
+    static Boolean attrDefaultInitialized = true;
+  }
+  
+  class TestChar {   
+    private static char attrPrivate;
+    private static char attrPrivateInitialized = '1';
+    protected static char attrProtected;
+    protected static char attrProtectedInitialized = '2';
+    public static char attrPublic;
+    public static char attrPublicInitialized = '3';
+  //  readonly static char attrReadonly;
+  //  readonly static char attrReadonlyInitialized = '4';
+    static char attrDefault;
+    static char attrDefaultInitialized = '5';
+  }
+  
+  class TestCharacter {   
+    private static Character attrPrivate;
+    private static Character attrPrivateInitialized = '1';
+    protected static Character attrProtected;
+    protected static Character attrProtectedInitialized = '2';
+    public static Character attrPublic;
+    public static Character attrPublicInitialized = '3';
+  //  readonly static Character attrReadonly;
+  //  readonly static Character attrReadonlyInitialized = '4';
+    static Character attrDefault;
+    static Character attrDefaultInitialized = '5';
+  }
+  
+  class TestStringWrapper {   
+    private static String attrPrivate;
+    private static String attrPrivateInitialized = "1";
+    protected static String attrProtected;
+    protected static String attrProtectedInitialized = "2";
+    public static String attrPublic;
+    public static String attrPublicInitialized = "3";
+  //  readonly static String attrReadonly;
+  //  readonly static String attrReadonlyInitialized = "4";
+    static String attrDefault;
+    static String attrDefaultInitialized = "5";
+  }
+  
+  class ComplexType {   
+  }
+
+  class ClassWithComplexTypeAttribute {
+    private static ComplexType complexTypePrivate;
+    protected static ComplexType complexTypeProtected;
+    public static ComplexType complexTypePublic;
+  //  readonly static ComplexType complexTypeReadonly;
+    static ComplexType complexTypeDefault;
+  }      
+}

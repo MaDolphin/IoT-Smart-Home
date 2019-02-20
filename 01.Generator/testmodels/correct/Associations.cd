@@ -1,0 +1,212 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+// Ticket #537(fixed)
+
+package testmodels.correct; // CP Associations
+
+classdiagram Associations {
+
+  // Unidir ->
+  
+   class AleftToRight {
+  }
+  
+   class BleftToRight {
+  }
+  
+  association AleftToRight -> BleftToRight;
+  
+   class CleftToRight {
+  }
+  
+   class DleftToRight {
+  }
+  
+  association CleftToRight -> DleftToRight [*];
+  
+   class EleftToRight {
+  }
+  
+   class FleftToRight {
+  }
+  
+  association [*] EleftToRight -> FleftToRight;
+  
+   class GleftToRight {
+  }
+  
+   class HleftToRight {
+  }
+  
+  association [*] GleftToRight -> HleftToRight [*];
+  
+  // Unidir <-
+  
+   class ArightToLeft {
+  }
+  
+   class BrightToLeft {
+  }
+  
+  association ArightToLeft <- BrightToLeft;
+  
+   class CrightToLeft {
+  }
+  
+   class DrightToLeft {
+  }
+  
+  association [*] CrightToLeft <- DrightToLeft;
+  
+   class ErightToLeft {
+  }
+  
+   class FrightToLeft {
+  }
+  
+  association ErightToLeft <- FrightToLeft [*];
+  
+   class GrightToLeft {
+  }
+  
+   class HrightToLeft {
+  }
+  
+  association [*] GrightToLeft <- HrightToLeft [*];
+  
+  // Bidir left owner
+  
+   class AleftOwner {
+  }
+  
+   class BleftOwner {
+  }
+  
+  association  AleftOwner  <-> BleftOwner;
+  
+   class CleftOwner {
+  }
+  
+   class DleftOwner {
+  }
+  
+  association  CleftOwner  <-> DleftOwner [*];
+  
+   class EleftOwner {
+  }
+  
+   class FleftOwner {
+  }
+  
+  association  [*]  EleftOwner  <-> FleftOwner;
+  
+   class GleftOwner {
+  }
+  
+   class HleftOwner {
+  }
+  
+  association  [*]  GleftOwner  <-> HleftOwner [*];
+  
+  // Bidir Right owner
+  
+   class ArightOwner {
+  }
+  
+   class BrightOwner {
+  }
+  
+  association ArightOwner  <-> BrightOwner ;
+  
+   class CrightOwner {
+  }
+  
+   class DrightOwner {
+  }
+  
+  association [*] CrightOwner  <-> DrightOwner  ;
+  
+   class ErightOwner {
+  }
+  
+   class FrightOwner {
+  }
+  
+  association   ErightOwner  <-> FrightOwner [*]  ;
+  
+   class GrightOwner {
+  }
+  
+   class HrightOwner {
+  }
+  
+  association  [*]  GrightOwner  <-> HrightOwner [*] ;
+  
+  // Bidir no owner
+  
+   class AnoOwner {
+  }
+  
+   class BnoOwner {
+  }
+  
+  association AnoOwner  <-> BnoOwner;
+  
+   class CnoOwner {
+  }
+  
+   class DnoOwner {
+  }
+  
+  association  CnoOwner  <-> DnoOwner [*];
+  
+   class EnoOwner {
+  }
+  
+   class FnoOwner {
+  }
+  
+  association  [*]  EnoOwner  <-> FnoOwner;
+  
+   class GnoOwner {
+  }
+  
+   class HnoOwner {
+  }
+  
+  association  [*]  GnoOwner  <-> HnoOwner [*];
+  
+  
+  //Compositions
+  /*
+   class A {}
+   class B {}
+  
+  composition [*] A <-> B ; */
+  
+  
+  //Multiple cascade annotations
+  /* class A {}
+  
+   class B {}
+  
+  //<<cascade = "CascadeType.MERGE",cascade="CascadeType.PERSIST",cascade="CascadeType.REFRESH", fetch = "FetchType.EAGER">> association A -> B;*/
+
+}

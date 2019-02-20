@@ -1,0 +1,56 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package onecardinalitytest;
+
+classdiagram TestCard {
+
+  class Photo{
+  	String name;
+  }
+  class Tag;
+
+  association [1] Tag <-> Photo [*];
+  
+  class Aa;
+  class Bb;
+  
+  association [1] Aa <-> Bb [0..1];
+  
+  class C{
+  	String bla;
+  }
+  class D;
+  
+  association [1..*] C <-> D [*];
+  
+  class E{
+  	String bla;
+  }
+  class F;
+  
+  association [1..*] E <-> F [0..1];
+  
+  class G{
+  	String blubb;
+  }
+  class H;
+  
+  association [0..1] G <-> H [0..1];
+}

@@ -1,0 +1,38 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct; // JOR 
+
+classdiagram CD2Alloy1 {
+  
+  enum ColorKind {black,red,white;}
+  
+  class Employee;
+  class Driver extends Employee;
+  
+  //class Driver;
+  //class Chauffeur extends Employee, Driver;
+  
+  class Car {ColorKind color;}
+  class Address;
+  
+  association Driving [1] Driver (drivenBy) -- (drives) Car [0..1];
+  association WorkPlace [1] Employee (of) -> (worksIn) Address [1..3];
+  
+}

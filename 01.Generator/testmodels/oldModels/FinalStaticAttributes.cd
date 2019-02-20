@@ -1,0 +1,290 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct;
+
+classdiagram FinalStaticAttributes {  
+
+  class TestByte {   
+    private final static byte attrPrivate;
+    private final static byte attrPrivateInitialized = 1;
+    protected final static byte attrProtected;
+    protected final static byte attrProtectedInitialized = 2;
+    public final static byte attrPublic;
+    public final static byte attrPublicInitialized = 3;
+    readonly final static byte attrReadonly;
+    readonly final static byte attrReadonlyInitialized = 4;
+    final static byte attrDefault;
+    final static byte attrDefaultInitialized = 5;
+    local final static byte attrLocal;
+    local final static byte attrLocaltInitialized = 6;
+  }
+  
+  class TestByteWrapper {   
+    private final static Byte attrPrivate;
+    private final static Byte attrPrivateInitialized = 1;
+    protected final static Byte attrProtected;
+    protected final static Byte attrProtectedInitialized = 2;
+    public final static Byte attrPublic;
+    public final static Byte attrPublicInitialized = 3;
+    readonly final static Byte attrReadonly;
+    readonly final static Byte attrReadonlyInitialized = 4;
+    final static Byte attrDefault;
+    final static Byte attrDefaultInitialized = 5;
+    local final static byte attrLocal;
+    local final static byte attrLocaltInitialized = 6;
+  }
+
+  class TestShort {   
+    private final static short attrPrivate;
+    private final static short attrPrivateInitialized = 1;
+    protected final static short attrProtected;
+    protected final static short attrProtectedInitialized = 2;
+    public final static short attrPublic;
+    public final static short attrPublicInitialized = 3;
+    readonly final static short attrReadonly;
+    readonly final static short attrReadonlyInitialized = 4;
+    final static short attrDefault;
+    final static short attrDefaultInitialized = 5;
+    local final static short attrLocal;
+    local final static short attrLocalInitialized = 6;
+  }
+  
+  class TestShortWrapper {   
+    private final static Short attrPrivate;
+    private final static Short attrPrivateInitialized = 1;
+    protected final static Short attrProtected;
+    protected final static Short attrProtectedInitialized = 2;
+    public final static Short attrPublic;
+    public final static Short attrPublicInitialized = 3;
+    readonly final static Short attrReadonly;
+    readonly final static Short attrReadonlyInitialized = 4;
+    final static Short attrDefault;
+    final static Short attrDefaultInitialized = 5;
+    local final static Short attrLocal;
+    local final static Short attrLocalInitialized = 6;
+  }
+ 
+  class TestInt {   
+    private final static int attrPrivate;
+    private final static int attrPrivateInitialized = 1;
+    protected final static int attrProtected;
+    protected final static int attrProtectedInitialized = 2;
+    public final static int attrPublic;
+    public final static int attrPublicInitialized = 3;
+    readonly final static int attrReadonly;
+    readonly final static int attrReadonlyInitialized = 4;
+    final static int attrDefault;
+    final static int attrDefaultInitialized = 5;
+    local final static int attrLocal;
+    local final static int attrLocalInitialized = 6;
+  }
+  
+  class TestInteger {   
+    private final static Integer attrPrivate;
+    private final static Integer attrPrivateInitialized = 1;
+    protected final static Integer attrProtected;
+    protected final static Integer attrProtectedInitialized = 2;
+    public final static Integer attrPublic;
+    public final static Integer attrPublicInitialized = 3;
+    readonly final static Integer attrReadonly;
+    readonly final static Integer attrReadonlyInitialized = 4;
+    final static Integer attrDefault;
+    final static Integer attrDefaultInitialized = 5;
+    local final static Integer attrLocal;
+    local final static Integer attrLocalInitialized = 6;
+  }  
+  
+  class TestLong {   
+    private final static long attrPrivate;
+    private final static long attrPrivateInitialized = 1l;
+    protected final static long attrProtected;
+    protected final static long attrProtectedInitialized = 2l;
+    public final static long attrPublic;
+    public final static long attrPublicInitialized = 3l;
+    readonly final static long attrReadonly;
+    readonly final static long attrReadonlyInitialized = 4l;
+    final static long attrDefault;
+    final static long attrDefaultInitialized = 5l;
+    local final static long attrLocal;
+    local final static long attrLocalInitialized = 6l;
+  }
+  
+  class TestLongWrapper {   
+    private final static Long attrPrivate;
+    private final static Long attrPrivateInitialized = 1l;
+    protected final static Long attrProtected;
+    protected final static Long attrProtectedInitialized = 2l;
+    public final static Long attrPublic;
+    public final static Long attrPublicInitialized = 3l;
+    readonly final static Long attrReadonly;
+    readonly final static Long attrReadonlyInitialized = 4l;
+    final static Long attrDefault;
+    final static Long attrDefaultInitialized = 5l;
+    local final static Long attrLocal;
+    local final static Long attrLocaltInitialized = 6l;
+  }
+
+  class TestFloat {   
+    private final static float attrPrivate;
+    private final static float attrPrivateInitialized = 1f;
+    protected final static float attrProtected;
+    protected final static float attrProtectedInitialized = 2f;
+    public final static float attrPublic;
+    public final static float attrPublicInitialized = 3f;
+    readonly final static float attrReadonly;
+    readonly final static float attrReadonlyInitialized = 4f;
+    final static float attrDefault;
+    final static float attrDefaultInitialized = 5f;
+    local final static float attrLocal;
+    local final static float attrLocalInitialized = 6f;
+  }
+  
+  class TestFloatWrapper {   
+    private final static Float attrPrivate;
+    private final static Float attrPrivateInitialized = 1f;
+    protected final static Float attrProtected;
+    protected final static Float attrProtectedInitialized = 2f;
+    public final static Float attrPublic;
+    public final static Float attrPublicInitialized = 3f;
+    readonly final static Float attrReadonly;
+    readonly final static Float attrReadonlyInitialized = 4f;
+    final static Float attrDefault;
+    final static Float attrDefaultInitialized = 5f;
+    local final static Float attrLocal;
+    local final static Float attrLocalInitialized = 6f;
+  }
+  
+  class TestDouble {   
+    private final static double attrPrivate;
+    private final static double attrPrivateInitialized = 1d;
+    protected final static double attrProtected;
+    protected final static double attrProtectedInitialized = 2d;
+    public final static double attrPublic;
+    public final static double attrPublicInitialized = 3d;
+    readonly final static double attrReadonly;
+    readonly final static double attrReadonlyInitialized = 4d;
+    final static double attrDefault;
+    final static double attrDefaultInitialized = 5d;
+    local final static double attrLocal;
+    local final static double attrLocalInitialized = 6d;
+  }
+  
+  class TestDoubleWrapper {   
+    private final static Double attrPrivate;
+    private final static Double attrPrivateInitialized = 1d;
+    protected final static Double attrProtected;
+    protected final static Double attrProtectedInitialized = 2d;
+    public final static Double attrPublic;
+    public final static Double attrPublicInitialized = 3d;
+    readonly final static Double attrReadonly;
+    readonly final static Double attrReadonlyInitialized = 4d;
+    final static Double attrDefault;
+    final static Double attrDefaultInitialized = 5d;
+    local final static Double attrLocal;
+    local final static Double attrLocalInitialized = 6d;
+  }
+  
+  class TestBoolean {   
+    private final static boolean attrPrivate;
+    private final static boolean attrPrivateInitialized = true;
+    protected final static boolean attrProtected;
+    protected final static boolean attrProtectedInitialized = true;
+    public final static boolean attrPublic;
+    public final static boolean attrPublicInitialized = true;
+    readonly final static boolean attrReadonly;
+    readonly final static boolean attrReadonlyInitialized = true;
+    final static boolean attrDefault;
+    final static boolean attrDefaultInitialized = true;
+    local final static boolean attrLocal;
+    local final static boolean attrLocalInitialized = true;
+  }
+  
+  class TestBooleanWrapper {   
+    private final static Boolean attrPrivate;
+    private final static Boolean attrPrivateInitialized = true;
+    protected final static Boolean attrProtected;
+    protected final static Boolean attrProtectedInitialized = true;
+    public final static Boolean attrPublic;
+    public final static Boolean attrPublicInitialized = true;
+    readonly final static Boolean attrReadonly;
+    readonly final static Boolean attrReadonlyInitialized = true;
+    final static Boolean attrDefault;
+    final static Boolean attrDefaultInitialized = true;
+    local final static Boolean attrLocal;
+    local final static Boolean attrLocalInitialized = true;
+  }
+  
+  class TestChar {   
+    private final static char attrPrivate;
+    private final static char attrPrivateInitialized = '1';
+    protected final static char attrProtected;
+    protected final static char attrProtectedInitialized = '2';
+    public final static char attrPublic;
+    public final static char attrPublicInitialized = '3';
+    readonly final static char attrReadonly;
+    readonly final static char attrReadonlyInitialized = '4';
+    final static char attrDefault;
+    final static char attrDefaultInitialized = '5';
+    local final static char attrLocal;
+    local final static char attrLocaltInitialized = '7';
+  }
+  
+  class TestCharacter {   
+    private final static Character attrPrivate;
+    private final static Character attrPrivateInitialized = '1';
+    protected final static Character attrProtected;
+    protected final static Character attrProtectedInitialized = '2';
+    public final static Character attrPublic;
+    public final static Character attrPublicInitialized = '3';
+    readonly final static Character attrReadonly;
+    readonly final static Character attrReadonlyInitialized = '4';
+    final static Character attrDefault;
+    final static Character attrDefaultInitialized = '5';
+    local final static Character attrLocal;
+    local final static Character attrLocalInitialized = '6';
+  }
+  
+  class TestStringWrapper {   
+    private final static String attrPrivate;
+    private final static String attrPrivateInitialized = "1";
+    protected final static String attrProtected;
+    protected final static String attrProtectedInitialized = "2";
+    public final static String attrPublic;
+    public final static String attrPublicInitialized = "3";
+    readonly final static String attrReadonly;
+    readonly final static String attrReadonlyInitialized = "4";
+    final static String attrDefault;
+    final static String attrDefaultInitialized = "5";
+    local final static String attrLocal;
+    local final static String attrLocalInitialized = "6";
+  }
+  
+  class ComplexType {   
+  }
+
+  class ClassWithComplexTypeAttribute {
+    private final static ComplexType complexTypePrivate;
+    protected final static ComplexType complexTypeProtected;
+    public final static ComplexType complexTypePublic;
+    readonly final static ComplexType complexTypeReadonly;
+    final static ComplexType complexTypeDefault;
+    local final static ComplexType complexTypeLocal;
+  }  
+}

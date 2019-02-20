@@ -1,0 +1,88 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct;
+
+import java.util.List;
+
+classdiagram CinemaSystem {
+
+    class Cinema	{
+	}
+	
+	class Movie {
+	 + String title;
+	 + int duration;
+	 + Age minimumAge;
+	}
+	
+	class Theatre {
+	 + String name;
+	 + int seats;
+	}
+	
+	class Seat {
+	 + int row;
+	 + int number;
+	 + SeatType type;
+	}
+	
+	class Screening {
+	 + int day;
+	 + int month;
+	 + int hour;
+	}
+	
+	abstract class Booking {
+	 + Seat seat;
+	}
+	
+	class SoldTicket extends Booking {
+	}
+	
+	class Reservation extends Booking {
+	 + ReservationType type;
+	}
+	
+    enum Age {
+      ZERO,
+      SIX,
+      TWELVE,
+      SIXTEEN,
+	  EIGHTEEN;
+	}
+	
+	enum ReservationType {
+	  TELEPHONE,
+	  INTERNET;
+	}
+	
+	enum SeatType {
+	 PARQUET,
+	 LOGE;
+	}
+	
+    // attributes
+    association [1] Cinema -> Theatre [*];
+	association [1] Cinema -> Screening [*];
+	association [*] Screening -> Theatre [1];
+	association [*] Screening -> Movie [1];
+	association [1] Theatre -> (allseats)Seat [*];
+	association [1] Screening -> Booking [*];
+}

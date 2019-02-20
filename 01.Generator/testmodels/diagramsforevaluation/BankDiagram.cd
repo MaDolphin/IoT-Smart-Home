@@ -1,0 +1,54 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.diagramsforevaluation;
+
+classdiagram BankDiagram {
+
+  interface BankProc;
+
+  class Bank implements BankProc;
+
+  class Account;
+
+  class Person;
+
+  class SavingAccount extends Account;
+
+  class SpendingAccount extends Account;
+
+  class Controller;
+
+  class View;
+
+  class MainClass;
+
+  association Bank_Account [1] Account (account) <-> (bank) Bank [1] ;
+
+  association Bank_Person [1] Person (person) <-> (bank) Bank [1] ;
+
+  association SavingAccount_Controller [1] Controller (controller) <-> (savingAccount) SavingAccount [1] ;
+
+  association SpendingAccount_Controller [1] Controller (controller) <-> (spendingAccount) SpendingAccount [1] ;
+
+  association Bank_Controller [1] Controller (controller) <-> (bank) Bank [1] ;
+
+  association Controller_View [1] View (view) <-> (controller) Controller [1] ;
+
+}

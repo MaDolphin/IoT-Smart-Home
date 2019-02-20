@@ -1,0 +1,76 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package dex;
+
+classdiagram Zoo {
+
+  abstract class Person {
+    String firstname;
+    String lastname;
+  }
+  
+  class Employee extends Person {
+    + int staffNumber;
+    + int startOfWork;
+    + int hoursPerDay;
+    + /int endOfWork = startOfWork + hourPerDay; 
+  }
+  
+  class Zoogoer extends Person {
+    + boolean hasDayPass;
+  }
+  
+  class VIP extends Zoogoer;
+  
+  
+  interface Animal{
+    + void feed();
+  }
+  
+  class Turtle implements Animal{
+    + String origin;
+    + String name;
+  }
+  
+  class Compound {
+    + /int numberOfAnimals = (int)sizeLiveIns();
+    void clean();
+    void repair();
+  }
+  
+  class Terrarium extends Compound{
+    + double temperature;
+    + double humidity;
+  }
+  
+  enum CompoundState {
+    CLEAN,
+    DIRTY,
+    BROKEN;
+  }
+  
+  association personalTour [0..1] Employee <-> VIP;
+  association visits              Zoogoer   -> Animal;
+  association takesCareOf         Employee  -> Animal [*] <<ordered>>;
+  association livesIn      [*]    Animal    <-> Compound [1];
+  association                     Employee (responsibleEmp) <-> [[staffNumber]] Compound [*];
+  association              [1]    CompoundState <- Compound;
+  
+}

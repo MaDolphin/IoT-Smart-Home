@@ -1,0 +1,62 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct; // JOR
+
+import java.util.Date;
+
+classdiagram EM_WithOCL {
+  
+  class Emp {
+    PosKnd kind;
+    WorkStatus status;
+  }
+
+  class Mgr extends Emp;
+  
+  class Tsk {
+    Date startDate;
+  }
+  
+  enum PosKnd { fullTime, partTime, external; }
+  
+  enum WorkStatus {available, bookedToProject, onVacation;}
+  
+  association Management [*] Emp (mng) <-> (mngBy) Mgr [0..1];
+
+  association Tasking [1] Emp (doneBy) -- (worksOn) Tsk [0..2];
+
+  // if an Emp is a Mgr she needs to work fullTime 
+  
+  OCL:[
+  context Emp e inv: 
+    typeif e instanceof Mgr then 
+      e.kind == PosKnd.fullTime 
+    else 
+      true;
+  ]
+
+  // a manager manages at least one employee or is on vacation
+  
+  OCL:[
+  context Mgr m inv:
+    m.mng.size == 0 <=> m.status == WorkStatus.onVacation;
+  ]
+
+}

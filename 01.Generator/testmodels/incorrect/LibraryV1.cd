@@ -1,0 +1,106 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+// Ticket #640(fixed), #721
+
+package testmodels.incorrect;  // JOR
+
+import java.util.Date;
+import java.util.List;
+
+/**
+
+classes: 11
+attributes: 22
+interfaces: 0
+associations: 7
+enumeration values: 17
+primitive and other types: 4
+
+elements in total: 61
+
+**/
+classdiagram LibraryV1 {
+
+  abstract class Item {
+    String title;
+    Date published;
+    Language lang;
+  }
+  
+  class Book extends Item {
+    int numOfPages;
+    String ISBN;
+    int instanceof;
+  }
+  
+  class Map extends Item {
+    String area;
+    Date date;
+  }
+  
+  class NewsPaper extends Book;
+  
+  class Publisher {
+    String name;
+    String address;
+    Date estDate;
+    String phoneNumber;
+  }
+  
+  class Copy {
+    int id;
+    BookCondition cond;
+    AvailabilityState state;
+    Medium medium;     
+  }
+  
+  enum BookCondition { new, used, broken; }
+  enum Medium {HardCover, PaperBack, EBook, AudioCD;}
+  enum AvailabilityState {available, taken, missing; }
+  enum Language {German, English, French, Italian, Arabic, Russian, Dutch; }
+  
+  <<singleton>> class Library;
+  
+  abstract class Person {
+    String name;
+    String address;
+  }
+  
+  class Reader extends Person;
+  
+  class Author extends Person;
+  
+  class Loan {
+    Date startDate;
+    Date returnDate;
+    int numOfExtensions;
+    List<String> comment;
+  }
+  
+  association Copies [*] Book (isOf) -> (hasCopy) Copy [2..*];
+  association Loans [1] Copy (borrowedCopy) <-> (loaned) Loan [*];
+  association Loaner [1] Reader (loans) <-> (readersLoan) Loan [*];
+  association AuthorsOfBook [1..*] Author (writtenBy) <-> (authorOf) Book [1..*];
+  
+  association ReaderOfLibrary [*] Reader (readers) <-> (knownLibraries) Library [1..*];
+  association ReaderOfLibrary [*] Copy (ownedCopies) <-> (copiesHome) Library [1];
+  
+  association Publishing [*] Item (publish) -> (publishedBy) Publisher [1];
+}

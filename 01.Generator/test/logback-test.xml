@@ -1,0 +1,29 @@
+<configuration>
+
+  <appender name="DEX_GTR_COMPACT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%-7([%level]) - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="DEX_GTR_FULL" class="ch.qos.logback.core.FileAppender">
+    <file>dex-gtr.log</file>
+    <append>false</append>
+    <encoder>
+      <pattern>%d{HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="DEX_GTR_COMPACT" />
+  </root>
+
+  <logger name="configure.DexGenerator" level="INFO" additivity="false">
+    <appender-ref ref="DEX_GTR_COMPACT" />
+  </logger>
+
+  <logger name="configure.DexGenerator.FULL" level="INFO" additivity="false">
+    <appender-ref ref="DEX_GTR_FULL" />
+  </logger>
+
+</configuration>

@@ -1,0 +1,256 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package testmodels.correct;
+
+// TODO: Concurrent modification exception
+classdiagram FinalAttributes {  
+
+ class TestByte {   
+    private final byte attrPrivate;
+    private final byte attrPrivateInitialized = 1;
+    protected final byte attrProtected;
+    protected final byte attrProtectedInitialized = 2;
+    public final byte attrPublic;
+    public final byte attrPublicInitialized = 3;
+    //readonly final byte attrReadonly;
+    //readonly final byte attrReadonlyInitialized = 4;
+    final byte attrDefault;
+    final byte attrDefaultInitialized = 5;
+  }
+  
+  class TestByteWrapper {   
+    private final Byte attrPrivate;
+    private final Byte attrPrivateInitialized = 1;
+    protected final Byte attrProtected;
+    protected final Byte attrProtectedInitialized = 2;
+    public final Byte attrPublic;
+    public final Byte attrPublicInitialized = 3;
+    //readonly final Byte attrReadonly;
+    //readonly final Byte attrReadonlyInitialized = 4;
+    final Byte attrDefault;
+    final Byte attrDefaultInitialized = 5;
+  }
+
+  class TestShort {   
+    private final short attrPrivate;
+    private final short attrPrivateInitialized = 1;
+    protected final short attrProtected;
+    protected final short attrProtectedInitialized = 2;
+    public final short attrPublic;
+    public final short attrPublicInitialized = 3;
+    //readonly final short attrReadonly;
+   // readonly final short attrReadonlyInitialized = 4;
+    final short attrDefault;
+    final short attrDefaultInitialized = 5;
+  }
+  
+  class TestShortWrapper {   
+    private final Short attrPrivate;
+    private final Short attrPrivateInitialized = 1;
+    protected final Short attrProtected;
+    protected final Short attrProtectedInitialized = 2;
+    public final Short attrPublic;
+    public final Short attrPublicInitialized = 3;
+    //readonly final Short attrReadonly;
+    //readonly final Short attrReadonlyInitialized = 4;
+    final Short attrDefault;
+    final Short attrDefaultInitialized = 5;
+  }
+ 
+  class TestInt {   
+    private final int attrPrivate;
+    private final int attrPrivateInitialized = 1;
+    protected final int attrProtected;
+    protected final int attrProtectedInitialized = 2;
+    public final int attrPublic;
+    public final int attrPublicInitialized = 3;
+    //readonly final int attrReadonly;
+    //readonly final int attrReadonlyInitialized = 4;
+    final int attrDefault;
+    final int attrDefaultInitialized = 5;
+  }
+  
+  class TestInteger {   
+    private final Integer attrPrivate;
+    private final Integer attrPrivateInitialized = 1;
+    protected final Integer attrProtected;
+    protected final Integer attrProtectedInitialized = 2;
+    public final Integer attrPublic;
+    public final Integer attrPublicInitialized = 3;
+    //readonly final Integer attrReadonly;
+    //readonly final Integer attrReadonlyInitialized = 4;
+    final Integer attrDefault;
+    final Integer attrDefaultInitialized = 5;
+  }  
+  
+  class TestLong {   
+    private final long attrPrivate;
+    private final long attrPrivateInitialized = 1l;
+    protected final long attrProtected;
+    protected final long attrProtectedInitialized = 2l;
+    public final long attrPublic;
+    public final long attrPublicInitialized = 3l;
+    //readonly final long attrReadonly;
+    //readonly final long attrReadonlyInitialized = 4l;
+    final long attrDefault;
+    final long attrDefaultInitialized = 5l;
+  }
+  
+  class TestLongWrapper {   
+    private final Long attrPrivate;
+    private final Long attrPrivateInitialized = 1l;
+    protected final Long attrProtected;
+    protected final Long attrProtectedInitialized = 2l;
+    public final Long attrPublic;
+    public final Long attrPublicInitialized = 3l;
+    //readonly final Long attrReadonly;
+    //readonly final Long attrReadonlyInitialized = 4l;
+    final Long attrDefault;
+    final Long attrDefaultInitialized = 5l;
+  }
+
+  class TestFloat {   
+    private final float attrPrivate;
+    private final float attrPrivateInitialized = 1f;
+    protected final float attrProtected;
+    protected final float attrProtectedInitialized = 2f;
+    public final float attrPublic;
+    public final float attrPublicInitialized = 3f;
+    //readonly final float attrReadonly;
+    //readonly final float attrReadonlyInitialized = 4f;
+    final float attrDefault;
+    final float attrDefaultInitialized = 5f;
+  }
+  
+  class TestFloatWrapper {   
+    private final Float attrPrivate;
+    private final Float attrPrivateInitialized = 1f;
+    protected final Float attrProtected;
+    protected final Float attrProtectedInitialized = 2f;
+    public final Float attrPublic;
+    public final Float attrPublicInitialized = 3f;
+    //readonly final Float attrReadonly;
+    //readonly final Float attrReadonlyInitialized = 4f;
+    final Float attrDefault;
+    final Float attrDefaultInitialized = 5f;
+  }
+  
+  class TestDouble {   
+    private final double attrPrivate;
+    private final double attrPrivateInitialized = 1d;
+    protected final double attrProtected;
+    protected final double attrProtectedInitialized = 2d;
+    public final double attrPublic;
+    public final double attrPublicInitialized = 3d;
+    //readonly final double attrReadonly;
+    //readonly final double attrReadonlyInitialized = 4d;
+    final double attrDefault;
+    final double attrDefaultInitialized = 5d;
+  }
+  
+  class TestDoubleWrapper {   
+    private final Double attrPrivate;
+    private final Double attrPrivateInitialized = 1d;
+    protected final Double attrProtected;
+    protected final Double attrProtectedInitialized = 2d;
+    public final Double attrPublic;
+    public final Double attrPublicInitialized = 3d;
+    //readonly final Double attrReadonly;
+    //readonly final Double attrReadonlyInitialized = 4d;
+    final Double attrDefault;
+    final Double attrDefaultInitialized = 5d;
+  }
+  
+  class TestBoolean {   
+    private final boolean attrPrivate;
+    private final boolean attrPrivateInitialized = true;
+    protected final boolean attrProtected;
+    protected final boolean attrProtectedInitialized = true;
+    public final boolean attrPublic;
+    public final boolean attrPublicInitialized = true;
+    //readonly final boolean attrReadonly;
+    //readonly final boolean attrReadonlyInitialized = true;
+    final boolean attrDefault;
+    final boolean attrDefaultInitialized = true;
+  }
+  
+  class TestBooleanWrapper {   
+    private final Boolean attrPrivate;
+    private final Boolean attrPrivateInitialized = true;
+    protected final Boolean attrProtected;
+    protected final Boolean attrProtectedInitialized = true;
+    public final Boolean attrPublic;
+    public final Boolean attrPublicInitialized = true;
+    //readonly final Boolean attrReadonly;
+    //readonly final Boolean attrReadonlyInitialized = true;
+    final Boolean attrDefault;
+    final Boolean attrDefaultInitialized = true;
+  }
+  
+  class TestChar {   
+    private final char attrPrivate;
+    private final char attrPrivateInitialized = '1';
+    protected final char attrProtected;
+    protected final char attrProtectedInitialized = '2';
+    public final char attrPublic;
+    public final char attrPublicInitialized = '3';
+    //readonly final char attrReadonly;
+    //readonly final char attrReadonlyInitialized = '4';
+    final char attrDefault;
+    final char attrDefaultInitialized = '5';
+  }
+  
+  class TestCharacter {   
+    private final Character attrPrivate;
+    private final Character attrPrivateInitialized = '1';
+    protected final Character attrProtected;
+    protected final Character attrProtectedInitialized = '2';
+    public final Character attrPublic;
+    public final Character attrPublicInitialized = '3';
+    //readonly final Character attrReadonly;
+    //readonly final Character attrReadonlyInitialized = '4';
+    final Character attrDefault;
+    final Character attrDefaultInitialized = '5';
+  }
+  
+  class TestStringWrapper {   
+    private final String attrPrivate;
+    private final String attrPrivateInitialized = "1";
+    protected final String attrProtected;
+    protected final String attrProtectedInitialized = "2";
+    public final String attrPublic;
+    public final String attrPublicInitialized = "3";
+    //readonly final String attrReadonly;
+    //readonly final String attrReadonlyInitialized = "4";
+    final String attrDefault;
+    final String attrDefaultInitialized = "5";
+  } 
+  
+  class ComplexType {   
+  }
+
+  class ClassWithComplexTypeAttribute {
+    private final ComplexType complexTypePrivate;
+    protected final ComplexType complexTypeProtected;
+    public final ComplexType complexTypePublic;
+    //readonly final ComplexType complexTypeReadonly;
+    final ComplexType complexTypeDefault;
+  } 
+}

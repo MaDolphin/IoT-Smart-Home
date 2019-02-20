@@ -1,0 +1,121 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- == PROJECT COORDINATES ============================================= -->
+
+  <artifactId>montigem-gtr</artifactId>
+
+  <parent>
+    <groupId>de.monticore.montigem</groupId>
+    <artifactId>montigem</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- == PROJECT PROPERTIES ============================================== -->
+
+  <properties>
+  </properties>
+
+  <!-- == PROJECT METAINFORMATION ========================================= -->
+
+  <name>MontiGEMGenerator</name>
+  <description>MontiGEM Generator</description>
+  <url>https://git.rwth-aachen.de/macoco/implementation</url>
+  <inceptionYear>2019</inceptionYear>
+
+  <organization>
+    <name>Department of Software Engineering, RWTH Aachen University</name>
+    <url>http://www.se-rwth.de/</url>
+  </organization>
+
+  <!-- == DEPENDENCIES ==================================================== -->
+  <dependencies>
+  </dependencies>
+
+  <!-- == DEPENDENCY & PLUGIN REPOSITORIES ================================= -->
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav-jackrabbit</artifactId>
+        <version>${wagon.provider.version}</version>
+      </extension>
+    </extensions>
+
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven.source.version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <excludeResources>true</excludeResources>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>${release.plugin}</version>
+        <configuration>
+          <tagNameFormat>montigem-@{project.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.version}</version>
+        <configuration>
+          <groups>${generator.test.category}</groups>
+          <includes>
+            <include>**/*.java</include>
+          </includes>
+          <reuseForks>false</reuseForks>
+          <skipTests>${skip.tests}</skipTests>
+        </configuration>
+      </plugin>
+    </plugins>
+
+    <sourceDirectory>src</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <testSourceDirectory>test</testSourceDirectory>
+    <testResources>
+      <testResource>
+        <directory>test</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
+  </build>
+
+</project>

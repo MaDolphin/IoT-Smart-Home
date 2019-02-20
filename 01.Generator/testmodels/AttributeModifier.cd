@@ -1,0 +1,215 @@
+/*
+ * ******************************************************************************
+ * MontiCore Language Workbench, www.monticore.de
+ * Copyright (c) 2017, MontiCore, All rights reserved.
+ *
+ * This project is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 3.0 of the License, or (at your option) any later version.
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this project. If not, see <http://www.gnu.org/licenses/>.
+ * ******************************************************************************
+ */
+
+package modifier;
+
+classdiagram AttributeModifier {
+
+ class DefaultModifier {
+                              int attr;
+   static                     int staticAttr;
+          final               int finalAttr;
+   static final               int staticFinalAttr;
+                derived       int derivedAttr;
+   static       derived       int staticDerivedAttr;
+          final derived       int finalDerivedAttr;
+   static final derived       int staticFinalDerivedAttr;
+                        local int localAttr;
+   static               local int staticLocalAttr;
+          final         local int finalLocalAttr;
+   static final         local int staticFinalLocalAttr;
+                derived local int derivedLocalAttr;
+   static       derived local int staticDerivedLocalAttr;
+          final derived local int finalDerivedLocalAttr;
+   static final derived local int staticFinalDerivedLocalAttr;
+ }
+ 
+ class PublicModifier {
+   +                            int attr;
+   + static                     int staticAttr;
+   +        final               int finalAttr;
+   + static final               int staticFinalAttr;
+   +              derived       int derivedAttr;
+   + static       derived       int staticDerivedAttr;
+   +        final derived       int finalDerivedAttr;
+   + static final derived       int staticFinalDerivedAttr;
+   +                      local int localAttr;
+   + static               local int staticLocalAttr;
+   +        final         local int finalLocalAttr;
+   + static final         local int staticFinalLocalAttr;
+   +              derived local int derivedLocalAttr;
+   + static       derived local int staticDerivedLocalAttr;
+   +        final derived local int finalDerivedLocalAttr;
+   + static final derived local int staticFinalDerivedLocalAttr;
+ }
+ 
+ class PrivateModifier {
+   -                            int attr;
+   - static                     int staticAttr;
+   -        final               int finalAttr;
+   - static final               int staticFinalAttr;
+   -              derived       int derivedAttr;
+   - static       derived       int staticDerivedAttr;
+   -        final derived       int finalDerivedAttr;
+   - static final derived       int staticFinalDerivedAttr;
+   -                      local int localAttr;
+   - static               local int staticLocalAttr;
+   -        final         local int finalLocalAttr;
+   - static final         local int staticFinalLocalAttr;
+   -              derived local int derivedLocalAttr;
+   - static       derived local int staticDerivedLocalAttr;
+   -        final derived local int finalDerivedLocalAttr;
+   - static final derived local int staticFinalDerivedLocalAttr;
+ }
+ 
+ class ProtectedModifier {
+   #                            int attr;
+   # static                     int staticAttr;
+   #        final               int finalAttr;
+   # static final               int staticFinalAttr;
+   #              derived       int derivedAttr;
+   # static       derived       int staticDerivedAttr;
+   #        final derived       int finalDerivedAttr;
+   # static final derived       int staticFinalDerivedAttr;
+   #                      local int localAttr;
+   # static               local int staticLocalAttr;
+   #        final         local int finalLocalAttr;
+   # static final         local int staticFinalLocalAttr;
+   #              derived local int derivedLocalAttr;
+   # static       derived local int staticDerivedLocalAttr;
+   #        final derived local int finalDerivedLocalAttr;
+   # static final derived local int staticFinalDerivedLocalAttr;
+ }
+ 
+ class ReadOnlyModifier {
+   ?                            int attr;
+   ? static                     int staticAttr;
+   ?        final               int finalAttr;
+   ? static final               int staticFinalAttr;
+   ?              derived       int derivedAttr;
+   ? static       derived       int staticDerivedAttr;
+   ?        final derived       int finalDerivedAttr;
+   ? static final derived       int staticFinalDerivedAttr;
+   ?                      local int localAttr;
+   ? static               local int staticLocalAttr;
+   ?        final         local int finalLocalAttr;
+   ? static final         local int staticFinalLocalAttr;
+   ?              derived local int derivedLocalAttr;
+   ? static       derived local int staticDerivedLocalAttr;
+   ?        final derived local int finalDerivedLocalAttr;
+   ? static final derived local int staticFinalDerivedLocalAttr;
+ }
+ 
+ class DefaultModifierInit {
+                              int attr = 0;
+   static                     int staticAttr = 0;
+          final               int finalAttr = 0;
+   static final               int staticFinalAttr = 0;
+                derived       int derivedAttr = 0;
+   static       derived       int staticDerivedAttr = 0;
+          final derived       int finalDerivedAttr = 0;
+   static final derived       int staticFinalDerivedAttr = 0;
+                        local int localAttr = 0;
+   static               local int staticLocalAttr = 0;
+          final         local int finalLocalAttr = 0;
+   static final         local int staticFinalLocalAttr = 0;
+                derived local int derivedLocalAttr = 0;
+   static       derived local int staticDerivedLocalAttr = 0;
+          final derived local int finalDerivedLocalAttr = 0;
+   static final derived local int staticFinalDerivedLocalAttr = 0;
+ }
+ 
+ class PublicModifierInit {
+   +                            int attr = 0;
+   + static                     int staticAttr = 0;
+   +        final               int finalAttr = 0;
+   + static final               int staticFinalAttr = 0;
+   +              derived       int derivedAttr = 0;
+   + static       derived       int staticDerivedAttr = 0;
+   +        final derived       int finalDerivedAttr = 0;
+   + static final derived       int staticFinalDerivedAttr = 0;
+   +                      local int localAttr = 0;
+   + static               local int staticLocalAttr = 0;
+   +        final         local int finalLocalAttr = 0;
+   + static final         local int staticFinalLocalAttr = 0;
+   +              derived local int derivedLocalAttr = 0;
+   + static       derived local int staticDerivedLocalAttr = 0;
+   +        final derived local int finalDerivedLocalAttr = 0;
+   + static final derived local int staticFinalDerivedLocalAttr = 0;
+ }
+ 
+ class PrivateModifierInit {
+   -                            int attr = 0;
+   - static                     int staticAttr = 0;
+   -        final               int finalAttr = 0;
+   - static final               int staticFinalAttr = 0;
+   -              derived       int derivedAttr = 0;
+   - static       derived       int staticDerivedAttr = 0;
+   -        final derived       int finalDerivedAttr = 0;
+   - static final derived       int staticFinalDerivedAttr = 0;
+   -                      local int localAttr = 0;
+   - static               local int staticLocalAttr = 0;
+   -        final         local int finalLocalAttr = 0;
+   - static final         local int staticFinalLocalAttr = 0;
+   -              derived local int derivedLocalAttr = 0;
+   - static       derived local int staticDerivedLocalAttr = 0;
+   -        final derived local int finalDerivedLocalAttr = 0;
+   - static final derived local int staticFinalDerivedLocalAttr = 0;
+ }
+ 
+ class ProtectedModifierInit {
+   protected                            int attr = 0;
+   protected static                     int staticAttr = 0;
+   protected        final               int finalAttr = 0;
+   protected static final               int staticFinalAttr = 0;
+   protected              derived       int derivedAttr = 0;
+   protected static       derived       int staticDerivedAttr = 0;
+   protected        final derived       int finalDerivedAttr = 0;
+   protected static final derived       int staticFinalDerivedAttr = 0;
+   protected                      local int localAttr = 0;
+   protected static               local int staticLocalAttr = 0;
+   protected        final         local int finalLocalAttr = 0;
+   protected static final         local int staticFinalLocalAttr = 0;
+   protected              derived local int derivedLocalAttr = 0;
+   protected static       derived local int staticDerivedLocalAttr = 0;
+   protected        final derived local int finalDerivedLocalAttr = 0;
+   protected static final derived local int staticFinalDerivedLocalAttr = 0;
+ }
+ 
+ class ReadOnlyModifierInit {
+   ?                            int attr = 0;
+   ? static                     int staticAttr = 0;
+   ?        final               int finalAttr = 0;
+   ? static final               int staticFinalAttr = 0;
+   ?              derived       int derivedAttr = 0;
+   ? static       derived       int staticDerivedAttr = 0;
+   ?        final derived       int finalDerivedAttr = 0;
+   ? static final derived       int staticFinalDerivedAttr = 0;
+   ?                      local int localAttr = 0;
+   ? static               local int staticLocalAttr = 0;
+   ?        final         local int finalLocalAttr = 0;
+   ? static final         local int staticFinalLocalAttr = 0;
+   ?              derived local int derivedLocalAttr = 0;
+   ? static       derived local int staticDerivedLocalAttr = 0;
+   ?        final derived local int finalDerivedLocalAttr = 0;
+   ? static final derived local int staticFinalDerivedLocalAttr = 0;
+ }
+ 
+
+}
