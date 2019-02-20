@@ -1,0 +1,55 @@
+<form #form="ngForm" fxFlex="grow" fxLayout="column" fxLayoutGap="15px"
+      fxLayoutAlign="center stretch" (ngSubmit)="onSubmit(form, $event)">
+  <div fxFlex upeFormGroup hasFeedback [hasError]="un.invalid && un.touched">
+    <div class="input-group">
+      <span class="input-group-addon"><mat-icon>account_circle</mat-icon></span>
+      <input type="text"
+             [(ngModel)]="user.username"
+             upeFormControl
+             name="username"
+             #un="ngModel"
+             placeholder="Benutzer"
+             required>
+    </div>
+    <span [upeHelpBlock]="un.invalid && un.touched">Bitte geben Sie ihren Benutzer Namen ein</span>
+  </div>
+  <div fxFlex upeFormGroup hasFeedback [hasError]="pw.invalid && pw.touched">
+    <div upeInputGroup>
+      <span upeInputGroupAddon><mat-icon>lock</mat-icon></span>
+      <input type="password"
+             [(ngModel)]="user.password"
+             upeFormControl
+             name="password"
+             #pw="ngModel"
+             placeholder="••••••••"
+             required>
+    </div>
+    <span [upeHelpBlock]="pw.invalid && pw.touched">Geben Sie ihr Passwort ein</span>
+  </div>
+  <div>
+    <app-auto-complete class="nopadding"
+                          [modelFormControl]="forms.instanz"
+                          [labelAbove]="true"
+                          [label]="'Instanz'"
+                          [placeholder]="'keine Instanz gewählt'"
+                          [noPaddingOrMargin]="true">
+    </app-auto-complete>
+  </div>
+  <div fxFlex upeFormGroup hasFeedback>
+    <div upeCheckbox>
+      <label>
+        <input type="checkbox"> Angemeldet bleiben
+      </label>
+    </div>
+  </div>
+  <div fxFlex upeFormGroup>
+    <button (click)="shibbolethLogin()" upeBtn block styleType="outline-primary-invert" disabled>
+      Shibboleth
+    </button>
+  </div>
+  <div fxFlex upeFormGroup>
+    <button name="login-button" type="submit" upeBtn block>Anmelden</button>
+  </div>
+  <a routerLink="/auth/forgot-password">Passwort vergessen?</a>
+</form>
+

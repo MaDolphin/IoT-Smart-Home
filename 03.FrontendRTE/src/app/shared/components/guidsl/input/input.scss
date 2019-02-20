@@ -1,0 +1,65 @@
+@import "../../../../../scss/variables";
+
+input {
+  border-radius: 3px !important;
+  border: none !important;
+}
+
+.main-controls .form-group {
+  margin: 8px 0 !important;
+  width: 80% !important;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+:host ::ng-deep mat-select {
+  width: 100%;
+  // padding-top: 0px;
+
+  span {
+    font-size: $font-size-text;
+  }
+}
+
+:host ::ng-deep mat-select.no-underline .mat-select-underline {
+  display: none !important;
+}
+
+:host ::ng-deep .has-balance > div > div:first-child{
+  width:70%;
+
+}
+
+:host ::ng-deep .balance {
+  color:$rwth-black;
+  white-space: nowrap;
+
+}
+
+:host ::ng-deep .balance.imp-text-danger, .has-error {
+  color:$rwth-red;
+}
+
+:host ::ng-deep .balance.imp-text-success {
+  color:$dark-green;
+}
+
+:host ::ng-deep .has-feedback .form-control {
+  padding-right: 12px;
+}
+
+.checkbox input[type="checkbox"] {
+  position:relative;
+}
+
+:host ::ng-deep .mat-select-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+
+  .mat-select-trigger {
+    cursor: not-allowed !important;
+  }
+
+}

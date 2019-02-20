@@ -1,0 +1,40 @@
+<main>
+  <div class="container" fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap="25px">
+
+    <div class="header" fxFlex="grow" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+      <div fxFlex="85px">
+        <img alt="App Logo" src="assets/img/app-logo.png" width="81px">
+      </div>
+      <div fxFlex="auto">
+        <h1 class="title">MA CO CO</h1>
+        <h2 class="sub-title">Management | Control | Cockpit</h2>
+      </div>
+    </div>
+
+
+    <div fxFlex="grow">
+      <div class="pre-form-box"></div>
+      <div class="form-box">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf="isNotSupportedBrowser()">
+      <h3 class="alert-heading">Achtung!</h3>
+      <hr>
+      Sie verwenden einen Browser der nicht mit App kompatibel ist. Da App für Chrome und Firefox ausgelegt ist, benutzen Sie bitte einen der beiden Browser.
+    </div>
+
+    <div class="alert alert-info" role="alert">
+       <h3 class="alert-heading">Hinweis <i class="material-icons md-48">feedback</i></h3>
+      <hr>
+      Bei der aktuellen Version handelt es sich um eine <b>Beta Version</b>, die eingeschränkte
+      Funktionalität bereitstellt und Fehler enthalten kann. <br><br>
+      Anregungen, Fehler und Feedback werden gerne entgegen genommen und können an <b>feedback@app.rwth-aachen.de.</b> gesendet werden.<br><br>
+      Weitere Informationen erhalten Sie im <b><a id="Benutzerhandbuch" target="_blank" rel="noopener noreferrer" href="https://app.rwth-aachen.de/w/index.php/Hauptseite">Benutzerhandbuch</a></b>.
+      <br><br>
+      <p class="pull-right"> Ihr App-Team.</p>
+    </div>
+
+  </div>
+</main>

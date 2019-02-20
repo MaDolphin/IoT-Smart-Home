@@ -1,0 +1,6 @@
+<div class="box" [ngClass]="type" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+  <span fxFlex class="value">
+    {{amount | toCurrency}}
+  </span>
+  <span fxFlex class="value-label">{{label}}</span>
+</div>

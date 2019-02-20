@@ -1,0 +1,32 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "strict": false,
+    "baseUrl": "./",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noStrictGenericChecks": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "paths": {
+      "@shared/*": ["src/app/shared/*"],
+      "@targetgui/*" : ["target/generated-sources/gui/*"],
+      "@targetdtos/*" : ["target/generated-sources/dtos/*"],
+      "@srcdtos/*" : ["src/app/shared/architecture/data/dtos/*"],
+      "@targetrte/*": ["target/generated-sources/rte/*"],
+      "@components/*": ["src/app/shared/components/guidsl/*"],
+      // Test
+      "@testutils/*": ["src/tests/utils/*"]
+    }
+  }
+}

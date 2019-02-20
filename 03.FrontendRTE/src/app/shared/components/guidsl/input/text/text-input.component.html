@@ -1,0 +1,77 @@
+<!--
+  TODO: what if styles should be defined on other level?
+-->
+
+<ng-template [ngIf]="modelFormControl">
+  <ng-template [ngIf]="!isPassword" [ngIfElse]="password">
+    <app-generic-input *ngIf="!inline; else inlineTemplate"
+                          [error]="errors?.error"
+                          [htmlId]="htmlId"
+                          [isInvalid]="invalid && dirty"
+                          [icon]="icon"
+                          [isValid]="valid && dirty && value"
+                          [ngClass]="{'has-error': invalid && dirty}"
+                          [label]="label"
+                          [labelAbove]="labelAbove">
+      <input upeFormControl
+             [ngClass]="classes"
+             [ngStyle]="style"
+             [placeholder]="placeholder"
+             [maxlength]="maxLength"
+             [name]="name"
+             [readonly]="readonly"
+             [formControl]="modelFormControl"
+             type="text">
+    </app-generic-input>
+    <ng-template #inlineTemplate>
+      <mat-form-field>
+        <input [placeholder]="placeholder"
+               [name]="name"
+               [readonly]="readonly"
+               [formControl]="modelFormControl"
+               (select)="$event.stopPropagation()"
+               matInput
+               type="text">
+        <mat-hint *ngIf="invalid && dirty && hasError">
+          {{errors.error}}
+        </mat-hint>
+      </mat-form-field>
+    </ng-template>
+  </ng-template>
+
+  <ng-template #password>
+    <app-generic-input *ngIf="!inline; else inlineTemplate"
+                          [error]="errors?.error"
+                          [htmlId]="htmlId"
+                          [isInvalid]="invalid && dirty"
+                          [icon]="icon"
+                          [isValid]="valid && dirty && value"
+                          [ngClass]="{'has-error': invalid && dirty}"
+                          [label]="label"
+                          [labelAbove]="labelAbove">
+      <input upeFormControl
+             [ngClass]="classes"
+             [ngStyle]="style"
+             [placeholder]="placeholder"
+             [maxlength]="maxLength"
+             [name]="name"
+             [readonly]="readonly"
+             [formControl]="modelFormControl"
+             type="password">
+    </app-generic-input>
+    <ng-template #inlineTemplate>
+      <mat-form-field>
+        <input [placeholder]="placeholder"
+               [name]="name"
+               [readonly]="readonly"
+               [formControl]="modelFormControl"
+               (select)="$event.stopPropagation()"
+               matInput
+               type="password">
+        <mat-hint *ngIf="invalid && dirty && hasError">
+          {{errors.error}}
+        </mat-hint>
+      </mat-form-field>
+    </ng-template>
+  </ng-template>
+</ng-template>

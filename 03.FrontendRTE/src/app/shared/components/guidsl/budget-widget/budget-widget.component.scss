@@ -1,0 +1,25 @@
+@import "../../../../../scss/variables";
+
+hr {
+  margin:0px;
+}
+
+.budget-container {
+  padding:15px;
+  width:100%;
+}
+
+.budget-container:hover {
+  background-color: #eee;
+  transition-property: background;
+  transition-duration: .3s;
+  transition-timing-function: linear;
+}
+
+.hasSubBudgets:hover{
+  cursor:pointer;
+}
+
+.sub-budget .budget-container:hover {
+  cursor:default;
+}

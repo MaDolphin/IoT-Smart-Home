@@ -1,0 +1,21 @@
+<ng-template [ngIf]="modelFormControl">
+  <app-generic-input
+                [error]="errors?.error"
+                [htmlId]="htmlId"
+                [isInvalid]="invalid && dirty"
+                icon="H"
+                iconType="string"
+                [isValid]="valid && dirty && value"
+                [ngClass]="{'has-error': invalid && dirty}"
+                [labelAbove]="labelAbove"
+                [label]="label">
+    <input upeFormControl
+           [ngClass]="classes"
+           [ngStyle]="style"
+           [placeholder]="placeholder"
+           [name]="name"
+           (blur)="autoCompleteHour()"
+           [formControl]="modelFormControl"
+           type="text">
+  </app-generic-input>
+</ng-template>

@@ -1,0 +1,36 @@
+<form #form="ngForm" fxFlex="grow" fxLayout="column" fxLayoutGap="25px"
+      fxLayoutAlign="center stretch"
+      (ngSubmit)="onSubmit(form, $event)">
+    <label fxFlex>Passwort zurücksetzen</label>
+    <p fxFlex class="hint">
+        Bitte tragen Sie Ihre E-Mail-Adresse ein.<br>Anschließend erhalten Sie eine E-Mail, mit deren
+        Hilfe ein neues
+        Passwort erstellt werden kann.
+    </p>
+    <div fxFlex="grow" fxLayout="column" fxLayoutGap="10px" upeFormGroup hasFeedback
+         [hasError]="em.invalid && em.touched">
+        <div class="input-group">
+            <span class="input-group-addon"><mat-icon>email</mat-icon></span>
+            <input type="text" #em="ngModel" name="email" [(ngModel)]="email" upeFormControl
+                   placeholder="E-Mail-Adresse" required>
+        </div>
+        <div>
+            <app-auto-complete class="nopadding"
+                                  [modelFormControl]="forms.datenbank"
+                                  [labelAbove]="true"
+                                  [label]="'Instanz'"
+                                  [placeholder]="'keine Instanz gewählt'"
+                                  [noPaddingOrMargin]="true"
+            >
+            </app-auto-complete>
+        </div>
+        <span *ngIf="(em.invalid && em.touched) || (em.touched && !emailValidator(email))"
+              class="help-block">Bitte geben Sie ihre E-Mail-Adresse ein um ihr Passwort zurückzusetzen</span>
+    </div>
+    <div fxFlex upeFormGroup>
+        <button type="submit" upeBtn block [disabled]="email === '' || !emailValidator(email)">Neues
+            Passwort anfordern
+        </button>
+    </div>
+    <a routerLink="/auth/login">Abbrechen</a>
+</form>

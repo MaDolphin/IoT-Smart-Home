@@ -1,0 +1,15 @@
+<div>
+    <label class="btn btn-default btn-file btn-primary" >
+        Wählen Sie eine Excel Datei für den Import aus. <input type="file" name="datei" style="display: none;" size="50" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" (change)="onChange(file.files.item(0).name);" #file/>
+    </label>
+    <span > {{fileName}} </span>
+    <button class="btn btn-primary" (click)="send(file.files.item(0))" [disabled]="!importable" >Import</button>
+    <div>
+        <input  type="checkbox" [checked]="test" (click)="booleantest()" #leerlauf >
+        <label>Excel Datei testen</label>
+    </div>
+    <div>
+        <input  type="checkbox" [checked]="import"  (click)="booleanimport()"  #echtimport>
+        <label>Excel Datei importieren</label>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+@import "../../../../../scss/variables";
+
+.box {
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 12px 12px;
+  margin: 12px;
+}
+
+.default {
+  border-color: $gray;
+
+  .value-label, .value {
+    color: $gray;
+  }
+
+}
+
+.defaultBorderless  {
+  border: 0px solid #000;
+  border-radius: 0px;
+
+  .value-label, .value {
+    color: $gray;
+  }
+
+}
+
+.primary {
+  border-color: $rwth-blue;
+
+  .value-label, .value {
+    color: $rwth-blue;
+  }
+}
+
+.primaryBorderless {
+  border: 0px solid #000;
+  border-radius: 0px;
+
+  .value-label, .value {
+    color: $rwth-blue;
+  }
+}
+
+.success {
+  border-color: $dark-green;
+
+  .value-label, .value {
+    color: $dark-green;
+  }
+}
+
+.successBorderless {
+  border: 0px solid #000;
+  border-radius: 0px;
+
+  .value-label, .value {
+    color: $rwth-green;
+  }
+}
+
+.danger {
+  border-color: $rwth-red;
+
+  .value-label, .value {
+    color: $rwth-red;
+  }
+}
+
+.dangerBorderless {
+  border: 0px solid #000;
+  border-radius: 0px;
+
+  .value-label, .value {
+    color: $rwth-red;
+  }
+}
+
+.default {
+  border-color: $rwth-black-1;
+
+  .value-label, .value {
+    color: $rwth-black-1;
+  }
+}
+
+.value-label, .value {
+  line-height: 13px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.value-label {
+  font-size: $font-size-h6;
+}
+
+.value {
+  font-size: $font-size-xlarge;
+  font-weight: 600;
+  white-space:nowrap;
+}

@@ -1,0 +1,41 @@
+<div fxLayout="column" style="margin:auto;" >
+    <div fxLayout="row" style="justify-content: flex-end;">
+        <div *ngFor="let item of kontenSet, let i = index"
+             style="align-items: center;margin-left:10px"
+             fxLayout="row">
+            <div [style.backgroundColor]="getColor(i)"
+                 [style.height]="'3px'"
+                 fxFlex="0 0 40px"></div>
+            <span style="margin-left:10px" fxFlex>{{item}}</span>
+        </div>
+
+        <div fxFlex="0 0 auto"
+             style="margin-left:10px;">
+            <select [(ngModel)]="yearStart" (change)="queryUpdate()">
+                <ng-container *ngFor="let year of _dateRange">
+                    <option *ngIf="year <= yearEnd">{{year}}</option>
+                </ng-container>
+            </select>
+
+            <select [(ngModel)]="yearEnd" (change)="queryUpdate()">
+                <ng-container *ngFor="let year of _dateRange">
+                    <option *ngIf="year >= yearStart">{{year}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </div>
+    <div fxFlex="1 1 100%" fxLayout="row" >
+        <div style="position: relative;height:100px;width:100%;" *ngIf="hasData()">
+            <canvas #baseChart baseChart
+                    *ngIf="hasData()"
+                    [datasets]="dataSet"
+                    [chartType]="'line'"
+                    [colors]="colorSet"
+                    [options]="options">
+            </canvas>
+        </div>
+        <div *ngIf="!hasData()">Keine Daten vorhanden</div>
+    </div>
+</div>
+
+

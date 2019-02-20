@@ -1,0 +1,41 @@
+@import "../../../../../../scss/variables";
+
+mat-calendar {
+  color: #222;
+}
+
+.calendar-popover {
+  position: absolute;
+  width: 37px;
+  right: 0;
+  top: 0;
+  height: 100%;
+}
+
+.calendar {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 4px #999;
+}
+
+:host ::ng-deep .mat-icon-button {
+  width: 35px !important;
+  height: 34px !important;
+  line-height: 0 !important;
+}
+
+::ng-deep .mat-datepicker-toggle-default-icon {
+  color: white;
+}
+
+::ng-deep .inline-theme .mat-datepicker-toggle-default-icon {
+  color: black;
+}
+
+::ng-deep .has-error .mat-datepicker-toggle-default-icon {
+  color: $state-danger-text;
+}
+
+::ng-deep .has-success .mat-datepicker-toggle-default-icon {
+  color: $state-success-text;
+}

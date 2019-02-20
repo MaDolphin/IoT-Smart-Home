@@ -1,0 +1,21 @@
+@import "../../../../../../scss/variables";
+
+:host ::ng-deep input {
+  visibility: hidden;
+}
+
+:host ::ng-deep .radio-wrapper {
+  margin-right:10px;
+}
+
+:host ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: $rwth-blue;
+}
+
+:host ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: $rwth-blue;;
+}
+
+:host ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+  background-color:rgba($rwth-blue, .26);
+}

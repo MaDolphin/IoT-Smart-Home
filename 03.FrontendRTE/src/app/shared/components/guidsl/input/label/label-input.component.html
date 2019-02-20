@@ -1,0 +1,48 @@
+<ng-template [ngIf]="modelFormControl">
+  <app-input *ngIf="!inline; else inlineTemplate"
+                [error]="errors?.error"
+                [htmlId]="htmlId"
+                [isInvalid]="invalid && dirty"
+                [icon]="icon"
+                [isValid]="valid && dirty && value"
+                [ngClass]="{'has-error': invalid && dirty}"
+                [label]="label"
+                [labelAbove]="labelAbove">
+      <div class="chipListWrapper"
+            [ngClass]="{'disabled': modelFormControl.disabled}">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let item of modelFormControl.value"
+                   [removable]="removable"
+                   (removed)="remove(item)">
+            {{item}}
+            <i class="fa fa-times" aria-hidden="true" (click)="remove(item)"></i>
+          </mat-chip>
+          <input type="text"
+                 style="flex: 1 0 60px"
+                 *ngIf="showInput()"
+                 [disabled]="modelFormControl.disabled"
+                 [attr.maxlength]="maxChipLength"
+                 [placeholder]="placeholder"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 (matChipInputTokenEnd)="add($event)" #inputField>
+        </mat-chip-list>
+      </div>
+  </app-input>
+  <ng-template #inlineTemplate>
+    <mat-form-field>
+      <input [placeholder]="placeholder"
+             [maxlength]="maxlength"
+             [name]="name"
+             [readonly]="readonly"
+             (select)="$event.stopPropagation()"
+             matInput
+             [formControl]="modelFormControl"
+             type="text" #inputField>
+      <mat-hint *ngIf="invalid && hasError">
+        {{errors.error}}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</ng-template>
+

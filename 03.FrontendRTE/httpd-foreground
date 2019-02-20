@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+# Apache gets grumpy about PID files pre-existing
+rm -f /usr/local/apache2/logs/httpd.pid /run/httpd/httpd.pid /var/lock/subsys/shibd
+
+# Start Shibd
+chmod +x /etc/shibboleth/shibd-redhat
+/etc/shibboleth/shibd-redhat start
+
+# Start HTTPD
+exec httpd -DFOREGROUND

@@ -1,0 +1,14 @@
+<div fxLayout="column" style="margin:auto;">
+    <div fxLayout="row" *ngFor="let bar of data; let i=index" class="bar-wrapper">
+        <span [style.color]="colors[i]" class="title">{{bar.label}}</span>
+        <div class="bar-outer">
+            <div class="bar-inner"
+                 [style.width.%]="bar.value"
+                 [style.background-color]="colors[i]"></div>
+        </div>
+        <span class="value">{{bar.value}}%</span>
+    </div>
+
+</div>
+
+

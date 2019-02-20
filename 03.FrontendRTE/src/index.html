@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+
+  <!--  this hack for normalizing free hosting when host on github pages   -->
+  <!--<script>-->
+    <!--// See http://www.backalleycoder.com/2016/05/13/sghpa-the-single-page-app-hack-for-github-pages/-->
+    <!--(function(){-->
+      <!--var redirect = sessionStorage.redirect;-->
+      <!--delete sessionStorage.redirect;-->
+      <!--if (redirect && redirect != location.href) {-->
+      <!--}-->
+    <!--})();-->
+  <!--</script>-->
+
+  <!-- TKs Feedback client -->
+  <!--<script type="text/javascript">-->
+    <!--window._urq = window._urq || [];-->
+    <!--_urq.push(['initSite', '44b86153-2895-4688-9fe3-30697e3b280f']);-->
+    <!--(function() {-->
+    <!--var ur   = document.createElement('script'); ur.type = 'text/javascript'; ur.async = true;-->
+      <!--ur.src = ('/assets/userreport.js');-->
+    <!--var s    = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ur, s);-->
+    <!--})();-->
+  <!--</script>-->
+
+  <meta charset="utf-8">
+  <title>App</title>
+  <link rel="apple-touch-icon" sizes="57x57" href="./assets/icons/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="./assets/icons/apple-touch-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="./assets/icons/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/icons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="./assets/icons/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./assets/icons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="./assets/icons/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./assets/icons/apple-touch-icon-152x152.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="./assets/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="./assets/icons/favicon-128.png">
+  <link rel="icon" type="image/png" sizes="196x196" href="./assets/icons/favicon-196x196.png">
+  <link rel="shortcut icon" type="image/x-icon" href="./assets/icons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="./assets/icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <base href="/">
+
+  <meta name="description" content="Management Cockpit for Controlling">
+  <meta name="author" content="">
+
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> -->
+
+</head>
+<body class="fixed-header fixed-navigation app-header">
+<app-root>
+  <style>
+    .loading-indicator-block {
+      z-index: 1002;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      margin-right: 0;
+      background-color: #ECEDED;
+    }
+
+    .spinner {
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      margin: 100px auto;
+      width: 150px;
+      height: 140px;
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .spinner > div {
+      background-color: #00549F;
+      height: 100%;
+      width: 16px;
+      display: inline-block;
+
+      -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+      animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    }
+
+    .spinner .rect2 {
+      -webkit-animation-delay: -1.1s;
+      animation-delay: -1.1s;
+    }
+
+    .spinner .rect3 {
+      -webkit-animation-delay: -1.0s;
+      animation-delay: -1.0s;
+    }
+
+    .spinner .rect4 {
+      -webkit-animation-delay: -0.9s;
+      animation-delay: -0.9s;
+    }
+
+    .spinner .rect5 {
+      -webkit-animation-delay: -0.8s;
+      animation-delay: -0.8s;
+    }
+
+    @-webkit-keyframes sk-stretchdelay {
+      0%, 40%, 100% {
+        -webkit-transform: scaleY(0.4)
+      }
+      20% {
+        -webkit-transform: scaleY(1.0)
+      }
+    }
+
+    @keyframes sk-stretchdelay {
+      0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+      }
+      20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+      }
+    }
+  </style>
+  <div class="loading-indicator-block">
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
+</app-root>
+</body>
+</html>

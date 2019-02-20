@@ -1,0 +1,19 @@
+<div fxFlex="grow" fxLayout="row wrap">
+    <!-- Navigation -->
+    <div fxFlex="3 0 auto" fxLayoutAlign="start center" fxLayoutGap="24px">
+        <nav mat-tab-nav-bar mat-no-ink-bar>
+
+            <div *ngFor="let link of links; let i = index" mat-tab-link
+                 onfocus="this.blur()"
+                 [routerLink]="link.link"
+                 routerLinkActive="active"
+                 [disabled]="link.disabled"
+                 [routerLinkActiveOptions]="{exact: true}"
+                 class="tab-link-{{i}} mat-tab-link"
+                 #rla="routerLinkActive"
+                 [active]="rla.isActive && false">
+                {{link.title}}
+            </div>
+        </nav>
+    </div>
+</div>

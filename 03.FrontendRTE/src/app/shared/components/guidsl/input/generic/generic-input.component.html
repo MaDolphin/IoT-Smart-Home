@@ -1,0 +1,23 @@
+<div upeFormGroup hasFeedback [hasError]="isInvalid" [hasSuccess]="isValid" [id]="htmlId">
+    <label [ngClass]="{'col-md-4': !labelAbove, 'col-md-12':labelAbove, 'nopadding':noPaddingOrMargin}" class="control-label" *ngIf="label">{{label}}</label>
+    <ng-container *ngIf="labelAbove">
+        <br>
+    </ng-container>
+    <div [ngClass]="{ 'col-md-8': (!additionalLabel && label && !labelAbove) || (additionalLabel && !label), 'col-md-5': additionalLabel && label, 'col-md-12': !label || (label && labelAbove), 'nopadding':noPaddingOrMargin}">
+        <div [ngClass]="'input-group'">
+
+            <ng-content select="input"></ng-content>
+            <ng-content select="textarea"></ng-content>
+            <ng-content select="[customIcon]"></ng-content>
+
+            <span *ngIf="icon" upeInputGroupAddon>
+                <i *ngIf="iconType === 'string'" aria-hidden="true" style="font-weight: bold">{{icon}}</i>
+                <i *ngIf="iconType === 'fa-icon'" class="fa" [ngClass]="icon" aria-hidden="true"></i>
+            </span>
+        </div>
+        <span [upeHelpBlock]="isInvalid && error">{{error}}</span>
+    </div>
+    <div *ngIf="additionalLabel" class="col-md-3">
+        <ng-content select="label"></ng-content>
+    </div>
+</div>

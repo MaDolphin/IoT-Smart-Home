@@ -1,0 +1,47 @@
+<div [id]="htmlId" *ngIf="modelFormControl">
+  <app-generic-input *ngIf="!inline; else inlineTemplate"
+                [error]="errors?.error"
+                [htmlId]="htmlId"
+                [isInvalid]="invalid && dirty"
+                [isValid]="valid && dirty && value"
+                [ngClass]="{'has-error': invalid && dirty}"
+                customIcon="fa-calendar"
+                [labelAbove]="labelAbove"
+                [label]="label"
+                [noPaddingOrMargin]="noPaddingOrMargin">
+    <input upeFormControl
+           [ngClass]="classes"
+           [ngStyle]="style"
+           [placeholder]="placeholder"
+           [formControl]="modelFormControl"
+           [disabled]="modelFormControl.disabled"
+           [maxlength]="maxLength"
+           [readonly]="readonly"
+           [name]="name"
+           (blur)="autoCompleteSelection()"
+           [matAutocomplete]="auto"
+           type="text">
+  </app-generic-input>
+  <ng-template #inlineTemplate>
+    <mat-form-field>
+      <input matInput
+             [formControl]="modelFormControl"
+             [name]="name"
+             [readonly]="readonly"
+             (blur)="autoCompleteSelection()"
+             (select)="$event.stopPropagation()"
+             [placeholder]="placeholder"
+             [matAutocomplete]="auto">
+      <mat-hint *ngIf="hasError && dirty && touched">
+        {{errors.error}}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let option of filteredOptions | async"
+               [value]="option.value">
+      {{ option.value }}
+    </mat-option>
+  </mat-autocomplete>
+</div>

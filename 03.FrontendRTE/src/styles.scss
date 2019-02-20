@@ -1,0 +1,150 @@
+@import "./scss/theme";
+@import "./scss/mixins";
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import url("./fonts/material-icons.css");
+
+@import "../node_modules/font-awesome/css/font-awesome.min.css";
+
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
+body {
+  overflow: hidden !important;
+}
+
+button {
+  &:active, &:focus {
+    outline: none;
+  }
+}
+
+* {
+  letter-spacing: 0.25px;
+}
+
+.mat-datepicker-toggle-default-icon {
+  width: 16px;
+  height: 16px;
+  color: white;
+}
+
+// region input number fix
+
+/* remove arrows */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]:hover,
+input[type="number"]:focus {
+  -moz-appearance: number-input;
+}
+
+input::-webkit-inner-spin-button {
+  -webkit-appearance: inner-spin-button;
+  display: inline-block;
+  cursor: default;
+  flex: 0 0 auto;
+  align-self: stretch;
+  -webkit-user-select: none;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-user-modify: read-only;
+}
+
+/*disable anchor if input is invalid*/
+a[disabled="true"], a[disabled="true"]:hover {
+  pointer-events: none;
+  color: #E1E1E1;
+}
+
+/*disable image if input is invalid*/
+i[disabled="true"], i[disabled="true"]:hover {
+  pointer-events: none;
+  color: #E1E1E1;
+}
+
+.mat-form-field-underline {
+  height: 2px !important;
+}
+
+// endregionändern
+
+.btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.active.focus {
+  outline: none !important;
+}
+
+// endregion
+
+.table-bordered,
+.table-bordered > tbody > tr > td,
+.table-bordered > tbody > tr > th,
+.table-bordered > thead > tr > th{
+  border:2px solid #ddd;
+
+}
+
+.mat-card hr.horizontal {
+  width:calc(100% + 48px);
+  margin-left:-24px;
+  margin-top:0px;
+  margin-bottom:0px;
+}
+
+// fix multirow column header
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+  vertical-align: bottom !important;
+}
+
+datatable-header-cell > div > span.sort-btn {
+  display:none !important;
+}
+
+.ngx-datatable .datatable-header {
+  display: flex !important;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+
+
+// region router links
+
+.mat-tab-nav-bar {
+  border:0px;
+}
+
+.mat-tab-links {
+  border:2px solid $rwth-blue;
+  border-radius: 30px;
+  font-weight: bold;
+  @include no-select;
+}
+
+.mat-tab-links .mat-tab-link {
+  border-radius: 30px;
+  color:$rwth-blue;
+  font-weight: bold;
+  opacity: 1;
+  height:34px;
+  margin:-1px;
+}
+
+.mat-tab-link.active {
+  background-color:$rwth-blue;
+  color:white;
+}
+
+// hotfix, hiding ink bar instead of disabling
+.mat-ink-bar {
+  display:none;
+}

@@ -1,0 +1,47 @@
+<ng-template [ngIf]="modelFormControl">
+  <app-generic-input *ngIf="!inline; else inlineTemplate"
+                [error]="errors?.error"
+                [htmlId]="htmlId"
+                [additionalLabel]="!!(hasBalance | async)"
+                icon="fa-eur"
+                [isInvalid]="invalid && dirty"
+                [isValid]="valid && dirty && value"
+                [ngClass]="{'has-error': invalid && dirty, 'has-balance': !!(hasBalance | async) }"
+                [labelAbove]="labelAbove"
+                [label]="label">
+    <input upeFormControl
+           [ngClass]="classes"
+           [ngStyle]="style"
+           [placeholder]="placeholder"
+           [textMask]="{mask: mask}"
+           type="text"
+           [name]="name"
+           (focus)="onFocus()"
+           (blur)="updateMoney()"
+           [readonly]="readonly"
+           [formControl]="modelFormControl">
+    <label class="control-label balance"
+           *ngIf="(hasBalance | async)"
+           [ngClass]="{
+         '  imp-text-danger': (balance | async) < 0,
+         'imp-text-success': (balance | async) > 0}">
+      {{ (balance | async) | toCurrency}}</label>
+  </app-generic-input>
+  <ng-template #inlineTemplate>
+    <mat-form-field>
+      <input [placeholder]="placeholder"
+             [textMask]="{mask: mask}"
+             type="text"
+             [readonly]="readonly"
+             matInput
+             (focus)="onFocus()"
+             (blur)="updateMoney()"
+             (select)="$event.stopPropagation()"
+             [name]="name"
+             [formControl]="modelFormControl">
+      <mat-hint *ngIf="invalid && hasError">
+        {{errors.error}}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</ng-template>

@@ -1,0 +1,43 @@
+<div fxLayout="column" style="margin:auto;">
+    <div fxLayout="row" style="justify-content: flex-end;">
+        <!-- *ngIf="!hideYearSelect && dateRange.length > 1" -->
+        <div fxFlex="0 0 auto"
+             style="margin-left:10px;" >
+            <select [(ngModel)]="yearStart" (change)="fetchData()">
+                <ng-container *ngFor="let year of _dateRange">
+                    <option *ngIf="year <= yearEnd">{{year}}</option>
+                </ng-container>
+            </select>
+
+            <select [(ngModel)]="yearEnd" (change)="fetchData()">
+                <ng-container *ngFor="let year of _dateRange">
+                    <option *ngIf="year >= yearStart">{{year}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </div>
+    <div fxFlex="1 1 100%" fxLayout="row" >
+        <div style="position: relative;height:270px;width:100%;">
+            <canvas *ngIf="hasData()"
+                    #baseChart baseChart
+                    [labels]='xAxis'
+                    [datasets]="dataSet"
+                    [chartType]="'bar'"
+                    [colors]="colorSet"
+                    [options]="options">
+            </canvas>
+
+            <div *ngIf="!hasData()">
+                Keine Daten vorhanden
+            </div>
+        </div>
+    </div>
+    <div *ngIf="_customLegend" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+        <div *ngFor="let legend of _customLegend">
+            <div class="legendBox" [style.background-color]="legend.color"></div>
+            {{legend.label}}
+        </div>
+    </div>
+</div>
+
+

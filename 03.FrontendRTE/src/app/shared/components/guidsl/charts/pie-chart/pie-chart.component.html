@@ -1,0 +1,97 @@
+<div *ngIf="!!entries && !!entries.length" style="width: 100%">
+    <!--general template with legend to the right-->
+    <div *ngIf="legendPosition === 'right'" class="pie-chart-display-toggle" fxLayout="row">
+        <div style="text-align:center" fxFlex="0 0 300px">
+
+            <canvas baseChart
+                    style="max-height: 170px"
+                    height="160px"
+                    [data]="entries | pieChartValues:actualTotal"
+                    [chartType]="'doughnut'"
+                    [labels]="titles"
+                    [legend]="false"
+                    [colors]="[{backgroundColor:colors}]"
+                    [options]="options">
+            </canvas>
+
+            <div *ngIf="warning" class="pie-chart-warning">{{warning}}</div>
+        </div>
+        <div fxFlex="0 0 auto" style="margin-left: -40px">
+            <div fxLayout="column" fxFlex="shrink">
+                <ng-container *ngIf="!!legendTitle">
+                    <div fxFlex colspan="2"><b>{{legendTitle}}</b><br>
+                    </div>
+                    <div fxFlex>
+                        <span class="pie-chart-value" id="total">{{displayValue(total)}}</span>
+                    </div>
+                </ng-container>
+                <ng-container *ngFor="let entry of _data; let i = index;">
+                    <div class="pie-chart-header" fxLayout="row"
+                         [ngClass]="{ 'text-danger': overflowing[i] }">
+                        <div class="pie-chart-color-box" [ngStyle]="{ 'background': entry.color }"></div>
+                        <div fxFlex class="pie-chart-label">{{entry.title}}</div>
+                    </div>
+                    <div fxFlex
+                         [ngClass]="{ 'text-danger': overflowing[i] }">
+                        <span class="pie-chart-value" id="{{'pieChartValue'+i}}">{{entry.value}}</span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <!--budget widget template-->
+    <div *ngIf="legendPosition === 'bottom'" fxLayout="column">
+        <div fxFlex="grow" style="text-align:center">
+            <div style="max-width: 150px; margin: 0 auto">
+                <canvas baseChart
+                        [data]="entries | pieChartValues:actualTotal"
+                        [chartType]="'doughnut'"
+                        [labels]="titles"
+                        [legend]="false"
+                        [colors]="[{backgroundColor:colors}]"
+                        [options]="options">
+                </canvas>
+            </div>
+            <div *ngIf="warning" class="pie-chart-warning">{{warning}}</div>
+        </div>
+        <div fxLayout="row">
+            <div fxFlex="grow" class="pie-chart-entry" *ngFor="let entry of _data; let i=index">
+                <div [ngClass]="{ 'text-danger': overflowing[i] }">
+                    <div class="pie-chart-header-small">
+                        <div>{{entry.title}}</div>
+                        <div class="pie-chart-color-box-rect" [ngStyle]="{ 'background': entry.color }"></div>
+                    </div>
+                    <p>{{entry.value}} </p>
+                    <p>{{percentage[i]}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="legendPosition === 'right-long'" fxLayout="row wrap">
+        <div fxFlex="0 0 150px" style="text-align:center;margin-right:12px;">
+            <div style="max-width: 150px; margin: 0 auto">
+                <canvas baseChart
+                        [data]="entries | pieChartValues:actualTotal"
+                        [chartType]="'doughnut'"
+                        [labels]="titles"
+                        [legend]="false"
+                        [colors]="[{backgroundColor:colors}]"
+                        [options]="options">
+                </canvas>
+            </div>
+            <div *ngIf="warning" class="pie-chart-warning">{{warning}}</div>
+        </div>
+        <div fxFlex="1 0 200px" fxLayout="row wrap">
+            <div fxFlex="1 0 200px" class="pie-chart-entry" *ngFor="let entry of _data; let i=index">
+                <div [ngClass]="{ 'text-danger': overflowing[i] }">
+                    <div class="pie-chart-header-small">
+                        <div>{{entry.title}}</div>
+                        <div class="pie-chart-color-box-rect" [ngStyle]="{ 'background': entry.color }"></div>
+                    </div>
+                    <p>{{entry.value}} </p>
+                    <p>{{percentage[i]}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

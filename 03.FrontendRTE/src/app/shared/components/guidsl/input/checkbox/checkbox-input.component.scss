@@ -1,0 +1,13 @@
+@import "../../../../../../scss/variables";
+
+:host ::ng-deep .radio-wrapper {
+  margin-right:10px;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: rgb(27, 142, 241) !important;
+}
+
+::ng-deep .mat-ripple-element {
+  background: rgba(27, 142, 241, .4) !important;
+}

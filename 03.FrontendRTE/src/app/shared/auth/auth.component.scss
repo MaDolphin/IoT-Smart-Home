@@ -1,0 +1,53 @@
+@import "../../../scss/variables";
+
+main {
+  background: url("../../../assets/img/BGlogin.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  .container {
+    width: 500px;
+    min-height: 100vh;
+    padding-top: 50px;
+
+    .header {
+
+      padding: 0 25px;
+
+      .title {
+        color: #00549B;
+        font-size: 60px;
+        font-weight: bold;
+        line-height: 72px;
+        text-align: center;
+        margin-bottom: 0;
+      }
+
+      .sub-title {
+        color: #00549B;
+        font-size: 20px;
+        font-weight: 300;
+        line-height: 24px;
+        text-align: center;
+        margin-top: 0;
+      }
+
+    }
+
+    .pre-form-box {
+      border-radius: $top-round;
+      background-color: $gray-light;
+      height: 25px;
+    }
+
+    .form-box {
+      border-radius: $bottom-round;
+      background-color: $rwth-blue;
+      padding: 50px 100px;
+    }
+
+  }
+
+}

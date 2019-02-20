@@ -1,0 +1,35 @@
+<ng-template [ngIf]="modelFormControl">
+  <app-generic-input *ngIf="!inline; else inlineTemplate"
+                [error]="errors?.error"
+                [htmlId]="htmlId"
+                [isInvalid]="invalid && dirty"
+                icon="fa-percent"
+                [isValid]="valid && dirty && value"
+                [ngClass]="{'has-error': invalid && dirty}"
+                [labelAbove]="labelAbove"
+                [label]="label">
+    <input upeFormControl
+           [ngClass]="classes"
+           [ngStyle]="style"
+           [placeholder]="placeholder"
+           [name]="name"
+           (blur)="autoCompletePercentage()"
+           [formControl]="modelFormControl"
+           type="text">
+  </app-generic-input>
+  <ng-template #inlineTemplate>
+    <mat-form-field>
+      <input [placeholder]="placeholder"
+             [name]="name"
+             [readonly]="readonly"
+             matInput
+             (blur)="autoCompletePercentageInline()"
+             (select)="$event.stopPropagation()"
+             [formControl]="modelFormControl"
+             type="text">
+      <mat-hint *ngIf="invalid && dirty && hasError">
+        {{errors.error}}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</ng-template>

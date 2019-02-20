@@ -1,0 +1,43 @@
+<div fxLayout="column"  class="header">
+  <!-- Primary Header row -->
+  <div fxLayout="row">
+    <!-- Title -->
+    <div fxFlex="grow" fxLayout="row" class="title-container">
+      <span fxLayoutAlign="start end" class="title">{{title | titleTranslation}}</span>
+      <span fxLayoutAlign="start end" class="pspElement" e2eId="pspElement" id="pspElement" *ngIf="isKontoDetailsView">{{pspElement}}</span>
+      <span fxLayoutAlign="start end" class="pspElement" e2eId="pspElement" id="personalNummer" *ngIf="isPersonDetailsView">{{pspElement}}</span>
+    </div>
+
+    <!-- User -->
+    <div fxFlex="auto" *ngIf="user" class="user" fxLayoutAlign="end center">
+      <div class="instanceName"><i class="fa fa-user-circle-o"></i></div>
+      &nbsp;
+      <span> {{user.userId}} </span>
+    </div>
+    &nbsp;&nbsp;
+    <!-- Instance name -->
+    <div fxFlex="auto" *ngIf="instanceName" class="instanceName" fxLayoutAlign="start center">
+        <i class="fa fa-database"></i>
+        &nbsp;
+        <span><a id="abmelden" href="javascript:void(0);" (click)="logout()">{{instanceName}}</a></span>
+    </div>
+  </div>
+
+  <!-- Secondary Header row -->
+  <div fxFlex="auto" fxLayout="row">
+
+    <app-breadcrumb fxFlex="grow" fxLayoutAlign="start center" #breadcrumb></app-breadcrumb>
+
+
+
+    <!-- Token -->
+    <div fxFlex="auto" *ngIf="exp" class="token" fxLayoutAlign="start center">
+        <span>(Token: {{exp}})</span>
+    </div>
+
+    <!-- Date -->
+    <div fxFlex="auto" class="user" fxLayoutAlign="start center">
+      <span id="date">{{curDate | toDateString}}</span>
+    </div>
+  </div>
+</div>

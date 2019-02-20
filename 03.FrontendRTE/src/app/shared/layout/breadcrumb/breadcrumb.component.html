@@ -1,0 +1,6 @@
+<!-- Breadcrumb -->
+<div fxFlex="grow"  class="breadcrumb-container" fxLayoutAlign="start center">
+        <span *ngFor="let item of breadcrumb" [routerLink]="item.route">
+          {{ item.title | titleTranslation }} <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </span>
+</div>

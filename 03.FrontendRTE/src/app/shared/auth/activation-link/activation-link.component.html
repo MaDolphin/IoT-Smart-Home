@@ -1,0 +1,50 @@
+<form #form="ngForm" fxFlex="grow" fxLayout="column" fxLayoutGap="15px"
+      fxLayoutAlign="center stretch" (ngSubmit)="onSubmit(form, $event)">
+
+  <label fxFlex>Passwort neu setzen</label>
+  <p fxFlex class="hint">
+    Bitte tragen Sie Ihr neues Passwort ein und bestätigen dieses.<br>Anschließend werden Sie auf
+    die Login Seite weitergeleitet.<br>Das Passwort muss zwischen 5 und 50 Zeichen lang sein.
+  </p>
+
+  <div fxFlex upeFormGroup hasFeedback [hasError]="pw.invalid && pw.touched">
+    <div upeInputGroup>
+      <span upeInputGroupAddon><mat-icon>lock</mat-icon></span>
+      <input type="password"
+             [(ngModel)]="pw1"
+             upeFormControl
+             name="password"
+             #pw="ngModel"
+             placeholder="••••••••"
+             minlength="5"
+             maxlength="50"
+             required>
+    </div>
+    <ng2-password-strength-bar
+        [passwordToCheck]="pw1"
+        [barLabel]="barLabel">
+    </ng2-password-strength-bar>
+    <span [upeHelpBlock]="pw.invalid && pw.touched">Geben Sie Ihr neues Passwort ein</span>
+  </div>
+  <div fxFlex upeFormGroup hasFeedback
+       [hasError]="(pwRepeat.invalid || pw1 !== pw2) && pwRepeat.touched">
+    <div upeInputGroup>
+      <span upeInputGroupAddon><mat-icon>lock</mat-icon></span>
+      <input type="password"
+             [(ngModel)]="pw2"
+             upeFormControl
+             name="password"
+             #pwRepeat="ngModel"
+             placeholder="••••••••"
+             required>
+    </div>
+    <span [upeHelpBlock]="(pwRepeat.invalid || pw1 !== pw2) && pwRepeat.touched">Bitte bestätigen Sie Ihr neues Passwort</span>
+  </div>
+  <div fxFlex upeFormGroup>
+    <button name="login-button" type="submit" upeBtn block
+            [disabled]="!isPwCompatible || pw.invalid ">Passwort neu setzen
+    </button>
+  </div>
+</form>
+
+

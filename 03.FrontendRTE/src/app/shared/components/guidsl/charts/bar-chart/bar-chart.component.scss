@@ -1,0 +1,63 @@
+$color-box-width: 12px;
+$label-padding: 6px;
+
+
+.pie-chart-display-toggle {
+  flex: 1 1 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.pie-chart-header {
+  align-items: center;
+}
+
+.pie-chart-header-small {
+  white-space: normal;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.pie-chart-entry {
+  white-space: nowrap;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.pie-chart-color-box {
+  width: $color-box-width;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.pie-chart-color-box-rect {
+  width: 35%;
+  height: 3px;
+  border-radius: 5px;
+}
+
+.pie-chart-label {
+  padding: $label-padding;
+  font-weight: bold;
+}
+
+.pie-chart-value {
+  padding-left: $color-box-width + $label-padding;
+}
+
+.pie-chart-warning {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #a94442;
+  font-weight: bold;
+}
+
+.legendBox {
+  display: inline-block;
+  width:40px;
+  height: 12px;
+}

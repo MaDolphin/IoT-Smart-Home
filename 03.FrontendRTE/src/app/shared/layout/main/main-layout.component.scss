@@ -1,0 +1,36 @@
+@import "../../../../scss/variables";
+
+.main-layout {
+  height:100vh;
+}
+
+header {
+  /* position:fixed */
+  flex:0 0 120px;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.app-navbar{
+  width: $navbar-width;
+}
+
+main {
+
+  padding: 0 0 0 0;
+}
+
+.menu-active-margin {
+
+}
+
+.content {
+  padding: $main-padding;
+}
+
+.activity-bar {
+  padding: $activity-bar-padding;
+}
+

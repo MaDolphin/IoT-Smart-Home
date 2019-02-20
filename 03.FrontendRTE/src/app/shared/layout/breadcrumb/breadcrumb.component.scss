@@ -1,0 +1,23 @@
+@import "../../../../scss/variables";
+
+.breadcrumb-container {
+  color: $rwth-blue;
+  font-size:$font-size-h5;
+  font-weight:bold;
+  white-space:nowrap;
+
+  span, i {
+
+    margin:0px;
+    padding:0px 2px 2px 5px;
+
+  }
+
+  span:last-child {
+    i {
+      display: none;
+    }
+  }
+}
+
+

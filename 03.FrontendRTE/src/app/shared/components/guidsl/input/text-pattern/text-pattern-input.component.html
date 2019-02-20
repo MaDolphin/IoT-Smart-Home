@@ -1,0 +1,36 @@
+<ng-template [ngIf]="modelFormControl">
+  <app-input *ngIf="!inline; else inlineTemplate"
+                [error]="errors?.error"
+                [htmlId]="htmlId"
+                [isInvalid]="invalid && dirty"
+                [isValid]="valid && dirty && value"
+                [icon]="icon"
+                [labelAbove]="labelAbove"
+                [label]="label">
+    <input upeFormControl
+           [placeholder]="placeholder"
+           [maxlength]="maxlength"
+           [name]="name"
+           [readonly]="readonly"
+           [pattern]="pattern"
+
+           [formControl]="modelFormControl"
+           type="text">
+  </app-input>
+  <ng-template #inlineTemplate>
+    <mat-form-field>
+      <input [placeholder]="placeholder"
+             [maxlength]="maxlength"
+             [name]="name"
+             [pattern]="pattern"
+             (select)="$event.stopPropagation()"
+             [readonly]="readonly"
+             matInput
+             [formControl]="modelFormControl"
+             type="text">
+      <mat-hint *ngIf="invalid && hasError">
+        {{errors.error}}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</ng-template>

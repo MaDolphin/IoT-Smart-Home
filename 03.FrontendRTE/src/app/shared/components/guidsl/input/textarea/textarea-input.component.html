@@ -1,0 +1,33 @@
+<ng-template [ngIf]="modelFormControl">
+  <app-generic-input *ngIf="!inline; else inlineTemplate"
+                [error]="errors?.error"
+                [htmlId]="htmlId"
+                [isInvalid]="invalid && dirty"
+                [icon]="icon"
+                [isValid]="valid && dirty && value"
+                [label]="label">
+    <textarea upeFormControl
+              cdkTextareaAutosize
+              [cdkAutosizeMinRows]="3"
+              [ngClass]="classes"
+              [ngStyle]="style"
+              [placeholder]="placeholder"
+              [name]="name"
+              [readonly]="readonly"
+              [formControl]="modelFormControl">
+    </textarea>
+  </app-generic-input>
+  <ng-template #inlineTemplate>
+    <mat-form-field>
+      <textarea [placeholder]="placeholder"
+                [name]="name"
+                [readonly]="readonly"
+                (select)="$event.stopPropagation()"
+                matInput
+                [formControl]="modelFormControl"></textarea>
+      <mat-hint *ngIf="invalid && hasError">
+        {{errors.error}}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</ng-template>

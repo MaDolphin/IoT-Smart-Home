@@ -1,0 +1,48 @@
+<ng-template [ngIf]="modelFormControl">
+  <app-generic-input *ngIf="!inline; else inlineTemplate"
+                [error]="errors?.error"
+                [htmlId]="htmlId"
+                [isInvalid]="invalid && dirty"
+                [isValid]="valid && dirty && value"
+                [ngClass]="{'has-error': invalid && dirty}"
+                customIcon="fa-calendar"
+                [labelAbove]="labelAbove"
+                [label]="label">
+    <input upeFormControl
+           #dateInput
+           [ngClass]="classes"
+           [ngStyle]="style"
+           [placeholder]="placeholder"
+           [matDatepicker]="picker"
+           [formControl]="modelFormControl"
+           [readonly]="readonly"
+           [name]="name"
+           (input)="validate($event)"
+           (blur)="validate($event)"
+           (dateChange)="dateChange($event)"
+           type="text">
+    <div customIcon class="input-group-addon" style="padding: 0">
+      <mat-datepicker-toggle matSuffix tabindex="-1" [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker  #picker></mat-datepicker>
+    </div>
+  </app-generic-input>
+  <ng-template #inlineTemplate>
+    <mat-form-field style="width:100%; margin-top: -5px">
+      <input #dateInlineInput
+             [placeholder]="placeholder"
+             [formControl]="modelFormControl"
+             (input)="validate($event)"
+             (blur)="validate($event)"
+             (select)="$event.stopPropagation()"
+             matInput
+             [matDatepicker]="pickerInline"
+             [name]="name"
+             type="text">
+      <mat-datepicker-toggle matSuffix tabindex="-1" [for]="pickerInline"></mat-datepicker-toggle>
+      <mat-datepicker #pickerInline></mat-datepicker>
+      <mat-hint *ngIf="(modelFormControl.invalid && modelFormControl.hasError) || (invalid && hasError)">
+        {{modelFormControl.errors.msg || errors.error}}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</ng-template>

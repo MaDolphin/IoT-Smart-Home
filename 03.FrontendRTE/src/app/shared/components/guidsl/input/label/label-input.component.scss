@@ -1,0 +1,56 @@
+@import "../../../../../../scss/variables";
+
+:host ::ng-deep .chipListWrapper {
+    background-color:white;
+    border-radius: 3px !important;
+    border: none !important;
+
+    padding-left:12px;
+    padding-bottom:6px;
+    padding-right:38.5px;
+}
+
+
+.mat-chip-input:first-child {
+    margin-left:-12px;
+}
+
+::ng-deep .mat-input-underline {
+    display: none;
+}
+
+:host ::ng-deep mat-chip {
+    margin:8px 8px 0 0 !important;
+}
+
+.mat-chip {
+    background-color:$rwth-blue-4;
+}
+
+:host ::ng-deep i {
+    margin-left:3px;
+    color: $rwth-black-2;
+    line-height:inherit;
+}
+
+input {
+    margin:8px 8px 0 0;
+    border:0;
+    padding:6px 12px;
+
+}
+
+input[disabled] {
+
+}
+
+.disabled {
+    opacity: 0.6;
+}
+
+input:focus {
+    background-color:$rwth-blue-4;
+    transition: all 0.4s ease;
+    border:0px;
+    outline:none;
+}

@@ -1,0 +1,91 @@
+<!--
+  This is reworked version (almost complete duplicate) of 
+  src/app/finances/account-overview/details/budget-widget
+-->
+
+<!-- containerClasses are calculated TS class -->
+<mc-container
+  style="
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;"
+  [ngClass]="containerClasses"
+  (click)="expanded = !expanded">
+
+  <mc-container
+    style="
+      flex: 1 1 100%;
+      display: flex;">
+
+    <mc-container
+      style="
+        flex: 0 0 300px;
+        display: flex;">
+
+      <ng-template [ngIf]="isSubBudget">
+        <mc-container
+          style="
+            flex: initial;
+            display: flex;
+            align-items: center">
+          <i class="material-icons">subdirectory_arrow_right</i>
+        </mc-container>
+      </ng-template>
+
+      <mc-container
+        style="
+          flex: initial;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          font-size: 14px">
+
+        <strong>{{title}}</strong>
+        <i>{{displayValue(totalValue)}}</i>
+
+      </mc-container>
+
+    </mc-container>
+
+    <app-pie-chart
+      style="
+        flex: 2 0 700px;
+        display: flex;"
+      [pieChartData]="pieChartData"
+      [legendPosition]="'right-long'">
+    </app-pie-chart>
+
+    <mc-container 
+      style="
+        flex: 0 0 25px;
+        display: flex;
+        place-content: center flex-end;
+        align-items: center">
+
+      <ng-template [ngIf]="budget.subbudgets && budget.subbudgets.length">
+        <i *ngIf="!expanded" class="material-icons">keyboard_arrow_down</i>
+        <i *ngIf="expanded" class="material-icons">keyboard_arrow_up</i>
+      </ng-template>
+
+    </mc-container>
+
+  </mc-container>
+
+  <!--
+    We cannot use ngIf and ngFor in one tag, which is why having it in
+    ng-template helps (ng-template does not render, only contents)
+  -->
+  <ng-template [ngIf]="expanded">
+    <ng-template ngFor let-subBudget [ngForOf]="budget.subbudgets">
+      <app-budget-widget
+        style="
+          flex: 1 1 100%;
+          display: flex;
+          margin: 15px 0;"
+        [isSubBudget]="true"
+        [budget]="subBudget">
+      </app-budget-widget>
+    </ng-template>
+  </ng-template>
+
+</mc-container>

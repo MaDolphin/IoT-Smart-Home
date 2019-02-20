@@ -1,0 +1,64 @@
+
+
+<h2 matDialogTitle class="notification-title">{{data.title}}</h2>
+<mat-dialog-content class="notification-content">
+    <table style="width:100%; text-align: left;" >
+        <colgroup id="spaltengruppe">
+            <col style="width: 10%;">
+            <col style="width: 90%;">
+        </colgroup>
+        <tr>
+            <td rowspan="1">
+                <i *ngIf="data.errorCode" class="material-icons" style="font-size: 60px; color: #9A0325">error_outline</i>
+                <i *ngIf="data.denyName && data.confirmName && !data.errorCode" class="material-icons" style="font-size: 60px; color: #00549F">help_outline</i>
+                <i *ngIf="!data.denyName && data.confirmName && !data.errorCode" class="material-icons" style="font-size: 60px; color: #00549F">info_outline</i>
+            </td>
+            <td>
+                <div *ngIf="data.errorCode"><h2> Fehler: <span class="notification-errorCode-text">{{data.errorCode}}</span></h2></div>
+                <div *ngIf="data.denyName && data.confirmName && !data.errorCode"><h2> Hinweis:</h2></div>
+                <div *ngIf="!data.denyName && data.confirmName && !data.errorCode"><h2> Achtung:</h2></div>
+            </td>
+
+        </tr>
+        <tr>
+            <td></td>
+            <td><div *ngFor="let msg of data.msgs">
+                <h5>{{msg}}</h5>
+            </div>
+                <h4>{{data.msg}}</h4>
+        </tr>
+    </table>
+
+
+    <!--
+    <span class="notification-padding-bottom"></span>
+    <div fxFlex="grow" fxLayout="row" fxLayoutGap="5px">
+        <i *ngIf="!data.errorCode" class="material-icons md-48">help_outline</i>
+
+        <div fxFlex="auto" fxLayout="row" fxLayoutGap="5px" >
+            <div *ngFor="let msg of data.msgs">
+                {{msg}}
+            </div>
+             {{data.msg}}
+        </div>
+    </div>
+
+    -->
+</mat-dialog-content>
+
+
+<!-- Actions -->
+<mat-dialog-actions class="notification-action">
+    <span class="notification-fill-space"></span>
+    <button id="btnConfirm" mat-button [matDialogClose]="'confirm'" class="notification-button">{{data.confirmName}}
+    </button>
+    <span *ngIf="data.optionName">
+        <span class="notification-margin-right"></span>
+        <button id="btnOption" mat-button [matDialogClose]="'option'"
+                class="notification-button">{{data.optionName}}</button>
+    </span>
+    <span *ngIf="data.denyName">
+        <span class="notification-margin-right"></span>
+        <button id="btnDeny" mat-button [matDialogClose]="'deny'" class="notification-button">{{data.denyName}}</button>
+    </span>
+</mat-dialog-actions>

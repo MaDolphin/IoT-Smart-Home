@@ -1,0 +1,396 @@
+@import "../../../../../scss/variables";
+
+.table-header {
+    min-height: 64px;
+    display: flex;
+    align-items: baseline;
+    padding: 0 0 0 5px;
+    font-size: $font-size-h5;
+    justify-content: space-between;
+}
+
+.filter {
+
+}
+
+.filter:hover > .fa-search {
+    color: $rwth-blue;
+}
+
+.filter:active > .fa-search {
+    color: $rwth-blue;
+}
+
+.export button {
+    float: left;
+}
+
+.bordered {
+  border: 2px solid $gray-lighter;
+}
+
+.mat-form-field {
+    flex-grow: 1;
+}
+
+.mat-form-field-wrapper {
+    padding: 0 0 0 0;
+}
+
+.odd {
+    background-color: #f0f0f0;
+}
+
+.deactive {
+    background-color: #ececec;
+}
+
+.deactive .mat-cell {
+    color: grey;
+}
+
+.mat-row:hover {
+    background-color: lightgray;
+}
+
+.hidden-cell {
+    display: none;
+}
+
+.non-visible {
+    visibility: hidden;
+}
+
+.button-wrapper {
+    button {
+        margin-right:10px;
+    }
+}
+
+:host ::ng-deep .action-controls .datatable-body-cell-label {
+    white-space: nowrap;
+}
+
+.columns:focus {
+    background-color: #00549F;
+}
+
+.export button {
+    margin: 0 10px;
+    -o-transition:color .2s ease-out, background .1s ease-in;
+    -ms-transition:color .2s ease-out, background .1s ease-in;
+    -moz-transition:color .2s ease-out, background .1s ease-in;
+    -webkit-transition:color .2s ease-out, background .1s ease-in;
+    /* ...and now override with proper CSS property */
+    transition:color .2s ease-out, background .1s ease-in;
+    letter-spacing: 0.03em;
+}
+
+.export button:hover {
+    background-color: $rwth-blue;
+    color: white;
+}
+
+:host ::ng-deep .datatable-row-odd {
+    background-color: rgba(0, 84, 159, 0.04);
+}
+
+.mat-icon-button {
+    height: 28px;
+    width: 28px;
+    -o-transition:color .2s ease-out, background .1s ease-in;
+    -ms-transition:color .2s ease-out, background .1s ease-in;
+    -moz-transition:color .2s ease-out, background .1s ease-in;
+    -webkit-transition:color .2s ease-out, background .1s ease-in;
+    /* ...and now override with proper CSS property */
+    transition:color .2s ease-out, background .1s ease-in;
+    letter-spacing: 0.03em;
+    color: $rwth-black-1;
+}
+
+.mat-icon-button:hover {
+    color: $rwth-blue;
+}
+
+:host ::ng-deep .datatable-row-center.datatable-row-group {
+    display: flex !important;
+    align-items: center !important;
+    line-height: 35px;
+}
+
+:host ::ng-deep .datatable-header-inner .datatable-row-center {
+    white-space: nowrap;
+}
+
+:host ::ng-deep .datatable-body-cell-label button.mat-icon-button {
+    line-height: 22px;
+}
+
+:host ::ng-deep .datatable-pager li a {
+    border: none !important;
+    color: $rwth-black-4 !important;
+    border-radius: 40px !important;
+    background: $rwth-black-1 !important;
+}
+
+:host ::ng-deep .datatable-pager li.active a {
+    border: none !important;
+    color: $rwth-black-4 !important;
+    border-radius: 40px !important;
+    background: $rwth-blue !important;
+}
+
+:host ::ng-deep .ngx-datatable .datatable-footer {
+    display: block;
+    width: 100%;
+    background: grey;
+    border-radius: 0 0 10px 10px !important;
+    border-top: 0!important;
+    color: white;
+}
+
+:host ::ng-deep .ngx-datatable {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 0 10px 10px !important;
+}
+
+:host ::ng-deep .page-count {
+    font-size: $font-size-text;
+}
+
+:host ::ng-deep .datatable-pager li.active a {
+    font-weight: 400 !important;
+}
+
+:host ::ng-deep li:hover > a {
+    background: rgba(0,0,0,0.55) !important;
+  -o-transition:color .2s ease-out, background .1s ease-in;
+  -ms-transition:color .2s ease-out, background .1s ease-in;
+  -moz-transition:color .2s ease-out, background .1s ease-in;
+  -webkit-transition:color .2s ease-out, background .1s ease-in;
+}
+
+:host ::ng-deep .datatable-header-cell-label {
+  font-weight: bold;
+  font-size:$font-size-h5;
+}
+
+:host ::ng-deep .datatable-body-cell {
+  overflow: hidden;
+  font-size: $font-size-text !important;
+  height: $cell-height-base;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+:host ::ng-deep .datatable-header-cell-label {
+  /*
+  word-break: break-word;
+  */
+  white-space: normal !important;
+}
+
+:host ::ng-deep .datatable-header-cell {
+  vertical-align: bottom !important;
+}
+
+:host ::ng-deep .app-datatable-header-container {
+    display:inline-flex;
+    font-size: $font-size-text;
+    font-weight: bold;
+}
+
+:host ::ng-deep .app-datatable-header-sort-btn {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+:host ::ng-deep .mat-icon {
+    font-size:$font-size-xlarge;
+}
+
+.hideColumns {
+    padding-left:14px;
+    padding-right:14px;
+    list-style-type: none;
+
+    li {}
+}
+
+.cellBacklayer {
+    position: absolute;
+    height:100%;
+    top:0;
+    z-index: 0;
+}
+
+.cellOverlay {
+    position: absolute;
+    height:100%;
+    top:0;
+    z-index: 10;
+}
+
+.cellValue {
+    z-index: 5;
+    position: relative;
+}
+
+:host ::ng-deep datatable-scroller{
+    width:100% !important;
+}
+
+:host ::ng-deep .bold {
+    font-weight:bold;
+}
+
+:host ::ng-deep .ngx-datatable.material .datatable-footer .page-count {
+    line-height: unset;
+    height: 35px;
+    padding-left: 10px;
+    padding-right: 5px;
+}
+
+:host ::ng-deep .ngx-datatable.material .datatable-footer .datatable-pager {
+    margin-right: 5px;
+    margin-left: 0;
+}
+
+.page-count-input {
+    color:black;
+    width:200px;
+
+    input {
+        text-align:center;
+        border-radius:3px;
+        padding-left:5px;
+        padding-right:5px;
+        width:40px;
+        background-color:$rwth-black-4;
+        border:0px;
+    }
+
+    input:focus {
+        background-color:white;
+        border:0px;
+        transition: all 0.4s ease;
+    }
+
+    span {
+        color:white;
+        font-size: 12px;
+        padding-left:5px;
+    }
+}
+
+.page-footer-selection-sum {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
+}
+
+:host ::ng-deep .strong-row {
+  font-weight: bold;
+
+  button {
+    visibility: hidden;
+  }
+}
+
+:host ::ng-deep .bad-row {
+    background: #e6967944
+}
+
+:host ::ng-deep .istInaktiv {
+    background-color: #E5E5E5 !important;
+    * {
+        color: #A1A1A1 !important;
+    }
+
+    .action-controls {
+        button {
+            visibility: hidden;
+        }
+    }
+}
+
+:host ::ng-deep .showView {
+    color:red;
+    .action-controls {
+        button.view {
+            visibility: visible;
+
+
+        }
+    }
+}
+
+.groupHeader {
+    padding-left: 5px;
+    display: flex;
+    align-items: center;
+    font-size: $font-size-text;
+    min-height:$cell-height-small;
+}
+
+.groupHeaderContent {
+    padding-left: 9px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+:host ::ng-deep .ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+    font-weight: inherit !important;
+}
+
+:host ::ng-deep .ngx-datatable.material.single-selection .datatable-body-row.active,
+:host ::ng-deep .ngx-datatable.material.single-selection .datatable-body-row.active .datatable-row-group,
+:host ::ng-deep .ngx-datatable.material.multi-selection .datatable-body-row.active,
+:host ::ng-deep .ngx-datatable.material.multi-selection .datatable-body-row.active .datatable-row-group,
+:host ::ng-deep .ngx-datatable.material.multi-click-selection .datatable-body-row.active,
+:host ::ng-deep .ngx-datatable.material.multi-click-selection .datatable-body-row.active .datatable-row-group {
+    background-color: $rwth-blue-3;
+}
+
+:host ::ng-deep .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row {
+    -webkit-backface-visibility: hidden;
+}
+
+.datatable-checkbox {
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+    vertical-align: middle;
+    display: inline-block;
+    padding: 0;
+}
+
+.control-button {
+    margin-bottom: 10px;
+}
+
+
+:host ::ng-deep .empty-budget {
+    //background-color: #094c9073;
+    font-style: italic;
+}
+
+:host ::ng-deep .empty-budget  .action-controls {
+    button:nth-child(-n+3) {
+ //       display:none;
+    }
+}
+
+:host ::ng-deep .coloredBar {
+    width:100%;
+    height: auto;
+
+}
+
+:host ::ng-deep .action-controls .cellOverlay {
+    z-index:0;
+}

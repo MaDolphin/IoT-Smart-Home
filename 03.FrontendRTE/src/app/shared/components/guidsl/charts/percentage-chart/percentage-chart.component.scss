@@ -1,0 +1,34 @@
+@import "../../../../../../scss/variables";
+
+
+.bar-wrapper {
+  padding:10px;
+  line-height:20px;
+  span {
+    width: 100px;
+  }
+}
+
+.title {
+  font-weight: bold;
+}
+
+.value {
+
+}
+
+.bar-outer {
+  margin-left:10px;
+  margin-right:10px;
+  border-radius: 20px;
+  height:20px;
+  width:100%;
+  background-color: $rwth-blue
+}
+
+.bar-inner {
+  width:0px;
+  border-radius: 20px 0px 0px 20px;
+  height:20px;
+  transition: width 1s;
+}

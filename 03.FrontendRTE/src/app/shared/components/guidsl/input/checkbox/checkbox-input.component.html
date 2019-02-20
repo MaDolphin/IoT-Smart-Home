@@ -1,0 +1,22 @@
+<div upeFormGroup *ngIf="!useMatStyle">
+  <label class="col-md-4 control-label" *ngIf="label">{{label}}</label>
+  <div [ngClass]="{ 'col-md-8': !!label, 'col-md-12': !label }">
+    <label class="checkbox">
+      <input type="checkbox"
+             [name]="name"
+             [readonly]="readonly"
+             (change)="onClick($event)"
+             [formControl]="modelFormControl"
+             (select)="$event.stopPropagation()">
+      {{placeholder}}
+    </label>
+  </div>
+</div>
+
+<mat-checkbox *ngIf="useMatStyle"
+  class="checkbox-wrapper"
+  [name]="name"
+  [formControl]="modelFormControl"
+  >
+    {{placeholder}}
+</mat-checkbox>

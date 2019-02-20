@@ -1,0 +1,36 @@
+<ng-template [ngIf]="modelFormControl">
+  <ng-template [ngIf]="!inline" [ngIfElse]="inlineTemplate">
+    <div upeFormGroup [hasError]="invalid && dirty" [hasSuccess]="valid && dirty && value">
+      <label [ngClass]="{'col-md-4': !labelAbove, 'col-md-12':labelAbove}" class="control-label" *ngIf="label">{{label}}</label>
+      <ng-container *ngIf="labelAbove">
+        <br>
+      </ng-container>
+      <div [ngClass]="{ 'col-md-8': label && !labelAbove, 'col-md-12': !label || (label && labelAbove) }">
+
+        <mat-select [formControl]="modelFormControl" floatPlaceholder="never"
+                    [placeholder]="placeholder" class="no-underline form-control">
+          <mat-option *ngFor="let item of options"
+                      [value]="item.value"
+                      [attr.selected]="modelFormControl.value === item.value ? 'selected' : null"
+                      [disabled]="isDisabledOption(item.value)">{{item.option}}
+          </mat-option>
+        </mat-select>
+        <span [upeHelpBlock]="invalid && dirty && errors?.error">{{errors?.error}}</span>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #inlineTemplate>
+    <mat-form-field>
+      <mat-select [formControl]="modelFormControl" [placeholder]="placeholder">
+        <mat-option *ngFor="let item of options"
+                  [value]="item.value"
+                  [attr.selected]="modelFormControl.value === item.value ? 'selected' : null" >
+          {{item.option}}
+        </mat-option>
+      </mat-select>
+      <mat-hint *ngIf="invalid && dirty && hasError">
+        {{errors.error}}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</ng-template>
