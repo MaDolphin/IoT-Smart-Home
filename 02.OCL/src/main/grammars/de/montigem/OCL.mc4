@@ -1,0 +1,22 @@
+package de.montigem;
+
+grammar OCL extends ocl.monticoreocl.OCL {
+
+    start CompilationUnit;
+
+    ErrorExpression implements Expression =
+            "error" ":" Message;
+
+    ShortErrorExpression implements Expression =
+            "shortError" ":" Message;
+
+    WarningExpression implements Expression =
+            "warning" ":" Message;
+
+    Message =
+            StringLiteral MessageFragment* ;
+
+    MessageFragment =
+            "+" Expression "+" StringLiteral ;
+
+}
