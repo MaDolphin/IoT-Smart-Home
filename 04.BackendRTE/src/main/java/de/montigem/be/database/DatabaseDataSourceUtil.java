@@ -5,7 +5,7 @@
  */
 package de.montigem.be.database;
 
-import de.montigem.be.MaCoCoInitUtils;
+import de.montigem.be.MontiGemInitUtils;
 import de.se_rwth.commons.logging.Log;
 
 import java.sql.*;
@@ -39,7 +39,7 @@ public class DatabaseDataSourceUtil {
   }
 
   public static String getDatenbankBezeichner(String resource) {
-    boolean isOnServer = MaCoCoInitUtils.isOnServer();
+    boolean isOnServer = MontiGemInitUtils.isOnServer();
     String query =
         "SELECT * FROM datasource.DataSource db where " + resource + " = LOWER(db.dbname) limit 1";
     String myUrl = setMappingUrl(isOnServer);

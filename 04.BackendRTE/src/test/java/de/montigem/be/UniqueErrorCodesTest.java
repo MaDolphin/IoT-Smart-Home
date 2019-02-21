@@ -5,14 +5,13 @@
  */
 package de.montigem.be;
 
-import static org.junit.Assert.assertFalse;
+import de.montigem.be.error.MontiGemErrorCode;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import main.java.be.error.MaCoCoErrorCode;
+import static org.junit.Assert.assertFalse;
 
 /**
  * TODO: Write me!
@@ -26,7 +25,7 @@ public class UniqueErrorCodesTest {
   @Test
   public void testUniquenessOfErrorCodes() {
     List<String> errorCodes = new ArrayList<>();
-    for (MaCoCoErrorCode f : MaCoCoErrorCode.values()) {
+    for (MontiGemErrorCode f : MontiGemErrorCode.values()) {
       assertFalse("Duplicate error code " + f.getCode() + " !", errorCodes.contains(f.getCode()));
       errorCodes.add(f.getCode());
       

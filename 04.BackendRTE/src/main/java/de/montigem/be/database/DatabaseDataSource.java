@@ -1,6 +1,6 @@
 package de.montigem.be.database;
 
-import de.montigem.be.MaCoCoInitUtils;
+import de.montigem.be.MontiGemInitUtils;
 import de.se_rwth.commons.logging.Log;
 
 import javax.ejb.Stateless;
@@ -42,7 +42,7 @@ public class DatabaseDataSource {
   }
 
   public Optional<String> getDatabaseName(String dbBezeichner) {
-    boolean isOnServer = MaCoCoInitUtils.isOnServer();
+    boolean isOnServer = MontiGemInitUtils.isOnServer();
     String query =
         "SELECT * FROM datasource.DataSource db WHERE db.bezeichnung = '" + dbBezeichner + "'";
     String myUrl = DatabaseDataSourceUtil.setMappingUrl(isOnServer);
@@ -64,7 +64,7 @@ public class DatabaseDataSource {
 
   public List<String> getAllDatabaseNames() {
     List<String> names = new ArrayList<>();
-    boolean isOnServer = MaCoCoInitUtils.isOnServer();
+    boolean isOnServer = MontiGemInitUtils.isOnServer();
     String query = "SELECT * FROM datasource.DataSource";
     String myUrl = DatabaseDataSourceUtil.setMappingUrl(isOnServer);
     try {
@@ -81,7 +81,7 @@ public class DatabaseDataSource {
   }
 
   public Map<String, String> getUserForDB(String dbName) {
-    boolean isOnServer = MaCoCoInitUtils.isOnServer();
+    boolean isOnServer = MontiGemInitUtils.isOnServer();
     String query = "SELECT * FROM datasource.DataSource db WHERE db.dbname = '" + dbName + "'";
     String myUrl = DatabaseDataSourceUtil.setMappingUrl(isOnServer);
     Map<String, String> admin = new HashMap<>();

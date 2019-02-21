@@ -1,11 +1,11 @@
 package de.montigem.be.util;
 
-import main.java.be.marshalling.JsonMarshal;
-import main.java.be.util.json.JsonBooleanValue;
-import main.java.be.util.json.JsonDoubleValue;
-import main.java.be.util.json.JsonIntValue;
-import main.java.be.util.json.JsonLongValue;
-import main.java.be.util.json.JsonStringValue;
+import de.montigem.be.marshalling.JsonMarshal;
+import de.montigem.be.util.json.JsonBooleanValue;
+import de.montigem.be.util.json.JsonDoubleValue;
+import de.montigem.be.util.json.JsonIntValue;
+import de.montigem.be.util.json.JsonLongValue;
+import de.montigem.be.util.json.JsonStringValue;
 
 public class JsonHelper {
 

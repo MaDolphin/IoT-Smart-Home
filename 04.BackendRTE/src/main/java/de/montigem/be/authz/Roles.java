@@ -5,14 +5,7 @@ import java.util.Optional;
 
 public enum Roles {
   ADMIN("admin","Administrator"),
-  LESER("leser", "Leser"),
-  ACCOUNT_MANAGER("accountManager", "Kontomanager"),
-  ACCOUNT_ANLEGER("accountAnleger", "Kontoanleger"),
-  PLAN_ACCOUNT_ANLEGER("planAccountAnleger", "Plankontoanleger"),
-  FAKULTAET_MANAGER("facultaetManager", "Fakultätmanager"),
-  PERSONAL("personal", "Personal"),
-  ACCOUNT_ADMIN("accountAdmin", "Finanzadministrator"),
-  ACCOUNT_EDITOR("accountEditor", "Kontobearbeiter");
+  LESER("leser", "Leser");
 
   String identifier;
   String name;

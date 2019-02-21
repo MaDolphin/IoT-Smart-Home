@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+// TODO GV, SVa
 @Stateless
 public class SecurityHelper {
 

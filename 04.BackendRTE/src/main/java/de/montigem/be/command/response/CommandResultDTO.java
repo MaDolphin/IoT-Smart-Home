@@ -3,7 +3,7 @@ package de.montigem.be.command.response;
 import de.montigem.be.dtos.rte.DTO;
 import de.montigem.be.dtos.rte.ErrorDTO;
 import de.montigem.be.dtos.rte.OkDTO;
-import de.montigem.be.error.MaCoCoError;
+import de.montigem.be.error.MontiGemError;
 
 /**
  * single result of a executed command
@@ -12,7 +12,7 @@ public class CommandResultDTO {
   private long id;
   private DTO dto;
 
-  public CommandResultDTO(long id, MaCoCoError error) {
+  public CommandResultDTO(long id, MontiGemError error) {
     this.id = id;
     this.dto = new ErrorDTO(error);
   }

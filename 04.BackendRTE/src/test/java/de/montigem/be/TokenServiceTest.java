@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.junit.Test;
 
-import main.java.be.util.json.JsonBooleanValue;
+import de.montigem.be.util.json.JsonBooleanValue;
 
 /**
  * TODO: Write me!

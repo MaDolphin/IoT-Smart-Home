@@ -2,8 +2,7 @@
 package de.montigem.be.domain;
 
 import de.montigem.be.AbstractDomainTest;
-import de.montigem.be.domain.cdmodelhwc.classes.types.AccountKindInitializer;
-import main.java.be.marshalling.JsonMarshal;
+import de.montigem.be.marshalling.JsonMarshal;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.shiro.authc.Account;
@@ -13,8 +12,6 @@ import org.junit.Test;
 import javax.ws.rs.core.Response.Status;
 import javax.xml.bind.ValidationException;
 import java.io.IOException;
-
-import static org.junit.Assert.assertNotNull;
 
 public class ScalingTest extends AbstractDomainTest {
 

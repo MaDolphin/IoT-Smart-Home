@@ -6,8 +6,8 @@
 package de.montigem.be.util;
 
 import de.montigem.be.auth.jwt.ShiroJWTFilter;
-import de.montigem.be.error.MaCoCoError;
-import de.montigem.be.error.MaCoCoErrorFactory;
+import de.montigem.be.error.MontiGemError;
+import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.se_rwth.commons.logging.Log;
 
@@ -66,7 +66,7 @@ public class Responses {
             .build();
   }
 
-  public static Response userError(MaCoCoError error, Class clazz) {
+  public static Response userError(MontiGemError error, Class clazz) {
     Log.warn(clazz.getName() + " " + error.toString(), error);
     return Response.status(error.getHttpStatusCode()).entity(error.toJsonString())
             .type(MediaType.TEXT_PLAIN)
@@ -76,12 +76,12 @@ public class Responses {
             .build();
   }
 
-  public static Response error(MaCoCoError error, Class clazz) {
+  public static Response error(MontiGemError error, Class clazz) {
     return errorInternal(error, clazz);
   }
 
   // Never returns a response but throws a WebApplicationException
-  protected static Response errorInternal(MaCoCoError error, Class clazz) {
+  protected static Response errorInternal(MontiGemError error, Class clazz) {
     Log.error(clazz.getName() + ":" + error.toString(), error);
     System.out.println(clazz.getName() + " " + error.toJsonString() + "; " + error);
     throw new WebApplicationException(
@@ -93,9 +93,9 @@ public class Responses {
                     .build());
   }
 
-  // Never returns a response but the exeption from errorInteral(MaCoCoError) will be thrown
+  // Never returns a response but the exeption from errorInteral(MontiGemError) will be thrown
   protected static Response errorInternal(Exception ex) {
-    return errorInternal(MaCoCoErrorFactory.exceptionCaught(ex), Responses.class);
+    return errorInternal(MontiGemErrorFactory.exceptionCaught(ex), Responses.class);
   }
 
 }

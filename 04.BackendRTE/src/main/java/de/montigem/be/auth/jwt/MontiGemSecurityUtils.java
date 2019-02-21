@@ -6,7 +6,7 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 
 import java.util.Optional;
 
-public class MacocoSecurityUtils {
+public class MontiGemSecurityUtils {
 
   public static String encodePassword(String plainPwd, byte[] salt) {
     if(plainPwd == null) {

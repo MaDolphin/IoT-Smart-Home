@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName;
  * @version $Revision$, $Date$
  * @since TODO: add version number
  */
-public enum MaCoCoErrorCode {
+public enum MontiGemErrorCode {
 
 
   /**
@@ -85,13 +85,6 @@ public enum MaCoCoErrorCode {
    */
   @SerializedName("MAB0x000B") NON_UNIQUE_NAME("MAB0x000B"),
 
-  /**
-   * This error denotes that an account is used as an externalAccount and cannot be deleted.
-   */
-  @SerializedName("MAB0x000C") IS_EXTERNAL_ACCOUNT("MAB0x000C"),
-
-  @SerializedName("MAB0x000D") IS_KOSTENSTELLE("MAB0x000D"),
-
   @SerializedName("MAB0x000E") MISSING_FIELD("MAB0x000E"),
 
   /**
@@ -99,20 +92,6 @@ public enum MaCoCoErrorCode {
    * The user might not have the necessary permissions for a resource, or may need an account of some sort.
    */
   @SerializedName("MAB0x0403") FORBIDDEN("MAB0x0403"),
-
-  /**
-   * This error denotes that an account is used as an externalAccount and cannot be deleted.
-   */
-  @SerializedName("MAB0x0011") EXCEL_IMPORT_ERROR("MAB0x0011"),
-
-
-  @SerializedName("MAB0x5A91") SAP_IMPORT_DATEI_FEHLER("MAB0x5A91"),
-
-  @SerializedName("MAB0x5A92") SAP_IMPORT_HEADER_FEHLER("MAB0x5A92"),
-
-  @SerializedName("MAB0x5A93") SAP_IMPORT_DATEI_ENCODING("MAB0x5A93"),
-
-  @SerializedName("MAB0x5A94") SAP_IMPORT_INHALT_FORMAT_FEHLER("MAB0x5A94"),
 
   /**
    * This error denotes a failure of the deserialization of a passed JSON object.
@@ -132,33 +111,12 @@ public enum MaCoCoErrorCode {
   /**
    * This error denotes an unknown error
    */
-  @SerializedName("MAB0x0101") UNKNOWN("MAB0x0101"),
+  @SerializedName("MAB0x0101") UNKNOWN("MAB0x0101");
 
-  /**
-   *  This error denotes that an Budget has Buchungen and can't be deleted
-   */
-
-  @SerializedName("MAB0x0201") BUDGET_HAS_BUCHUNGEN("MAB0x0201"),
-
-  /**
-   * This error denotes  that an Konto has Buchungen and can't be deleted
-   */
-  @SerializedName("MAB0x0202") KONTO_NOT_DELETABLE("MAB0x0202"),
-
-  /**
-   * This error denotes  that an Konto has Associations form Kostenstellen or other Konten and can't be deleted
-   */
-  @SerializedName("MAB0x0203") KONTO_HAS_ASSOCIATIONS("MAB0x0203"),
-
-  /**
-   * This error denoted that an Budget is not a Subbudget and the Buchungen can ot be moved
-   */
-  @SerializedName("MAB0x0204") NOT_A_SUBBUDGET("MAB0x0204")
-  ;
 
   private String code;
 
-  private MaCoCoErrorCode(String code) {
+  private MontiGemErrorCode(String code) {
     this.code = code;
   }
 

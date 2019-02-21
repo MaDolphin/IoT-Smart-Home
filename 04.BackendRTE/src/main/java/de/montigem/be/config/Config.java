@@ -24,8 +24,6 @@ public class Config {
 
   public static boolean DEVELOPER_MODE = true;
 
-  public static long MAX_SUB_BUDGET_DEPTH = 3;
-
   public static String VERSION = "UNKNOWN";
 
   public static String TIMESTAMP = ZonedDateTime.now().toString();

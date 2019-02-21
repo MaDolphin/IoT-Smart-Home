@@ -7,12 +7,13 @@ import org.apache.shiro.codec.Base64;
 
 public class CustomCredentialsMatcher implements CredentialsMatcher {
 
+  // TODO GV, SVa
   @Override
   public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
    /* MacocoUser user = ((PrincipalWrapper) info.getPrincipals().getPrimaryPrincipal()).getUser();
     UPToken upToken = (UPToken) token;
     byte[] salt = Base64.decode(user.getPasswordSaltBase64());
-    boolean res = MacocoSecurityUtils.encodePassword(String.valueOf(upToken.getPassword()), salt)
+    boolean res = MontiGemSecurityUtils.encodePassword(String.valueOf(upToken.getPassword()), salt)
             .equals(user.getEncodedPassword().orElse(""));
     return res;*/
    return true;

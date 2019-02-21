@@ -30,8 +30,6 @@ public class ConfigInitializer implements javax.servlet.ServletContextListener {
 
   protected boolean developerMode = false;
 
-  protected long maxSubBudgetDepth = 3;
-
   protected String version = "UNKNOWN";
 
   protected String buildTime = ZonedDateTime.now().toString();
@@ -88,14 +86,6 @@ public class ConfigInitializer implements javax.servlet.ServletContextListener {
    */
   public void setDeveloperMode(boolean developerMode) {
     this.developerMode = developerMode;
-  }
-
-  public long getMaxSubBudgetDepth() {
-    return maxSubBudgetDepth;
-  }
-
-  public void setMaxSubBudgetDepth(long maxSubBudgetDepth) {
-    this.maxSubBudgetDepth = maxSubBudgetDepth;
   }
 
   public String getVersion() {
@@ -176,13 +166,6 @@ public class ConfigInitializer implements javax.servlet.ServletContextListener {
       }
       Log.info("SEND_MAILS: " + sendMails, getClass().getName());
 
-      try {
-        if (!values.get("MAX_SUB_BUDGET_DEPTH").isEmpty()) {
-          setMaxSubBudgetDepth(Long.parseLong(values.get("MAX_SUB_BUDGET_DEPTH")));
-        }
-      } catch (NumberFormatException e) {
-        Log.warn("Couldn't read MAX_SUB_BUDGET_DEPTH from config", e);
-      }
     } catch (YAMLException e) {
       Log.warn(getClass().getName() + ": could not read yaml", e);
     }
@@ -233,7 +216,6 @@ public class ConfigInitializer implements javax.servlet.ServletContextListener {
   public void setValues() {
     Config.DEFAULT_CURRENCY = defaultCurrency;
     Config.DEVELOPER_MODE = developerMode;
-    Config.MAX_SUB_BUDGET_DEPTH = maxSubBudgetDepth;
     Config.VERSION = version;
     Config.TIMESTAMP = buildTime;
     Config.COMMIT = commit;

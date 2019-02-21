@@ -19,22 +19,22 @@ import javax.ws.rs.core.Response.Status;
  * @version $Revision$, $Date$
  * @since TODO: add version number
  */
-public class MaCoCoError extends RuntimeException {
+public class MontiGemError extends RuntimeException {
 
-  private MaCoCoErrorCode errorCode;
+  private MontiGemErrorCode errorCode;
 
   private Response.StatusType httpStatusCode;
 
   private String description;
 
   /**
-   * Constructor for MaCoCoError
+   * Constructor for MontiGemError
    *
    * @param errorCode
    * @param httpStatusCode
    * @param description
    */
-  public MaCoCoError(MaCoCoErrorCode errorCode, Response.StatusType httpStatusCode, String description) {
+  public MontiGemError(MontiGemErrorCode errorCode, Response.StatusType httpStatusCode, String description) {
     super();
     this.errorCode = errorCode;
     this.httpStatusCode = httpStatusCode;
@@ -44,14 +44,14 @@ public class MaCoCoError extends RuntimeException {
   /**
    * @return errorCode
    */
-  public MaCoCoErrorCode getErrorCode() {
+  public MontiGemErrorCode getErrorCode() {
     return this.errorCode;
   }
 
   /**
    * @param errorCode the errorCode to set
    */
-  public void setErrorCode(MaCoCoErrorCode errorCode) {
+  public void setErrorCode(MontiGemErrorCode errorCode) {
     this.errorCode = errorCode;
   }
 

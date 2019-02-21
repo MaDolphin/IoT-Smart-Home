@@ -2,7 +2,7 @@ package de.montigem.be;
 
 import com.google.common.base.Throwables;
 import de.montigem.be.config.Config;
-import de.montigem.be.error.MaCoCoErrorFactory;
+import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.util.Responses;
 import de.se_rwth.commons.logging.Log;
 
@@ -33,7 +33,7 @@ public class GeneralService {
       return Responses.okResponse(info);
     } catch (Exception e) {
       Log.debug(Throwables.getStackTraceAsString(e), getClass().getName());
-      return Responses.error(MaCoCoErrorFactory.exceptionCaught(e), getClass());
+      return Responses.error(MontiGemErrorFactory.exceptionCaught(e), getClass());
     }
   }
 
@@ -45,7 +45,7 @@ public class GeneralService {
       return Responses.okResponse(version);
     } catch (Exception e) {
       Log.debug(Throwables.getStackTraceAsString(e), getClass().getName());
-      return Responses.error(MaCoCoErrorFactory.exceptionCaught(e), getClass());
+      return Responses.error(MontiGemErrorFactory.exceptionCaught(e), getClass());
     }
   }
 
@@ -57,7 +57,7 @@ public class GeneralService {
       return Responses.okResponse(buildTime);
     } catch (Exception e) {
       Log.debug(Throwables.getStackTraceAsString(e), getClass().getName());
-      return Responses.error(MaCoCoErrorFactory.exceptionCaught(e), getClass());
+      return Responses.error(MontiGemErrorFactory.exceptionCaught(e), getClass());
     }
   }
 }

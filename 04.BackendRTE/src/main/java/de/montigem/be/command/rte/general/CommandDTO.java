@@ -2,7 +2,7 @@ package de.montigem.be.command.rte.general;
 
 import de.montigem.be.authz.util.SecurityHelper;
 import de.montigem.be.dtos.rte.DTO;
-import de.montigem.be.error.MaCoCoError;
+import de.montigem.be.error.MontiGemError;
 import de.se_rwth.commons.logging.Log;
 import de.montigem.be.util.DAOLib;
 import org.apache.commons.lang.NotImplementedException;
@@ -15,7 +15,7 @@ public class CommandDTO {
 
   // Diese Methode muss immer überschrieben werden.
   // Sie kann aber hier nicht abstrakt sein, weil generierte Subklassen eine Impmentierung brauchen
-  public DTO doRun(SecurityHelper securityHelper, DAOLib daoLib) throws MaCoCoError {
+  public DTO doRun(SecurityHelper securityHelper, DAOLib daoLib) throws MontiGemError {
     String res = "MAB0x9001: No implementation for operation " + getClass().getName();
     Log.warn(res);
     throw new NotImplementedException(res);

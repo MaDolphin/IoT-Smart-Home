@@ -1,7 +1,7 @@
 package de.montigem.be.dtos.rte;
 
 import de.montigem.be.authz.util.SecurityHelper;
-import de.montigem.be.error.MaCoCoErrorCode;
+import de.montigem.be.error.MontiGemErrorCode;
 import de.montigem.be.util.DAOLib;
 import org.apache.commons.lang.NotImplementedException;
 
@@ -55,11 +55,11 @@ public class DTOLoader<T extends DTO> {
   }
 
   public String getErrorCode() {
-    return MaCoCoErrorCode.OK.getCode();
+    return MontiGemErrorCode.OK.getCode();
   }
 
   public String getMessage() {
-    return MaCoCoErrorCode.OK.name();
+    return MontiGemErrorCode.OK.name();
   }
 
   public T loadDTO(DAOLib daoLib, long id, SecurityHelper securityHelper) {

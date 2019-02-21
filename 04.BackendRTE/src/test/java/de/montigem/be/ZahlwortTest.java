@@ -1,6 +1,6 @@
 package de.montigem.be;
 
-import main.java.be.ZahlwortDeutsch;
+import de.montigem.be.ZahlwortDeutsch;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

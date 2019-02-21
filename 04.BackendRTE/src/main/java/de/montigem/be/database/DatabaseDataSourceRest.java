@@ -1,7 +1,7 @@
 package de.montigem.be.database;
 
-import de.montigem.be.MaCoCoInitUtils;
-import de.montigem.be.error.MaCoCoErrorFactory;
+import de.montigem.be.MontiGemInitUtils;
+import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.util.APIExceptionInterceptor;
 import de.montigem.be.util.Responses;
 import de.se_rwth.commons.logging.Log;
@@ -33,7 +33,7 @@ public class DatabaseDataSourceRest {
   @GET
   @Path("/dbname")
   public Response getDatabaseName() {
-    boolean isOnServer = MaCoCoInitUtils.isOnServer();
+    boolean isOnServer = MontiGemInitUtils.isOnServer();
     String query = "SELECT * FROM datasource.DataSource db";
     String myUrl = DatabaseDataSourceUtil.setMappingUrl(isOnServer);
     try {
@@ -48,6 +48,6 @@ public class DatabaseDataSourceRest {
     } catch (SQLException e) {
       Log.warn("MABx500A", e);
     }
-    return Responses.error(MaCoCoErrorFactory.conflict(), DatabaseDataSource.class);
+    return Responses.error(MontiGemErrorFactory.conflict(), DatabaseDataSource.class);
   }
 }

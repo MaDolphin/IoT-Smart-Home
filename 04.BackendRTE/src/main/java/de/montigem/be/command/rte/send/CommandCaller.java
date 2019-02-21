@@ -3,7 +3,7 @@ package de.montigem.be.command.rte.send;
 import de.montigem.be.authz.util.SecurityHelper;
 import de.montigem.be.command.rte.general.CommandDTO;
 import de.montigem.be.dtos.rte.DTO;
-import de.montigem.be.error.MaCoCoError;
+import de.montigem.be.error.MontiGemError;
 import de.se_rwth.commons.logging.Log;
 import de.montigem.be.util.DAOLib;
 
@@ -85,7 +85,7 @@ public class CommandCaller {
     clear();
   }
 
-  public <D extends DTO> D runCommand(CommandDTO commandDTO) throws ClassCastException, MaCoCoError {
+  public <D extends DTO> D runCommand(CommandDTO commandDTO) throws ClassCastException, MontiGemError {
     DTO dto = commandDTO.doRun(securityHelper, daoLib);
     return (D) dto;
   }

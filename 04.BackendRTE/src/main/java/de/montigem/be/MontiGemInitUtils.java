@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public class MaCoCoInitUtils {
+public class MontiGemInitUtils {
 
   private static boolean propertiesDerived = false;
 
@@ -41,7 +41,7 @@ public class MaCoCoInitUtils {
     if (!propertiesDerived) {
       try {
         Properties serverProps = new Properties();
-        InputStream stream = MaCoCoInitUtils.class.getClassLoader()
+        InputStream stream = MontiGemInitUtils.class.getClassLoader()
             .getResourceAsStream("devserver.properties");
         if (stream != null) {
           System.out.println(
@@ -54,7 +54,7 @@ public class MaCoCoInitUtils {
           propertiesDerived = true;
           return isDebugMode;
         }
-        stream = MaCoCoInitUtils.class.getClassLoader()
+        stream = MontiGemInitUtils.class.getClassLoader()
             .getResourceAsStream("testserver.properties");
         if (stream != null) {
           System.out.println(
@@ -74,7 +74,7 @@ public class MaCoCoInitUtils {
         isDebugMode = true;
         return isDebugMode;
       } catch (IOException e) {
-        Log.error(MaCoCoInitUtils.class.getName()
+        Log.error(MontiGemInitUtils.class.getName()
             + " Critical error: Could not read server property files!");
       }
     }

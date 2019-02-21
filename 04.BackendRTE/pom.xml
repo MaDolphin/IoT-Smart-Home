@@ -296,7 +296,7 @@
                 </excludes>
             </resource>
         </resources>
-        <testSourceDirectory>test</testSourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
         <testResources>
             <testResource>
                 <directory>test</directory>

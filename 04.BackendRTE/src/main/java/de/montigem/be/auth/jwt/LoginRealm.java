@@ -28,6 +28,7 @@ public class LoginRealm extends AuthenticatingRealm {
     return token != null && token instanceof UPToken;
   }
 
+  // TODO GV, SVa
   @Override
   protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
       throws AuthenticationException {

@@ -5,26 +5,19 @@
  */
 package de.montigem.be.shiro;
 
-import main.java.be.auth.jwt.JWTRealm;
-import main.java.be.auth.jwt.JWToken;
-import main.java.be.auth.jwt.ShiroJWTFilter;
-import main.java.be.authz.PolicyDecisionPoint;
-import main.java.be.authz.util.RolePermissionManager;
+import de.montigem.be.authz.util.RolePermissionManager;
+import de.montigem.be.util.DAOLib;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
 import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
-import org.apache.shiro.authz.permission.WildcardPermissionResolver;
 import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.naming.NamingException;
-import java.util.Arrays;
 
 @Stateless
 public class SecurityManagerInit {
@@ -65,13 +58,14 @@ public class SecurityManagerInit {
     }
   }
 
+  // TODO GV, SVa
   private void createSubjectAndLogin(DefaultSecurityManager securityManager, String user)
       throws NamingException {
     ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
     authenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
     securityManager.setAuthenticator(authenticator);
 
-    AuthorizingRealm authorizer = new PolicyDecisionPoint();
+  /*  AuthorizingRealm authorizer = new PolicyDecisionPoint();
     authorizer.setPermissionResolver(new WildcardPermissionResolver());
     securityManager.setAuthorizer(authorizer);
 
@@ -83,6 +77,6 @@ public class SecurityManagerInit {
 
     JWToken token = new JWToken(ShiroJWTFilter.createTokenForUser(user != null ? user : username, false, resource, daoLib, rolePermissionManager),
         user != null ? user : username, resource);
-    subject.login(token);
+    subject.login(token);*/
   }
 }

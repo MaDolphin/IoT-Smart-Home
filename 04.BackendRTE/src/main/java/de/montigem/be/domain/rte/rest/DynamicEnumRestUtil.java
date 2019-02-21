@@ -10,7 +10,7 @@ import de.montigem.be.domain.cdmodelhwc.classes.types.DynamicEnum;
 import de.montigem.be.domain.cdmodelhwc.classes.types.DynamicEnumType;
 import de.montigem.be.domain.rte.dao.DynamicEnumDAO;
 import de.montigem.be.error.JsonException;
-import de.montigem.be.error.MaCoCoErrorFactory;
+import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.Responses;
 import de.montigem.be.util.SubListHelper;
@@ -35,12 +35,12 @@ public class DynamicEnumRestUtil {
   public static Response removeType(String toRemove, DynamicEnumType type, DynamicEnumDAO dynamDAO, String resource) {
     if (null == toRemove || "".equals(toRemove)) {
       Log.debug("To be removed dynamic type is empty or null", DynamicEnumRestUtil.class.getName());
-      return Responses.error(MaCoCoErrorFactory.resolverError(toRemove), DynamicEnumRestUtil.class);
+      return Responses.error(MontiGemErrorFactory.resolverError(toRemove), DynamicEnumRestUtil.class);
     }
     DynamicEnum oldObject = getByName(type, dynamDAO, resource);
     if (null == oldObject) {
       Log.debug("Couldnt find dynamic type " + type, DynamicEnumRestUtil.class.getName());
-      return Responses.error(MaCoCoErrorFactory.resolverError(type), DynamicEnumRestUtil.class);
+      return Responses.error(MontiGemErrorFactory.resolverError(type), DynamicEnumRestUtil.class);
     }
     if (!oldObject.contains(toRemove)) {
       oldObject.remove(toRemove);
@@ -55,12 +55,12 @@ public class DynamicEnumRestUtil {
           .unmarshal(new StringBuilder("\"").append(toAdd).append("\"").toString(), String.class);
       if (null == obj || "".equals(obj)) {
         Log.debug("To be added dynamic type is empty or null", DynamicEnumRestUtil.class.getName());
-        return Responses.error(MaCoCoErrorFactory.resolverError(toAdd), DynamicEnumRestUtil.class);
+        return Responses.error(MontiGemErrorFactory.resolverError(toAdd), DynamicEnumRestUtil.class);
       }
       DynamicEnum oldObject = getByName(type, dynamDAO, resource);
       if (null == oldObject) {
         Log.debug("Couldnt find dynamic type " + type, DynamicEnumRestUtil.class.getName());
-        return Responses.error(MaCoCoErrorFactory.resolverError(type), DynamicEnumRestUtil.class);
+        return Responses.error(MontiGemErrorFactory.resolverError(type), DynamicEnumRestUtil.class);
       }
       if (!oldObject.contains(obj)) {
         oldObject.add(toAdd);
@@ -70,7 +70,7 @@ public class DynamicEnumRestUtil {
     } catch (JsonException e) {
       Log.debug(Throwables.getStackTraceAsString(e), DynamicEnumRestUtil.class.getName());
       return Responses
-          .error(MaCoCoErrorFactory.deserializeError(e.getMessage()), DynamicEnumRestUtil.class);
+          .error(MontiGemErrorFactory.deserializeError(e.getMessage()), DynamicEnumRestUtil.class);
     }
   }
 

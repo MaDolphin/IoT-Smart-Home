@@ -1,8 +1,8 @@
 package de.montigem.be.dtos.rte;
 
-import de.montigem.be.error.MaCoCoError;
-import de.montigem.be.error.MaCoCoErrorCode;
-import de.montigem.be.error.MaCoCoErrorFactory;
+import de.montigem.be.error.MontiGemError;
+import de.montigem.be.error.MontiGemErrorCode;
+import de.montigem.be.error.MontiGemErrorFactory;
 
 /**
  * predefined DTO for errors
@@ -13,7 +13,7 @@ public class ErrorDTO extends DTO {
 
   private String errorCode;
 
-  private MaCoCoError error;
+  private MontiGemError error;
 
   protected ErrorDTO() {
     super("ErrorDTO");
@@ -22,25 +22,25 @@ public class ErrorDTO extends DTO {
   public ErrorDTO(String errorCode, Exception e) {
     this();
     this.errorCode = errorCode;
-    this.error = MaCoCoErrorFactory.exceptionCaught(e);
+    this.error = MontiGemErrorFactory.exceptionCaught(e);
   }
 
-  public ErrorDTO(MaCoCoError e) {
+  public ErrorDTO(MontiGemError e) {
     this();
     this.errorCode = e.getErrorCode().getCode();
     this.error = e;
   }
 
-  public ErrorDTO(String errorCode, MaCoCoError error) {
+  public ErrorDTO(String errorCode, MontiGemError error) {
     this();
     this.errorCode = errorCode;
     this.error = error;
   }
 
-  public ErrorDTO(MaCoCoErrorCode errorCode, String msg) {
+  public ErrorDTO(MontiGemErrorCode errorCode, String msg) {
     this();
     this.errorCode = errorCode.getCode();
-    this.error = MaCoCoErrorFactory.unknown(msg);
+    this.error = MontiGemErrorFactory.unknown(msg);
   }
 
   @Override
@@ -58,7 +58,7 @@ public class ErrorDTO extends DTO {
     return error.getMessage();
   }
 
-  public MaCoCoError getError() {
+  public MontiGemError getError() {
     return error;
   }
 }

@@ -5,11 +5,10 @@
  */
 package de.montigem.be;
 
-import main.java.be.auth.jwt.ExtendedJWT;
-import main.java.be.auth.jwt.JWTLogin;
-import main.java.be.auth.jwt.ShiroJWTFilter;
-import main.java.be.error.MaCoCoError;
-import main.java.be.marshalling.JsonMarshal;
+import de.montigem.be.auth.jwt.ExtendedJWT;
+import de.montigem.be.auth.jwt.JWTLogin;
+import de.montigem.be.auth.jwt.ShiroJWTFilter;
+import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.shiro.SecurityManagerInit;
 import de.montigem.be.util.TestUtil;
 import de.se_rwth.commons.logging.Log;
@@ -31,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -539,30 +537,6 @@ public abstract class AbstractDomainTest {
     login("admin", "passwort", Response.Status.OK);
     // reset DB with user
     testResetDBwithUser();
-  }
-
-  protected MacocoUserProxy createCommonUser(String username, String pwd,
-      Response.Status statusCode)
-      throws Exception {
-    // create common user
-    Log.trace(">> creating common user " + username, getClass().getName());
-    String jsonUser = JsonMarshal.getInstance()
-        .marshal(new UserRegistration(username, pwd, username + "@mail.de", ""));
-    if (statusCode == Status.FORBIDDEN) {
-      testPost("api/domain/users", statusCode, Arrays.asList(Pair.of("user", jsonUser)));
-    }
-    else if (statusCode != Status.OK) {
-      testPost("api/domain/users", statusCode, jsonUser, MaCoCoError.class, true);
-    }
-    else {
-      MacocoUserProxy user = testPost("api/domain/users", statusCode, jsonUser,
-          MacocoUserProxy.class,
-          true);
-      assertNotNull(user);
-      assertEquals(username, user.getUsername());
-      return user;
-    }
-    return null;
   }
 
   protected String getJwt() {

@@ -1,6 +1,6 @@
 package de.montigem.be.dtos.rte;
 
-import de.montigem.be.error.MaCoCoErrorCode;
+import de.montigem.be.error.MontiGemErrorCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +40,10 @@ public abstract class DTO {
   }
 
   public String getErrorCode() {
-    return MaCoCoErrorCode.OK.getCode();
+    return MontiGemErrorCode.OK.getCode();
   }
 
   public String getMessage() {
-    return MaCoCoErrorCode.OK.name();
+    return MontiGemErrorCode.OK.name();
   }
 }

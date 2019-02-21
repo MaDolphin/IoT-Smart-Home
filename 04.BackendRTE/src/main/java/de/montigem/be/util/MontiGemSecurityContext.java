@@ -1,9 +1,9 @@
 package de.montigem.be.util;
 
-public class MaCoCoSecurityContext {
+public class MontiGemSecurityContext {
   private boolean isAuthenticated;
 
-  public MaCoCoSecurityContext(boolean isAuthenticated) {
+  public MontiGemSecurityContext(boolean isAuthenticated) {
     this.isAuthenticated = isAuthenticated;
   }
 

@@ -5,8 +5,8 @@
  */
 package de.montigem.be.util;
 
-import main.java.be.GeneralService;
-import main.java.be.marshalling.JsonMarshal;
+import de.montigem.be.GeneralService;
+import de.montigem.be.marshalling.JsonMarshal;
 import de.se_rwth.commons.logging.Log;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;

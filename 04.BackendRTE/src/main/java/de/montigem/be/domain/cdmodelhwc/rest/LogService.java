@@ -7,7 +7,7 @@ package de.montigem.be.domain.cdmodelhwc.rest;
 
 
 import com.google.gson.*;
-import de.montigem.be.error.MaCoCoErrorFactory;
+import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.util.APIExceptionInterceptor;
 import de.montigem.be.util.Responses;
 import de.se_rwth.commons.logging.Log;
@@ -110,6 +110,6 @@ public class LogService {
       Log.trace(json, "LogService");
     }
 
-    return Responses.error(MaCoCoErrorFactory.deserializeError(json), getClass());
+    return Responses.error(MontiGemErrorFactory.deserializeError(json), getClass());
   }
 }

@@ -13,9 +13,9 @@ import javax.ws.rs.core.Response.Status;
 import de.montigem.be.AbstractDomainTest;
 import org.junit.Test;
 
-import main.java.be.auth.jwt.ExtendedJWT;
-import main.java.be.util.json.JsonBooleanValue;
-import main.java.be.util.json.JsonStringValue;
+import de.montigem.be.auth.jwt.ExtendedJWT;
+import de.montigem.be.util.json.JsonBooleanValue;
+import de.montigem.be.util.json.JsonStringValue;
 
 /**
  * TODO: Write me!

@@ -5,8 +5,8 @@ import de.montigem.be.command.response.CommandResponseDTO;
 import de.montigem.be.dtos.rte.DTO;
 import de.montigem.be.dtos.rte.NotImplementedDTO;
 import de.montigem.be.error.JsonException;
-import de.montigem.be.error.MaCoCoError;
-import de.montigem.be.error.MaCoCoErrorFactory;
+import de.montigem.be.error.MontiGemError;
+import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
 import de.se_rwth.commons.logging.Log;
@@ -58,10 +58,10 @@ public class CommandManager {
     }
     catch (NullPointerException np) {
       response.clear();
-      response.addResponse(cmdId, MaCoCoErrorFactory.unknown("" + np + ": " + np.getStackTrace()[0]));
+      response.addResponse(cmdId, MontiGemErrorFactory.unknown("" + np + ": " + np.getStackTrace()[0]));
       Log.debug("MAB0xA005: Error in transaction: " + np.getMessage(), getClass().getName());
     }
-    catch (MaCoCoError e) {
+    catch (MontiGemError e) {
       // transaction.rollback();
       response.clear();
       response.addResponse(cmdId, e);
@@ -70,7 +70,7 @@ public class CommandManager {
     catch (Exception e) {
       // transaction.rollback();
       response.clear();
-      response.addResponse(cmdId, MaCoCoErrorFactory.exceptionCaught(e));
+      response.addResponse(cmdId, MontiGemErrorFactory.exceptionCaught(e));
       Log.debug("MAB0xA007: Error in transaction: " + e.getMessage(), getClass().getName());
     }
 
@@ -93,12 +93,12 @@ public class CommandManager {
     }
     catch (JsonException e) {
       Log.debug("MAB0xA001: Error: " + e.getMessage(), getClass().getName());
-      return new CommandResponseDTO(-1, MaCoCoErrorFactory.deserializeError(e.getMessage() + ": " + jsonCmd));
+      return new CommandResponseDTO(-1, MontiGemErrorFactory.deserializeError(e.getMessage() + ": " + jsonCmd));
     }
 
     if (commandList == null) {
       Log.error("MAB0xA002: Empty Command List");
-      return new CommandResponseDTO(-1, MaCoCoErrorFactory.resolverError("Empty command list: " + jsonCmd));
+      return new CommandResponseDTO(-1, MontiGemErrorFactory.resolverError("Empty command list: " + jsonCmd));
     }
 
     return runCommands(commandList);

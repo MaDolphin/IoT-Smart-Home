@@ -1,13 +1,13 @@
 package de.montigem.be.helper;
 
-import main.java.be.util.DomainHelper;
+import de.montigem.be.util.DomainHelper;
 import de.se_rwth.commons.Joiners;
 import org.junit.Test;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import static main.java.be.util.DomainHelper.getDateDifference;
+import static de.montigem.be.util.DomainHelper.getDateDifference;
 import static org.junit.Assert.assertEquals;
 
 public class DomainHelperTest {

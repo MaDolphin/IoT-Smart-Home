@@ -2,7 +2,7 @@ package de.montigem.be.command.response;
 
 import de.montigem.be.dtos.rte.DTO;
 import de.montigem.be.dtos.rte.OkDTO;
-import de.montigem.be.error.MaCoCoError;
+import de.montigem.be.error.MontiGemError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class CommandResponseDTO {
     this.responses.add(new CommandResultDTO(id, response));
   }
 
-  public CommandResponseDTO(long id, MaCoCoError error) {
+  public CommandResponseDTO(long id, MontiGemError error) {
     this(id);
     this.responses.add(new CommandResultDTO(id, error));
   }
@@ -42,7 +42,7 @@ public class CommandResponseDTO {
     this.responses.add(new CommandResultDTO(id, response));
   }
 
-  public void addResponse(long id, MaCoCoError error) {
+  public void addResponse(long id, MontiGemError error) {
     this.responses.add(new CommandResultDTO(id, error));
   }
 

@@ -10,7 +10,7 @@ import de.montigem.be.auth.jwt.IRefreshTokenManager;
 import de.montigem.be.auth.jwt.ShiroJWTFilter;
 import de.montigem.be.authz.util.RolePermissionManager;
 import de.montigem.be.error.JsonException;
-import de.montigem.be.error.MaCoCoErrorFactory;
+import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
 import de.montigem.be.util.Responses;
@@ -47,6 +47,7 @@ public class TokenService {
   @Inject
   private IRefreshTokenManager refreshTokenManager;
 
+  // TODO GV, SVa
  /* @GET
   @Path("{token}/validity")
   public Response validateToken(@PathParam("token")
@@ -98,8 +99,8 @@ public class TokenService {
       }
     } catch (JsonException e) {
       Log.warn(TokenService.class.getName() + " Token couldnt be refreshed", e);
-      return Responses.error(MaCoCoErrorFactory.deserializeError(jsonRefreshToken), getClass());
+      return Responses.error(MontiGemErrorFactory.deserializeError(jsonRefreshToken), getClass());
     }
-    return Responses.error(MaCoCoErrorFactory.unauthorized(), getClass());
+    return Responses.error(MontiGemErrorFactory.unauthorized(), getClass());
   }
 }

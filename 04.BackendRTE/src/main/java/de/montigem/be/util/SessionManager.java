@@ -8,17 +8,17 @@ import java.util.Map;
 @Stateless
 public class SessionManager {
 
-  private Map<Session, MaCoCoSecurityContext> sessions = new HashMap<>();
+  private Map<Session, MontiGemSecurityContext> sessions = new HashMap<>();
 
   public void addSession(Session session) {
-    sessions.put(session, new MaCoCoSecurityContext(false));
+    sessions.put(session, new MontiGemSecurityContext(false));
   }
 
   public void removeSession(Session session) {
     sessions.remove(session);
   }
 
-  public MaCoCoSecurityContext getSecurityContext(Session session) {
+  public MontiGemSecurityContext getSecurityContext(Session session) {
     return sessions.get(session);
   }
 }
