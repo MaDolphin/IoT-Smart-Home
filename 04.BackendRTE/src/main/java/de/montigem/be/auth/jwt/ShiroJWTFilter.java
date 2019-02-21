@@ -75,13 +75,13 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
         "org.apache.openejb.client.LocalInitialContextFactory");
     InitialContext context = new InitialContext(props);
     refreshTokenManager = (IRefreshTokenManager) context
-        .lookup("java:global/macoco-be/InMemoryRefreshTokenManager");
+        .lookup("java:global/montigem-be/InMemoryRefreshTokenManager");
     databaseDataSource = (DatabaseDataSource) context
-        .lookup("java:global/macoco-be/DatabaseDataSource");
+        .lookup("java:global/montigem-be/DatabaseDataSource");
     daoLib = (DAOLib) context
-        .lookup("java:global/macoco-be/DAOLib");
+        .lookup("java:global/montigem-be/DAOLib");
     rolePermissionManager = (RolePermissionManager) context
-        .lookup("java:global/macoco-be/RolePermissionManager");
+        .lookup("java:global/montigem-be/RolePermissionManager");
   }
 
   /**

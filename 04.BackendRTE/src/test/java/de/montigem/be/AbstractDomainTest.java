@@ -60,7 +60,7 @@ public abstract class AbstractDomainTest {
 
   @Deployment(testable = true)
   public static WebArchive createDeployment() {
-    WebArchive wa = ShrinkWrap.create(WebArchive.class, "macoco-be.war");
+    WebArchive wa = ShrinkWrap.create(WebArchive.class, "montigem-be.war");
     TestUtil.addClassesToWebArchive(wa);
     return wa;
   }

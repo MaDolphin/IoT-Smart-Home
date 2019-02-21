@@ -6,9 +6,9 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 	<!-- TODO: Adapt this to the new MaCoCo stuff -->
-	<display-name>macoco-be</display-name>
+	<display-name>montigem-be</display-name>
 	<listener>
-		<listener-class>main.java.be.config.ConfigInitializer</listener-class>
+		<listener-class>de.montigem.be.config.ConfigInitializer</listener-class>
 	</listener>
 	<listener>
 		<listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
