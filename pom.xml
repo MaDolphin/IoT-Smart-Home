@@ -100,7 +100,7 @@
 
 	<!-- == DEPENDENCIES ==================================================== -->
 	<dependencies>
-		<!-- .. Common Libraries .............................................. -->
+		<!--  Common Libraries -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -110,21 +110,6 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.se_rwth.commons</groupId>
-			<artifactId>se-commons-utilities</artifactId>
-			<version>${se-commons.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.se_rwth.commons</groupId>
-			<artifactId>se-commons-groovy</artifactId>
-			<version>${se-commons.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.se_rwth.commons</groupId>
-			<artifactId>se-commons-logging</artifactId>
-			<version>${se-commons.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -142,6 +127,23 @@
 			<version>${jline.version}</version>
 		</dependency>
 
+        <!-- SE Libraries -->
+        <dependency>
+            <groupId>de.se_rwth.commons</groupId>
+            <artifactId>se-commons-utilities</artifactId>
+            <version>${se-commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.se_rwth.commons</groupId>
+            <artifactId>se-commons-groovy</artifactId>
+            <version>${se-commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.se_rwth.commons</groupId>
+            <artifactId>se-commons-logging</artifactId>
+            <version>${se-commons.version}</version>
+        </dependency>
+
 		<!-- LOG -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -154,6 +156,7 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 
+        <!-- TEST -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -172,6 +175,10 @@
 			<id>se-nexus</id>
 			<url>https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/</url>
 		</snapshotRepository>
+		<repository>
+			<id>se-nexus</id>
+			<url>https://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/</url>
+		</repository>
 	</distributionManagement>
 
 
