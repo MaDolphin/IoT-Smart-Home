@@ -1,0 +1,18 @@
+system.common.commands
+ - LongValue_getAll
+ - LongValue_getById
+ - StringContainer_getAll
+ - StringContainer_getById
+ 
+system.common.dtos
+ - LongValueDTO
+ - LongValueDTOLoader
+ - StringContainerDTO
+ - StringContainerDTOLoader
+ 
+marshalling
+ - CommandDTOTypeAdapter
+ - DTOTypeAdapter
+ 
+util
+- DAOLIB
