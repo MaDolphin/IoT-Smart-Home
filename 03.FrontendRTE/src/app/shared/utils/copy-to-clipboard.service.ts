@@ -1,9 +1,9 @@
 import { DecimalPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { ViewModel } from '../architecture/data/viewmodels/viewmodel';
 import { DateToStringPipe } from '../pipes/date-to-string.pipe';
 import { NumberToMoneyPipe } from '../pipes/number-to-money.pipe';
 import { DataTableComponent as DT } from '@shared/components/guidsl/data-table/data-table.component';
+import { ViewModel } from "@shared/architecture/data/viewmodel";
 
 let datePipe = new DateToStringPipe();
 let moneyPipe = new NumberToMoneyPipe(new DecimalPipe('de-DE'));

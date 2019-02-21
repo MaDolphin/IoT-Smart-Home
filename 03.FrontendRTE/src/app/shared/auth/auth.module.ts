@@ -13,7 +13,6 @@ import { AuthService } from './auth.service';
 import { ForgotComponent } from './forgot/forgot.component';
 import { LoginComponent } from './login/login.component';
 import { RegService } from './reg.service';
-import { RegisterComponent } from './register/register.component';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 
 
@@ -36,14 +35,12 @@ import { InputModule } from '@shared/components/guidsl/input/input.module';
       ],
       declarations: [
         LoginComponent,
-        RegisterComponent,
         ForgotComponent,
         AuthComponent,
         ActivationLinkComponent
       ],
       exports: [
         LoginComponent,
-        RegisterComponent,
         ForgotComponent,
         AuthComponent,
         ActivationLinkComponent

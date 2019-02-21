@@ -4,7 +4,7 @@ import { GenericFormGroup } from '../generic-form-group';
 import { init } from './group/init';
 import { countMultiSubGroup, createMultiSubGroup, removeMultiSubGroup } from './group/multi-sub-group';
 import { afterSubmit, beforeSubmit, onSubmit } from './group/onSubmit';
-import { getControlsByNames } from './group/untils';
+import { getControlsByNames } from './group/utils';
 import { afterValidate, beforeValidate, onValidate } from './group/validate';
 import { ApplyAddIf, ApplyRemoveIf } from './if';
 

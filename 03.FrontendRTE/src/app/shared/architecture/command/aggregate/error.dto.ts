@@ -1,6 +1,6 @@
 import { JsonMember, JsonObject } from '@upe/typedjson';
 import { DTO } from '@shared/architecture/data';
-import { AppError } from '@shared/utils/general.error';
+import { GeneralError } from '@shared/utils/general.error';
 
 @JsonObject()
 export class ErrorDTO extends DTO<ErrorDTO> {
@@ -14,20 +14,20 @@ export class ErrorDTO extends DTO<ErrorDTO> {
   @JsonMember({
     isRequired: true,
     name: 'error',
-    type: AppError,
-  }) private _error?: AppError;
+    type: GeneralError,
+  }) private _error?: GeneralError;
 
-  constructor(errorCode?: string, msg?: AppError | Error | string) {
+  constructor(errorCode?: string, msg?: GeneralError | Error | string) {
     super();
     this.typeName = 'ErrorDTO';
     this._errorCode = errorCode ? errorCode : '0xFFFFE';
     if (msg) {
-      if (msg instanceof AppError) {
+      if (msg instanceof GeneralError) {
         this._error = msg;
       } else if (msg instanceof Error) {
-        this._error = AppError.createFromError(msg);
+        this._error = GeneralError.createFromError(msg);
       } else {
-        this._error = AppError.createInternal(msg);
+        this._error = GeneralError.createInternal(msg);
       }
     }
   }
@@ -40,11 +40,11 @@ export class ErrorDTO extends DTO<ErrorDTO> {
     this._errorCode = value;
   }
 
-  get error(): AppError {
+  get error(): GeneralError {
     return this._error;
   }
 
-  set error(value: AppError) {
+  set error(value: GeneralError) {
     this._error = value;
   }
 
@@ -52,13 +52,13 @@ export class ErrorDTO extends DTO<ErrorDTO> {
     return this._error.message();
   }
 
-  public message(msg: AppError | Error | string) {
-    if (msg instanceof AppError) {
+  public message(msg: GeneralError | Error | string) {
+    if (msg instanceof GeneralError) {
       this._error = msg;
     } else if (msg instanceof Error) {
-      this._error = AppError.createFromError(msg);
+      this._error = GeneralError.createFromError(msg);
     } else {
-      this._error = AppError.createInternal(msg);
+      this._error = GeneralError.createInternal(msg);
     }
   }
 }

@@ -17,9 +17,8 @@
     <final.name>FrontendRTE</final.name>
     <se-commons-utilities.version>1.7.8-SNAPSHOT</se-commons-utilities.version>
     <se-groovy.maven.version>1.2.2</se-groovy.maven.version>
-    <macoco.version>${version}</macoco.version>
     <maven.build.timestamp.format>yyyy.MM.dd HH:mm</maven.build.timestamp.format>
-    <macoco.buildTime>${maven.build.timestamp}</macoco.buildTime>
+    <buildTime>${maven.build.timestamp}</buildTime>
     <sonar.sources>src/app</sonar.sources>
     <sonar.tests>src/tests</sonar.tests>
   </properties>
@@ -298,35 +297,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.7</version>
-        <executions>
-          <execution>
-            <id>copy-frontend-src-resources</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.basedir}/target/${final.name}/
-              </outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}/dist/</directory>
-                  <includes>
-                    <include>**/*.*</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>3.0.0</version>
@@ -379,7 +349,7 @@
             <phase>package</phase>
           </execution>
         </executions>
-        
+
         <configuration>
           <overlays>
             <overlay>

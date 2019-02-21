@@ -1,7 +1,7 @@
 import { ReflectiveInjector } from '@angular/core';
 import { AbstractControl, FormArray } from '@angular/forms';
 import { GenericFormGroup } from '@shared/generic-form/generic-form';
-import { extractPrototype } from './untils';
+import { extractPrototype } from './utils';
 
 // TODO : dont allow custom multi sub group names
 // FIXME : this functionality is not implemented !!!!!!!

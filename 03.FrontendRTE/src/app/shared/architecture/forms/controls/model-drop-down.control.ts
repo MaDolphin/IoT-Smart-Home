@@ -1,5 +1,5 @@
 import { ValidatorFn } from '@angular/forms';
-import { IModel } from '@shared/architecturedata';
+import { IModel } from '@shared/architecture/data';
 import { DropDownControl, DropDownControlOption } from './drop-down.control';
 
 export interface INamed {

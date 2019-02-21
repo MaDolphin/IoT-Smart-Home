@@ -1,8 +1,8 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
-import { MoneyToNumberPipe } from '@sharedpipes/money-to-number.pipe';
-import { NumberToMoneyPipe } from '@sharedpipes/number-to-money.pipe';
+import { MoneyToNumberPipe } from '@shared/pipes/money-to-number.pipe';
+import { NumberToMoneyPipe } from '@shared/pipes/number-to-money.pipe';
 import { FormularControl } from './formular.control';
 
 export const NUMBER_MASK = createNumberMask({

@@ -15,19 +15,14 @@ import { MomentPipe } from './moment.pipe';
 import { MoneyToNumberPipe } from './money-to-number.pipe';
 import { NumberToMoneyPipe } from './number-to-money.pipe';
 import { PieChartPriorityPipe } from './piechart-priority.pipe';
-import { ProjectkindClassificationPipe } from './projectkind-classification.pipe';
-import { ProjectkindNamePipe } from './projectkind-name.pipe';
 import { PropertyFilterPipe } from './property-filter.pipe';
-import { PspToProjectkindPipe } from './psp2projectkind.pipe';
 import { RemoveNullsPipe } from './remove-nulls.pipe';
 import { RoundPipe } from './round.pipe';
 import { SearchFilter } from './search-filter.pipe';
 import { StringArrayFilter } from './string-array-filter.pipe';
 import { StringToDatePipe } from './string-to-date.pipe';
 import { SumPipe } from './sum.pipe';
-import { ToPspElementPipe } from './to-psp-element.pipe';
 import { UnixDateToStringPipe } from './unix-date-to-string.pipe';
-import { ValueWithoutOverheadPipe } from './valueWithoutOverhead.pipe';
 import { ToPercentPipe } from './topercent.pipe';
 import { ValueWithoutRatePipe } from './valueWithoutRate.pipe';
 import { ValueWithOverheadPipe } from './valueWithOverhead.pipe';
@@ -61,15 +56,10 @@ const pipes: any[] = [
   MomentPipe,
   SumPipe,
   RemoveNullsPipe,
-  ToPspElementPipe,
   RoundPipe,
-  ProjectkindNamePipe,
-  ProjectkindClassificationPipe,
-  PspToProjectkindPipe,
   ValueWithRatePipe,
   ValueWithoutRatePipe,
   ValueWithOverheadPipe,
-  ValueWithoutOverheadPipe,
   ToPercentPipe,
   UnixDateToStringPipe,
   PrettyJsonPipe,
@@ -116,7 +106,6 @@ export class PipesModule {
         ValueWithRatePipe,
         ValueWithoutRatePipe,
         ValueWithOverheadPipe,
-        ValueWithoutOverheadPipe,
         RemoveNullsPipe,
         ClonePipe,
         DurationInMonthsAndDays,

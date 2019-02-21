@@ -1,12 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Logger } from '@upe/logger';
 import { BaseChartDirective } from 'ng2-charts';
-import { FinanzierungInDetailsDTO } from '@targetdtos/finanzierungindetails.dto';
-import { FinanzierungZusammenstellungDTO } from '@targetdtos/finanzierungzusammenstellung.dto';
-import { PersonDTO } from '@targetdtos/person.dto';
 import { RouterLocalService } from '@shared/architecture/services/router.local.service';
-import { FinanzierungZusammenstellungEntryDTO } from '@targetdtos/finanzierungzusammenstellungentry.dto';
-import { FinanzierungsJahreDTO } from '@budgetinfo-dto/finanzierungsjahre.dto';
 import * as Chart from 'chart.js'
 import { ColorsService } from '@shared/utils/colors.service';
 
@@ -39,6 +34,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   public set tickSizePercentage(size: number) {
     this.tickSize.percentage = size;
   }
+
   public colorSet = [];
   public _dateRange = [2018, 2019];
 
@@ -61,7 +57,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   private defaultColor = ['#00549f', '#555555', '#57ab27', '#554496', '#87FF87', '#980000'];
   private _displayYear: number = (new Date()).getFullYear();
-  private logger: Logger = new Logger({ name: 'BarChartComponent' });
+  private logger: Logger = new Logger({name: 'BarChartComponent'});
 
   public get displayYear() {
     return this._displayYear;
@@ -89,22 +85,20 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
 
     let i = 0;
-    for ( ; i < colors.length; i++) {
+    for (; i < colors.length; i++) {
       if (i < this.colorSet.length)
         this.colorSet[i].backgroundColor = colors[i];
       else
         break;
     }
 
-    for ( ; i < colors.length; i++) {
+    for (; i < colors.length; i++) {
       this.colorSet.push(
-      {
-        backgroundColor: colors[i]
-      });
+        {
+          backgroundColor: colors[i]
+        });
 
     }
-
-
 
 
   }
@@ -178,7 +172,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       display: true,
       position: 'bottom'
     },
-    elements: { point: { radius: 0 } },
+    elements: {point: {radius: 0}},
     scales: {
       xAxes: [
         {
@@ -343,27 +337,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     else
       return;
 
-    if (obj instanceof PersonDTO) {
-      this.title = obj.kuerzel;
-      return;
-    }
-
     this.dataSet = [];
-
-    if (obj instanceof FinanzierungZusammenstellungDTO) {
-      this.dataSet = this.parseDataFinanzierungZusammenstellung(data);
-    } else if (obj instanceof FinanzierungInDetailsDTO) {
-      this.dataSet = this.parseDataFinanzierungInDetails(data);
-      this.colors = this.parseColorsFinanzierungsInDetails(this.dataSet);
-      this.customLegend = this.parseLegendFinanzierungsInDetails(this.dataSet);
-    } else {
-      this.dataSet = [];
-    }
-
   }
 
   @Input()
-  public set dateRange(value: FinanzierungsJahreDTO) {
+  public set dateRange(value: { startjahr: number, abschlussjahr: number }) {
 
     let currentYear = (new Date()).getFullYear();
 
@@ -382,63 +360,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
 
   public fetchData() {
-    let param = { start: this.yearStart, end: this.yearEnd };
+    let param = {start: this.yearStart, end: this.yearEnd};
     this.updateEvent.emit(JSON.stringify(param));
-  }
-
-  private parseDataFinanzierungZusammenstellung(dataSetx: FinanzierungZusammenstellungDTO) {
-    let dataSet: FinanzierungZusammenstellungEntryDTO[] = dataSetx.finanzierungZusammenstellungEntries;
-    let resultSet = [];
-
-    if (dataSet.length === 0 )
-      return resultSet;
-
-
-    // Calc Y Axis (Percentage or Hour display)
-    this.updateYAxis(dataSet[0].umfang.zahlenTyp);
-
-
-    // Planumfang
-    let planUmfangSet = this.createEmptyDataSet('Planumfang');
-
-    dataSet.forEach((dto) => {
-      let dataPoints = [];
-
-      let index = (dto.jahr - Number(this.yearStart)) * 12 + (dto.monat - 1);
-
-      planUmfangSet.data[index] = parseFloat((dto.planUmfang.wert).toFixed(2)) / 100;
-    });
-
-
-    resultSet.push(planUmfangSet);
-
-    // Umfänge
-
-    resultSet.push(this.createEmptyDataSet('Beschäftigungsumfang'));
-
-    dataSet.forEach((dto) => {
-      let dataPoints = [];
-
-      let index = (dto.jahr - Number(this.yearStart)) * 12 + (dto.monat - 1);
-
-      let setIndex = 1;
-
-      let value = parseFloat((dto.umfang.wert).toFixed(2)) / 100;
-
-      if (value <= 0)
-        return;
-
-      while (setIndex < resultSet.length && !isNaN(resultSet[setIndex].data[index])) {
-        setIndex++;
-      }
-
-      if (setIndex >= resultSet.length)
-        resultSet.push(this.createEmptyDataSet('Monat mit Finanzierungsänderung'));
-
-      resultSet[setIndex].data[index] = value;
-    });
-
-    return resultSet;
   }
 
   private createEmptyDataSet(label: string): BarDataGroup {
@@ -457,131 +380,35 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   private parseLegendFinanzierungsInDetails(dataSet) {
-    return dataSet.reduce( (acc, cur) => {
-        if ( acc.findIndex( (ks) => { return ks.label === cur.label; }) === -1 ) {
-          acc.push({
-            label: cur.label,
-            color: this.colorSet[acc.length].backgroundColor
-          });
-        }
+    return dataSet.reduce((acc, cur) => {
+      if (acc.findIndex((ks) => {
+        return ks.label === cur.label;
+      }) === -1) {
+        acc.push({
+          label: cur.label,
+          color: this.colorSet[acc.length].backgroundColor
+        });
+      }
 
-        return acc;
+      return acc;
     }, []);
   }
 
   private parseColorsFinanzierungsInDetails(dataSet): string[] {
-      let mapping = {};
+    let mapping = {};
 
-      dataSet.forEach( ks => {
-        if (!mapping.hasOwnProperty(ks.label)) {
-          let index = Object.keys(mapping).length;
-          mapping[ks.label] = this.colorSet[index].backgroundColor
-        }
-      });
-
-      let res = dataSet.map( ks => {
-        return mapping[ks.label];
-      });
-
-      return res;
-  }
-
-  private parseDataFinanzierungInDetails(dataSetx: FinanzierungInDetailsDTO) {
-    let dataSet: any = dataSetx.finanzierungInDetailsEntries;
-
-    // Calc Y Axis (Percentage or Hour display)
-    let wert: string = dataSet.reduce((acc, cur) => {
-      return cur.kostenstellen.reduce((ks_acc, ks_cur) => {
-        return ks_cur.wert.zahlenTyp;
-      }, null);
-    }, null);
-
-
-    this.updateYAxis(wert);
-
-    // Find Kostenstellen
-
-    let intervalls = [];
-    let stackIndex = 0;
-    let prevData;
-
-    dataSet.forEach((finanz) => {
-
-      if (!prevData) {
-      } else {
-        // folgender monat
-        if ((prevData.monat + 1) === finanz.monat && prevData.jahr === finanz.jahr) {
-
-          // Jahreswechsel
-        } else if ((prevData.jahr + 1) === finanz.jahr
-          && prevData.monat === 12
-          && finanz.monat === 1) {
-        } else {
-          stackIndex++;
-        }
+    dataSet.forEach(ks => {
+      if (!mapping.hasOwnProperty(ks.label)) {
+        let index = Object.keys(mapping).length;
+        mapping[ks.label] = this.colorSet[index].backgroundColor
       }
-
-      if (!intervalls[stackIndex])
-        intervalls[stackIndex] = [];
-
-      intervalls[stackIndex].push(finanz);
-
-      prevData = finanz;
     });
 
-    // Map Kostenstellen to Grap
-
-
-    let finalData = [];
-
-    stackIndex = 0;
-    intervalls.forEach((intervall) => {
-
-      let result = {};
-
-      let kostenStellen = intervall.reduce((acc, cur) => {
-        cur.kostenstellen.reduce((ks_acc, ks_cur) => {
-          if (ks_acc.indexOf(ks_cur.name) === -1)
-            ks_acc.push(ks_cur.name);
-
-          return ks_acc;
-        }, []).forEach((ks) => {
-          if (acc.indexOf(ks) === -1)
-            acc.push(ks);
-        });
-
-        return acc;
-      }, []);
-
-
-
-      kostenStellen.map((kostenstelle) => {
-
-        let kostenSet = this.createEmptyDataSet(kostenstelle);
-
-        intervall.forEach(dto => {
-          let index = (dto.jahr - Number(this.yearStart)) * 12 + (dto.monat - 1);
-
-          let kosten = dto.kostenstellen.filter((ks) => ks.name === kostenstelle)
-            .reduce((acc, cur) => {
-              acc += parseFloat((cur.wert.wert).toFixed(2)) / 100;
-              return acc;
-            }, 0);
-
-          kostenSet.data[index] = kosten;
-          kostenSet.stack = 'Stack' + stackIndex;
-        });
-
-        return kostenSet;
-
-      }).forEach(ks => {
-        finalData.push(ks);
-      });
-
-      stackIndex++;
+    let res = dataSet.map(ks => {
+      return mapping[ks.label];
     });
 
-    return finalData;
+    return res;
   }
 
   private customTooltipPosition(elements, position) {

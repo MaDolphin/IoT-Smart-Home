@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { copyByValue } from '@shared/utils/util';
-import { asMoney } from '@components/data-table/data-table.trasformation';
+import { asMoney } from '@components/data-table/data-table.transformation';
 
 @Component({
   selector: 'app-budget-widget',

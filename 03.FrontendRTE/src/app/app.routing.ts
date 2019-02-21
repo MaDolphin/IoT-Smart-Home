@@ -1,5 +1,4 @@
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardGenComponent } from './dashboard/dashboard-gen.component';
 import { ActivationLinkComponent } from '@shared/auth/activation-link/activation-link.component';
 import { AuthGuard } from '@shared/auth/auth-guard';
 import { AuthComponent } from '@shared/auth/auth.component';
@@ -16,13 +15,8 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'guidsl',
         pathMatch: 'full'
-      },
-      {
-        path: 'dashboard',
-        component: DashboardGenComponent,
-        data: {pageTitle: 'Dashboard'}
       },
       {
         path:       'guidsl',
@@ -54,7 +48,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: '**', redirectTo: 'dashboard'
+    path: '**', redirectTo: 'guidsl'
   }
 ];
 

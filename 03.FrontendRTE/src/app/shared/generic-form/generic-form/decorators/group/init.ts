@@ -44,7 +44,7 @@ import { ContextDeps } from '../context-test';
 import { IAddIf } from '../if';
 import { ISelectOptions } from '../options';
 import { RequiredValidator } from '../required';
-import { extractPrototype } from './untils';
+import { extractPrototype } from './utils';
 import { AutoCompleteFormControl } from '@shared/generic-form/controls/auto-complete.form-control';
 import { RadioFormControl } from '@shared/generic-form/controls/radio.form-control';
 

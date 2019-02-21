@@ -3,8 +3,8 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { Logger } from '@upe/logger';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { IViewModel } from '@shared/architecture/data/viewmodels/viewmodel';
-import { DataTable } from './data-table';
+import { IViewModel } from "@shared/architecture/data/viewmodel";
+import { DataTable } from "@components/data-table/data-table";
 
 export class DataTableDataSource<T extends IViewModel<any>> extends DataSource<any> {
 

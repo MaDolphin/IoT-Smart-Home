@@ -4,7 +4,7 @@ import { AbstractControl } from '@angular/forms/src/model';
 import { Logger } from '@upe/logger';
 import { Subject } from 'rxjs/Subject';
 import { CONTROL_NAME, SUB_GROUP } from './config';
-import { extractPrototype } from './decorators/group/untils';
+import { extractPrototype } from './decorators/group/utils';
 import { IAddIf } from './decorators/if';
 import { GenericFormControl } from './generic-form-control';
 import { IGenericFormGroup } from './generic-form-group.interface';

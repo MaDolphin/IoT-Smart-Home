@@ -4,7 +4,6 @@ import { DialogCallbackOne } from '@shared/utils/dialog/dialog.callback';
 import { AuthService } from '@shared/auth/auth.service';
 import { NotificationService } from '@shared/notification/notification.service';
 import { Router } from '@angular/router';
-import { PermissionFlags, Token } from '@shared/auth/token';
 
 
 export interface INavigation {
@@ -33,68 +32,12 @@ export class NavigationComponent {
   }
 
   public navigation: INavigation[] = [
-    { label: 'Dashboard', link: ['/', 'dashboard'], icon: 'dashboard' },
-    {
-      label: 'Finanzen', link: ['/',  'finanzen', 'dashboard'], icon: 'euro_symbol', expanded: true, children: [
-        { label: 'Konten', link: ['/', 'finanzen', 'konten', 'overview'], icon: 'euro_symbol' },
-        { label: 'Zahlungen', link: ['/', 'finanzen', 'zahlungen', 'buchungen'], icon: 'euro_symbol' },
-      ],
-    },
-    {
-      label: 'Fakultät', link: ['/', 'fakultaet', 'dashboard'], icon: 'account_balance', enabled: (): boolean => {
-        return Token.hasPermissionFor(PermissionFlags.FAKULTAET_INSTANZ);
-      }, expanded: true, children: [
-        { label: 'Übersicht', link: ['/', 'fakultaet', 'overview'], icon: 'euro_symbol' },
-        { label: 'Begründungen', link: ['/', 'fakultaet', 'begruendung'], icon: 'euro_symbol' }
-      ]
-    },
-    {
-      label: 'Personal',
-      link: ['/', 'personal', 'dashboard'],
-      icon: 'supervisor_account',
-      expanded: true,
-      enabled: (): boolean => {
-        return Token.hasPermissionFor(PermissionFlags.PERSONAL)
-      },
-      children: [
-        { label: 'Mitarbeiter', link: ['/', 'personal', 'mitarbeiter', 'overview'], icon: 'account_circle' },
-        { label: 'Planstellen', link: ['/', 'personal', 'planstellen', 'overview'], icon: 'account_box' },
-        { label: 'Gehaltszahlungen', link: ['/', 'personal', 'gehaltszahlungen', 'overview'], icon: 'euro_symbol' },
-        { label: 'Finanzierung', link: ['/', 'personal', 'finanzierung', 'overview'], icon: 'euro_symbol' }
-      ]
-    },
-    {
-      label: 'Einstellungen', link: ['/', 'einstellungen', 'profil'], icon: 'settings', expanded: true, children: [
-        {
-          label: 'Mein Profil',
-          link: ['/', 'einstellungen', 'profil'],
-          icon: 'supervisor_account',
-        },
-        {
-          label: 'Benutzer/Rollen',
-          link: ['/', 'einstellungen', 'benutzer'],
-          icon: 'supervisor_account',
-          enabled: (): boolean => {
-            return Token.hasPermissionFor(PermissionFlags.USER)
-          },
-        },
-        {
-          label: 'Daten Import',
-          link: ['/', 'guidsl', 'einstellungen', 'import'],
-          icon: 'supervisor_account',
-          enabled: (): boolean => {
-            return Token.hasPermissionFor(PermissionFlags.USER)
-          },
-        },
-      ],
-    },
-
   ];
 
   private version(): string {
     let v: string = '${app.version}';
     if (v === '${app.version}') {
-      v = '1.9.6-SNAPSHOT';
+      v = '0.0.1-SNAPSHOT';
     }
     return v;
   }

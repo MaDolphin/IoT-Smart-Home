@@ -236,7 +236,7 @@ export class TimeLineChartComponent implements OnInit {
 
 
   @Input()
-  public set dateRange(value: FinanzierungsJahreDTO) {
+  public set dateRange(value: { startjahr: number, abschlussjahr: number }) {
     let currentYear = (new Date()).getFullYear();
 
     if (value) {
@@ -261,7 +261,7 @@ export class TimeLineChartComponent implements OnInit {
 
 
   @Input()
-  public set data(data: VertragLaufzeitEntryDTO[]) {
+  public set data(data: any[]) {
     if (data === undefined) {
       this.clearData();
       return;
@@ -269,31 +269,8 @@ export class TimeLineChartComponent implements OnInit {
     this.setData(data);
   }
 
-  public setData(data: VertragLaufzeitEntryDTO[]) {
-
+  public setData(data: any[]) {
     this.clearData();
-
-    let kostenStellen = [];
-
-    let vertrag = [];
-
-    data.forEach( (entry: VertragLaufzeitEntryDTO) => {
-      entry.kostenstellen.forEach( (kostenStelle) => {
-        kostenStellen.push(kostenStelle);
-      });
-
-      vertrag.push(entry.vertrag);
-
-    });
-
-    this.kontenSet = this.extractKonten(kostenStellen, vertrag);
-
-    this.personalSet = this.extractPersonal(null);
-
-    this.options.scales.yAxes[0].labels = this.setYAxis(this.personalSet, this.kontenSet);
-
-    this.dataSet = this.parseData(kostenStellen, vertrag);
-
   }
 
   public updateChart() {
@@ -316,132 +293,4 @@ export class TimeLineChartComponent implements OnInit {
     this.options.scales.xAxes[1].time.min = (Number(this.yearStart) - 1) + '-12-15';
     this.options.scales.xAxes[1].time.max = this.yearEnd + '-12-14';
   }
-
-  private parseData(kostenStellen: LaufzeitEntryDTO[], vertragDTO: LaufzeitEntryDTO[]) {
-
-    let tmpSet = [];
-
-    // Create Tuple (start and end point of the line) and combine it with
-    // y axis attribute: personalName.konto
-
-    this.personalSet.forEach(person => {
-      vertragDTO.forEach( (vertrag) => {
-        let vPoints = [
-          {
-            x: vertrag.startDatum,
-            y: person + '.' + vertrag.name,
-          }, {
-            x: vertrag.endDatum,
-            y: person + '.' + vertrag.name,
-          },
-        ];
-
-        if (!tmpSet[vertrag.name]) {
-          tmpSet[vertrag.name] = [];
-        }
-
-        tmpSet[vertrag.name].push(vPoints);
-      });
-
-
-
-      kostenStellen.forEach(ks => {
-        let points = [
-          {
-            x: ks.startDatum,
-            y: person + '.' + ks.name,
-          }, {
-            x: ks.endDatum,
-            y: person + '.' + ks.name,
-          },
-        ];
-
-        if (!tmpSet[ks.name]) {
-          tmpSet[ks.name] = [];
-        }
-
-        tmpSet[ks.name].push(points);
-      });
-    });
-
-    // Group similar konto into one group
-    let resultSet = [];
-
-    for (let set in tmpSet) {
-      let data = {
-        fill: false,
-        data: [],
-        label: set,
-      };
-
-      for (let points of tmpSet[set]) {
-        data.data.push(points[0]);
-        data.data.push(points[1]);
-        data.data.push(NaN); // Enables breaks between lines
-      }
-      resultSet.push(data);
-    }
-
-    return resultSet;
-
-  }
-
-  private setYAxis(personal, konten) {
-
-    let axisLabels = [];
-
-    if (personal.length < 2) {
-      axisLabels.push('empty.front');
-    }
-
-    for (let person of personal) {
-
-      if (personal.length > 1) {
-        axisLabels.push(person + '.' + 'break');
-      }
-
-      for (let konto of konten) {
-        let label = person + '.' + konto;
-        axisLabels.push(label);
-      }
-    }
-
-    axisLabels.push('empty.end');
-    return axisLabels;
-  }
-
-  private extractPersonal(data: VertragLaufzeitEntryDTO) {
-    /*
-     var tmpSet = [];
-
-     for (let barGroup of data) {
-     if (tmpSet.indexOf(barGroup.name) == -1)
-     tmpSet.push(barGroup.name);
-     }
-     */
-    return ['MA01'];
-  }
-
-  private extractKonten(kostenstellen: LaufzeitEntryDTO[], vertragDTO: LaufzeitEntryDTO[]) {
-
-    let vertrag;
-
-    vertragDTO.forEach( (data) => {
-      vertrag = data.name;
-    });
-
-    let tmpSet = kostenstellen.map(a => a.name).reduce((acc, cur) => {
-      if (acc.indexOf(cur) < 0) {
-        acc.push(cur);
-      }
-
-      return acc;
-    }, []);
-
-    tmpSet.unshift(vertrag);
-
-
-    return tmpSet;
-  }
-
 }

@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import * as moment from 'moment';
-import { DateToStringPipe } from '@sharedpipes/date-to-string.pipe';
-import { NORMAL_DATE_FORMAT, NORMAL_DATE_REGEX, StringToDatePipe } from '@sharedpipes/string-to-date.pipe';
+import { DateToStringPipe } from '@shared/pipes/date-to-string.pipe';
+import { NORMAL_DATE_FORMAT, NORMAL_DATE_REGEX, StringToDatePipe } from '@shared/pipes/string-to-date.pipe';
 import { FormularControl } from './formular.control';
 
 export class DateControl extends FormularControl<string, Date> {

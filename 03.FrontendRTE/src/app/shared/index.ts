@@ -1,1 +1,1 @@
-export { GeneralModule } from './app.module';
+export { GeneralModule } from './general.module';

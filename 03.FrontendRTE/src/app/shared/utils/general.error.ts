@@ -2,10 +2,10 @@ import { JsonMember, JsonObject } from '@upe/typedjson';
 
 @JsonObject()
 export class GeneralError {
-  @JsonMember({isRequired: true, name: 'errorCode', type: String}) private readonly errorCode: string;
-  @JsonMember({isRequired: false, name: 'title', type: String}) private readonly errorTitle: string | undefined;
+  @JsonMember({isRequired: true, name: 'errorCode', type: String}) public errorCode: string;
+  @JsonMember({isRequired: false, name: 'title', type: String}) public errorTitle: string | undefined;
   @JsonMember({isRequired: false, name: 'httpStatusCode', type: String}) protected _httpStatusCode: string | undefined;
-  @JsonMember({isRequired: true, name: 'description', type: String}) private readonly _message: string;
+  @JsonMember({isRequired: true, name: 'description', type: String}) protected _message: string;
 
   public constructor(message?: string, title?: string, errorCode?: string, httpStatusCode?: string) {
     Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain

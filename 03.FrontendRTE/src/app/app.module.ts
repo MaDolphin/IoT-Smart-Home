@@ -18,7 +18,6 @@ import { LoadingModule } from '@shared/layout/loading/loading.module';
 import { GeneralModule } from '@shared/general.module';
 import { PipesModule } from '@shared/pipes';
 import { UtilsModule } from '@shared/utils/utils.module';
-import { DashboardGenComponent } from './dashboard/dashboard-gen.component';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 
@@ -45,7 +44,6 @@ export const MY_DATE_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardGenComponent,
   ],
   imports:      [
     BrowserAnimationsModule,

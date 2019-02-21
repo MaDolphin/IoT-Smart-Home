@@ -2,7 +2,7 @@ import { AbstractControl, FormArray, FormGroup, ValidationErrors } from '@angula
 import { AFTER_VALIDATE, BEFORE_VALIDATE } from '@shared/generic-form/generic-form/config';
 import { GenericFormControl, GenericFormGroup } from '@shared/generic-form/generic-form';
 import { CallHookFunctions } from '../hooks';
-import { extractPrototype } from './untils';
+import { extractPrototype } from './utils';
 
 function validateControl(
   abstractControl: AbstractControl,
