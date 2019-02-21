@@ -6,15 +6,15 @@
 
 	<groupId>de.monticore.montigem</groupId>
 	<artifactId>montigem</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<!-- == PROJECT MODULES ================================================= -->
 	<modules>
 		<module>01.Generator</module>
         <module>02.OCL</module>
-		<!--<module>04.BackendRTE</module>
-       <module>03.FrontendRTE</module>-->
+		<!--<module>04.BackendRTE</module>-->
+      <!--  <module>03.FrontendRTE</module>-->
 	</modules>
 
 	<!-- == PROJECT PROPERTIES ============================================== -->
@@ -22,22 +22,24 @@
 		<!-- GENERAL -->
 		<model.classifier>models</model.classifier>
 
-		<montigem.version>0.0.1-SNAPSHOT</montigem.version>
+		<montigem.version>0.0.2-SNAPSHOT</montigem.version>
 
 		<ocl.version>1.2.5</ocl.version>
 		<od.version>0.2.1-SNAPSHOT</od.version>
 		<grammar.classifier>grammars</grammar.classifier>
 
 		<!-- Common Dependency Versions -->
-		<guava.version>20.0</guava.version>
+		<guava.version>21.0</guava.version>
 		<se-commons.version>1.7.9</se-commons.version>
 		<slf4j.version>1.7.5</slf4j.version>
-		<javaee-api.version>6.0</javaee-api.version>
+		<javaee.version>7.0-1</javaee.version>
 		<groovy.version>2.3.7</groovy.version>
 		<jline.version>2.12</jline.version>
+		<ch.qos.logback.version>1.0.9</ch.qos.logback.version>
+		<commons-lang.version>2.4</commons-lang.version>
 
 		<!-- Test Dependency Versions -->
-		<junit.version>4.10</junit.version>
+		<junit.version>4.12</junit.version>
 		<commons-io.version>2.4</commons-io.version>
 
 		<!-- Plugin Versions -->
@@ -51,6 +53,7 @@
 		<maven.surefire.version>2.17</maven.surefire.version>
 		<maven.invoker.version>3.0.0</maven.invoker.version>
 		<maven.clean.version>3.0.0</maven.clean.version>
+		<maven-war-plugin.version>2.1.1</maven-war-plugin.version>
 		<wagon.provider.version>2.6</wagon.provider.version>
 		<release.plugin>2.5.1</release.plugin>
 
@@ -117,14 +120,14 @@
 			<version>${se-commons.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<version>${javaee-api.version}</version>
+			<version>${javaee.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -135,6 +138,18 @@
 			<groupId>jline</groupId>
 			<artifactId>jline</artifactId>
 			<version>${jline.version}</version>
+		</dependency>
+
+		<!-- LOG -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${ch.qos.logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 
 		<dependency>

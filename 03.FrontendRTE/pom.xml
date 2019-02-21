@@ -6,7 +6,7 @@
   <name>FrontendRTE</name>
   <packaging>war</packaging>
   <groupId>de.monticore.montigem</groupId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>${montigem.version}</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
