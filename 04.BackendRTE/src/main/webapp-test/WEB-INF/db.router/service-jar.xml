@@ -1,0 +1,9 @@
+<ServiceJar>
+    <ServiceProvider id="DatabaseRouter"
+                     service="Resource"
+                     type="org.apache.openejb.resource.jdbc.Router"
+                     class-name="main.java.de.montigem.be.database.DatabaseRouter">
+        DataSourceNames
+        DefaultDataSourceName
+    </ServiceProvider>
+</ServiceJar>

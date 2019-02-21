@@ -1,0 +1,10 @@
+<resources>
+    <Resource id="TestDB" type="javax.sql.DataSource">
+        jdbcUrl = jdbc:mysql://192.168.99.100:3306/testdb
+        jdbcDriver = com.mysql.cj.jdbc.Driver
+
+        userName = admin
+        password = pass
+    </Resource>
+
+</resources>

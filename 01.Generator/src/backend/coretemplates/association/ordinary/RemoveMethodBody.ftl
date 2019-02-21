@@ -36,7 +36,7 @@ ${tc.signature("attrName", "newAttrName", "rawMethodCall", "isOneToMany", "metho
   if (this.${attrName}.contains(${newAttrName})){
     <#if isComposition>
       <#assign h = tc.instantiate("common.util.TransformationUtils")>
-      throw new de.macoco.be.error.DataConsistencyException("${h.getErrorCode()}: ${methodName}: Association links cannot be removed from compositions.");
+      throw new DataConsistencyException("${h.getErrorCode()}: ${methodName}: Association links cannot be removed from compositions.");
     <#else>
       <#if isOneToMany>
       if (this.${attrName}.size() <= 1){

@@ -1,0 +1,35 @@
+<resources>
+
+	<Resource id="DBRouter" type="main.java.de.montigem.be.database.DatabaseRouter"
+			  provider="db.router#DatabaseRouter">
+		DatasourceNames = TestDB
+		DefaultDataSourceName = TestDB
+	</Resource>
+
+	<Resource id="Routed Datasource" type="org.apache.openejb.resource.jdbc.Router"
+			  provider="RoutedDataSource">
+		Router = DBRouter
+	</Resource>
+
+    <Resource id="DataSource" type="javax.sql.DataSource">
+        <!-- jdbcUrl = jdbc:mysql://192.168.99.100:3306/macoco -->
+        jdbcUrl = jdbc:mysql://localhost:3305/datasource
+        jdbcDriver = com.mysql.cj.jdbc.Driver
+
+        userName = admin
+        password = pass
+
+        jtaManaged = true
+    </Resource>
+
+	<Resource id="TestDB" type="javax.sql.DataSource">
+		jdbcUrl = jdbc:mysql://localhost:3306/testdb
+		jdbcDriver = com.mysql.cj.jdbc.Driver
+
+		userName = admin
+		password = pass
+
+		jtaManaged = true
+	</Resource>
+
+</resources>

@@ -1,0 +1,28 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="de.macoco.db.TestDB"
+                      transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>Routed Datasource</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="tomee.jpa.factory.lazy" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.flushMode" value="FLUSH_AUTO"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.archive.autodetection" value="class, hbm"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="use_sql_comments" value="false"/>
+            <property name="org.hibernate.envers.audit_table_suffix" value="_REV"/>
+            <property name="org.hibernate.envers.audit_strategy"
+                      value="org.hibernate.envers.strategy.ValidityAuditStrategy"/>
+            <property name="org.hibernate.envers.track_entities_changed_in_revision" value="true"/>
+            <property name="org.hibernate.envers.global_with_modified_flag" value="true"/>
+            <property name="org.hibernate.envers.audit_strategy_validity_store_revend_timestamp"
+                      value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

@@ -32,4 +32,4 @@ software, even if advised of the possibility of such damage.
 -->
 ${signature("methodName", "one")}
 <#assign h = tc.instantiate("common.util.TransformationUtils")>
-throw new de.macoco.be.error.DataConsistencyException("${h.getErrorCode()}: ${methodName}: Cardinality violation <#if one>[1]<#else>[1..*]</#if>");
+throw new DataConsistencyException("${h.getErrorCode()}: ${methodName}: Cardinality violation <#if one>[1]<#else>[1..*]</#if>");

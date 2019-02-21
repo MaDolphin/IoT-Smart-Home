@@ -1,0 +1,7 @@
+# Development options
+DEVELOPER_MODE: "false"
+SEND_MAILS: "false"
+
+# User settings
+DEFAULT_CURRENCY: "EUR"
+MAX_SUB_BUDGET_DEPTH: "3"
