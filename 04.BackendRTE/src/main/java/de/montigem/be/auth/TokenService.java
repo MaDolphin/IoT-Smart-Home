@@ -7,13 +7,17 @@ package de.montigem.be.auth;
 
 import de.montigem.be.auth.jwt.ExtendedJWT;
 import de.montigem.be.auth.jwt.IRefreshTokenManager;
+import de.montigem.be.auth.jwt.JWToken;
 import de.montigem.be.auth.jwt.ShiroJWTFilter;
+import de.montigem.be.auth.jwt.blacklist.BlackListManager;
 import de.montigem.be.authz.util.RolePermissionManager;
+import de.montigem.be.domain.cdmodelhwc.classes.domainuser.DomainUser;
 import de.montigem.be.error.JsonException;
 import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
 import de.montigem.be.util.Responses;
+import de.montigem.be.util.json.JsonBooleanValue;
 import de.montigem.be.util.json.JsonStringValue;
 import de.se_rwth.commons.logging.Log;
 
@@ -26,6 +30,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * REST service for checking the validity of java web tokens (JWTs).
@@ -47,8 +52,7 @@ public class TokenService {
   @Inject
   private IRefreshTokenManager refreshTokenManager;
 
-  // TODO GV, SVa
- /* @GET
+ @GET
   @Path("{token}/validity")
   public Response validateToken(@PathParam("token")
                                     String token) {
@@ -65,7 +69,7 @@ public class TokenService {
       return Responses.okResponse(new JsonBooleanValue(false));
     }
   }
-*/
+
   @POST
   @Path("{token}/refresh")
   @Consumes(MediaType.APPLICATION_JSON)
