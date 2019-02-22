@@ -1,0 +1,23 @@
+package de.montigem.be.command;
+
+import de.montigem.be.domain.Domain.*;
+import java.time.ZonedDateTime;
+
+classdiagram Commands {
+
+//--------------- GENERAL ----------------
+   class ReloadConfig {
+   }
+
+   class SendAllMails {
+   }
+
+   class Info_general {
+   }
+
+   class Info_version {
+   }
+
+   class Info_buildTime {
+   }
+}

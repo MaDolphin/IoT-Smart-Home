@@ -55,7 +55,7 @@ public class TokenService {
     try {
       JWToken jwt = new JWToken(token, ShiroJWTFilter.getUsernameFromToken(token),
           ShiroJWTFilter.getServerInstanceFromToken(token));
-      Optional<MacocoUser> user = daoLib.getMacocoUserDAO().find(jwt.getUsername(), jwt.getResource());
+      Optional<DomainUser> user = daoLib.getDomainUserDAO().find(jwt.getUsername(), jwt.getResource());
       if (user.isPresent() && !BlackListManager.getBlacklist()
           .isTokenBlacklisted(jwt.getToken(), jwt.getResource())) {
         return Responses.okResponse(new JsonBooleanValue(true));

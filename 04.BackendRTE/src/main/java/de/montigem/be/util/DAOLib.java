@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 @Stateless
-public class DAOLib {
+public class DAOLib  extends DAOLibTOP {
 
   @Inject
   private DynamicEnumDAO dynamicEnumDAO;

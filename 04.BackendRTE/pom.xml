@@ -225,86 +225,396 @@
     <!-- == DEPENDENCY & PLUGIN REPOSITORIES ================================= -->
 
     <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav-jackrabbit</artifactId>
-                <version>${wagon.provider.version}</version>
-            </extension>
-        </extensions>
-
+        <defaultGoal>package</defaultGoal>
+        <finalName>montigem-be</finalName>
         <plugins>
-
+            <!--<plugin>
+              <groupId>org.jacoco</groupId>
+              <artifactId>jacoco-maven-plugin</artifactId>
+              <version>0.7.9</version>
+              <executions>
+                <execution>
+                  <id>default-prepare-agent</id>
+                  <goals>
+                    <goal>prepare-agent</goal>
+                  </goals>
+                </execution>
+                <execution>
+                  <id>default-prepare-agent-integration</id>
+                  <goals>
+                    <goal>prepare-agent-integration</goal>
+                  </goals>
+                </execution>
+                <execution>
+                  <id>default-report</id>
+                  <goals>
+                    <goal>report</goal>
+                  </goals>
+                </execution>
+                <execution>
+                  <id>default-report-integration</id>
+                  <goals>
+                    <goal>report-integration</goal>
+                  </goals>
+                </execution>
+                <execution>
+                  <id>default-check</id>
+                  <goals>
+                    <goal>check</goal>
+                  </goals>
+                  <configuration>
+                    <rules>
+                      <rule implementation="org.jacoco.maven.RuleConfiguration">
+                        <element>BUNDLE</element>
+                        <limits>
+                          <limit implementation="org.jacoco.report.check.Limit">
+                            <counter>COMPLEXITY</counter>
+                            <value>COVEREDRATIO</value>
+                            <minimum>0.10</minimum>
+                          </limit>
+                        </limits>
+                      </rule>
+                    </rules>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>-->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.version}</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>${maven.source.version}</version>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.4</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <id>get-the-git-infos</id>
                         <goals>
-                            <goal>jar-no-fork</goal>
+                            <goal>revision</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <excludeResources>true</excludeResources>
+                    <dotGitDirectory>${parent.basedir}/.git</dotGitDirectory>
+                    <prefix>git</prefix>
+                    <verbose>false</verbose>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <generateGitPropertiesFilename>
+                        ${project.build.outputDirectory}/macoco.properties
+                    </generateGitPropertiesFilename>
+                    <format>properties</format>
+                    <gitDescribe>
+                        <skip>false</skip>
+                        <always>false</always>
+                        <dirty>-dirty</dirty>
+                    </gitDescribe>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>0</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>1</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-test-sources/</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>de.se_rwth.maven</groupId>
+                <artifactId>se-groovy-maven-plugin</artifactId>
+                <version>${se-groovy.maven.version}</version>
+                <configuration>
+                    <skip>${maven.main.skip}</skip>
+                    <script>backend/scripts/domain.groovy</script>
+                    <baseClass>configure.DexScript</baseClass>
+                    <arguments>
+                        <model>
+                            ${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd
+                        </model>
+                        <out>${project.build.directory}/generated-sources/</out>
+                        <testOut>${project.build.directory}/generated-test-sources/</testOut>
+                        <modelPath>${project.parent.basedir}/00.Models/src/main/models</modelPath>
+                        <handcodedPath>${basedir}/src/main/java;${basedir}/src/test/java
+                        </handcodedPath>
+                    </arguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>domain</id>
+                        <configuration>
+                            <skip>${maven.main.skip}</skip>
+                            <script>backend/scripts/domain.groovy</script>
+                            <baseClass>configure.DexScript</baseClass>
+                            <arguments>
+                                <model>
+                                    ${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd
+                                </model>
+                                <ocl>de.montigem.be.domain.DomainConstraints</ocl>
+                                <out>${project.build.directory}/generated-sources/</out>
+                                <testOut>${project.build.directory}/generated-test-sources/
+                                </testOut>
+                                <modelPath>${project.parent.basedir}/00.Models/src/main/models
+                                </modelPath>
+                                <handcodedPath>${basedir}/src/main/java;${basedir}/src/test/java
+                                </handcodedPath>
+                            </arguments>
+                        </configuration>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>aggregates</id>
+                        <configuration>
+                            <skip>${maven.main.skip}</skip>
+                            <script>backend/scripts/aggregates.groovy</script>
+                            <baseClass>configure.DexScript</baseClass>
+                            <arguments>
+                                <models>
+                                    ${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/system
+                                </models>
+                                <cmdmodel>${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/command/Commands.cd</cmdmodel>
+                                <model>
+                                    ${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd
+                                </model>
+                                <out>${project.build.directory}/generated-sources/</out>
+                                <modelPath>${project.parent.basedir}/00.Models/src/main/models
+                                </modelPath>
+                                <handcodedPath>${basedir}/src/main/java</handcodedPath>
+                            </arguments>
+                        </configuration>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>de.monticore.montigem</groupId>
+                        <artifactId>montigem-gtr</artifactId>
+                        <version>${montigem.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>de.se_rwth.commons</groupId>
+                        <artifactId>se-commons-utilities</artifactId>
+                        <version>${se-commons.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>${release.plugin}</version>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>${net.revelc.code.formatter.version}</version>
                 <configuration>
-                    <tagNameFormat>montigem-@{project.version}</tagNameFormat>
+                    <directories>
+                        <directory>${project.build.directory}/generated-sources</directory>
+                        <directory>${project.build.directory}/generated-test-sources</directory>
+                    </directories>
+                    <configFile>${project.basedir}/SECodeFormatter.xml</configFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${org.apache.maven.plugins.version}</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <!-- <compilerArgument>-J -Xss2048k</compilerArgument>-->
                 </configuration>
             </plugin>
-
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven-war-plugin.version}</version>
+                <configuration>
+                    <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomee.maven</groupId>
+                <artifactId>tomee-maven-plugin</artifactId>
+                <version>${tomee.version}</version>
+                <configuration>
+                    <tomeeHttpPort>8080</tomeeHttpPort>
+                    <simpleLog>true</simpleLog>
+                    <tomeeVersion>${tomee.version}</tomeeVersion>
+                    <tomeeClassifier>plus</tomeeClassifier>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomee.maven</groupId>
+                <artifactId>tomee-embedded-maven-plugin</artifactId>
+                <version>${tomee.version}</version>
+                <configuration>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker-maven-plugin.version}</version>
+                <configuration>
+                    <skip>${maven.test.skip}</skip>
+                    <images>
+                        <!-- MySQL image -->
+                        <image>
+                            <alias>db</alias>
+                            <name>mysql:latest</name>
+                            <run>
+                                <wait>
+                                    <log>.*port: 3306.*</log>
+                                    <time>90000</time>
+                                </wait>
+                                <env>
+                                    <MYSQL_ROOT_PASSWORD>pwd</MYSQL_ROOT_PASSWORD>
+                                    <MYSQL_DATABASE>testdb</MYSQL_DATABASE>
+                                    <MYSQL_USER>admin</MYSQL_USER>
+                                    <MYSQL_PASSWORD>pass</MYSQL_PASSWORD>
+                                    <CONNECT_TIMEOUT>10000</CONNECT_TIMEOUT>
+                                </env>
+                                <ports>
+                                    <port>3306:3306</port>
+                                </ports>
+                                <namingStrategy>alias</namingStrategy>
+                                <tmpfs>
+                                    <mount>/var/lib/mysql</mount>
+                                </tmpfs>
+                            </run>
+                        </image>
+                        <image>
+                            <alias>datasource</alias>
+                            <name>mysql:latest</name>
+                            <run>
+                                <wait>
+                                    <log>.*port: 3306.*</log>
+                                    <time>90000</time>
+                                </wait>
+                                <env>
+                                    <MYSQL_ROOT_PASSWORD>pwd</MYSQL_ROOT_PASSWORD>
+                                    <MYSQL_DATABASE>datasource</MYSQL_DATABASE>
+                                    <MYSQL_USER>admin</MYSQL_USER>
+                                    <MYSQL_PASSWORD>pass</MYSQL_PASSWORD>
+                                    <CONNECT_TIMEOUT>10000</CONNECT_TIMEOUT>
+                                </env>
+                                <ports>
+                                    <port>3305:3306</port>
+                                </ports>
+                                <namingStrategy>alias</namingStrategy>
+                                <tmpfs>
+                                    <mount>/var/lib/mysql</mount>
+                                </tmpfs>
+                            </run>
+                        </image>
+                    </images>
+                    <dockerHost>tcp://localhost:2375</dockerHost>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <!-- "build" should be used to create the images with the artifact -->
+                            <goal>build</goal>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.version}</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <groups>${generator.test.category}</groups>
-                    <includes>
-                        <include>**/*.java</include>
-                    </includes>
-                    <reuseForks>false</reuseForks>
-                    <skipTests>${skip.tests}</skipTests>
+                    <!-- Sets the VM argument line used when unit tests are run. -->
+                    <argLine>${argLineAddition} -Xmx2048m</argLine>
+                    <excludes>
+                        <exclude>**/*.java</exclude>
+                    </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <excludes>
+                                <exclude>none</exclude>
+                            </excludes>
+                            <includes>
+                                <include>**/*.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <configuration>
+                    <argLine>${argLineAddition} -Xmx4096m
+                        -XX:MaxPermSize=512M
+                        ${itCoverageAgent}
+                    </argLine>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-        </resources>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <testResources>
-            <testResource>
-                <directory>test</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
     </build>
-
 </project>

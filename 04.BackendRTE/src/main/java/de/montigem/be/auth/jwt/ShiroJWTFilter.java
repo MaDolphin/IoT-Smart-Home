@@ -264,7 +264,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     if (isLoginRequest(request, response)) {
       Instant date = new Date(new Date().getTime() + VALIDITY).toInstant();
       ZonedDateTime expirationDate = ZonedDateTime.ofInstant(date, ZoneId.systemDefault());
-   /*   MacocoUser user = ((PrincipalWrapper) subject.getPrincipal()).getUser();
+   /*   DomainUser user = ((PrincipalWrapper) subject.getPrincipal()).getUser();
       String jwToken = createTokenForUser(user.getUsername(),
           false, ((PrincipalWrapper) subject.getPrincipal()).getResource(), daoLib, rolePermissionManager);
       String refreshToken = generateRefreshToken();

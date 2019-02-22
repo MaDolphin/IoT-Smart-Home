@@ -1,0 +1,32 @@
+/*
+ */
+
+package de.montigem.be.domain;
+
+import java.time.ZonedDateTime;
+
+classdiagram Domain {
+
+    // User
+
+    class DomainUser {
+                                         <<dbColumn = "unique=true">>
+      String username;
+      Optional<String> encodedPassword;
+      String passwordSaltBase64;
+      ZonedDateTime registrationDate;
+      Optional<String> initials;
+      DomainUserActivationStatus activated;
+      boolean enabled;
+                                         <<dbColumn = "unique=true">>
+      String email;
+      Optional<String> timID;
+    }
+
+    enum DomainUserActivationStatus {
+      AKTIVIERT,
+      MAIL_NICHT_GESENDET,
+      MAIL_FEHLERHAFT,
+      MAIL_GESENDET;
+    }
+}

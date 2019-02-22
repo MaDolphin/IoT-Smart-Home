@@ -34,9 +34,9 @@ public class LoginRealm extends AuthenticatingRealm {
       throws AuthenticationException {
     UPToken upToken = (UPToken) token;
     if (upToken.getResource() != null) {
-      /*Optional<MacocoUser> user = dao.find(upToken.getUsername(), upToken.getResource());
+      /*Optional<DomainUser> user = dao.find(upToken.getUsername(), upToken.getResource());
 
-      if (user.isPresent() && user.get().getActivated().getName().equals(MacocoUserActivationStatus.AKTIVIERT.getName()) && user.get().isEnabled()) {
+      if (user.isPresent() && user.get().getActivated().getName().equals(DomainUserActivationStatus.AKTIVIERT.getName()) && user.get().isEnabled()) {
         return new SimpleAccount(
             new PrincipalWrapper(user.get(), upToken.getResource()),
             user.get().getEncodedPassword().orElse(""), getName());

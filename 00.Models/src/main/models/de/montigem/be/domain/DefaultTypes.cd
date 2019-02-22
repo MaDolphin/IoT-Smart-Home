@@ -1,0 +1,39 @@
+package de.montigem.be.domain;
+
+classdiagram DefaultTypes {
+
+  class ValidatorUtils {
+    static boolean isDateInRange(ZonedDateTime date, int minusYears, int plusYears);
+    static boolean isDateAfterRWTHFounding(ZonedDateTime date);
+    static boolean isPercentValid(ZahlenWert value);
+  }
+
+  class DomainHelper {
+    static String date2String(ZonedDateTime date);
+  }
+
+  class ZonedDateTime {
+    //static ZonedDateTime now();
+    boolean isBefore(ZonedDateTime z);
+    boolean isAfter(ZonedDateTime z);
+  }
+
+  class String {
+    int length();
+    boolean contains(String s);
+    String replace(String s1, String s2);
+    boolean startsWith(String s);
+    boolean endsWith(String s);
+    boolean match(String regex);
+  }
+
+  class Optional {
+    boolean isPresent();
+    Object get();
+  }
+
+  class Integer;
+  class Boolean;
+  class List;
+  
+}

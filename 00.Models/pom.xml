@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.monticore.macoco</groupId>
+    <artifactId>models</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <!-- == PROJECT PROPERTIES ============================================== -->
+
+    <properties>
+      <model.classifier>macocomodels</model.classifier>
+      <maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+    </properties>
+
+
+    <!-- == BUILD ============================================================ -->
+    <!-- == PLUGINS ======================================================== -->
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>models</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+              <configuration>
+                <classifier>${model.classifier}</classifier>
+                <classesDirectory>${basedir}/src/main/models/</classesDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+    <!-- == DEPENDENCY & PLUGIN REPOSITORIES ================================= -->
+
+    <repositories>
+      <repository>
+        <id>se-public</id>
+        <url>http://nexus.se.rwth-aachen.de/content/groups/public</url>
+      </repository>
+    </repositories>
+    <pluginRepositories>
+      <pluginRepository>
+        <id>se-public</id>
+        <url>http://nexus.se.rwth-aachen.de/content/groups/public</url>
+      </pluginRepository>
+    </pluginRepositories>
+
+    <!-- == DISTRIBUTION ==================================================== -->
+
+    <distributionManagement>
+      <repository>
+        <id>se-nexus</id>
+        <url>http://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/</url>
+      </repository>
+      <snapshotRepository>
+        <id>se-nexus</id>
+        <url>http://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/</url>
+      </snapshotRepository>
+    </distributionManagement>
+
+
+</project>

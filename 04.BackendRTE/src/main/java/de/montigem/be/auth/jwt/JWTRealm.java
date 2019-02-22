@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class JWTRealm extends AuthenticatingRealm {
 
- // private MacocoUserDAO dao;
+ // private DomainUserDAO dao;
 
   // TODO GV, SVa
   public JWTRealm() throws NamingException {
@@ -20,7 +20,7 @@ public class JWTRealm extends AuthenticatingRealm {
     props.setProperty(Context.INITIAL_CONTEXT_FACTORY,
         "org.apache.openejb.client.LocalInitialContextFactory");
     InitialContext context = new InitialContext(props);
- //   dao = (MacocoUserDAO) context.lookup("java:global/macoco-be/MacocoUserDAO");
+ //   dao = (DomainUserDAO) context.lookup("java:global/montigem-be/DomainUserDAO");
   }
 
   /**
@@ -40,10 +40,10 @@ public class JWTRealm extends AuthenticatingRealm {
       throws AuthenticationException {
     JWToken jwt = (JWToken) token;
     if (jwt.getResource() != null) {
-     /* Optional<MacocoUser> user = dao.find(jwt.getUsername(), jwt.getResource());
+     /* Optional<DomainUser> user = dao.find(jwt.getUsername(), jwt.getResource());
       if (user.isPresent() && !BlackListManager.getBlacklist()
           .isTokenBlacklisted(jwt.getToken(), jwt.getResource()) &&
-          user.get().getActivated().getName().equals(MacocoUserActivationStatus.AKTIVIERT.getName()) && user.get().isEnabled()) {
+          user.get().getActivated().getName().equals(DomainUserActivationStatus.AKTIVIERT.getName()) && user.get().isEnabled()) {
         return new SimpleAccount(new PrincipalWrapper(user.get(), jwt.getResource()),
             jwt.getToken(),
             getName());
