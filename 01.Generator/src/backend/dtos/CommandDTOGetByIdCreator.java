@@ -45,12 +45,6 @@ public class CommandDTOGetByIdCreator extends CommandCreator {
             TransformationUtils.DTOS_PACKAGE, typeSymbol.getName() + "DTOLoader"));
     imports.add("de.montigem.be.system.common.dtos.*");
     imports.add("de.montigem.be.dtos.rte.*");
-    imports.add("de.montigem.be.system.finanzen.dtos.*");
-    imports.add("de.montigem.be.system.finanzen.common.dtos.*");
-    imports.add("de.montigem.be.system.personal.details.konten.dtos.*");
-    imports.add("de.montigem.be.system.personal.finanzierung.dtos.*");
-    imports.add("de.montigem.be.system.personal.formular.dtos.*");
-    imports.add("de.montigem.be.system.personal.overview.dtos.*");
 
     return imports;
   }

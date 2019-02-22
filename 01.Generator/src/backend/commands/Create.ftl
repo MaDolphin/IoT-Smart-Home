@@ -55,7 +55,7 @@ ${identifier} o;
     }
 
 ${identifier} createdO = daoLib.get${identifier}DAO().create(o, securityHelper.getSessionCompliantResource());
-    if (securityHelper.grantCurrentUserRoleAndPermission(Roles.ACCOUNT_ADMIN, createdO.getPermissionClass(), createdO.getId(), null)) {
+    if (securityHelper.grantCurrentUserRoleAndPermission(Roles.ADMIN, createdO.getPermissionClass(), createdO.getId(), null)) {
         Log.debug("MAB0x9013: ${className}.doRun: created object with id: " + createdO.getId(), "${className}");
         return new IdDTO(createdO.getId());
     }
