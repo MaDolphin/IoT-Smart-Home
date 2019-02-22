@@ -177,7 +177,7 @@ public class DexScript extends Script implements GroovyRunner {
    *
    * @param ast the ast to check the CoCos on.
    */
-  public void checkMaCoCoCoCos(ASTCDCompilationUnit ast) {
+  public void checkMontiGemCoCos(ASTCDCompilationUnit ast) {
     debug("Checking CD4A CoCos");
     // check if the symtab is avaliable
     checkArgument(ast.getCDDefinition().getEnclosingScopeOpt().isPresent());
@@ -339,7 +339,7 @@ public class DexScript extends Script implements GroovyRunner {
   }
 
   public ASTCDCompilationUnit createClassDiagram() {
-    String packageName = TransformationUtils.MACOCO_BASE;
+    String packageName = TransformationUtils.MONTIGEM_BASE;
     ASTCDCompilationUnitBuilder bCDCompUnit= CD4AnalysisMill.cDCompilationUnitBuilder();
     ASTCDDefinitionBuilder bCDDef = CD4AnalysisMill.cDDefinitionBuilder();
     return bCDCompUnit.setCDDefinition(bCDDef.setName("Aggregates").build()).addPackage(packageName).build();

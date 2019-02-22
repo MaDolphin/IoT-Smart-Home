@@ -84,7 +84,7 @@ public class BuilderCreator extends CreateTrafo {
     imports.add("java.util.List");
     imports.add("java.util.Optional");
     imports.add("com.google.common.base.Objects");
-    imports.add("de.macoco.be.domain.rte.interfaces.IDomainBuilder");
+    imports.add("de.montigem.be.domain.rte.interfaces.IDomainBuilder");
     imports.add("javax.xml.bind.ValidationException");
     return imports;
   }

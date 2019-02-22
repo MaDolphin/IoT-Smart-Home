@@ -102,9 +102,9 @@ public class DataClassTrafo extends ExtendTrafo {
     imports.add("com.google.common.base.Objects");
     imports.add("com.google.common.primitives.Longs");
     imports.add("javax.persistence.*");
-    imports.add("de.macoco.be.domain.rte.interfaces.IDomainValidator");
-    imports.add("de.macoco.be.domain.rte.interfaces.IObject");
-    imports.add("de.macoco.be.domain.cdmodelhwc.classes.DomainClass");
+    imports.add("de.montigem.be.domain.rte.interfaces.IDomainValidator");
+    imports.add("de.montigem.be.domain.rte.interfaces.IObject");
+    imports.add("de.montigem.be.domain.cdmodelhwc.classes.DomainClass");
 
     List<CDTypeSymbol> s = symbolTable.get().getAllSuperClasses(typeSymbol.getName());
     if (s.size() > 1) {

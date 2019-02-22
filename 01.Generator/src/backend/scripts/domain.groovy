@@ -67,7 +67,7 @@ debug("Finished parsing [" + cdAst.getCDDefinition().getName() + "]")
 ConfigureDexGenerator.createCDSymbolTable(cdAst, modelPath)
 
 // check CoCos on input model
-checkMaCoCoCoCos(cdAst)
+checkMontiGemCoCos(cdAst)
 
 debug("Starting transformations")
 
@@ -208,7 +208,7 @@ generateJavaFiles(cdAst, ConfigureDexGenerator.getGlex(), modelPath, out, handco
 debug("Starting tests")
 
 // create ast for tests
-testAst = createNewAst("testAst", "de.macoco.be.domain")
+testAst = createNewAst("testAst", "de.montigem.be.domain")
 
 // get symbol table
 ConfigureDexGenerator.createCDSymbolTable(cdAst, modelPath)

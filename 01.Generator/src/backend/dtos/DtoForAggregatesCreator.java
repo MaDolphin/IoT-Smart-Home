@@ -50,7 +50,7 @@ public class DtoForAggregatesCreator extends TrafoForAggregateModels {
   @Override
   protected List<String> getImports(CDTypeSymbol typeSymbol) {
     List<String> imports = new ArrayList<>();
-    imports.add("de.macoco.be.dtos.rte.DTO");
+    imports.add("de.montigem.be.dtos.rte.DTO");
     return imports;
   }
 

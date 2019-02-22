@@ -20,7 +20,7 @@ import static common.util.TransformationUtils.setProperty;
 
 public abstract class TypeAdapterTrafo extends AggregateTrafo {
 
-  protected static final String PACKAGE = TransformationUtils.MACOCO_BASE
+  protected static final String PACKAGE = TransformationUtils.MONTIGEM_BASE
           + "." + TransformationUtils.MARSHALLING_PACKAGE;
 
   protected String superClassName;

@@ -62,13 +62,13 @@ public class DTOTypeAdapterTrafo extends TypeAdapterTrafo {
   @Override
   protected void createDomainImports(ASTCDClass clazz, ASTCDClass domainClass, String packageName) {
     TransformationUtils.addPropertyValue(clazz, CompilationUnit.IMPORTS_PROPERTY,
-            "de.macoco.be.domain.dtos.*");
+            "de.montigem.be.domain.dtos.*");
   }
 
   @Override
   protected void createImports(ASTCDClass clazz) {
     TransformationUtils.addPropertyValue(clazz, CompilationUnit.IMPORTS_PROPERTY,
-            "de.macoco.be.dtos.rte.*");
+            "de.montigem.be.dtos.rte.*");
   }
 
 }

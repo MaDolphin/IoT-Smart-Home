@@ -124,12 +124,12 @@ public class ValidatorCreator extends CreateTrafo {
     imports.add("java.util.stream.Collectors");
     imports.add("com.google.common.base.Objects");
     imports.add("de.se_rwth.commons.logging.Log");
-    imports.add("de.macoco.be.domain.rte.interfaces.IDomainValidator");
-    imports.add("de.macoco.be.domain.rte.validator.ValidatorUtils");
-    imports.add("static de.macoco.be.util.DomainHelper.getErrors");
-    imports.add("de.macoco.be.domain.dtos.*");
+    imports.add("de.montigem.be.domain.rte.interfaces.IDomainValidator");
+    imports.add("de.montigem.be.domain.rte.validator.ValidatorUtils");
+    imports.add("static de.montigem.be.util.DomainHelper.getErrors");
+    imports.add("de.montigem.be.domain.dtos.*");
     imports.add("javax.xml.bind.ValidationException");
-    imports.add("static de.macoco.be.util.DomainHelper.date2String");
+    imports.add("static de.montigem.be.util.DomainHelper.date2String");
     return imports;
   }
 

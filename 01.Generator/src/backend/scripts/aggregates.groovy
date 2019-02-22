@@ -53,7 +53,7 @@ while (models.hasNext()) {
   ConfigureDexGenerator.createCDSymbolTable(cdAst, modelPath)
 
 // check CoCos on input aggregate
-  checkMaCoCoCoCos(cdAst)
+  checkMontiGemCoCos(cdAst)
 
   debug("Starting transformations")
 
@@ -130,7 +130,7 @@ if (!commandAst.isPresent()) {
 }
 info("Command model " + cmdmodel + " processed successfully!")
 commandSym = ConfigureDexGenerator.createCDSymbolTable(commandAst.get(), modelPath)
-checkMaCoCoCoCos(commandAst.get())
+checkMontiGemCoCos(commandAst.get())
 genCmdAst = commandAst.get().deepClone()
 genCmdAst.getCDDefinition().clearCDClasss()
 new CommandOfModelCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(commandAst.get()).transform(genCmdAst)

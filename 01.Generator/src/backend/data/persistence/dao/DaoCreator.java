@@ -55,10 +55,10 @@ public class DaoCreator extends CreateTrafo {
     imports.add("javax.ejb.Lock");
     imports.add("javax.ejb.LockType");
     imports.add("javax.ejb.Stateless");
-    imports.add("de.macoco.be.domain.rte.dao.AbstractDomainDAO");
+    imports.add("de.montigem.be.domain.rte.dao.AbstractDomainDAO");
     imports.add("javax.persistence.EntityNotFoundException");
     imports.add("javax.transaction.Transactional");
-    imports.add("de.macoco.be.util.DAOLib");
+    imports.add("de.montigem.be.util.DAOLib");
     imports.add("org.hibernate.Hibernate");
     return imports;
   }

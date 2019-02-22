@@ -23,7 +23,7 @@ public class DaoLibTrafo extends AggregateTrafo {
   
   private static final String DAOLIB = "DAOLib";
   
-  private static final String DAOPACKAGE = TransformationUtils.MACOCO_BASE + "." + TransformationUtils.UTIL_PACKAGE;
+  private static final String DAOPACKAGE = TransformationUtils.MONTIGEM_BASE + "." + TransformationUtils.UTIL_PACKAGE;
   
   /**
    * Constructor for backend.dtos.DaoLibTrafo.

@@ -33,5 +33,5 @@ software, even if advised of the possibility of such damage.
 
 ${tc.signature("identifier", "className")}
 {
-  return new ErrorDTO("MAB0x9021", MaCoCoErrorFactory.notImplemented("${identifier}"));
+  return new ErrorDTO("MAB0x9021", MontiGemErrorFactory.notImplemented("${identifier}"));
 }

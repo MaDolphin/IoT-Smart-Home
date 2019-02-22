@@ -67,11 +67,11 @@ public class DTOLoadersCreator extends TrafoForAggregateModels {
   @Override
   protected List<String> getImports(CDTypeSymbol typeSymbol) {
     List<String> imports = new ArrayList<>();
-    imports.add("de.macoco.be.dtos.rte.DTOLoader");
-    imports.add("de.macoco.be.util.DAOLib");
+    imports.add("de.montigem.be.dtos.rte.DTOLoader");
+    imports.add("de.montigem.be.util.DAOLib");
     imports.add("de.se_rwth.commons.logging.Log");
-    imports.add("de.macoco.be.authz.util.SecurityHelper");
-    imports.add("de.macoco.be.authz.Permissions");
+    imports.add("de.montigem.be.authz.util.SecurityHelper");
+    imports.add("de.montigem.be.authz.Permissions");
       return imports;
   }
 

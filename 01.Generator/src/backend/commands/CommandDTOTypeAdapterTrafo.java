@@ -82,15 +82,15 @@ public class CommandDTOTypeAdapterTrafo extends TypeAdapterTrafo {
   @Override
   protected void createDomainImports(ASTCDClass clazz, ASTCDClass domainClass, String packageName) {
     TransformationUtils.addPropertyValue(clazz, CompilationUnit.IMPORTS_PROPERTY,
-            "de.macoco.be.domain.commands.*");
+            "de.montigem.be.domain.commands.*");
   }
 
   @Override
   protected void createImports(ASTCDClass clazz) {
     TransformationUtils.addPropertyValue(clazz, CompilationUnit.IMPORTS_PROPERTY,
-            "de.macoco.be.command.rte.general.CommandDTO");
+            "de.montigem.be.command.rte.general.CommandDTO");
     TransformationUtils.addPropertyValue(clazz, CompilationUnit.IMPORTS_PROPERTY,
-            "de.macoco.be.command.commands.*");
+            "de.montigem.be.command.commands.*");
   }
 
   public void transform(ASTCDCompilationUnit cmpUnit, ASTCDCompilationUnit domainUnit,

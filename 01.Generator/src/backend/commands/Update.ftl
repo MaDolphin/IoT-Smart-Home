@@ -37,20 +37,20 @@ ${tc.signature("identifier", "className")}
 
   if (this.dto == null) {
     Log.info("0xB9030: given type is null", "${className}");
-    return new ErrorDTO("0xB9031", MaCoCoErrorFactory.missingField("dto"));
+    return new ErrorDTO("0xB9031", MontiGemErrorFactory.missingField("dto"));
   }
 
   Optional<${identifier}> o = daoLib.get${identifier}DAO().findAndLoad(dto.getId(), daoLib, securityHelper);
 
   if (!o.isPresent()) {
     Log.warn(getClass().getName() + " MAB0x9031: Cannot find ${identifier} with objectId " + dto.getId());
-    return new ErrorDTO("MAB0x9031", MaCoCoErrorFactory.loadIDError("${identifier}", dto.getId()));
+    return new ErrorDTO("MAB0x9031", MontiGemErrorFactory.loadIDError("${identifier}", dto.getId()));
   }
 
     if (!securityHelper.doesUserHavePermissionType(Permissions.UPDATE, o.get().getPermissionClass(), o.get().getPermissionId())) {
       Log.warn("${identifier}_update MAB0x9011: User doesn't have permission for " +
           o.get().getPermissionClass() + "_" + Permissions.UPDATE);
-      return new ErrorDTO("MAB0x90011", MaCoCoErrorFactory.forbidden());
+      return new ErrorDTO("MAB0x90011", MontiGemErrorFactory.forbidden());
     }
 
   ${identifier} object;
@@ -58,7 +58,7 @@ ${tc.signature("identifier", "className")}
     object = dto.toBuilder(daoLib, securityHelper).build();
   } catch (ValidationException e) {
     Log.warn("${className} MAB0x9033: Object not valid, " + e);
-    return new ErrorDTO("MAB0x9033", MaCoCoErrorFactory.validationError(e.getMessage()));
+    return new ErrorDTO("MAB0x9033", MontiGemErrorFactory.validationError(e.getMessage()));
   }
 
   daoLib.get${identifier}DAO().update(object, securityHelper.getSessionCompliantResource());

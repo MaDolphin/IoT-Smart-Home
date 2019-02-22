@@ -120,20 +120,20 @@ public abstract class CommandCreator extends CreateTrafo {
   @Override
   protected List<String> getImports(CDTypeSymbol typeSymbol) {
     List<String> imports = new ArrayList<>();
-    imports.add("de.macoco.be.authz.Roles;");
+    imports.add("de.montigem.be.authz.Roles;");
     imports.add("javax.xml.bind.ValidationException");
-    imports.add("de.macoco.be.authz.util.SecurityHelper");
-    imports.add("de.macoco.be.authz.ObjectClasses");
-    imports.add("de.macoco.be.authz.Permissions");
-    imports.add("de.macoco.be.util.DAOLib");
-    imports.add("de.macoco.be.error.MaCoCoError");
-    imports.add("de.macoco.be.error.MaCoCoErrorFactory");
-    imports.add("de.macoco.be.command.rte.general.CommandDTO");
-    imports.add("de.macoco.be.dtos.rte.DTO");
-    imports.add("de.macoco.be.dtos.rte.IdDTO");
-    imports.add("de.macoco.be.dtos.rte.OkDTO");
-    imports.add("de.macoco.be.dtos.rte.ErrorDTO");
-    imports.add("de.macoco.be.domain.dtos.*");
+    imports.add("de.montigem.be.authz.util.SecurityHelper");
+    imports.add("de.montigem.be.authz.ObjectClasses");
+    imports.add("de.montigem.be.authz.Permissions");
+    imports.add("de.montigem.be.util.DAOLib");
+    imports.add("de.montigem.be.error.MontiGemError");
+    imports.add("de.montigem.be.error.MontiGemErrorFactory");
+    imports.add("de.montigem.be.command.rte.general.CommandDTO");
+    imports.add("de.montigem.be.dtos.rte.DTO");
+    imports.add("de.montigem.be.dtos.rte.IdDTO");
+    imports.add("de.montigem.be.dtos.rte.OkDTO");
+    imports.add("de.montigem.be.dtos.rte.ErrorDTO");
+    imports.add("de.montigem.be.domain.dtos.*");
     imports.add("de.se_rwth.commons.logging.Log");
 
     imports.addAll(additionalImports(typeSymbol));
@@ -154,7 +154,7 @@ public abstract class CommandCreator extends CreateTrafo {
         .addParameter("SecurityHelper", "securityHelper")
         .addParameter("DAOLib", "daoLib")
         .returnType("DTO")
-        .exceptions("MaCoCoError")
+        .exceptions("MontiGemError")
         .build();
 
     setTemplate(method, domainClass, clazz.getName());

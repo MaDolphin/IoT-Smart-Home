@@ -85,9 +85,9 @@ public class ProxyCreator extends CreateTrafo {
     imports.add("java.util.List");
     imports.add("java.util.Optional");
     imports.add("javax.xml.bind.ValidationException");
-    imports.add("de.macoco.be.util.OptionalHelper");
-    imports.add("de.macoco.be.domain.rte.interfaces.IObjectProxy");
-    imports.add("de.macoco.be.util.DAOLib");
+    imports.add("de.montigem.be.util.OptionalHelper");
+    imports.add("de.montigem.be.domain.rte.interfaces.IObjectProxy");
+    imports.add("de.montigem.be.util.DAOLib");
     imports.add("de.se_rwth.commons.logging.Log");
     return imports;
   }

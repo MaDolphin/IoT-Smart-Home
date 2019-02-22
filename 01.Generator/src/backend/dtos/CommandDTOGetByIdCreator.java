@@ -43,14 +43,14 @@ public class CommandDTOGetByIdCreator extends CommandCreator {
     imports.add("org.apache.commons.lang.NotImplementedException");
     imports.add(Joiners.DOT.join(TransformationUtils.getPackageName(getOutputAstRoot()),
             TransformationUtils.DTOS_PACKAGE, typeSymbol.getName() + "DTOLoader"));
-    imports.add("de.macoco.be.system.common.dtos.*");
-    imports.add("de.macoco.be.dtos.rte.*");
-    imports.add("de.macoco.be.system.finanzen.dtos.*");
-    imports.add("de.macoco.be.system.finanzen.common.dtos.*");
-    imports.add("de.macoco.be.system.personal.details.konten.dtos.*");
-    imports.add("de.macoco.be.system.personal.finanzierung.dtos.*");
-    imports.add("de.macoco.be.system.personal.formular.dtos.*");
-    imports.add("de.macoco.be.system.personal.overview.dtos.*");
+    imports.add("de.montigem.be.system.common.dtos.*");
+    imports.add("de.montigem.be.dtos.rte.*");
+    imports.add("de.montigem.be.system.finanzen.dtos.*");
+    imports.add("de.montigem.be.system.finanzen.common.dtos.*");
+    imports.add("de.montigem.be.system.personal.details.konten.dtos.*");
+    imports.add("de.montigem.be.system.personal.finanzierung.dtos.*");
+    imports.add("de.montigem.be.system.personal.formular.dtos.*");
+    imports.add("de.montigem.be.system.personal.overview.dtos.*");
 
     return imports;
   }

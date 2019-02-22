@@ -61,10 +61,10 @@ public class FullDtoCreator extends TrafoForAggregateModels {
     imports.add("java.util.List");
     imports.add("java.util.Optional");
     imports.add("java.util.stream.Collectors");
-    imports.add("de.macoco.be.util.DAOLib");
+    imports.add("de.montigem.be.util.DAOLib");
     imports.add("javax.persistence.EntityNotFoundException");
     imports.add("javax.xml.bind.ValidationException");
-    imports.add("de.macoco.be.authz.util.SecurityHelper");
+    imports.add("de.montigem.be.authz.util.SecurityHelper");
     return imports;
   }
 

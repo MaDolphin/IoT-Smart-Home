@@ -50,7 +50,7 @@ ConfigureDexGenerator.createCDSymbolTable(cdAst, modelPath)
 
 debug("Checking CoCos");
 // check CoCos on input model
-checkMaCoCoCoCos(cdAst)
+checkMontiGemCoCos(cdAst)
 
 debug("Starting transformations")
 

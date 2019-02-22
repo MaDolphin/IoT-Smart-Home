@@ -190,12 +190,12 @@ public class ProxyTestClassCreator extends CreateTrafo {
     imports.add("static org.junit.Assert.assertNotNull");
     imports.add("org.junit.Assert");
     imports.add("javax.inject.Inject");
-    imports.add("de.macoco.be.domain.cdmodelhwc.daos.*");
-    imports.add("de.macoco.be.AbstractDomainTest");
+    imports.add("de.montigem.be.domain.cdmodelhwc.daos.*");
+    imports.add("de.montigem.be.AbstractDomainTest");
     imports.add("static org.junit.Assert.fail");
-    imports.add("de.macoco.be.domain.cdmodelhwc.classes.account.AccountDummyCreator");
-    imports.add("de.macoco.be.domain.cdmodelhwc.classes.account.Account");
-    imports.add("de.macoco.be.domain.cdmodelhwc.classes.account.AccountBuilder");
+    imports.add("de.montigem.be.domain.cdmodelhwc.classes.account.AccountDummyCreator");
+    imports.add("de.montigem.be.domain.cdmodelhwc.classes.account.Account");
+    imports.add("de.montigem.be.domain.cdmodelhwc.classes.account.AccountBuilder");
     return imports;
   }
 }

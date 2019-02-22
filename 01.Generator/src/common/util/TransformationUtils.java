@@ -85,7 +85,7 @@ public class TransformationUtils {
 
   public static final String DOT_STAR = ".*";
 
-  public static final String MACOCO_BASE = "de.macoco.be";
+  public static final String MONTIGEM_BASE = "de.montigem.be";
 
   public static final String DAO_PACKAGE = "cdmodelhwc.daos";
 
@@ -101,7 +101,7 @@ public class TransformationUtils {
 
   public static final String RTE_PACKAGE = "rte";
 
-  public static final String DOMAIN_NAME = "MaCoCo";
+  public static final String DOMAIN_NAME = "Domain";
 
   public static final String STEREOTYPE_HUMANNAME = "human";
 
