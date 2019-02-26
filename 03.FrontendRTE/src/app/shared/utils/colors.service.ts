@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 export class ColorsService {
 
   private _colors = [
-      // General Colors
+      // MontiGem Colors
       '#00549f',
       '#555555',
       '#57ab27',

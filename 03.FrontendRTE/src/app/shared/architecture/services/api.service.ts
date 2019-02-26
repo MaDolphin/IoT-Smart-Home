@@ -3,7 +3,7 @@ import { TypedJSON } from '@upe/typedjson';
 import { IDTO } from '@shared/architecture/data/aggregates/dto';
 import { IModel } from '@shared/architecture/data/models/model';
 import { ISerializable } from '@shared/architecture/serializable';
-import { JsonApiService } from './json-api.service';
+import { JsonApiService } from '@jsonapiservice/json-api.service';
 
 export interface IApiService {
   baseUrl: string;

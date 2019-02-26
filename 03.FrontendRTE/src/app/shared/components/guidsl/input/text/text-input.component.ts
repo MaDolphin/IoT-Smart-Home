@@ -5,7 +5,7 @@ import { AbstractInputComponent } from '../abstract.input.component';
 
 
 @Component({
-  selector: 'app-text-input',
+  selector: 'macoco-text-input',
   templateUrl: './text-input.component.html',
   styleUrls: ['../input.scss']
 })

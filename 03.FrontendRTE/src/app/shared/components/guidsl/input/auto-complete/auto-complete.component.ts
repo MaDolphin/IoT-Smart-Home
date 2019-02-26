@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-auto-complete',
+  selector: 'macoco-auto-complete',
   templateUrl: './auto-complete.component.html',
   styleUrls: ['../input.scss']
 })

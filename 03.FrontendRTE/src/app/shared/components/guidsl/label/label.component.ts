@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-label',
+  selector: 'macoco-label',
   templateUrl: './label.component.html',
 })
 

@@ -1,6 +1,6 @@
 import { JsonMember, JsonObject } from '@upe/typedjson';
 import { DTO } from '@shared/architecture/data';
-import { GeneralError } from '@shared/utils/general.error';
+import { MontiGemError } from '@shared/utils/montigem.error';
 
 @JsonObject()
 export class ErrorDTO extends DTO<ErrorDTO> {
@@ -14,20 +14,20 @@ export class ErrorDTO extends DTO<ErrorDTO> {
   @JsonMember({
     isRequired: true,
     name: 'error',
-    type: GeneralError,
-  }) private _error?: GeneralError;
+    type: MontiGemError,
+  }) private _error?: MontiGemError;
 
-  constructor(errorCode?: string, msg?: GeneralError | Error | string) {
+  constructor(errorCode?: string, msg?: MontiGemError | Error | string) {
     super();
     this.typeName = 'ErrorDTO';
     this._errorCode = errorCode ? errorCode : '0xFFFFE';
     if (msg) {
-      if (msg instanceof GeneralError) {
+      if (msg instanceof MontiGemError) {
         this._error = msg;
       } else if (msg instanceof Error) {
-        this._error = GeneralError.createFromError(msg);
+        this._error = MontiGemError.createFromError(msg);
       } else {
-        this._error = GeneralError.createInternal(msg);
+        this._error = MontiGemError.createInternal(msg);
       }
     }
   }
@@ -40,11 +40,11 @@ export class ErrorDTO extends DTO<ErrorDTO> {
     this._errorCode = value;
   }
 
-  get error(): GeneralError {
+  get error(): MontiGemError {
     return this._error;
   }
 
-  set error(value: GeneralError) {
+  set error(value: MontiGemError) {
     this._error = value;
   }
 
@@ -52,13 +52,13 @@ export class ErrorDTO extends DTO<ErrorDTO> {
     return this._error.message();
   }
 
-  public message(msg: GeneralError | Error | string) {
-    if (msg instanceof GeneralError) {
+  public message(msg: MontiGemError | Error | string) {
+    if (msg instanceof MontiGemError) {
       this._error = msg;
     } else if (msg instanceof Error) {
-      this._error = GeneralError.createFromError(msg);
+      this._error = MontiGemError.createFromError(msg);
     } else {
-      this._error = GeneralError.createInternal(msg);
+      this._error = MontiGemError.createInternal(msg);
     }
   }
 }

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Logger } from '@upe/logger';
 import { Observable } from 'rxjs/Observable';
-import { JsonApiService, JsonResponse } from '../../architecture/services/json-api.service';
+import { JsonApiService, JsonResponse } from '@jsonapiservice/json-api.service';
 import { LoadingService } from '../../layout/loading/loading.service';
 import { NotificationService } from '../../notification/notification.service';
-import { GeneralError } from '../general.error';
+import { MontiGemError } from '../montigem.error';
 
 @Component({
   selector: 'excelimport',
@@ -54,8 +54,8 @@ export class ExcelImportComponent {
             .catch((error: Response | any) => {
               this._loadingService.stop();
               this.onLoaded();
-              let appErr: GeneralError = JsonApiService.deserializeError(error.json(), this.logger);
-              this.logger.info('GeneralError', appErr);
+              let appErr: MontiGemError = JsonApiService.deserializeError(error.json(), this.logger);
+              this.logger.info('MontiGemError', appErr);
               this.notificationService.errorWithMessage(appErr);
               return Observable.of(false);
             }).share().toPromise();
@@ -75,8 +75,8 @@ export class ExcelImportComponent {
             .catch((error: Response | any) => {
               this._loadingService.stop();
               this.onLoaded();
-              let appErr: GeneralError = JsonApiService.deserializeError(error.json(), this.logger);
-              this.logger.info('GeneralError', appErr);
+              let appErr: MontiGemError = JsonApiService.deserializeError(error.json(), this.logger);
+              this.logger.info('MontiGemError', appErr);
               this.notificationService.errorWithMessage(appErr);
               return Observable.of(false);
             }).share().toPromise();

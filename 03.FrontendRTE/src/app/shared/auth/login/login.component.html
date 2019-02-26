@@ -26,27 +26,6 @@
     </div>
     <span [upeHelpBlock]="pw.invalid && pw.touched">Geben Sie ihr Passwort ein</span>
   </div>
-  <div>
-    <app-auto-complete class="nopadding"
-                          [modelFormControl]="forms.instanz"
-                          [labelAbove]="true"
-                          [label]="'Instanz'"
-                          [placeholder]="'keine Instanz gewählt'"
-                          [noPaddingOrMargin]="true">
-    </app-auto-complete>
-  </div>
-  <div fxFlex upeFormGroup hasFeedback>
-    <div upeCheckbox>
-      <label>
-        <input type="checkbox"> Angemeldet bleiben
-      </label>
-    </div>
-  </div>
-  <div fxFlex upeFormGroup>
-    <button (click)="shibbolethLogin()" upeBtn block styleType="outline-primary-invert" disabled>
-      Shibboleth
-    </button>
-  </div>
   <div fxFlex upeFormGroup>
     <button name="login-button" type="submit" upeBtn block>Anmelden</button>
   </div>

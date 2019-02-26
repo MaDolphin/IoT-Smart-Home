@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Request, RequestMethod, RequestOptions, Response } from '@angular/http';
+import { Headers, Http, Request, RequestMethod, RequestOptions, Response, ResponseOptions } from '@angular/http';
 import { Router } from '@angular/router';
 import { Logger } from '@upe/logger';
 import { TypedJSON } from '@upe/typedjson';
@@ -10,13 +10,13 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/timeoutWith';
 import { Observable } from 'rxjs/Rx';
-import { Token } from '@shared/auth/token';
-import { LoadingService } from '@shared/layout/loading/loading.service';
-import { NotificationService } from '@shared/notification/notification.service';
-import { MontiGemError } from '@shared/utils/montigem.error';
-import { ApiService } from './api.service';
-import { StringWrapper } from './primitive-wrappers/string-wrapper';
-import { DialogCallbackTwo } from '@shared/utils/dialog/dialog.callback';
+import { Token } from '../../auth/token';
+import { LoadingService } from '../../layout/loading/loading.service';
+import { NotificationService } from '../../notification/notification.service';
+import { MontiGemError } from '../../utils/montigem.error';
+import { ApiService } from '../services/api.service';
+import { StringWrapper } from '../services/primitive-wrappers/string-wrapper';
+import { DialogCallbackTwo } from '../../utils/dialog/dialog.callback';
 
 export type JsonResponse = { json: any | null, headers: Headers | null, status: number, cached: boolean };
 
@@ -259,15 +259,18 @@ export class JsonApiService {
         .catch(this.handleError);
   }
 
-  executeRequest(autoCatch: boolean, mapFnc, catchFnc, requestOptions): Observable<any> {
-    if (autoCatch) {
-      return this.http.request(new Request(requestOptions))
-          .map(mapFnc)
-          .catch(catchFnc);
-    } else {
-      return this.http.request(new Request(requestOptions))
-          .map(mapFnc);
+  executeRequest(autoCatch: boolean, mapFnc, catchFnc, requestOptions): Observable<JsonResponse> {
+    let json: any = {};
+
+    if (requestOptions.url.endsWith('/auth/login')) {
+      json = {jwt: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2ZjU0MTU1Yy03NjU1LTQ5MDQtOTgzZC1lY2Y3OTcwNTA3ZDciLCJzdWIiOiJhZG1pbiRUZXN0REIiLCJpYXQiOjE1NTExNzQyOTcsImV4cCI6MTU1MTE3ODE5OH0.xec8Ew2etQsNcAOGjMvZR_FBuLEmoAEoDBD4bX_gIlQ",
+        refreshToken: "refresh",
+        expirationDate: "2030-12-31T00:00:00.000Z"};
+    } else if (requestOptions.url.endsWith('/validity')) {
+      json = {result: true};
     }
+
+    return Observable.of({ json: json, headers: {}, status: 200, cached: true });
   }
 
   /**

@@ -195,13 +195,13 @@
   vertical-align: bottom !important;
 }
 
-:host ::ng-deep .app-datatable-header-container {
+:host ::ng-deep .macoco-datatable-header-container {
     display:inline-flex;
     font-size: $font-size-text;
     font-weight: bold;
 }
 
-:host ::ng-deep .app-datatable-header-sort-btn {
+:host ::ng-deep .macoco-datatable-header-sort-btn {
     display: flex;
     justify-content: flex-end;
     flex-direction: column;

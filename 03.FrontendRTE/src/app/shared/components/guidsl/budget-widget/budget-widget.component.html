@@ -47,13 +47,13 @@
 
     </mc-container>
 
-    <app-pie-chart
+    <macoco-pie-chart
       style="
         flex: 2 0 700px;
         display: flex;"
       [pieChartData]="pieChartData"
       [legendPosition]="'right-long'">
-    </app-pie-chart>
+    </macoco-pie-chart>
 
     <mc-container 
       style="
@@ -77,14 +77,14 @@
   -->
   <ng-template [ngIf]="expanded">
     <ng-template ngFor let-subBudget [ngForOf]="budget.subbudgets">
-      <app-budget-widget
+      <macoco-budget-widget
         style="
           flex: 1 1 100%;
           display: flex;
           margin: 15px 0;"
         [isSubBudget]="true"
         [budget]="subBudget">
-      </app-budget-widget>
+      </macoco-budget-widget>
     </ng-template>
   </ng-template>
 

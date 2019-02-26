@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/concatMap';
 import { E2ECommandCaller } from "./command-manager.e2e-util";
-import { IDTO } from "../../src/app/shared/architecture/data";
+import { IDTO } from "@shared/architecture";
 import { Person_create } from "../../target/generated-sources/commands/person.create";
 import { PersonFullDTO } from "@freitext-dto/person.fulldto";
 import { TypedJSON } from "@upe/typedjson";

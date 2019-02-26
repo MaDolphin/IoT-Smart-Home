@@ -4,7 +4,7 @@ import { Balance, MoneyControl, NEGATIVE_NUMBER_MASK, NUMBER_MASK, } from '@shar
 import { AbstractInputComponent } from '@shared/components/guidsl/input/abstract.input.component';
 
 @Component({
-  selector: 'app-money-input',
+  selector: 'macoco-money-input',
   templateUrl: './money-input.component.html',
   styleUrls: ['../input.scss']
 })

@@ -7,7 +7,7 @@ interface BarPercentageData {
 }
 
 @Component({
-  selector: 'app-percentage-bar-chart',
+  selector: 'macoco-percentage-bar-chart',
   templateUrl: './percentage-chart.component.html',
   styleUrls: ['./percentage-chart.component.scss']
 })

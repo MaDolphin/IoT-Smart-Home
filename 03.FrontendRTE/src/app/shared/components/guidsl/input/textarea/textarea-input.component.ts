@@ -4,7 +4,7 @@ import { AbstractInputComponent } from '../abstract.input.component';
 
 
 @Component({
-  selector: 'app-textarea-input',
+  selector: 'macoco-textarea-input',
   templateUrl: './textarea-input.component.html',
   styleUrls: ['../input.scss']
 })

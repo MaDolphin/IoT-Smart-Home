@@ -10,7 +10,7 @@ import { HeaderService, IBreadcrumbTitle } from './header.service';
 import { BreadcrumbComponent } from '@shared/layout/breadcrumb/breadcrumb.component';
 
 @Component({
-  selector: 'app-header',
+  selector: 'macoco-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

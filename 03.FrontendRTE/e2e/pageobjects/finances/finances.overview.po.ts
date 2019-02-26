@@ -1,10 +1,10 @@
-import {getElementById} from '../../utilits/helper.e2e-util';
-import {MoneyToNumberPipe} from '../../../src/app/shared/pipes/money-to-number.pipe';
+import {getElementById} from '@utilities/helper.e2e-util';
+import {MoneyToNumberPipe} from '@shared/pipes/money-to-number.pipe';
 import {promise} from 'selenium-webdriver';
 import {
   calculateSumOfRowCells,
   financesDatatable,
-} from '../../utilits/table.e2e-util';
+} from '@utilities/table.e2e-util';
 
 let moneyToNumber = new MoneyToNumberPipe();
 

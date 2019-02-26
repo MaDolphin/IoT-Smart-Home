@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatDialogModule, MatToolbarModule } from '@angular/material';
-import { GeneralDialogComponent } from '@shared/utils/dialog/general-dialog/general-dialog.component';
+import { MontiGemDialogComponent } from '@shared/utils/dialog/general-dialog/montigem-dialog.component';
 
 import { NotificationService } from './notification.service';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
@@ -17,10 +17,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   ],
   exports: [],
   declarations: [
-    GeneralDialogComponent,
+    MontiGemDialogComponent,
   ],
   entryComponents: [
-    GeneralDialogComponent,
+    MontiGemDialogComponent,
   ],
   providers: [NotificationService],
 })

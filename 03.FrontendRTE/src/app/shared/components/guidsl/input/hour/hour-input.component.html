@@ -1,5 +1,5 @@
 <ng-template [ngIf]="modelFormControl">
-  <app-generic-input
+  <macoco-generic-input
                 [error]="errors?.error"
                 [htmlId]="htmlId"
                 [isInvalid]="invalid && dirty"
@@ -17,5 +17,5 @@
            (blur)="autoCompleteHour()"
            [formControl]="modelFormControl"
            type="text">
-  </app-generic-input>
+  </macoco-generic-input>
 </ng-template>

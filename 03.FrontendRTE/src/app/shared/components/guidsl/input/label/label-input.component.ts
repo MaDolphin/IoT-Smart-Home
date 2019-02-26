@@ -5,7 +5,7 @@ import { LabelControl } from '@shared/architecture/forms/controls/label.control'
 import { AbstractInputComponent } from '../abstract.input.component';
 
 @Component({
-  selector: 'app-label-input',
+  selector: 'macoco-label-input',
   templateUrl: './label-input.component.html',
   styleUrls: ['../input.scss', 'label-input.component.scss']
 })

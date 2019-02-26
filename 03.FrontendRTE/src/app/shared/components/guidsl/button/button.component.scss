@@ -21,7 +21,7 @@
 
 .btn-select:hover:enabled, .active {
   background-color: $rwth-blue;
-  color: $app-white;
+  color: $montigem-white;
   border: 0;
   -o-transition:color .2s ease-out, background .1s ease-in;
   -ms-transition:color .2s ease-out, background .1s ease-in;
@@ -51,7 +51,6 @@ button.btn-select.active {
   box-shadow: inset 0 0 0 1em #bdcd00;
   color: white;
   background: #bdcd00;
-  background-color: #bdcd00;
 }
 
 .blue-green-transition:disabled {

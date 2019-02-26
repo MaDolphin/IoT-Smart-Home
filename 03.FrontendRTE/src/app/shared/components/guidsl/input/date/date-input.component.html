@@ -1,5 +1,5 @@
 <ng-template [ngIf]="modelFormControl">
-  <app-generic-input *ngIf="!inline; else inlineTemplate"
+  <macoco-generic-input *ngIf="!inline; else inlineTemplate"
                 [error]="errors?.error"
                 [htmlId]="htmlId"
                 [isInvalid]="invalid && dirty"
@@ -25,7 +25,7 @@
       <mat-datepicker-toggle matSuffix tabindex="-1" [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker  #picker></mat-datepicker>
     </div>
-  </app-generic-input>
+  </macoco-generic-input>
   <ng-template #inlineTemplate>
     <mat-form-field style="width:100%; margin-top: -5px">
       <input #dateInlineInput

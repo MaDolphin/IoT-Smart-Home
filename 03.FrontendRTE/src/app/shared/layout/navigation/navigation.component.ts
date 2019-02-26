@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { JsonApiService } from '@shared/architecture/services/json-api.service';
+import { JsonApiService } from '@jsonapiservice/json-api.service';
 import { DialogCallbackOne } from '@shared/utils/dialog/dialog.callback';
 import { AuthService } from '@shared/auth/auth.service';
 import { NotificationService } from '@shared/notification/notification.service';

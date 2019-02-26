@@ -2,7 +2,7 @@ import { getTestBed, inject } from '@angular/core/testing';
 
 import { BaseRequestOptions, Headers, Http, Response, ResponseOptions, XHRBackend } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { JsonApiService } from '@shared/architecture/services/json-api.service';
+import { JsonApiService } from '@jsonapiservice/json-api.service';
 import { loadArchitectureModuleWithCustomHttpServiceFactory } from '@testutils/utilities';
 import { A, MockToken, RemoveMockTocken } from '@testutils/mocking';
 

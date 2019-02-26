@@ -12,22 +12,10 @@ import { UtilsModule } from '@shared/utils/utils.module';
 import { routing } from './guidsl.routing';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
-import { AnstellungsformFormComponent } from './examples/anstellungsform-form/anstellungsform.form.component';
-import { FinancesDetailsComponent } from './examples/finances-details/finances-details.component';
 import { PipesModule } from '@shared/pipes';
-import { MailAlertDetailsGenComponent } from '@targetgui/mailAlert-details-gen.component/mailAlert-details-gen.component';
-import { TableInTableComponent } from '@targetgui/table-in-table.component/table-in-table.component';
-import { ImportGenComponent } from '@targetgui/import-gen.component/import-gen.component';
 
 @NgModule({
   declarations: [
-    AnstellungsformFormComponent,
-    FinancesDetailsComponent,
-    MailAlertDetailsGenComponent,
-    TableInTableComponent,
-    ImportGenComponent,
-
-
   ],
   imports: [
     CommonModule,

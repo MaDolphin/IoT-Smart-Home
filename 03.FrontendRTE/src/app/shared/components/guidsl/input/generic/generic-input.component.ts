@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-generic-input',
+  selector: 'macoco-generic-input',
   templateUrl: './generic-input.component.html',
   styleUrls: ['./generic-input.component.scss']
 })

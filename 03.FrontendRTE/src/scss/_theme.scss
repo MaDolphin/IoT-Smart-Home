@@ -112,9 +112,9 @@ BUTTONS
 }
 
 .btn-outline-primary-invert {
-  color: $app-white;
+  color: $montigem-white;
   background: transparent none;
-  border: 2px solid $app-white;
+  border: 2px solid $montigem-white;
 }
 
 .btn-outline-secondary-invert {
@@ -149,7 +149,7 @@ BUTTONS
 
 .btn-primary-invert {
   color: $rwth-blue;
-  background: $app-white;
+  background: $montigem-white;
 }
 
 .btn-outline-primary:hover, .btn-outline-primary-invert:hover {
@@ -160,7 +160,7 @@ BUTTONS
 
 .btn-primary:hover, .btn-primary-invert:hover {
   box-shadow: inset 0 0 0 1em $rwth-may-green;
-  color: $app-white;
+  color: $montigem-white;
   background: $rwth-may-green;
 }
 
@@ -194,7 +194,7 @@ Hintergründe
 }
 
 .bg-secondary {
-  background: $app-white;
+  background: $montigem-white;
 }
 
 /*
@@ -216,7 +216,7 @@ Panels
 
 .panel-default > .panel-heading {
   background-color: $rwth-blue-1;
-  color: $app-white;
+  color: $montigem-white;
   font-weight: bold;
 }
 
@@ -254,7 +254,7 @@ Formulare
   -moz-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
   transition: all 0.4s ease;
-  border: 0px solid $app-white;
+  border: 0px solid $montigem-white;
   -webkit-box-shadow: none;
 }
 
@@ -357,7 +357,7 @@ label {
   font-size: $font-size-text;
   font-weight: normal;
   line-height: 1;
-  color: $app-white;
+  color: $montigem-white;
   text-align: center;
   background-color: $rwth-black-1;
   border: none;

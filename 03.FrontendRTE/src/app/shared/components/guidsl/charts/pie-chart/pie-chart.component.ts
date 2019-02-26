@@ -7,7 +7,7 @@ import { asMoney } from '@shared/components/guidsl/data-table/data-table.transfo
 import { CurrencyPipe } from '@shared/pipes/currency.pipe';
 
 @Component({
-  selector: 'app-pie-chart',
+  selector: 'macoco-pie-chart',
   templateUrl: './pie-chart.component.html',
   styleUrls: ['./pie-chart.component.scss']
 })

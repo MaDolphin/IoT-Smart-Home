@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LoadingService } from '@shared/layout/loading/loading.service';
 import { AuthService } from '@shared/auth/auth.service';
-import { JsonApiService } from '@shared/architecture/services/json-api.service';
 import { HttpClient } from '@angular/common/http';
-import { LoginForm } from '@shared/auth/login/login.form';
+import { LoginForm } from "@shared/auth/login/login.form";
 
 
 @Component(
@@ -15,7 +14,6 @@ import { LoginForm } from '@shared/auth/login/login.form';
     }
 )
 export class LoginComponent implements OnInit {
-  chairs: string[] = [];
   public user = {username: '', password: ''};
 
   constructor(private auth: AuthService, private loading: LoadingService, private http: HttpClient, public forms: LoginForm) {
@@ -23,17 +21,12 @@ export class LoginComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     this.forms.init();
-    this.http.get(JsonApiService.buildUrl(`/domain/datasource/dbname`), {}).subscribe(data => {
-      this.chairs = <string[]>data;
-      this.forms.instanz.setOptions(this.chairs);
-      this.forms.instanz.setModelValue('TestDB');
-    });
   }
 
   public async onSubmit(form: NgForm, event: Event) {
     event.preventDefault();
     this.loading.start();
-    const result = this.auth.login(form.value.username, form.value.password, this.forms.instanz.getModelValue()).toPromise();
+    const result = this.auth.login(form.value.username, form.value.password, "TestDB").toPromise();
     if (!result) {
       alert('Der Benutzername oder das Passwort ist falsch! Bitte versuchen Sie es erneut.');
       this.loading.stop();

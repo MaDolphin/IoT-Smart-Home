@@ -8,7 +8,7 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
-import { JsonApiService, JsonResponse } from '@shared/architecture/services/json-api.service';
+import { JsonApiService, JsonResponse } from '@jsonapiservice/json-api.service';
 import { NotificationService } from '@shared/notification/notification.service';
 import { User } from '@shared/user/user';
 import { Token } from './token';
@@ -61,7 +61,7 @@ export class AuthService {
     }
   }
 
-  login(userid: string, password: string, resource: string): Observable<boolean> {
+  public login(userid: string, password: string, resource: string): Observable<boolean> {
     return this.api.post('/auth/login', {
       username: userid,
       password: password,

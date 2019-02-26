@@ -1,7 +1,7 @@
 import { JsonMember, JsonObject } from '@upe/typedjson';
 
 @JsonObject()
-export class GeneralError {
+export class MontiGemError {
   @JsonMember({isRequired: true, name: 'errorCode', type: String}) public errorCode: string;
   @JsonMember({isRequired: false, name: 'title', type: String}) public errorTitle: string | undefined;
   @JsonMember({isRequired: false, name: 'httpStatusCode', type: String}) protected _httpStatusCode: string | undefined;
@@ -40,7 +40,7 @@ export class GeneralError {
   }
 
   public static createFromError(error: Error) {
-    let err = new GeneralError();
+    let err = new MontiGemError();
     err.errorCode = '0xFFFFF';
     err.errorTitle = error.name;
     err._message = error.message;
@@ -48,8 +48,8 @@ export class GeneralError {
     return err;
   }
 
-  public static create(errorCode: string, title: string | undefined, message: string): GeneralError {
-    let err = new GeneralError();
+  public static create(errorCode: string, title: string | undefined, message: string): MontiGemError {
+    let err = new MontiGemError();
     err.errorCode = errorCode;
     err.errorTitle = title ? title : undefined;
     err._message = message;
@@ -57,8 +57,8 @@ export class GeneralError {
     return err;
   }
 
-  public static createInternal(message: string): GeneralError {
-    let err = new GeneralError();
+  public static createInternal(message: string): MontiGemError {
+    let err = new MontiGemError();
     err.errorCode = '0xFFFFE';
     err.errorTitle = 'Interner Fehler';
     err._message = message;
@@ -66,8 +66,8 @@ export class GeneralError {
     return err;
   }
 
-  public static fromJson(maCoCoError: any): GeneralError {
-    return GeneralError.create(maCoCoError.errorCode, maCoCoError.title, maCoCoError.message);
+  public static fromJson(maCoCoError: any): MontiGemError {
+    return MontiGemError.create(maCoCoError.errorCode, maCoCoError.title, maCoCoError.message);
   }
 
 

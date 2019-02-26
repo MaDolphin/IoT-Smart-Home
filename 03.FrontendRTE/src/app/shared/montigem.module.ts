@@ -33,11 +33,11 @@ import { ComponentInjectorService } from '@shared/architecture/services/componen
     ],
   }
 )
-export class GeneralModule {
+export class MontiGemModule {
 
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule:  GeneralModule,
+      ngModule:  MontiGemModule,
       providers: [
         SettingsService,
         HeaderService,

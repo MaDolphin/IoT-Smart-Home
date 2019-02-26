@@ -5,7 +5,7 @@ import { AuthComponent } from '@shared/auth/auth.component';
 import { ForgotComponent } from '@shared/auth/forgot/forgot.component';
 import { LoginComponent } from '@shared/auth/login/login.component';
 import { MainLayoutComponent } from '@shared/layout/main/main-layout.component';
-
+import { DashboardComponent } from "@targetgui/dashboard.component/dashboard.component";
 
 export const routes: Routes = [
   {
@@ -15,40 +15,45 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'guidsl',
+        redirectTo: 'dashboard',
         pathMatch: 'full'
       },
       {
-        path:       'guidsl',
+        path: 'dashboard',
+        component: DashboardComponent,
+        data: {pageTitle: 'Dashboard'}
+      },
+      {
+        path: 'guidsl',
         loadChildren: './guidsl/guidsl.module#GuidslModule',
       },
     ]
   },
 
   {
-    path:      'auth',
+    path: 'auth',
     component: AuthComponent,
-    children:  [
+    children: [
       {
-        path:      'login',
+        path: 'login',
         component: LoginComponent,
       },
       {
-        path:      'forgot-password',
+        path: 'forgot-password',
         component: ForgotComponent,
       },
       {
-        path:      'activations',
+        path: 'activations',
         component: ActivationLinkComponent,
       },
       {
-        path:      'forgotPwd',
+        path: 'forgotPwd',
         component: ActivationLinkComponent,
       },
     ],
   },
   {
-    path: '**', redirectTo: 'guidsl'
+    path: '**', redirectTo: 'dashboard'
   }
 ];
 

@@ -8,7 +8,7 @@ interface BarDataGroup {
 }
 
 @Component({
-  selector: 'app-horizontal-bar-chart',
+  selector: 'macoco-horizontal-bar-chart',
   templateUrl: './horizontal-bar-chart.component.html',
 })
 export class HorizontalBarChartComponent implements OnInit {

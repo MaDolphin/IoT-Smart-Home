@@ -51,7 +51,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
 }
 
 @Component({
-  selector: 'app-date-input',
+  selector: 'macoco-date-input',
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss', '../input.scss'],
   providers: [

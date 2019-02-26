@@ -54,10 +54,6 @@ public class ModelCreator extends ExtendTrafo {
     List<String> imports = new ArrayList<>();
     imports.add("{IModel, Model} from '../../../src/app/shared/architecture/data/models/model'");
     imports.add("{JsonMember, JsonObject} from '@upe/typedjson'");
-    // Import ZahlenWert
-    imports.add(
-        getImportCheckHWC("ZahlenWert", handcodePath, ModelCreator.FILEEXTENSION,
-            ModelCreator.SUBPACKAGE, Optional.empty()));
 
     String fileName = Joiners.DOT.join(typeSymbol.getName().toLowerCase(), FILEEXTENSION);
     imports.add("{I" + typeSymbol.getName() + "} from './i" + fileName + "'");

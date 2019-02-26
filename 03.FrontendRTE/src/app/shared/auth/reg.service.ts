@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { JsonApiService } from '@shared/architecture/services/json-api.service';
+import { JsonApiService } from '@jsonapiservice/json-api.service';
 
 export interface Registration {
   username: string,

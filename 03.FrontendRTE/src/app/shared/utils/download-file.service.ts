@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Response, ResponseContentType } from '@angular/http';
 import { Logger } from '@upe/logger';
 import { Observable } from 'rxjs/Rx';
-import { JsonApiService } from '../architecture/services/json-api.service';
+import { JsonApiService } from '@jsonapiservice/json-api.service';
 import { Token } from '../auth/token';
 
 @Injectable()

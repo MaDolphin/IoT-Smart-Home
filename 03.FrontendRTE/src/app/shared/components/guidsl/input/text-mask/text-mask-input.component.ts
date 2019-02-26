@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TextInputComponent } from '../text/text-input.component';
 
 @Component({
-  selector: 'app-text-mask-input',
+  selector: 'macoco-text-mask-input',
   templateUrl: './text-mask-input.component.html',
   styleUrls: ['../input.scss']
 })

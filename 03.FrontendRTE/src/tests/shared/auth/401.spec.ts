@@ -3,7 +3,7 @@ import { BaseRequestOptions, Headers, Http, HttpModule, Response, ResponseOption
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { MatDialogModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
-import { JsonApiService } from '@shared/architecture/services/json-api.service';
+import { JsonApiService } from '@jsonapiservice/json-api.service';
 import { LoadingService } from '@shared/layout/loading/loading.service';
 import { NotificationService } from '@shared/notification/notification.service';
 

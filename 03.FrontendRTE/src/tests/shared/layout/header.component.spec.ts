@@ -20,7 +20,7 @@ class NotificationServiceMock {
   notificationYesNo(...args) { }
 }
 
-@Component({selector: 'app-breadcrumb', template: ''})
+@Component({selector: 'breadcrumb', template: ''})
 class BreadcrumbStubComponent {}
 
 // Tests

@@ -15,11 +15,12 @@ import { ArchitectureModule } from '@shared/architecture/architecture.module';
 import { AuthModule } from '@shared/auth/auth.module';
 import { LayoutModule } from '@shared/layout';
 import { LoadingModule } from '@shared/layout/loading/loading.module';
-import { GeneralModule } from '@shared/general.module';
+import { MontiGemModule } from '@shared/montigem.module';
 import { PipesModule } from '@shared/pipes';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
+import { DashboardComponent } from "@targetgui/dashboard.component/dashboard.component";
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -44,12 +45,13 @@ export const MY_DATE_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
   ],
   imports:      [
     BrowserAnimationsModule,
     BrowserModule,
     routing,
-    GeneralModule.forRoot(),
+    MontiGemModule.forRoot(),
     PipesModule.forRoot(),
     AuthModule.forRoot(),
     PerfectScrollbarModule,

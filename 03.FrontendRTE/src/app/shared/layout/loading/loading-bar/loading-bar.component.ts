@@ -4,7 +4,7 @@ import { LoadingComponent } from '../loading.component';
 import { LoadingService } from '../loading.service';
 
 @Component({
-  selector:    'app-loading-bar',
+  selector:    'macoco-loading-bar',
   templateUrl: './loading-bar.component.html',
   styleUrls:   ['./loading-bar.component.scss'],
   animations:  animations,

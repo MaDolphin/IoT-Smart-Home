@@ -1,14 +1,14 @@
 <div fxLayout="row" class="main-layout">
-  <div  class="app-navbar" [fxShow]="menuActive">
+  <div  class="macoco-navbar" [fxShow]="menuActive">
     <sa-navigation></sa-navigation>
   </div>
   <div fxFlex="1 1 auto" fxLayout="column" style="width:1px">
     <header fxFlex="0 0 auto" [ngClass]="{'menu-active-margin': menuActive}">
-      <app-header (menu)="menuActive = !menuActive"></app-header>
+      <macoco-header (menu)="menuActive = !menuActive"></macoco-header>
     </header>
     <main fxFlex="auto" style="height:1px; overflow: auto;">
           <div class="content">
-            <app-loading-spinner [disabled]="disableLoading"></app-loading-spinner>
+            <macoco-loading-spinner [disabled]="disableLoading"></macoco-loading-spinner>
             <router-outlet (activate)="onActivate()"></router-outlet>
           </div>
     </main>

@@ -3,7 +3,7 @@ import { HourControl } from '@shared/architecture/forms/controls/hour.control';
 import { AbstractInputComponent } from '../abstract.input.component';
 
 @Component({
-  selector: 'app-hour-input',
+  selector: 'macoco-hour-input',
   templateUrl: './hour-input.component.html',
   styleUrls: ['../input.scss']
 })

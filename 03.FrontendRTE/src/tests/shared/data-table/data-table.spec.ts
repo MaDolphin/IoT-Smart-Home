@@ -1,4 +1,4 @@
-import { DataTable } from '../../../app/shared/components/guidsl/data-table/data-table';
+import { DataTable } from '@components/data-table/data-table';
 import { TestViewModel } from './helper';
 
 describe('Data Table', () => {

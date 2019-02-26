@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 // Blank Component because a simple route target was needed.
-@Component({ selector: 'app-blank', template: '' })
+@Component({ selector: 'blank', template: '' })
 class BlankComponent { }
 
 // Global definition of variables for configuration etc.

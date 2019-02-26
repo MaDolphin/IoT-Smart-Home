@@ -5,7 +5,7 @@ import { TWO_DECIMAL_NUMBER_REGEX } from '@shared/generic-form/controls/two-deci
 import { TWO_DECIMAL_NUMBER_UNTRIMMED_REGEX } from '@shared/generic-form/controls/percent-hour.form-control';
 
 @Component({
-  selector: 'app-percentage-input',
+  selector: 'macoco-percentage-input',
   templateUrl: './percentage-input.component.html',
   styleUrls: ['../input.scss']
 })

@@ -26,7 +26,9 @@
       "@targetrte/*": ["target/generated-sources/rte/*"],
       "@components/*": ["src/app/shared/components/guidsl/*"],
       // Test
-      "@testutils/*": ["src/tests/utils/*"]
+      "@testutils/*": ["src/tests/utils/*"],
+      "@jsonapiservice/*": ["src/app/shared/architecture/mock/*"],
+      "@loggerservice/*": ["src/app/shared/architecture/mock/*"]
     }
   }
 }

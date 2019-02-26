@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ColorType } from '@shared/types';
 
 @Component({
-  selector:    'app-balance-box',
+  selector:    'macoco-balance-box',
   templateUrl: './balance-box.component.html',
   styleUrls:   ['./balance-box.component.scss'],
 })

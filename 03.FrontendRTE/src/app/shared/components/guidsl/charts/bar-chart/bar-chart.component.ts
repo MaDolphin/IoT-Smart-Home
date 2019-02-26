@@ -14,7 +14,7 @@ interface BarDataGroup {
 }
 
 @Component({
-  selector: 'app-bar-chart',
+  selector: 'macoco-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TextInputComponent } from '../text/text-input.component';
 
 @Component({
-  selector: 'app-text-pattern-input',
+  selector: 'macoco-text-pattern-input',
   templateUrl: './text-pattern-input.component.html',
   styleUrls: ['../input.scss']
 })

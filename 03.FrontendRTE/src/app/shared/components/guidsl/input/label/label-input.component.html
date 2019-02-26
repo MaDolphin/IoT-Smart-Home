@@ -1,5 +1,5 @@
 <ng-template [ngIf]="modelFormControl">
-  <app-input *ngIf="!inline; else inlineTemplate"
+  <macoco-input *ngIf="!inline; else inlineTemplate"
                 [error]="errors?.error"
                 [htmlId]="htmlId"
                 [isInvalid]="invalid && dirty"
@@ -28,7 +28,7 @@
                  (matChipInputTokenEnd)="add($event)" #inputField>
         </mat-chip-list>
       </div>
-  </app-input>
+  </macoco-input>
   <ng-template #inlineTemplate>
     <mat-form-field>
       <input [placeholder]="placeholder"

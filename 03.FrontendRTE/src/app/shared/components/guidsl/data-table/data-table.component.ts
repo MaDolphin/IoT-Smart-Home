@@ -48,7 +48,7 @@ export interface ResponseSaving<T> {
 export const EDIT_CANCEL = 'EDIT_CANCEL';
 
 @Component({
-  selector: 'app-data-table',
+  selector: 'macoco-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
 })

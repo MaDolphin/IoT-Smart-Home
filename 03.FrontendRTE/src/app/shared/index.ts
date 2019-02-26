@@ -1,1 +1,1 @@
-export { GeneralModule } from './general.module';
+export { MontiGemModule } from './montigem.module';

@@ -1,7 +1,7 @@
 import { CommandDTO } from '@shared/architecture/command/rte/command.dto';
 import { ErrorDTO } from '@shared/architecture/command/aggregate/error.dto';
 import { Logger } from '@upe/logger';
-import { GeneralError } from '@shared/utils/general.error';
+import { MontiGemError } from '@shared/utils/montigem.error';
 import { CommandResultDTO } from '@shared/architecture/command/response/command.result.dto';
 import { CommandResponseDTO } from '@shared/architecture/command/response/command.response.dto';
 import { CommandPromise, ResponseModelCallback } from '@shared/architecture/command/rte/command.promise';
@@ -45,7 +45,7 @@ export class CommandManager {
     try {
       for (let response of cmdResponse.responses) {
         if (response === undefined) {
-          return Promise.reject(new ErrorDTO('0xF0001', GeneralError.createInternal('Daten können nicht ausgewertet werden.')));
+          return Promise.reject(new ErrorDTO('0xF0001', MontiGemError.createInternal('Daten können nicht ausgewertet werden.')));
         }
 
         console.log('Command ' + response.id + ':', response.dto);
@@ -117,7 +117,7 @@ export class CommandManager {
         this.logger.info('0xF0008: error', err);
         this.clear();
         if (err instanceof SyntaxError) {
-          reject(new ErrorDTO('0xF0008', new GeneralError('Systemfehler', 'Systemfehler', '0xF0008')));
+          reject(new ErrorDTO('0xF0008', new MontiGemError('Systemfehler', 'Systemfehler', '0xF0008')));
         } else {
           reject(err)
         }
@@ -140,7 +140,7 @@ export class CommandManager {
     };
 
     this.reject = (err) => {
-      throw GeneralError.createInternal('0xF000A not yet set.');
+      throw MontiGemError.createInternal('0xF000A not yet set.');
     }
   }
 

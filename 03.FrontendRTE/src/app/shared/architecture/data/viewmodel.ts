@@ -123,11 +123,11 @@ export abstract class ViewModel<D extends IModel & ISerializable<D>,
 
   // endregion
 
-  private _original: D;
+  private readonly _original: D;
 
   private _consistencyTests: Array<ConsistencyTest<D>> = [];
 
-  constructor(private _concert: D, private _api: A) {
+  protected constructor(private _concert: D, private _api: A) {
     super();
     this.logger.addFlag('model');
     this.logger.addFlag('viewModel');

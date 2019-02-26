@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { isEmailValid } from '@shared/architecture/data/utils/utils';
-import { JsonApiService, JsonResponse } from '@shared/architecture/services/json-api.service';
+import { JsonApiService, JsonResponse } from '@jsonapiservice/json-api.service';
 import { NotificationService } from '@shared/notification/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { ForgotPasswordForm } from '@shared/auth/forgot/forgot.form';

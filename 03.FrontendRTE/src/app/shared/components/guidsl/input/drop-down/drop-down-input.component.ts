@@ -4,7 +4,7 @@ import { DropDownControl, DropDownControlOption } from '@shared/architecture/for
 import { AbstractInputComponent } from '../abstract.input.component';
 
 @Component({
-  selector: 'app-drop-down-input',
+  selector: 'macoco-drop-down-input',
   templateUrl: './drop-down-input.component.html',
   styleUrls: ['../input.scss']
 })

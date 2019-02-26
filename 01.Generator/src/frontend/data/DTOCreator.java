@@ -90,10 +90,6 @@ public class DTOCreator extends CreateTrafo {
             .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETBYID_CMD, handcodePath, CommandGetByIdCreator.FILEEXTENSION, CommandCreator.SUBPACKAGE,
                     Optional.of(typeSymbol.getName().toLowerCase())));
 
-    // Import ZahlenWert
-    imports.add(FrontendTransformationUtils
-        .getImportCheckHWC("ZahlenWertDTO", handcodePath, FILEEXTENION,
-            SUBPACKAGE, Optional.of("zahlenwert")));
     return imports;
   }
 

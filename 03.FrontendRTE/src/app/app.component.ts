@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { Logger } from '@upe/logger';
-import { LoggerService } from '@shared/architecture/services/logger.service';
+import { LoggerService } from '@loggerservice/logger.service';
 
 @Component({
   selector: 'app-root',

@@ -23,6 +23,7 @@ import { StringArrayFilter } from './string-array-filter.pipe';
 import { StringToDatePipe } from './string-to-date.pipe';
 import { SumPipe } from './sum.pipe';
 import { UnixDateToStringPipe } from './unix-date-to-string.pipe';
+import { ValueWithoutOverheadPipe } from './valueWithoutOverhead.pipe';
 import { ToPercentPipe } from './topercent.pipe';
 import { ValueWithoutRatePipe } from './valueWithoutRate.pipe';
 import { ValueWithOverheadPipe } from './valueWithOverhead.pipe';
@@ -60,6 +61,7 @@ const pipes: any[] = [
   ValueWithRatePipe,
   ValueWithoutRatePipe,
   ValueWithOverheadPipe,
+  ValueWithoutOverheadPipe,
   ToPercentPipe,
   UnixDateToStringPipe,
   PrettyJsonPipe,
@@ -106,6 +108,7 @@ export class PipesModule {
         ValueWithRatePipe,
         ValueWithoutRatePipe,
         ValueWithOverheadPipe,
+        ValueWithoutOverheadPipe,
         RemoveNullsPipe,
         ClonePipe,
         DurationInMonthsAndDays,

@@ -129,7 +129,7 @@ public class DTOTypeResolverCreator extends AggregateTrafo {
     importStr = "{ ErrorDTO } from '@shared/architecture/command/aggregate/error.dto'";
     TransformationUtils.addPropertyValue(clazz, CompilationUnit.IMPORTS_PROPERTY, importStr);
 
-    importStr = "{ GeneralError } from '@shared/utils/general.error'";
+    importStr = "{ MontiGemError } from '@shared/utils/montigem.error'";
     TransformationUtils.addPropertyValue(clazz, CompilationUnit.IMPORTS_PROPERTY, importStr);
 
     importStr = "{ ElementType } from '@upe/typedjson/dist/untils'";

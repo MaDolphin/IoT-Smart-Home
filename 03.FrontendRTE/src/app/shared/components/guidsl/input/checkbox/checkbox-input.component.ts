@@ -3,7 +3,7 @@ import { FormularControl } from '@shared/architecture/forms/controls/formular.co
 import { AbstractInputComponent } from '../abstract.input.component';
 
 @Component({
-  selector: 'app-checkbox-input',
+  selector: 'macoco-checkbox-input',
   templateUrl: './checkbox-input.component.html',
   styleUrls: ['checkbox-input.component.scss', '../input.scss']
 

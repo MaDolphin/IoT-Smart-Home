@@ -7,8 +7,8 @@
 ====================================================
 */
 
-$app-white: white;
-$app-black: #222222;
+$montigem-white: white;
+$montigem-black: #222222;
 
 /* ===== Primary colors ===== */
 $rwth-blue: #00549F;
@@ -151,7 +151,7 @@ $font-text-3: default-font(14px, 17, 5px);
 
 @mixin default-button() {
   border-radius: 10px;
-  border-color: $app-white;
+  border-color: $montigem-white;
   border-width: 3px;
   color: white;
   background-color: $rwth-blue;
@@ -642,7 +642,7 @@ $breadcrumb-padding-horizontal: 15px !default;
 //** Breadcrumb background color
 $breadcrumb-bg: #646567;
 //** Breadcrumb text color
-$breadcrumb-color: $app-white;
+$breadcrumb-color: $montigem-white;
 //** Text color of current page in the breadcrumb
 $breadcrumb-active-color: $gray-light !default;
 //** Textual separator for between breadcrumb elements

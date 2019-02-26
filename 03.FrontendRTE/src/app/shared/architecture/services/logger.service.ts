@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import { IHttpLogger, Log, Logger, LogType } from '@upe/logger';
-import { JsonApiService } from './json-api.service';
+import { JsonApiService } from '@jsonapiservice/json-api.service';
 
 @Injectable()
 export class LoggerService implements IHttpLogger {

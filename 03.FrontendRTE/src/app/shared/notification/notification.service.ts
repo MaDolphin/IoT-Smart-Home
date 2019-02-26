@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { noop } from 'rxjs/util/noop';
 import { DialogCallback } from '@shared/utils/dialog/dialog.callback';
-import { GeneralDialogComponent } from '@shared/utils/dialog/general-dialog/general-dialog.component';
-import { GeneralError } from '@shared/utils/general.error';
+import { MontiGemDialogComponent } from '@shared/utils/dialog/general-dialog/montigem-dialog.component';
+import { MontiGemError } from '@shared/utils/montigem.error';
 
 export enum CloseReason {
   Confirm = 'confirm',
@@ -26,7 +26,7 @@ export class NotificationService {
   }
 
   private openDialog<T>(data: any, width: number = 500): Promise<string> {
-    const ref = this.dialog.open(GeneralDialogComponent, {width: `${width}px`, data: data});
+    const ref = this.dialog.open(MontiGemDialogComponent, {width: `${width}px`, data: data});
 
     return new Promise<string>((resolve) => {
       ref.afterClosed().subscribe((result) => resolve(result));
@@ -127,12 +127,12 @@ export class NotificationService {
     this.notificationOkOnly('Information', 'Diese Funktion ist noch nicht verfügbar.', undefined, 'MAF0xDEAD');
   }
 
-  public async error(error: GeneralError): Promise<boolean> {
+  public async error(error: MontiGemError): Promise<boolean> {
     return this.notificationOkOnly(error.title(),
       'Ein Systemfehler ist aufgetreten, bitte versuchen Sie es erneut.', undefined, error.code());
   }
 
-  public async errorWithMessage(error: GeneralError, msg?: string): Promise<boolean> {
+  public async errorWithMessage(error: MontiGemError, msg?: string): Promise<boolean> {
     return this.notificationOkOnly(error.title(),
       msg ? msg : error.messageOnly(), undefined, error.code());
   }

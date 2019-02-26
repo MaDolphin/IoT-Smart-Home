@@ -277,13 +277,13 @@
 </ng-template>
 
 <ng-template let-column="column" let-value="value" #headerTemplate let-sort="sortFn" let-sortDir="sortDir" ngx-datatable-header-template>
-  <div class="app-datatable-header-container datatable-header-cell-wrapper">
+  <div class="macoco-datatable-header-container datatable-header-cell-wrapper">
     <div (click)="sort()">
       <span class="datatable-header-cell-label draggable" [innerHtml]="column.name">
       </span>
     </div>
     <!-- TODO: remove `if` when group sorting is added -->
-    <div *ngIf="!isGroupable" class="app-datatable-header-sort-btn">
+    <div *ngIf="!isGroupable" class="macoco-datatable-header-sort-btn">
       <span class="sort-btn"
             [class.sort-asc]="sortDir === 'asc'"
             [class.datatable-icon-up]="sortDir === 'asc'"

@@ -2,7 +2,7 @@ import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } f
 import { Locator } from 'protractor/built/locators';
 import 'rxjs/add/operator/concatMap';
 import { promise } from 'selenium-webdriver';
-import { MoneyToNumberPipe } from '../../src/app/shared/pipes/money-to-number.pipe';
+import { MoneyToNumberPipe } from '@shared/pipes/money-to-number.pipe';
 import { headerMaCoCo } from './login.e2e-util';
 
 let fetch = require('node-fetch');

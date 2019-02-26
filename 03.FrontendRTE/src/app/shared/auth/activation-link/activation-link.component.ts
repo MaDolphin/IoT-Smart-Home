@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, UrlSegment } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { JsonApiService, JsonResponse } from '@shared/architecture/services/json-api.service';
+import { JsonApiService, JsonResponse } from '@jsonapiservice/json-api.service';
 import { NotificationService } from '@shared/notification/notification.service';
 
 @Component({
-  selector: 'app-activation-link',
+  selector: 'macoco-activation-link',
   templateUrl: './activation-link.component.html',
   styleUrls: ['../auth.scss']
 })

@@ -3,7 +3,7 @@ import { copyByValue } from '@shared/utils/util';
 import { asMoney } from '@components/data-table/data-table.transformation';
 
 @Component({
-  selector: 'app-budget-widget',
+  selector: 'macoco-budget-widget',
   templateUrl: './budget-widget.component.html',
   styleUrls: ['./budget-widget.component.scss'],
 })

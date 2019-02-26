@@ -4,7 +4,7 @@ import { LoadingComponent } from '../loading.component';
 import { LoadingService } from '../loading.service';
 
 @Component({
-  selector:    'app-loading-spinner',
+  selector:    'macoco-loading-spinner',
   templateUrl: './loading-spinner.component.html',
   styleUrls:   ['./loading-spinner.component.scss'],
   animations:  animations,

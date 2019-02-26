@@ -11,7 +11,7 @@ export interface BreadcrumbEntry {
 }
 
 @Component({
-  selector: 'app-breadcrumb',
+  selector: 'macoco-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss'],
   providers: [TitleTranslationPipe]

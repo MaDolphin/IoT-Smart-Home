@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from '@shared/architecture/services/api.service';
-import { JsonApiService, JsonResponse } from '@shared/architecture/services/json-api.service';
+import { JsonApiService, JsonResponse } from '@jsonapiservice/json-api.service';
 import { CommandCallback, CommandManager } from '@shared/architecture/command/rte/command.manager';
 import { CommandDTO } from '@shared/architecture/command/rte/command.dto';
 import { CommandResponseDTO } from '@shared/architecture/command/response/command.response.dto';

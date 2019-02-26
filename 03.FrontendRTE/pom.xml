@@ -2,11 +2,12 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <artifactId>frontend-rte</artifactId>
   <name>FrontendRTE</name>
   <packaging>war</packaging>
   <groupId>de.monticore.montigem</groupId>
-  <version>${montigem.version}</version>
+  <version>0.0.2-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,12 +16,14 @@
     <npm.version>5.3.0</npm.version>
     <node.version>v8.11.1</node.version>
     <final.name>FrontendRTE</final.name>
+    <montigem.version>0.0.2-SNAPSHOT</montigem.version>
     <se-commons-utilities.version>1.7.8-SNAPSHOT</se-commons-utilities.version>
     <se-groovy.maven.version>1.2.2</se-groovy.maven.version>
     <maven.build.timestamp.format>yyyy.MM.dd HH:mm</maven.build.timestamp.format>
     <buildTime>${maven.build.timestamp}</buildTime>
     <sonar.sources>src/app</sonar.sources>
     <sonar.tests>src/tests</sonar.tests>
+    <project.custom.basedir>${basedir}/../</project.custom.basedir>
   </properties>
 
   <profiles>
@@ -63,7 +66,91 @@
               </execution>
             </executions>
           </plugin>
+          <plugin>
+            <groupId>de.se_rwth.maven</groupId>
+            <artifactId>se-groovy-maven-plugin</artifactId>
+            <version>${se-groovy.maven.version}</version>
+            <configuration>
+              <script>frontend/scripts/domain.groovy</script>
+              <baseClass>configure.DexScript</baseClass>
+              <arguments>
+                <model>${project.custom.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd</model>
+                <ocl>de.montigem.be.domain.DomainConstraints</ocl>
+                <out>${project.build.directory}/generated-sources/</out>
+                <modelPath>${project.custom.basedir}/00.Models/src/main/models</modelPath>
+                <handcodedPath>${basedir}/src/app/shared/architecture/data</handcodedPath>
+              </arguments>
+            </configuration>
+            <executions>
+              <execution>
+                <id>domain</id>
+                <configuration>
+
+                  <skip>${maven.main.skip}</skip>
+                  <script>frontend/scripts/domain.groovy</script>
+                  <baseClass>configure.DexScript</baseClass>
+                  <arguments>
+                    <model>${basedir}/../00.Models/src/main/models/de/montigem/be/domain/Domain.cd</model>
+                    <ocl>de.montigem.be.domain.DomainConstraints</ocl>
+                    <out>${project.build.directory}/generated-sources/</out>
+                    <modelPath>${basedir}/../00.Models/src/main/models</modelPath>
+                    <handcodedPath>${basedir}/src/app/shared/architecture/data</handcodedPath>
+                  </arguments>
+                </configuration>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>aggregates</id>
+                <configuration>
+                  <skip>${maven.main.skip}</skip>
+                  <script>frontend/scripts/aggregates.groovy</script>
+                  <baseClass>configure.DexScript</baseClass>
+                  <arguments>
+                    <models>${basedir}/../00.Models/src/main/models/de/montigem/be/system</models>
+                    <cmdmodel>${basedir}/../00.Models/src/main/models/de/montigem/be/command/Commands.cd</cmdmodel>
+                    <out>${project.build.directory}/generated-sources/</out>
+                    <modelPath>${basedir}/../00.Models/src/main/models</modelPath>
+                    <handcodedPath>${basedir}/src/app/shared/architecture/data</handcodedPath>
+                  </arguments>
+                </configuration>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>de.monticore.montigem</groupId>
+                <artifactId>montigem-gtr</artifactId>
+                <version>${montigem.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>de.se_rwth.commons</groupId>
+                <artifactId>se-commons-utilities</artifactId>
+                <version>${se-commons-utilities.version}</version>
+              </dependency>
+            </dependencies>
+          </plugin>
         </plugins>
+        <testResources>
+          <testResource>
+            <directory>src/test/resources-docker</directory>
+          </testResource>
+        </testResources>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <excludes>
+              <exclude>devserver.properties</exclude>
+              <exclude>testserver.properties</exclude>
+            </excludes>
+          </resource>
+        </resources>
       </build>
     </profile>
   </profiles>
@@ -127,6 +214,42 @@
               </configuration>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>de.se_rwth.maven</groupId>
+          <artifactId>se-groovy-maven-plugin</artifactId>
+          <version>${se-groovy.maven.version}</version>
+          <configuration>
+            <skip>false</skip>
+            <script>frontend/scripts/domain.groovy</script>
+            <baseClass>configure.DexScript</baseClass>
+            <arguments>
+              <model>${project.custom.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd</model>
+              <out>${project.build.directory}/generated-sources/</out>
+              <modelPath>${project.custom.basedir}/00.Models/src/main/models</modelPath>
+              <handcodedPath>${basedir}/src/app/shared/architecture/data</handcodedPath>
+            </arguments>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>execute</goal>
+              </goals>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>de.monticore.montigem</groupId>
+              <artifactId>montigem-gtr</artifactId>
+              <version>${montigem.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>de.se_rwth.commons</groupId>
+              <artifactId>se-commons-utilities</artifactId>
+              <version>${se-commons-utilities.version}</version>
+            </dependency>
+          </dependencies>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -297,6 +420,35 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.7</version>
+        <executions>
+          <execution>
+            <id>copy-frontend-src-resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.basedir}/target/${final.name}/
+              </outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/dist/</directory>
+                  <includes>
+                    <include>**/*.*</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>3.0.0</version>
@@ -337,6 +489,43 @@
         </configuration>
       </plugin>
 
+      <!--generation of the html and ts code by executing main in GUITool-->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <id>generate_guidsl</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>generate-sources
+            </phase>
+            <configuration>
+              <skip>${maven.main.skip}</skip>
+              <includePluginDependencies>true</includePluginDependencies>
+              <mainClass>guidsl.GUITool</mainClass>
+              <arguments>
+                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui</argument>
+                <argument>-hcp</argument>
+                <argument>${basedir}/src/app/guidsl/gui-dsl-gen</argument>
+                <argument>${basedir}/src/app/dashboard</argument>
+                <argument>-out</argument>
+                <argument>${basedir}/target/generated-sources/gui</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>de.monticore.lang</groupId>
+            <artifactId>guidsl</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -353,7 +542,7 @@
         <configuration>
           <overlays>
             <overlay>
-            <skip>${maven.main.skip}</skip>
+              <skip>${maven.main.skip}</skip>
             </overlay>
           </overlays>
           <failOnMissingWebXml>false</failOnMissingWebXml>

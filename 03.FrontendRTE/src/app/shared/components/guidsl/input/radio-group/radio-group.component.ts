@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { RadioFormControl } from '@shared/generic-form/controls/radio.form-control';
 
 @Component({
-  selector: 'app-radio-group',
+  selector: 'macoco-radio-group',
   styleUrls: ['./radio-group.component.scss'],
   templateUrl: './radio-group.component.html',
 })

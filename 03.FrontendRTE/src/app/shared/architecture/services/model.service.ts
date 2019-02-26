@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 import { NotificationService } from '@shared/notification/notification.service';
 import { ClonePipe } from '@shared/pipes/clone.pipe';
 import { RemoveNullsPipe } from '@shared/pipes/remove-nulls.pipe';
-import { GeneralError } from '@shared/utils/general.error';
+import { MontiGemError } from '@shared/utils/montigem.error';
 import { IModel, Model } from '@shared/architecture/data/models/model';
 import { addModel, deleteModel, updateModel } from '@shared/architecture/debug';
 import { ISerializable } from '@shared/architecture/serializable';
 import { ApiService, IApiService } from './api.service';
-import { JsonApiService, JsonResponse } from './json-api.service';
+import { JsonApiService, JsonResponse } from '@jsonapiservice/json-api.service';
 
 export interface IModelService<D extends IModel> extends IApiService {
   getByIds(...ids: number[]): Observable<D[]>;
@@ -32,7 +32,7 @@ export abstract class ModelService<D extends IModel> extends ApiService<D> imple
   private _removeNullsPipe: RemoveNullsPipe = new RemoveNullsPipe();
   private _getObservables: Map<number, Observable<D>> = new Map();
 
-  constructor(api: JsonApiService, protected modelConstructor: new () => D, baseUrl: string, private notificationService: NotificationService) {
+  protected constructor(api: JsonApiService, protected modelConstructor: new () => D, baseUrl: string, private notificationService: NotificationService) {
     super(api, baseUrl);
     this.logger.addFlag('model');
     this.logger.addFlag('model-service');
@@ -53,7 +53,7 @@ export abstract class ModelService<D extends IModel> extends ApiService<D> imple
         const models = this.deserializeArray(response.json, this.modelConstructor);
         return models;
       }).catch((error: any) => {
-        let macocoErr: GeneralError = JsonApiService.deserializeError(error.json(), this.logger);
+        let macocoErr: MontiGemError = JsonApiService.deserializeError(error.json(), this.logger);
         this.notificationService.error(macocoErr);
         return Observable.throw(macocoErr);
       }).share();
@@ -83,7 +83,7 @@ export abstract class ModelService<D extends IModel> extends ApiService<D> imple
         const model = this.deserialize(response.json, this.modelConstructor);
         return model;
       }).catch((error: any) => {
-        let macocoErr: GeneralError = JsonApiService.deserializeError(error.json(), this.logger);
+        let macocoErr: MontiGemError = JsonApiService.deserializeError(error.json(), this.logger);
         this.notificationService.error(macocoErr);
         return Observable.throw(macocoErr);
       });

@@ -4,7 +4,7 @@ import { User } from '../user';
 
 @Component(
   {
-    selector: 'app-login-info',
+    selector: 'macoco-login-info',
     templateUrl: './login-info.component.html',
     styleUrls: ['./login-info.component.scss']
   }

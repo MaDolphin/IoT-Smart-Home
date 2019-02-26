@@ -15,14 +15,14 @@
                    placeholder="E-Mail-Adresse" required>
         </div>
         <div>
-            <app-auto-complete class="nopadding"
+            <macoco-auto-complete class="nopadding"
                                   [modelFormControl]="forms.datenbank"
                                   [labelAbove]="true"
                                   [label]="'Instanz'"
                                   [placeholder]="'keine Instanz gewählt'"
                                   [noPaddingOrMargin]="true"
             >
-            </app-auto-complete>
+            </macoco-auto-complete>
         </div>
         <span *ngIf="(em.invalid && em.touched) || (em.touched && !emailValidator(email))"
               class="help-block">Bitte geben Sie ihre E-Mail-Adresse ein um ihr Passwort zurückzusetzen</span>

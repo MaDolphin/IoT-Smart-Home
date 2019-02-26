@@ -1,7 +1,7 @@
 @import "../../../scss/variables";
 
 .dropdown-login{
-  background: $app-white;
+  background: $montigem-white;
   border-radius: 4px;
   font-size: 12px;
   padding: 8px;
@@ -19,7 +19,7 @@
 
 
 form {
-  color: $app-white;
+  color: $montigem-white;
 
   a {
     color: #8CB9E2;
@@ -36,7 +36,7 @@ form {
     font-size: 12px;
     line-height: 15px;
     padding-left: 10px;
-    border-left: 3px solid $app-white;
+    border-left: 3px solid $montigem-white;
   }
 
   label {

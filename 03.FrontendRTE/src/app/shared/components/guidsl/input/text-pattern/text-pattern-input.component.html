@@ -1,5 +1,5 @@
 <ng-template [ngIf]="modelFormControl">
-  <app-input *ngIf="!inline; else inlineTemplate"
+  <macoco-input *ngIf="!inline; else inlineTemplate"
                 [error]="errors?.error"
                 [htmlId]="htmlId"
                 [isInvalid]="invalid && dirty"
@@ -16,7 +16,7 @@
 
            [formControl]="modelFormControl"
            type="text">
-  </app-input>
+  </macoco-input>
   <ng-template #inlineTemplate>
     <mat-form-field>
       <input [placeholder]="placeholder"

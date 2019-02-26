@@ -1,5 +1,5 @@
 <div [id]="htmlId" *ngIf="modelFormControl">
-  <app-generic-input *ngIf="!inline; else inlineTemplate"
+  <macoco-generic-input *ngIf="!inline; else inlineTemplate"
                 [error]="errors?.error"
                 [htmlId]="htmlId"
                 [isInvalid]="invalid && dirty"
@@ -21,7 +21,7 @@
            (blur)="autoCompleteSelection()"
            [matAutocomplete]="auto"
            type="text">
-  </app-generic-input>
+  </macoco-generic-input>
   <ng-template #inlineTemplate>
     <mat-form-field>
       <input matInput

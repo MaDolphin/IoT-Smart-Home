@@ -4,7 +4,7 @@
 
 <ng-template [ngIf]="modelFormControl">
   <ng-template [ngIf]="!isPassword" [ngIfElse]="password">
-    <app-generic-input *ngIf="!inline; else inlineTemplate"
+    <macoco-generic-input *ngIf="!inline; else inlineTemplate"
                           [error]="errors?.error"
                           [htmlId]="htmlId"
                           [isInvalid]="invalid && dirty"
@@ -22,7 +22,7 @@
              [readonly]="readonly"
              [formControl]="modelFormControl"
              type="text">
-    </app-generic-input>
+    </macoco-generic-input>
     <ng-template #inlineTemplate>
       <mat-form-field>
         <input [placeholder]="placeholder"
@@ -40,7 +40,7 @@
   </ng-template>
 
   <ng-template #password>
-    <app-generic-input *ngIf="!inline; else inlineTemplate"
+    <macoco-generic-input *ngIf="!inline; else inlineTemplate"
                           [error]="errors?.error"
                           [htmlId]="htmlId"
                           [isInvalid]="invalid && dirty"
@@ -58,7 +58,7 @@
              [readonly]="readonly"
              [formControl]="modelFormControl"
              type="password">
-    </app-generic-input>
+    </macoco-generic-input>
     <ng-template #inlineTemplate>
       <mat-form-field>
         <input [placeholder]="placeholder"

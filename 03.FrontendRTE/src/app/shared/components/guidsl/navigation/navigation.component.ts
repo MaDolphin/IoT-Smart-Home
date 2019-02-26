@@ -9,7 +9,7 @@ interface NavigationLink {
 }
 
 @Component({
-  selector: 'app-navigation',
+  selector: 'macoco-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })

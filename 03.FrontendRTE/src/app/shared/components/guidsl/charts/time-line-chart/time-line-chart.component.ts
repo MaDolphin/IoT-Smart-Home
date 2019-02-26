@@ -14,7 +14,7 @@ interface BarGroup {
 }
 
 @Component({
-  selector: 'app-timeline-chart',
+  selector: 'macoco-timeline-chart',
   templateUrl: './time-line-chart.component.html',
   styleUrls: ['./time-line-chart.component.scss'],
 })
