@@ -263,7 +263,7 @@ export class JsonApiService {
     let json: any = {};
 
     if (requestOptions.url.endsWith('/auth/login')) {
-      json = {jwt: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2ZjU0MTU1Yy03NjU1LTQ5MDQtOTgzZC1lY2Y3OTcwNTA3ZDciLCJzdWIiOiJhZG1pbiRUZXN0REIiLCJpYXQiOjE1NTExNzQyOTcsImV4cCI6MTU1MTE3ODE5OH0.xec8Ew2etQsNcAOGjMvZR_FBuLEmoAEoDBD4bX_gIlQ",
+      json = {jwt: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2ZjU0MTU1Yy03NjU1LTQ5MDQtOTgzZC1lY2Y3OTcwNTA3ZDciLCJzdWIiOiJhZG1pbiRUZXN0REIiLCJpYXQiOjE1NTExNzQyOTcsImV4cCI6MTU1MTE4Njg1M30.YoVrwrzz95ZNVtDsWRfQSOvv9NY9yWfw12jJnyPCNj8",
         refreshToken: "refresh",
         expirationDate: "2030-12-31T00:00:00.000Z"};
     } else if (requestOptions.url.endsWith('/validity')) {
