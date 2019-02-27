@@ -1,0 +1,76 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
+
+package de.montigem.be.system.einstellungen;
+
+import de.montigem.be.domain.Domain.*;
+import java.time.ZonedDateTime;
+
+classdiagram Einstellungen {
+
+  class EinstellungenRollenTabelle {
+    List<EinstellungenRollenTabelleEntry> users;
+  }
+
+  class EinstellungenRollenTabelleEntry {
+    UserListEntry user;
+    RoleListEntry role;
+    String objectClass;
+    ObjectListEntry object;
+  }
+
+  class UserList {
+    List<UserListEntry> users;
+  }
+
+  class UserListEntry {
+    String username;
+  }
+
+  class StatusList {
+    List<StatusListEntry> status;
+  }
+
+
+  class StatusListEntry {
+    String name;
+  }
+
+  class RoleList {
+    List<RoleListEntry> roles;
+  }
+
+  class RoleListEntry {
+    String name;
+  }
+
+  class ObjectList {
+      List<ObjectListEntry> objects;
+    }
+
+    class ObjectListEntry {
+      String objectName;
+    }
+
+  class EinstellungenBenutzerTabelle {
+    List<EinstellungenBenutzerTabelleEntry> alleBenutzer;
+  }
+
+  class EinstellungenBenutzerTabelleEntry {
+    String username;
+    String email;
+    String initials;
+    ZonedDateTime registrationDate;
+    String aktivierungsstatus;
+    boolean istAktiv;
+  }
+
+}
+
+
+
+
+
+

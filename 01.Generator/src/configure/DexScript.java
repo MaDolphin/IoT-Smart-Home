@@ -176,7 +176,7 @@ public class DexScript extends Script implements GroovyRunner {
    * @param ast the ast to check the CoCos on.
    */
   public void checkMontiGemCoCos(ASTCDCompilationUnit ast) {
-    debug("Checking CD4A CoCos");
+    debug("Checking MontiGem CoCos");
     // check if the symtab is avaliable
     checkArgument(ast.getCDDefinition().getEnclosingScopeOpt().isPresent());
     new CD4ACoCos().getCheckerForCode().addCoCo(new EnumCoCo()).checkAll(ast);

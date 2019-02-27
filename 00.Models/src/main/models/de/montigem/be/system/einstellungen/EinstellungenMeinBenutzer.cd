@@ -1,0 +1,43 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
+package de.montigem.be.system.einstellungen;
+
+import de.montigem.be.domain.Domain.*;
+import java.time.ZonedDateTime;
+
+import de.montigem.be.domain.dtos.*;
+
+classdiagram EinstellungenMeinBenutzer {
+
+  class MeinBenutzerInfoTabelle {
+      String username;
+      String email;
+      String initials;
+      ZonedDateTime registrationDate;
+      List<String> existingUsernames;
+  }
+
+  class MeinBenutzerRollenTabelle {
+    List<MeinBenutzerRollenTabelleEntry> users;
+  }
+
+  class MeinBenutzerRollenTabelleEntry {
+    String role;
+    String name;
+  }
+
+  class MeinBenutzerPasswortZuruecksetzen {
+       String altesPasswort;
+       String neuesPasswort;
+       String neuesPasswortZwei;
+  }
+
+}
+
+
+
+
+
+

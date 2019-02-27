@@ -6,6 +6,7 @@ package de.montigem.be.command;
 
 import de.montigem.be.domain.Domain.*;
 import java.time.ZonedDateTime;
+import de.montigem.be.system.einstellungen.Einstellungen.*;
 
 classdiagram Commands {
 
@@ -24,4 +25,37 @@ classdiagram Commands {
 
    class Info_buildTime {
    }
+
+//--------------- Einstellungen ----------------
+   class EinstellungenBenutzerTabelleEntryDTO_update {
+          EinstellungenBenutzerTabelleEntry dto;
+      }
+
+      class EinstellungenBenutzerTabelleEntryDTO_create {
+          EinstellungenBenutzerTabelleEntry dto;
+      }
+
+      class EinstellungenRollenTabelleEntryDTO_update {
+         EinstellungenRollenTabelleEntry dto;
+      }
+
+      class EinstellungenRollenTabelleEntryDTO_create {
+         EinstellungenRollenTabelleEntry dto;
+      }
+
+      class EinstellungenRollenTabelleEntryDTO_delete {
+         long id;
+      }
+
+ //--------------- USER -------------------
+
+    class MaCoCoUserAktivierungsmailSenden_byIds {
+       List<Long> userIds;
+    }
+
+    class MaCoCoUserAktivierungsmailSenden_byStatus {
+      String status;
+    }
+
+
 }
