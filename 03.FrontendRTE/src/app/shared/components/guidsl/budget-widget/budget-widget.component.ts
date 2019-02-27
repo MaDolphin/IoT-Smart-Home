@@ -4,7 +4,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { copyByValue } from '@shared/utils/util';
-import { asMoney } from '@components/data-table/data-table.transformation';
+import { asMoney } from '@components/data-table/data-table.trasformation';
 
 @Component({
   selector: 'macoco-budget-widget',

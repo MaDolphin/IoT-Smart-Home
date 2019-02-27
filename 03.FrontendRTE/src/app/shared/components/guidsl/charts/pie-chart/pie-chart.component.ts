@@ -7,7 +7,7 @@ import { Logger } from '@upe/logger';
 import { BehaviorSubject } from 'rxjs';
 
 import { GetRelativeValueToPipe } from '@shared/pipes/get-relativ-value-to.pipe';
-import { asMoney } from '@shared/components/guidsl/data-table/data-table.transformation';
+import { asMoney } from '@shared/components/guidsl/data-table/data-table.trasformation';
 import { CurrencyPipe } from '@shared/pipes/currency.pipe';
 
 @Component({
