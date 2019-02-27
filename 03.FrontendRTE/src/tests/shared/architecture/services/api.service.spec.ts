@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 /* tslint:disable:no-unused-variable */
 
 import { ApiService } from '@shared/architecture/services/api.service';

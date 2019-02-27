@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { GenericFormControl, GenericFormGroup } from '@shared/generic-form/generic-form';
 
 export function extractPrototype(instance: any): any {

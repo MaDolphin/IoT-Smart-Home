@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import 'reflect-metadata';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { OPTIONS, OPTIONS_BEHAVIOR_SUBJECT } from '../config';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { DiffPatcher } from 'jsondiffpatch';
 import { Observable } from 'rxjs';
 import { NotificationService } from '@shared/notification/notification.service';

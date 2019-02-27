@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { getTestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Headers, Http, RequestMethod, Response, ResponseOptions, XHRBackend, } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';

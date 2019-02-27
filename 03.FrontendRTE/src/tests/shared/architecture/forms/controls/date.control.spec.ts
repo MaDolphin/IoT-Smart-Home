@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { TestBed } from '@angular/core/testing';
 import { FormularControl } from '@shared/architecture/forms/controls/formular.control';
 import { DateControl } from '@shared/architecture/forms/controls/date.control';

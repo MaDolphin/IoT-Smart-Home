@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ApplyPipePipe } from '@components/data-table/apply-pipe.pipe';
 import { DateToStringPipe } from '@shared/pipes/date-to-string.pipe';
 import { PipeTransform } from '@angular/core';

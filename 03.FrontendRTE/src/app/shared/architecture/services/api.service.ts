@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ILoggable, Logger } from '@upe/logger';
 import { TypedJSON } from '@upe/typedjson';
 import { IDTO } from '@shared/architecture/data/aggregates/dto';

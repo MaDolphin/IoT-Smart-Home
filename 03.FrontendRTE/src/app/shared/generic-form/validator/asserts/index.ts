@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 export { checked } from './checked';
 export { assertDate } from './date';
 export { email } from './email';

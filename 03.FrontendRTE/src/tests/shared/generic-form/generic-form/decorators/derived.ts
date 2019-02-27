@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Control, GenericFormGroup, Group } from '@shared/generic-form/ngx-forms';
 import { TextFormControl } from '@shared/generic-form/controls';
 import { Derived } from '@shared/generic-form/generic-form/decorators/derived';

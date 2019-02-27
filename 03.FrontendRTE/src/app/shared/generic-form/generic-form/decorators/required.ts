@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import 'reflect-metadata';
 import { validate } from '../../validator';
 import { ERROR_MSG, REQUIRED } from '../config';

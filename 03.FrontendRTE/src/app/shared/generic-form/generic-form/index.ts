@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 export { GenericFormControl } from './generic-form-control';
 export { GenericFormGroup } from './generic-form-group';
 export {

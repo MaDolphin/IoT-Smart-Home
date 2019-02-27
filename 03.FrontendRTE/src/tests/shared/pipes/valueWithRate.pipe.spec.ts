@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ValueWithRatePipe } from '@shared/pipes/valueWithRate.pipe';
 
 describe('ValueWithRatePipe', () => {

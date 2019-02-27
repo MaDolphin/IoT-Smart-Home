@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormControl, ValidationErrors } from '@angular/forms';
 import 'rxjs/add/operator/skipWhile';
 import { Subject } from 'rxjs/Subject';

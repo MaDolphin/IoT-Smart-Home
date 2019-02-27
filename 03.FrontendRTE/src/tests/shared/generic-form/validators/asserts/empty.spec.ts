@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormControl } from '@angular/forms';
 import { expect } from 'chai';
 import { validate } from '@shared/generic-form/validator';

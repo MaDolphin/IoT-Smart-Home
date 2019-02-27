@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable, NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import { IHttpLogger, Log, Logger, LogType } from '@upe/logger';

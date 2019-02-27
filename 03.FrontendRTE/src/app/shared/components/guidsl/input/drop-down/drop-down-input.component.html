@@ -1,3 +1,7 @@
+<!--
+  ~ /* (c) Monticore license: https://github.com/MontiCore/monticore */
+  -->
+
 <ng-template [ngIf]="modelFormControl">
   <ng-template [ngIf]="!inline" [ngIfElse]="inlineTemplate">
     <div upeFormGroup [hasError]="invalid && dirty" [hasSuccess]="valid && dirty && value">

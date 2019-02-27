@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import 'reflect-metadata';
 import { AFTER_SUBMIT, AFTER_VALIDATE, BEFORE_SUBMIT, BEFORE_VALIDATE, SUBMIT } from '../config';
 import { GenericFormGroup } from '../generic-form-group';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, Input, OnInit } from '@angular/core';
 import { TextInputComponent } from '../text/text-input.component';
 

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Inject, Injector } from '@angular/core';
 import { FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 import { AbstractControl } from '@angular/forms/src/model';

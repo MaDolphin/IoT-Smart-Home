@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 package de.montigem.be.domain.cdmodelhwc.classes;
 
 import com.google.common.base.CaseFormat;

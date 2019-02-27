@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Location } from '@angular/common';
 

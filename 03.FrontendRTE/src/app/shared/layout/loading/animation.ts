@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 export const animations = [

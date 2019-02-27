@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 package de.montigem.be.domain.cdmodelhwc.rest;
 
 import de.montigem.be.authz.util.SecurityHelper;

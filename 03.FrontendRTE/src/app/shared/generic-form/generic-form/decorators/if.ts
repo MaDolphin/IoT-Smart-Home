@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import 'reflect-metadata';
 import { ADD_IF, DEFAULT_IF, DISABLED_IF, ERROR_MSG, LABEL_IF, OPTIONS_IF, PLACEHOLDER_IF, READONLY_IF, REMOVE_IF, REQUIRED, REQUIRED_IF, } from '../config';
 import { GenericFormControl } from '../generic-form-control';

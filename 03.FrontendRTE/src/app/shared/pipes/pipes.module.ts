@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { CommonModule, DecimalPipe, PercentPipe } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { AutoCompleteDatePipe } from './auto-complete-date.pipe';

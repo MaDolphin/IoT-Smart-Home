@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { CommandDTO } from '@shared/architecture/command/rte/command.dto';
 import { ErrorDTO } from '@shared/architecture/command/aggregate/error.dto';
 import { Logger } from '@upe/logger';

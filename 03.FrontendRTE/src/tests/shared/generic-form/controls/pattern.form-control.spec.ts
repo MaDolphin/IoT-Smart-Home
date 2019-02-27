@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { PatternFormControl } from '@shared/generic-form/controls';
 import { expect } from 'chai';
 import { TestBed } from '@angular/core/testing';

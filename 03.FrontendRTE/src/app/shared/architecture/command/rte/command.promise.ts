@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { IDTO } from '@shared/architecture/data';
 
 type ResponseModelPromise = (dto: IDTO) => Promise<void>;

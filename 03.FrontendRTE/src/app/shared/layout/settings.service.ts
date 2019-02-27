@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/debounceTime';
 import { Subject } from 'rxjs/Rx';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, Input } from '@angular/core';
 import { RadioFormControl } from '@shared/generic-form/controls/radio.form-control';
 

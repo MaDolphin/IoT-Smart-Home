@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';

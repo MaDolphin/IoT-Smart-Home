@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { addChainableMethod } from './utils/addChainableMethod';
 import { addMethod } from './utils/addMethod';
 import { addProperty } from './utils/addProperty';

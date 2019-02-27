@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, Input, OnInit } from '@angular/core';
 import { copyByValue } from '@shared/utils/util';
 import { asMoney } from '@components/data-table/data-table.transformation';

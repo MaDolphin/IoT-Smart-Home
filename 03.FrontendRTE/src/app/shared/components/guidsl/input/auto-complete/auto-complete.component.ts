@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 import { AutoCompleteControl } from '@shared/architecture/forms/controls/auto-complete.control';

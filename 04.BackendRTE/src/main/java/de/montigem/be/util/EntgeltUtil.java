@@ -1,7 +1,5 @@
 /*
- * Copyright (c)  RWTH Aachen. All rights reserved.
- *
- * http://www.se-rwth.de/
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
 package de.montigem.be.util;
 

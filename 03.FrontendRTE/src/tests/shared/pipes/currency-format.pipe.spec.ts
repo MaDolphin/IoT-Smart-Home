@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { CurrencyPipe } from '@shared/pipes/currency.pipe';
 import { NumberToMoneyPipe } from '@shared/pipes/number-to-money.pipe';
 import { DecimalPipe } from '@angular/common';

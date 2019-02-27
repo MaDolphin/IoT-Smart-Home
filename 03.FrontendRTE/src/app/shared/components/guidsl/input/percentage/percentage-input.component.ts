@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { PercentageControl } from '@shared/architecture/forms/controls/percentage.control';
 import { AbstractInputComponent } from '../abstract.input.component';

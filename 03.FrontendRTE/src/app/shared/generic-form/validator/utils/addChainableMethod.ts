@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Assertion } from '../assertion';
 import { addLengthGuard } from './addLengthGuard';
 import { flag } from './flag';

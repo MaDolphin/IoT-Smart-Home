@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { JsonMember, JsonObject, TypedJSON } from '@upe/typedjson';
 import * as moment from 'moment';
 import { DateToStringPipe } from '@shared/pipes/date-to-string.pipe';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { ERROR_MSG, REQUIRED } from '../generic-form/config';
 import { extractPrototype } from '../generic-form/decorators/group/utils';

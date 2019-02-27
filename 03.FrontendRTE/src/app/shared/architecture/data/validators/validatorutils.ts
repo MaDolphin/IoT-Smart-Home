@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { isBefore } from '@shared/architecture/data/validators/asserts/isBefore';
 
 export class ValidatorUtils {

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { DataTableSchema, JsonSchema } from '@components/data-table/data-table-schema';
 
 describe('Data Table', () => {

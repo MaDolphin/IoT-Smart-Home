@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { HeaderService } from '@shared/layout/header/header.service';
 import { AuthService } from '@shared/auth/auth.service';
 import { NotificationService } from '@shared/notification/notification.service';

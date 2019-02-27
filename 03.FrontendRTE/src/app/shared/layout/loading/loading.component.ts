@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { LoadingService } from './loading.service';

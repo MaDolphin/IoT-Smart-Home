@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { JsonObject } from '@upe/typedjson';
 import { JsonMember } from '@upe/typedjson/dist';

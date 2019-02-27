@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Balance, MoneyControl, NEGATIVE_NUMBER_MASK, NUMBER_MASK, } from '@shared/architecture/forms/controls/money.control';

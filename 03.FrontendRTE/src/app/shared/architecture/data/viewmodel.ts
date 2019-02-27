@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Observable } from 'rxjs';
 import { IModel, Model } from './models/model';
 import { ISerializable, Serializable } from "@shared/architecture/serializable";

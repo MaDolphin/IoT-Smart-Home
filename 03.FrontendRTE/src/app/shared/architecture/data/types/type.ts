@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { JsonMember } from '@upe/typedjson';
 
 export abstract class Type {

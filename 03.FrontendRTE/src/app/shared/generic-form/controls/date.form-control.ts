@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { DateToStringPipe } from '@shared/pipes/date-to-string.pipe';
 import { StringToDatePipe } from '@shared/pipes/string-to-date.pipe';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import 'reflect-metadata';
 import { ADD_VALIDATOR, VALIDATOR_CONTROL_FUNCTIONS } from '../config';
 import { ValidatorFn } from '../validator-fn';

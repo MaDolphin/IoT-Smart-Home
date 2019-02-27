@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ValidatorFn } from '@angular/forms';
 import { IModel } from '@shared/architecture/data';
 import { DropDownControl, DropDownControlOption } from './drop-down.control';

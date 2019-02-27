@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormControlHelper } from '@testutils/form-control';
 import { AutoCompleteControl } from '@shared/architecture/forms/controls/auto-complete.control';
 
