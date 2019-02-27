@@ -110,4 +110,8 @@ public class MontiGemErrorFactory {
     return new MontiGemError(MontiGemErrorCode.CONFLICT, Status.SERVICE_UNAVAILABLE, "The Database is not available");
   }
 
+  public static MontiGemError mailException(){
+    return new MontiGemError(MontiGemErrorCode.MAIL_EXCEPTION,Status.NOT_ACCEPTABLE," Die angegebene Mail Adresse ist nicht korrekt oder die Mail Properties sind nicht vorhanden");
+  }
+
 }

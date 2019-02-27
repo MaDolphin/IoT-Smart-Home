@@ -12,19 +12,39 @@ classdiagram Commands {
 
 //--------------- GENERAL ----------------
    class ReloadConfig {
-   }
+     }
 
-   class SendAllMails {
-   }
+     class PasswordResetById {
+         long userId;
+         String password;
+     }
 
-   class Info_general {
-   }
+     class PasswordResetByUsername {
+         String username;
+         String password;
+     }
 
-   class Info_version {
-   }
+     class UsernameReset {
+         String username;
+         String newUsername;
+     }
 
-   class Info_buildTime {
-   }
+     class SetNewPassword{
+          String oldPassword;
+          String newPassword;
+     }
+
+     class SendAllMails {
+     }
+
+     class Info_general {
+     }
+
+     class Info_version {
+     }
+
+     class Info_buildTime {
+     }
 
 //--------------- Einstellungen ----------------
    class EinstellungenBenutzerTabelleEntryDTO_update {
@@ -49,11 +69,11 @@ classdiagram Commands {
 
  //--------------- USER -------------------
 
-    class MaCoCoUserAktivierungsmailSenden_byIds {
+    class DomainUserAktivierungsmailSenden_byIds {
        List<Long> userIds;
     }
 
-    class MaCoCoUserAktivierungsmailSenden_byStatus {
+    class DomainUserAktivierungsmailSenden_byStatus {
       String status;
     }
 

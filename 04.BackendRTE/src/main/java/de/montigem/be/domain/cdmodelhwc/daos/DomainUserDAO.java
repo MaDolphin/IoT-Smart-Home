@@ -6,6 +6,7 @@ package de.montigem.be.domain.cdmodelhwc.daos;
 
 import de.montigem.be.auth.UserActivationManager;
 import de.montigem.be.domain.cdmodelhwc.classes.domainuser.DomainUser;
+import de.montigem.be.domain.cdmodelhwc.classes.domainuseractivationstatus.DomainUserActivationStatus;
 import de.se_rwth.commons.logging.Log;
 
 import javax.ejb.Stateless;
@@ -14,6 +15,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Stateless
@@ -130,5 +132,14 @@ public class DomainUserDAO extends DomainUserDAOTOP {
         DomainUser.class);
     query.setParameter("username", username);
     return query.getResultList().size() == 0;
+  }
+
+  public List<DomainUser> getAllUserWithStatus(DomainUserActivationStatus status, String resource){
+    router.setDataSource(resource);
+    TypedQuery<DomainUser> query= getEntityManager().createQuery(
+            "SELECT a FROM DomainUser a WHERE a.activated = :status",
+            DomainUser.class);
+    query.setParameter("status", status);
+    return query.getResultList();
   }
 }

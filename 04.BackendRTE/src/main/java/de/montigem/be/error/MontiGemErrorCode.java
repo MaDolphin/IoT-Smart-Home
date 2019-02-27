@@ -109,7 +109,12 @@ public enum MontiGemErrorCode {
   /**
    * This error denotes an unknown error
    */
-  @SerializedName("MAB0x0101") UNKNOWN("MAB0x0101");
+  @SerializedName("MAB0x0101") UNKNOWN("MAB0x0101"),
+
+  /**
+   * This error denoted that the Mail Properties are missing
+   */
+  @SerializedName("MAV0x0205") MAIL_EXCEPTION("MAB0x0205");
 
 
   private String code;
