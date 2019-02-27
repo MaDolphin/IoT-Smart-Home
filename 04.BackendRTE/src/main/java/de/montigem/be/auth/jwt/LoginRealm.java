@@ -28,6 +28,7 @@ public class LoginRealm extends AuthenticatingRealm {
     props.setProperty(Context.INITIAL_CONTEXT_FACTORY,
         "org.apache.openejb.client.LocalInitialContextFactory");
     InitialContext context = new InitialContext(props);
+    dao = (DomainUserDAO) context.lookup("java:global/montigem-be/DomainUserDAO");
   }
 
   /**

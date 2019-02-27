@@ -129,7 +129,7 @@ export class DownloadFileService {
   private buildUrl(url: string): string {
     return location.protocol + '//' + location.hostname + (
       location.port ? ':' + location.port : ''
-      ) + '/' + 'app-be/api' + url;
+      ) + '/' + 'montigem-be/api' + url;
   }
 
 }

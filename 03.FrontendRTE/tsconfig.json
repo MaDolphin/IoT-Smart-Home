@@ -27,8 +27,8 @@
       "@components/*": ["src/app/shared/components/guidsl/*"],
       // Test
       "@testutils/*": ["src/tests/utils/*"],
-      "@jsonapiservice/*": ["src/app/shared/architecture/mock/*"],
-      "@loggerservice/*": ["src/app/shared/architecture/mock/*"]
+      "@jsonapiservice/*": ["src/app/shared/architecture/services/*"],
+      "@loggerservice/*": ["src/app/shared/architecture/services/*"]
     }
   }
 }
