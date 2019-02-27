@@ -228,9 +228,9 @@
 
         <profile>
             <id>prod</id>
-            <!--  <properties>
-                  <skipTests>true</skipTests>
-              </properties>-->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -286,18 +286,10 @@
                             <include>**/*.ini</include>
                             <include>**/*.xml</include>
                         </includes>
-                        <excludes>
-                            <exclude>devserver.properties</exclude>
-                            <exclude>testserver.properties</exclude>
-                        </excludes>
                     </resource>
                     <resource>
                         <directory>src/main/resources</directory>
                         <filtering>false</filtering>
-                        <includes>
-                            <include>header_sap_buchung.csv</include>
-                            <include>**/*.pdf</include>
-                        </includes>
                     </resource>
                 </resources>
             </build>
