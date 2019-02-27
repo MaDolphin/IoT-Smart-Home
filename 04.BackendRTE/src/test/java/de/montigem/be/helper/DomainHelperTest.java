@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 package de.montigem.be.helper;
 
 import de.montigem.be.util.DomainHelper;

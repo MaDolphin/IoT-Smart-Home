@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { JsonMember, JsonObject } from '@upe/typedjson';
 import { DTO } from '@shared/architecture/data';
 import { MontiGemError } from '@shared/utils/montigem.error';

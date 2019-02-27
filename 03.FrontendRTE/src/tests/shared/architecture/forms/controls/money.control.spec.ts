@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { TestBed } from '@angular/core/testing';
 import 'rxjs/add/observable/of';
 import { Observable } from 'rxjs/Observable';

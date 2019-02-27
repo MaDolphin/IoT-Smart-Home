@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component } from '@angular/core';
 import { AuthService } from '@shared/auth/auth.service';
 import { User } from '../user';

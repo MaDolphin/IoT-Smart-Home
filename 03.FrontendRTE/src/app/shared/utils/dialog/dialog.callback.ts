@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 export interface DialogCallback {
   onConfirm: () => void;
   onOption: () => void;

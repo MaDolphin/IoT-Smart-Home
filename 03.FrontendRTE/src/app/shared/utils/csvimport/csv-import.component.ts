@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Logger } from '@upe/logger';
 import { Observable } from 'rxjs/Observable';

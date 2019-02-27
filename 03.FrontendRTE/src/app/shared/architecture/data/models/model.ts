@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ILoggable } from '@upe/logger';
 import { JsonMember } from '@upe/typedjson';
 import { DateFormats } from '@shared/pipes/date-to-string.pipe';

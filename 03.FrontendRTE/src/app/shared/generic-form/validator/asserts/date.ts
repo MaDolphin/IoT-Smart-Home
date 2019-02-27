@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormControl } from '@angular/forms';
 import { default as moment } from 'moment/src/moment';
 import { Assertion } from '../assertion';

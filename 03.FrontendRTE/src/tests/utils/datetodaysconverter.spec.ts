@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { A } from './mocking';
 import { DateToDaysConverter } from '@buchungform/expert/util/DateToDaysConverter';
 

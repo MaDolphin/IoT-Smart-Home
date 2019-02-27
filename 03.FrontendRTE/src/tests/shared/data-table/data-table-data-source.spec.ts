@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { MatPaginator, MatSort } from '@angular/material';
 import { TypedJSON } from '@upe/typedjson';
 import { DataTableDataSource } from '@components/data-table/data-table-data-source';

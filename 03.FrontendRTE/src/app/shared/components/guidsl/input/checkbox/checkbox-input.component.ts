@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, Input, OnInit } from '@angular/core';
 import { FormularControl } from '@shared/architecture/forms/controls/formular.control';
 import { AbstractInputComponent } from '../abstract.input.component';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Pipe, PipeTransform } from '@angular/core';
 
 // Taken from github.com/isaacs/json-stringify-safe

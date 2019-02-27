@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/toPromise';
 import { FormularControl } from '@shared/architecture/forms/controls/formular.control';

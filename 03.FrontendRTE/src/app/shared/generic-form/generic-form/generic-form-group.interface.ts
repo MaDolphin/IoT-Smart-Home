@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormGroup, ValidationErrors } from '@angular/forms';
 
 export interface IGenericFormGroup<T = any> extends FormGroup {

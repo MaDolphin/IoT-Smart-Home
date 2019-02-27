@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { DropDownControl } from '@shared/architecture/forms/controls/drop-down.control';
 import { FormControlHelper } from '@testutils/form-control';
 import { loadArchitectureModule } from '@testutils/utilities';

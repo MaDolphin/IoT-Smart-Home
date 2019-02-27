@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { Headers, Http, Request, RequestMethod, RequestOptions, Response } from '@angular/http';
 import { Router } from '@angular/router';

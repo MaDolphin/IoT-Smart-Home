@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { GenericFormControl } from '@shared/generic-form/generic-form';
 import { IGenericFormGroup } from "@shared/generic-form/generic-form/generic-form-group.interface";

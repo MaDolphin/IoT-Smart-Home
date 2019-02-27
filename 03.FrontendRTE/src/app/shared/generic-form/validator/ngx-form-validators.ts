@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 export { NgxFormValidatorsModule } from './modules/ngx-form-validators.module';
 export { ValidationError } from './validation.error';
 export { Assertion } from './assertion';

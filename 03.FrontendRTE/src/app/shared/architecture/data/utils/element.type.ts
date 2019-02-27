@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 // Dummy-Class
 import { IDTO } from '@shared/architecture';
 import deprecated from 'deprecated-decorator';

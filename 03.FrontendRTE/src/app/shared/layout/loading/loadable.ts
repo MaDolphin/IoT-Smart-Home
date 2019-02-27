@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { OnDestroy, OnInit } from '@angular/core';
 import { LoadingService } from './loading.service';
 

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 // Public classes.
 export { NgxFormsModule } from './modules/ngx-forms.module';
 // export { ValidationError, validate, Assertion, AssertionMethod, AssertionProperty, AssertionChainableMethod,

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormControl } from '@angular/forms';
 
 export function mockControl(value: any): FormControl {

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { expect } from 'chai';
 import { LabelFormControl } from '@shared/generic-form/controls/label.form-control';
 import { TestBed } from '@angular/core/testing';

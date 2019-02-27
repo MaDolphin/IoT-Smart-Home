@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { Control, GenericFormControl, GenericFormGroup, Validator } from '@shared/generic-form/ngx-forms';
 import { CheckBoxFormControl, DateFormControl } from '@shared/generic-form/controls';

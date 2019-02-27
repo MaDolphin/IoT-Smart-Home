@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { RouterModule, Routes } from '@angular/router';
 import { ActivationLinkComponent } from '@shared/auth/activation-link/activation-link.component';
 import { AuthGuard } from '@shared/auth/auth-guard';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import 'reflect-metadata';
 import 'rxjs/add/operator/skipWhile';
 import { GenericFormGroup } from '../generic-form-group';

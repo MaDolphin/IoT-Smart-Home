@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 export type ObjClasses = 'account'
     | 'user'
     | 'personal'

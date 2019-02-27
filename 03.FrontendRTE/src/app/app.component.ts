@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, ViewContainerRef } from '@angular/core';
 import { Logger } from '@upe/logger';
 import { LoggerService } from '@loggerservice/logger.service';

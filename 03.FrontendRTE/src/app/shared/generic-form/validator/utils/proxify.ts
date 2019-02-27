@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { config } from '../config';
 import { flag } from './flag';
 import { getProperties } from './getProperties';

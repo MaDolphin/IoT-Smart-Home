@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { MCContainerComponent } from '@shared/components/guidsl/mc-node/mc-container/mc-container.component';
 import { PieChartComponent } from '@shared/components/guidsl/charts/pie-chart/pie-chart.component';

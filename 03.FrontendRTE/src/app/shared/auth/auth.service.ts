@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Logger } from '@upe/logger';

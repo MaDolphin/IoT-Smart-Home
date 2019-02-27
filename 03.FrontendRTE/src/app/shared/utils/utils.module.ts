@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { NotificationService } from '../notification/notification.service';
 import { CopyToClipboardService } from './copy-to-clipboard.service';

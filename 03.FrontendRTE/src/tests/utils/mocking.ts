@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, Directive } from '@angular/core';
 import { TypedJSON } from '@upe/typedjson';
 import { Token } from '@shared/auth/token';

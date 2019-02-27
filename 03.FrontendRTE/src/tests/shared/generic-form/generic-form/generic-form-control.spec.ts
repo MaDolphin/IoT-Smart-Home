@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { expect } from 'chai';
 import { GenericFormControl } from '@shared/generic-form/generic-form';
 

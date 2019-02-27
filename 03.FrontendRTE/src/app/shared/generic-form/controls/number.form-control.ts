@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { AddValidator } from '@shared/generic-form/generic-form/decorators/validator';
 import { GenericFormControl } from '@shared/generic-form/generic-form';

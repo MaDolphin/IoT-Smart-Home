@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Input, OnInit } from '@angular/core';
 import { Logger } from '@upe/logger';
 import { FormularControl } from '@shared/architecture/forms/controls/formular.control';

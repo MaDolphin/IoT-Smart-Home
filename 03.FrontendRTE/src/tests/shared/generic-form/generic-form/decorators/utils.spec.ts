@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { GenericFormGroup } from '@shared/generic-form/generic-form';
 import { CONTROL_NAME, DESIGN_TYPE } from '@shared/generic-form/generic-form/config';
 import { extractPrototype } from '@shared/generic-form/generic-form/decorators/group/utils';

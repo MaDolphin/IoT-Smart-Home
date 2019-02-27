@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormControl } from '@angular/forms';
 import { after } from './asserts/after';
 import { all } from './asserts/all';

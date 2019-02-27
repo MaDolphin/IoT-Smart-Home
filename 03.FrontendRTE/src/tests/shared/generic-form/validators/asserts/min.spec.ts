@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { expect } from 'chai';
 import { Assertion } from '@shared/generic-form/validator';
 import { mockControl } from './until.spec';

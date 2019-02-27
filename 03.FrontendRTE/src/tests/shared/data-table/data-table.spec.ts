@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { DataTable } from '@components/data-table/data-table';
 import { TestViewModel } from './helper';
 

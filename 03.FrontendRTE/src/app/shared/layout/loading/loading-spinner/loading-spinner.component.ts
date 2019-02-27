@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component } from '@angular/core';
 import { animations } from '../animation';
 import { LoadingComponent } from '../loading.component';

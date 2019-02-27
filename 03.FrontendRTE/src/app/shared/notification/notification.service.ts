@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { noop } from 'rxjs/util/noop';

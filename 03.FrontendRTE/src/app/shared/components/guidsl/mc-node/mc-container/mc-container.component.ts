@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 /**
  * Component, which manages construction of a leaf node in a DOM tree.
  *

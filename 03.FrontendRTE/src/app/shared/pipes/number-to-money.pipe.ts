@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { DecimalPipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import * as Big from 'big.js';

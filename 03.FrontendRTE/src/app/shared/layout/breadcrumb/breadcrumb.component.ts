@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { HeaderService, IBreadcrumbTitle } from '@shared/layout/header/header.service';
 import { NavigationEnd, Router } from '@angular/router';

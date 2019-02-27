@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 package de.montigem.be.auth;
 
 import de.montigem.be.auth.jwt.MontiGemSecurityUtils;

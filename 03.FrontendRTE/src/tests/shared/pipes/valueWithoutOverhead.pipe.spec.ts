@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ValueWithoutOverheadPipe } from '@shared/pipes/valueWithoutOverhead.pipe';
 
 describe('ValueWithoutOverheadPipe', () => {

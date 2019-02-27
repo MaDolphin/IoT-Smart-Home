@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { RouterModule, Routes } from '@angular/router';
 
 export const routes: Routes = [

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { DateFormControl } from '@shared/generic-form/controls';
 import { expect } from 'chai';
 import { SetDefaultDateFormat } from '@shared/generic-form/validator/asserts/date';

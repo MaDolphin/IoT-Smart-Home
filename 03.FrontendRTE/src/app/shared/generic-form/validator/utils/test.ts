@@ -1,7 +1,5 @@
-/*!
- * Chai - test utility
- * Copyright(c) 2012-2014 Jake Luer <jake@alogicalparadox.com>
- * MIT Licensed
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
 
 /*!

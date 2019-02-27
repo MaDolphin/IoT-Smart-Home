@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { JsonMember, JsonObject } from '@upe/typedjson';
 
 // TODO : move to model folder

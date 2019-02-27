@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { ISelectOptions } from '../generic-form/decorators/options';
 import { IGenericFormGroup } from '../generic-form/generic-form-group.interface';

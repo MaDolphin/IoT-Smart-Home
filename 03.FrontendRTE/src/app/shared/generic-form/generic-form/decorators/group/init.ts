@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ReflectiveInjector } from '@angular/core';
 import { AbstractControl, FormArray } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { DESIGN_TYPE, MULTI_SUB_GROUP } from '../config';
 
 export function MultiSubGroup(classType: any, name?: string) {

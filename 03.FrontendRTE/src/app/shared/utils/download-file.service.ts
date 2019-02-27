@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, Response, ResponseContentType } from '@angular/http';
 import { Logger } from '@upe/logger';

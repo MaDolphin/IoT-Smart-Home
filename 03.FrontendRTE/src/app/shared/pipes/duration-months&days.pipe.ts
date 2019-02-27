@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { Logger } from '@upe/logger';
 import { StringToDatePipe } from './string-to-date.pipe';

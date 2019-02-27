@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material';

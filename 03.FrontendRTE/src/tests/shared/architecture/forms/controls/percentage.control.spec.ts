@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { PercentageControl } from '@shared/architecture/forms/controls/percentage.control';
 import { FormControlHelper } from '@testutils/form-control';
 import { loadArchitectureModule } from '@testutils/utilities';

@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormControl } from '@angular/forms';
 import { Assertion } from '../assertion';
 import { flag } from '../utils/flag';

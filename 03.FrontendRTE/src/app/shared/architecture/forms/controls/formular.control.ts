@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 import { FormControl, ValidatorFn } from '@angular/forms';
 import { Logger } from '@upe/logger';
 import { Subject } from 'rxjs/Subject';

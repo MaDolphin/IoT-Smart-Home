@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 package de.montigem.be.dtos.rte;
 
 import de.montigem.be.error.MontiGemError;
