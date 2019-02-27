@@ -36,9 +36,7 @@ software, even if advised of the possibility of such damage.
   @author: SE RWTH Aachen
 -->
 ${tc.signature()}
- 
+
 /*
- * Copyright (c) 2016 RWTH Aachen. All rights reserved.
- *
- * http://www.se-rwth.de/
- */
+*  (c) Monticore license: https://github.com/MontiCore/monticore
+*/
