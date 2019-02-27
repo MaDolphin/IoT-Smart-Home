@@ -31,8 +31,7 @@ public class DynamicEnum implements IObject {
   private Collection<String> types;
 
   /**
-   * private constructor for JPA. DO NOT INVOKE MANUALLY!!! Constructor for
-   * de.macoco.be.domain.cdmodelhwc.classes.types.DynamicEnum
+   * private constructor for JPA. DO NOT INVOKE MANUALLY!!!
    */
   protected DynamicEnum() {
     this.types = new HashSet<>();

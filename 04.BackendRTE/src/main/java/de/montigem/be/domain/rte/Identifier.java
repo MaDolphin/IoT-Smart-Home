@@ -32,8 +32,6 @@ public class Identifier implements Serializable {
   }
   
   /**
-   * Constructor for de.macoco.be.Identifier
-   *
    * @param revision
    * @param id
    */
