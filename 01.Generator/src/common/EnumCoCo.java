@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 package common;
 
 import de.monticore.literals.literals._ast.ASTStringLiteral;

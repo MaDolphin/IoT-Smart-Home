@@ -1,3 +1,7 @@
+/*
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
+ */
+
 package backend.data.validator;
 
 import de.montigem.ocl._visitor.OCLVisitor;

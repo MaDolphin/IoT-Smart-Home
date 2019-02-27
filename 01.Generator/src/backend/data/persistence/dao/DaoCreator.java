@@ -1,7 +1,5 @@
 /*
- * Copyright (c) 2017, MontiCore. All rights reserved.
- *
- * http://www.se-rwth.de/
+ *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
 package backend.data.persistence.dao;
 
