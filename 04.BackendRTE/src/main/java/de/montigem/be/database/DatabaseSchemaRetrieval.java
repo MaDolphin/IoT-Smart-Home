@@ -45,7 +45,7 @@ public class DatabaseSchemaRetrieval {
 
     MetadataSources metadataSources = new MetadataSources(standardServiceRegistry);
 
-    new Reflections("de.macoco.be").getTypesAnnotatedWith(Entity.class)
+    new Reflections("de.montigem.be").getTypesAnnotatedWith(Entity.class)
         .forEach(metadataSources::addAnnotatedClass);
 
     EnumSet<TargetType> targetTypes = EnumSet.of(TargetType.SCRIPT);

@@ -7,7 +7,7 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
 
-    <persistence-unit name="de.macoco.db.TestDB"
+    <persistence-unit name="de.montigem.db.TestDB"
                       transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <jta-data-source>Routed Datasource</jta-data-source>

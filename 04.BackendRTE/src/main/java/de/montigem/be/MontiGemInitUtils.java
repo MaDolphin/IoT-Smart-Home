@@ -192,7 +192,7 @@ public class MontiGemInitUtils {
           activationManager.sendActivationEmail(user.getEmail(), user.getUsername(), resource,
                   datenbankBezeichner);
         } catch (MessagingException e) {
-          Log.debug(e.getMessage(), "MaCoCoInitUtils");
+          Log.debug(e.getMessage(), "MontiGemInitUtils");
         }
       }
 

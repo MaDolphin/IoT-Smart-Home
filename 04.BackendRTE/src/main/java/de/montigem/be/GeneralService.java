@@ -32,7 +32,7 @@ public class GeneralService {
   @GET
   @Path("info")
   public Response getInfo() {
-    String info = "MaCoCo V" + Config.VERSION + ", " + Config.TIMESTAMP + ", Commit " + Config.COMMIT +", " + Config.COMMIT_TIME +", " +Config.BRANCH;
+    String info = "MontiGem V" + Config.VERSION + ", " + Config.TIMESTAMP + ", Commit " + Config.COMMIT +", " + Config.COMMIT_TIME +", " +Config.BRANCH;
     try {
       return Responses.okResponse(info);
     } catch (Exception e) {

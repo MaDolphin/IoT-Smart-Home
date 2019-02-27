@@ -36,8 +36,8 @@ public class PolicyDecisionPoint extends AuthorizingRealm {
     props.setProperty(Context.INITIAL_CONTEXT_FACTORY,
             "org.apache.openejb.client.LocalInitialContextFactory");
     InitialContext context = new InitialContext(props);
-    dao = (RoleAssignmentDAO) context.lookup("java:global/macoco-be/RoleAssignmentDAO");
-    rpm = (RolePermissionManager) context.lookup("java:global/macoco-be/RolePermissionManager");
+    dao = (RoleAssignmentDAO) context.lookup("java:global/montigem-be/RoleAssignmentDAO");
+    rpm = (RolePermissionManager) context.lookup("java:global/montigem-be/RolePermissionManager");
   }
 
   /**

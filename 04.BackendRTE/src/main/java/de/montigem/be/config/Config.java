@@ -18,7 +18,7 @@ public class Config {
 
   public static String DEFAULT_CURRENCY = "EUR";
 
-  public static final String DOMAIN_DB = "de.macoco.db.TestDB";
+  public static final String DOMAIN_DB = "de.montigem.db.TestDB";
 
   public static boolean DEVELOPER_MODE = true;
 

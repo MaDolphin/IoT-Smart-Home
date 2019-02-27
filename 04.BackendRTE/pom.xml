@@ -297,7 +297,7 @@
                     <verbose>false</verbose>
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                     <generateGitPropertiesFilename>
-                        ${project.build.outputDirectory}/macoco.properties
+                        ${project.build.outputDirectory}/montigem.properties
                     </generateGitPropertiesFilename>
                     <format>properties</format>
                     <gitDescribe>

@@ -171,7 +171,7 @@ public class ConfigInitializer implements javax.servlet.ServletContextListener {
     Properties p = new Properties();
     try {
       p.load(
-          Thread.currentThread().getContextClassLoader().getResourceAsStream("macoco.properties"));
+          Thread.currentThread().getContextClassLoader().getResourceAsStream("montigem.properties"));
 
       if (p.getProperty("git.build.version") != null) {
         setVersion(p.getProperty("git.build.version"));
