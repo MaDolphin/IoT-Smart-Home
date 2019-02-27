@@ -3,15 +3,30 @@
  */
 package de.montigem.be;
 
+import de.montigem.be.auth.UserActivationManager;
+import de.montigem.be.authz.ObjectClasses;
+import de.montigem.be.authz.Roles;
+import de.montigem.be.authz.model.Role;
 import de.montigem.be.authz.util.RolePermissionManager;
+import de.montigem.be.config.Config;
+import de.montigem.be.database.DatabaseDataSource;
+import de.montigem.be.database.DatabaseDataSourceUtil;
+import de.montigem.be.domain.cdmodelhwc.classes.domainuser.DomainUser;
+import de.montigem.be.domain.cdmodelhwc.classes.domainuseractivationstatus.DomainUserActivationStatus;
+import de.montigem.be.domain.cdmodelhwc.classes.roleassignment.RoleAssignment;
 import de.montigem.be.domain.cdmodelhwc.classes.types.DynamicEnum;
+import de.montigem.be.domain.cdmodelhwc.daos.DomainUserDAO;
+import de.montigem.be.domain.cdmodelhwc.daos.RoleAssignmentDAO;
 import de.montigem.be.domain.rte.dao.DynamicEnumDAO;
 import de.se_rwth.commons.logging.Log;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 
 public class MontiGemInitUtils {
@@ -40,10 +55,10 @@ public class MontiGemInitUtils {
       try {
         Properties serverProps = new Properties();
         InputStream stream = MontiGemInitUtils.class.getClassLoader()
-            .getResourceAsStream("devserver.properties");
+                .getResourceAsStream("devserver.properties");
         if (stream != null) {
           System.out.println(
-              "---------------------------Devserver.properties------------------------------");
+                  "---------------------------Devserver.properties------------------------------");
           serverProps.load(stream);
           stream.close();
           serverURL = serverProps.getProperty("devurl");
@@ -53,10 +68,10 @@ public class MontiGemInitUtils {
           return isDebugMode;
         }
         stream = MontiGemInitUtils.class.getClassLoader()
-            .getResourceAsStream("testserver.properties");
+                .getResourceAsStream("testserver.properties");
         if (stream != null) {
           System.out.println(
-              "---------------------------testserver.properties------------------------------");
+                  "---------------------------testserver.properties------------------------------");
           serverProps.load(stream);
           stream.close();
           serverURL = serverProps.getProperty("testurl");
@@ -66,19 +81,159 @@ public class MontiGemInitUtils {
           return isDebugMode;
         }
         System.out.println(
-            "---------------------------No Properties found------------------------------");
+                "---------------------------No Properties found------------------------------");
         propertiesDerived = true;
         isOnServer = false;
         isDebugMode = true;
         return isDebugMode;
       } catch (IOException e) {
         Log.error(MontiGemInitUtils.class.getName()
-            + " Critical error: Could not read server property files!");
+                + " Critical error: Could not read server property files!");
       }
     }
     System.out
-        .println("---------------------------Properties derived------------------------------");
+            .println("---------------------------Properties derived------------------------------");
     return isDebugMode;
+  }
+
+  public static void initDebugUser(DomainUserDAO mudao, RoleAssignmentDAO raDAO, String resource,
+                                   boolean isDebug, Class<?> clazz) {
+    DomainUser userAccountReader, userAccountCreator, userProject, userPlan, userFakultaet;
+
+    // Reader
+    String pwdAccountReader = isDebug ? "reader" : null;
+    userAccountReader = mudao
+            .create(new DomainUser(DomainUserActivationStatus.AKTIVIERT, true, "reader",
+                    "macoco2017@outlook.de", Optional.of(pwdAccountReader), ZonedDateTime.now(), Optional.of("MAR")), resource);
+    if (null == userAccountReader) {
+      Log.error(clazz.getName()
+              + " MAB0x0011: Critical error: Could not create bootstrap user reader!");
+      return;
+    }
+    Log.debug("bootstrap user reader created", clazz.getName());
+
+    // Creator
+    String pwdAccountCreator = isDebug ? "creator" : null;
+    userAccountCreator = mudao
+            .create(new DomainUser(DomainUserActivationStatus.AKTIVIERT, true, "creator",
+                    "macoco2018@outlook.de", Optional.of(pwdAccountCreator), ZonedDateTime.now(), Optional.of("MAC")), resource);
+    if (null == userAccountCreator) {
+      Log.error(clazz.getName()
+              + " MAB0x0012: Critical error: Could not create bootstrap user creator!");
+      return;
+    }
+    Log.debug("bootstrap user creator created", clazz.getName());
+
+    // Project
+    String pwdProject = isDebug ? "project" : null;
+    userProject = mudao.create(new DomainUser(DomainUserActivationStatus.AKTIVIERT, true, "project",
+            "macoco2019@outlook.de", Optional.of(pwdProject), ZonedDateTime.now(), Optional.of("MP")), resource);
+    if (null == userProject) {
+      Log.error(clazz.getName()
+              + " MAB0x0013: Critical error: Could not create bootstrap user project!");
+      return;
+    }
+    Log.debug("bootstrap user project created", clazz.getName());
+
+    // Plan
+    String pwdPlan = isDebug ? "plan" : null;
+    userPlan = mudao.create(new DomainUser(DomainUserActivationStatus.AKTIVIERT, true, "plan",
+            "macoco2020@outlook.de", Optional.of(pwdPlan), ZonedDateTime.now(), Optional.of("MPL")), resource);
+    if (null == userPlan) {
+      Log.error(clazz.getName()
+              + " MAB0x0015: Critical error: Could not create bootstrap user plan!");
+      return;
+    }
+    Log.debug("bootstrap user plan created", clazz.getName());
+
+    // Fakultaet
+    String pwdFakultaet = isDebug ? "fakultaet" : null;
+    userFakultaet = mudao
+            .create(new DomainUser(DomainUserActivationStatus.AKTIVIERT, true, "fakultaet",
+                    "macoco2021@outlook.de", Optional.of(pwdFakultaet), ZonedDateTime.now(), Optional.of("MF")), resource);
+    if (null == userFakultaet) {
+      Log.error(clazz.getName()
+              + " MAB0x0015: Critical error: Could not create bootstrap user 'fakultaet'!");
+      return;
+    }
+    Log.debug("bootstrap user fakultaet created", clazz.getName());
+
+    // assign function account reader to bootstrap user
+    raDAO.create(
+            new RoleAssignment(Roles.LESER, userAccountReader, ObjectClasses.USER,
+                    null, null), resource);
+    raDAO.create(
+            new RoleAssignment(Roles.LESER, userAccountReader, ObjectClasses.ROLE_ASSIGNMENT,
+                    null, null), resource);
+
+    // assign function project to bootstrap user
+
+  }
+
+  public static void initAdmin(DomainUserDAO mudao, RoleAssignmentDAO raDAO,
+                               UserActivationManager activationManager, Role roleAdmin, String adminUsername,
+                               String adminEmail, String adminInitials, String resource,
+                               Class<?> clazz) {
+    if (!mudao.find(adminUsername, resource).isPresent()) {
+      String pwd = "passwort";
+      DomainUser user = mudao
+              .create(
+                      new DomainUser(DomainUserActivationStatus.AKTIVIERT/* TODO auf isDebug setzen*/, true,
+                              adminUsername,
+                              adminEmail, Optional.of(pwd), ZonedDateTime.now(), Optional.ofNullable(adminInitials)), resource);
+      if (null == user) {
+        System.err.println("!!!!!!!!!!!!!!!!! Critical error: Could not create bootstrap user! ");
+        Log.error(clazz.getName() + " Critical error: Could not create bootstrap user!");
+        return;
+      }
+      if (Config.SEND_MAILS) {
+        try {
+          String datenbankBezeichner = DatabaseDataSourceUtil.getDatenbankBezeichner(resource);
+          activationManager.sendActivationEmail(user.getEmail(), user.getUsername(), resource,
+                  datenbankBezeichner);
+        } catch (MessagingException e) {
+          Log.debug(e.getMessage(), "MaCoCoInitUtils");
+        }
+      }
+
+      // assign function admin to bootstrap user if they don't exist in the database yet
+      raDAO.create(
+              new RoleAssignment(roleAdmin.getName(), user, ObjectClasses.USER, null, null),
+              resource);
+      raDAO.create(
+              new RoleAssignment(roleAdmin.getName(), user, ObjectClasses.ROLE_ASSIGNMENT, null,
+                      null), resource);
+
+      Log.debug("Admin user created", clazz.getName());
+    }
+  }
+
+  public static void initAdminFromInstanceDB(DomainUserDAO mudao, RoleAssignmentDAO raDAO,
+                                             RolePermissionManager rpm, DatabaseDataSource databaseDataSource,
+                                             UserActivationManager userActivationManager, String resource, boolean isDebug,
+                                             Class<?> clazz) {
+
+    Map<String, String> admin = databaseDataSource.getUserForDB(resource);
+    if (!admin.isEmpty()) {
+      String adminUsername = admin.keySet().iterator().next();
+      String adminEmail = admin.get(adminUsername);
+
+      Optional<Role> roleAdmin = rpm.getRole(Roles.ADMIN);
+      if (roleAdmin.isPresent()) {
+        MontiGemInitUtils
+                .initAdmin(mudao, raDAO, userActivationManager, roleAdmin.get(), adminUsername,
+                        adminEmail, null, resource, clazz);
+      }
+
+      // Additional Admins for Development
+      if (isDebug) {
+        for (int i = 2; i < 6; i++) {
+          MontiGemInitUtils
+                  .initAdmin(mudao, raDAO, userActivationManager, roleAdmin.get(), adminUsername + i,
+                          adminEmail + i, null, resource, clazz);
+        }
+      }
+    }
   }
 
   public static boolean isOnServer() {
