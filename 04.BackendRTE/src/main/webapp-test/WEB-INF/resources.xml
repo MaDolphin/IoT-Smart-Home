@@ -4,7 +4,7 @@
 
 <resources>
 
-	<Resource id="DBRouter" type="main.java.de.montigem.be.database.DatabaseRouter"
+	<Resource id="DBRouter" type="de.montigem.be.database.DatabaseRouter"
 			  provider="db.router#DatabaseRouter">
 		DatasourceNames = TestDB
 		DefaultDataSourceName = TestDB
