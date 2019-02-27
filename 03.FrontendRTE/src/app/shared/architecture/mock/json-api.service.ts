@@ -114,7 +114,7 @@ export class JsonApiService {
    * @returns {string}
    */
   public static buildUrl(url: string): string {
-    return JsonApiService.getBaseUrl() + 'app-be/api' + url;
+    return JsonApiService.getBaseUrl() + 'montigem-be/api' + url;
   }
 
   public static getBaseUrl(): string {

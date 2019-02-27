@@ -5,6 +5,7 @@ package de.montigem.be;
 
 import de.montigem.be.auth.UserActivationManager;
 import de.montigem.be.authz.ObjectClasses;
+import de.montigem.be.authz.Permissions;
 import de.montigem.be.authz.Roles;
 import de.montigem.be.authz.model.Role;
 import de.montigem.be.authz.util.RolePermissionManager;
@@ -24,10 +25,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 public class MontiGemInitUtils {
 
@@ -40,6 +38,11 @@ public class MontiGemInitUtils {
   private static String serverURL = "http://localhost:4200";
 
   public static void initRoles(RolePermissionManager rpm) {
+    Role roleAdmin = new Role(Roles.ADMIN, Arrays.asList(
+        Permissions.NONE
+    ));
+
+    rpm.createRole(roleAdmin);
   }
 
   public static void initDynamicEnums(DynamicEnumDAO dynumDAO, String resource, Class<?> clazz) {
