@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import { spy } from 'sinon';
 import { TextFormControl } from '@shared/generic-form/controls';
 import { GenericFormGroup } from '@shared/generic-form/generic-form';
-import { AfterSubmit, BeforeSubmit, Control, Group, Submit, } from '@shared/generic-form/generic-form/decorators';
+import { AfterSubmit, BeforeSubmit, Control, Group, Submit, } from '@shared/generic-form/generic-form/decoretors';
 
 @Injectable()
 @Group()

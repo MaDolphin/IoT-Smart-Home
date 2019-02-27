@@ -3,8 +3,8 @@
  */
 
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { AFTER_SUBMIT, BEFORE_SUBMIT, MULTI_SUB_GROUPS_PROPERTY, SUB_GROUPS_PROPERTY, SUBMIT } from '@shared/generic-form/generic-form/config';
-import { GenericFormGroup } from '@shared/generic-form/generic-form';
+import { AFTER_SUBMIT, BEFORE_SUBMIT, MULTI_SUB_GROUPS_PROPERTY, SUB_GROUPS_PROPERTY, SUBMIT } from '../../config';
+import { GenericFormGroup } from '../..';
 import { CallHookFunctions } from '../hooks';
 import { extractPrototype } from './utils';
 

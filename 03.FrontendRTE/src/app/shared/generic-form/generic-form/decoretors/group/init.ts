@@ -6,8 +6,8 @@ import { ReflectiveInjector } from '@angular/core';
 import { AbstractControl, FormArray } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
-import { SelectFormControl } from '@shared/generic-form/controls/select.form-control';
-import { validate } from '@shared/generic-form/validator';
+import { SelectFormControl } from '../../../controls/select.form-control';
+import { validate } from '../../../validator';
 import {
   ADD_IF,
   AUTOCOMPLETE,
@@ -43,14 +43,14 @@ import {
   SUB_GROUPS_PROPERTY,
   VALIDATOR_CONTROL_FUNCTIONS,
 } from '../../config';
-import { GenericFormControl, GenericFormGroup, ValidatorFn } from '@shared/generic-form/generic-form';
+import { GenericFormControl, GenericFormGroup, ValidatorFn } from '../..';
 import { ContextDeps } from '../context-test';
 import { IAddIf } from '../if';
 import { ISelectOptions } from '../options';
 import { RequiredValidator } from '../required';
 import { extractPrototype } from './utils';
-import { AutoCompleteFormControl } from '@shared/generic-form/controls/auto-complete.form-control';
-import { RadioFormControl } from '@shared/generic-form/controls/radio.form-control';
+import { AutoCompleteFormControl } from '../../../controls/auto-complete.form-control';
+import { RadioFormControl } from '../../../controls/radio.form-control';
 
 if (!Object['entries'])
   Object['entries'] = function (obj) {

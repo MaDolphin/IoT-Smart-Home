@@ -5,7 +5,7 @@
 import { Injectable } from '@angular/core';
 import { DateToStringPipe } from '@shared/pipes/date-to-string.pipe';
 import { StringToDatePipe } from '@shared/pipes/string-to-date.pipe';
-import { AddValidator } from '@shared/generic-form/generic-form/decorators/validator';
+import { AddValidator } from '@shared/generic-form/generic-form/decoretors/validator';
 import { GenericFormControl } from '@shared/generic-form/generic-form';
 import { IGenericFormGroup } from '@shared/generic-form/generic-form/generic-form-group.interface';
 import { validate, ValidationError } from '../validator';

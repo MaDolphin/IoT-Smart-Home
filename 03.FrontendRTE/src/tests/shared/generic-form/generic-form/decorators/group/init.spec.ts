@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { expect } from 'chai';
 import { GenericFormControl, GenericFormGroup } from '../../../../../../app/shared/generic-form/generic-form';
-import { Control, Group } from '../../../../../../app/shared/generic-form/generic-form/decorators';
+import { Control, Group } from '../../../../../../app/shared/generic-form/generic-form/decoretors';
 
 describe('Generic Form', () => {
 

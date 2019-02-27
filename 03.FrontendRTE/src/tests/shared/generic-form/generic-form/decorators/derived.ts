@@ -4,7 +4,7 @@
 
 import { Control, GenericFormGroup, Group } from '@shared/generic-form/ngx-forms';
 import { TextFormControl } from '@shared/generic-form/controls';
-import { Derived } from '@shared/generic-form/generic-form/decorators/derived';
+import { Derived } from '@shared/generic-form/generic-form/decoretors/derived';
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { expect } from 'chai';

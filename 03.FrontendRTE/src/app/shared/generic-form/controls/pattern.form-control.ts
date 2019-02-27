@@ -3,7 +3,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { AddValidator } from '../generic-form/decorators/validator';
+import { AddValidator } from '../generic-form/decoretors/validator';
 import { IGenericFormGroup } from '../generic-form/generic-form-group.interface';
 import { ValidationError } from '../validator';
 import { TextFormControl } from './text.form-control';

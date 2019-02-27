@@ -3,8 +3,8 @@
  */
 
 import { AbstractControl, FormArray, FormGroup, ValidationErrors } from '@angular/forms';
-import { AFTER_VALIDATE, BEFORE_VALIDATE } from '@shared/generic-form/generic-form/config';
-import { GenericFormControl, GenericFormGroup } from '@shared/generic-form/generic-form';
+import { AFTER_VALIDATE, BEFORE_VALIDATE } from '../../config';
+import { GenericFormControl, GenericFormGroup } from '../..';
 import { CallHookFunctions } from '../hooks';
 import { extractPrototype } from './utils';
 

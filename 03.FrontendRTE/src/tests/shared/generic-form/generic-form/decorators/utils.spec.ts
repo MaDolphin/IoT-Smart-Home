@@ -4,7 +4,7 @@
 
 import { GenericFormGroup } from '@shared/generic-form/generic-form';
 import { CONTROL_NAME, DESIGN_TYPE } from '@shared/generic-form/generic-form/config';
-import { extractPrototype } from '@shared/generic-form/generic-form/decorators/group/utils';
+import { extractPrototype } from '@shared/generic-form/generic-form/decoretors/group/utils';
 
 export function deleteAllControlMetadatas(constrcutor: new (...args: any[]) => GenericFormGroup<any>): void {
 

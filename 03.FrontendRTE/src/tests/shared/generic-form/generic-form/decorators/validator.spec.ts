@@ -9,9 +9,9 @@ import { TestBed } from '@angular/core/testing';
 import { validate } from '@shared/generic-form/validator';
 import { expect } from 'chai';
 import { SetDefaultDateFormat } from '@shared/generic-form/validator/asserts/date';
-import { AddValidator } from '@shared/generic-form/generic-form/decorators/validator';
+import { AddValidator } from '@shared/generic-form/generic-form/decoretors/validator';
 import { ADD_VALIDATOR } from '@shared/generic-form/generic-form/config';
-import { Group } from '@shared/generic-form/generic-form/decorators';
+import { Group } from '@shared/generic-form/generic-form/decoretors';
 import moment = require('moment');
 
 @Injectable()

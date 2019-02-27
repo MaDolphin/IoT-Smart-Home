@@ -10,7 +10,7 @@ import { expect } from 'chai';
 import 'reflect-metadata';
 import { TextFormControl } from '@shared/generic-form/controls';
 import { GenericFormGroup } from '@shared/generic-form/generic-form';
-import { Control, Group, Required } from '@shared/generic-form/generic-form/decorators';
+import { Control, Group, Required } from '@shared/generic-form/generic-form/decoretors';
 import { A } from '@testutils/mocking';
 
 @Injectable()

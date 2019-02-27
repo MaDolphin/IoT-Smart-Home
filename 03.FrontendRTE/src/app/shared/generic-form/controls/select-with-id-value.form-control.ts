@@ -3,7 +3,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { ISelectOptions } from '../generic-form/decorators/options';
+import { ISelectOptions } from '../generic-form/decoretors/options';
 import { IGenericFormGroup } from '../generic-form/generic-form-group.interface';
 import { SelectFormControl } from './select.form-control';
 

@@ -9,10 +9,10 @@ import { By } from '@angular/platform-browser';
 import { expect } from 'chai';
 import { CheckBoxFormControl, TextFormControl } from '@shared/generic-form/controls';
 import { GenericFormControl, GenericFormGroup } from '@shared/generic-form/generic-form';
-import { AddIf, Control, Group, RemoveIf, Required } from '@shared/generic-form/generic-form/decorators';
+import { AddIf, Control, Group, RemoveIf, Required } from '@shared/generic-form/generic-form/decoretors';
 import { validate } from '@shared/generic-form/validator';
 import { A } from '@testutils/mocking';
-import { AddValidator } from '@shared/generic-form/generic-form/decorators/validator';
+import { AddValidator } from '@shared/generic-form/generic-form/decoretors/validator';
 
 interface IRegistration {
   username: string;

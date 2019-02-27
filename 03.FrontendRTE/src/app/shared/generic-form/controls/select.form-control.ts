@@ -4,9 +4,9 @@
 
 import { Injectable } from '@angular/core';
 import { ERROR_MSG, REQUIRED } from '../generic-form/config';
-import { extractPrototype } from '../generic-form/decorators/group/utils';
-import { ISelectOptions } from '../generic-form/decorators/options';
-import { AddValidator } from '../generic-form/decorators/validator';
+import { extractPrototype } from '../generic-form/decoretors/group/utils';
+import { ISelectOptions } from '../generic-form/decoretors/options';
+import { AddValidator } from '../generic-form/decoretors/validator';
 import { IGenericFormGroup } from '../generic-form/generic-form-group.interface';
 import { GenericFormControl } from '../generic-form/index';
 import { ValidationError } from '../validator';

@@ -7,7 +7,7 @@ import 'rxjs/add/operator/skipWhile';
 import { Subject } from 'rxjs/Subject';
 import { ValidationError } from '../validator';
 import { ADD_VALIDATOR } from './config';
-import { extractPrototype } from './decorators/group/utils';
+import { extractPrototype } from './decoretors/group/utils';
 import { IGenericFormGroup } from './generic-form-group.interface';
 import { ValidatorFn } from './validator-fn';
 

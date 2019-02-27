@@ -9,8 +9,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { spy } from 'sinon';
 import { SelectFormControl } from '@shared/generic-form/controls/select.form-control';
 import { GenericFormGroup } from '@shared/generic-form/generic-form';
-import { Control, Group } from '@shared/generic-form/generic-form/decorators';
-import { OptionsBehaviorSubject } from '@shared/generic-form/generic-form/decorators/options';
+import { Control, Group } from '@shared/generic-form/generic-form/decoretors';
+import { OptionsBehaviorSubject } from '@shared/generic-form/generic-form/decoretors/options';
 import { deleteAllControlMetadatas } from './utils.spec';
 
 describe('Generic Form', () => {

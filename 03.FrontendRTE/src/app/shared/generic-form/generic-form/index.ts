@@ -33,5 +33,5 @@ export {
   Options,
   Default,
   ContextTest,
-} from './decorators/index';
+} from './decoretors';
 export { ValidatorFn } from './validator-fn';

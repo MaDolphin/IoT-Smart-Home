@@ -27,8 +27,21 @@
       "@components/*": ["src/app/shared/components/guidsl/*"],
       // Test
       "@testutils/*": ["src/tests/utils/*"],
-      "@jsonapiservice/*": ["src/app/shared/architecture/mock/*"],
-      "@loggerservice/*": ["src/app/shared/architecture/mock/*"]
+      "@jsonapiservice/*": ["src/app/shared/architecture/services/*"],
+      "@loggerservice/*": ["src/app/shared/architecture/services/*"],
+      "@einstellungenrollentabelleentry-dto/*" : ["target/generated-sources/dtos/*"],
+      "@einstellungenbenutzertabelleentry-dto/*": ["target/generated-sources/dtos/*"],
+      "@einstellungenbenutzerformvalidator/*": ["target/generated-sources/dtos/*"],
+      "@einstellungenbenutzertabelle-dto/*": ["target/generated-sources/dtos/*"],
+      "@einstellungenrollentabelle-dto/*": ["target/generated-sources/dtos/*"],
+      "@meinbenutzerpasswortzuruecksetzen-dto/*" : ["target/generated-sources/dtos/*"],
+      "@einstellungenbenutzerform/*" : ["src/app/einstellungen/*"],
+      "@meinbenutzerinfotabelle-dto/*": ["target/generated-sources/dtos/*"],
+      "@meinbenutzerrollentabelle-dto/*": ["target/generated-sources/dtos/*"],
+      "@userlist-dto/*" : ["target/generated-sources/dtos/*"],
+      "@rolelist-dto/*" : ["target/generated-sources/dtos/*"],
+      "@statuslist-dto/*" : ["target/generated-sources/dtos/*"],
+      "@objectlist-dto/*" : ["target/generated-sources/dtos/*"]
     }
   }
 }
