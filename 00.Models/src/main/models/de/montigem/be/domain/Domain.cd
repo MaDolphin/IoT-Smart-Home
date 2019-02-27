@@ -30,4 +30,13 @@ classdiagram Domain {
       MAIL_FEHLERHAFT,
       MAIL_GESENDET;
     }
+
+    class RoleAssignment {
+      String role;
+      String objClass;
+      Optional<Long> objId;
+      Optional<String> attribute;
+    }
+
+    association  [*] RoleAssignment -> (user) DomainUser [1];
 }

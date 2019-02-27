@@ -5,7 +5,9 @@ import java.util.Optional;
 
 public enum ObjectClasses {
 
-  NONE ("none","Nichts");
+  NONE ("none","Nichts"),
+  USER ("user","Benutzer"),
+  ROLE_ASSIGNMENT ("roleassignment","Rollen");
 
   String identifier;
   String name;

@@ -181,6 +181,9 @@ public class TypeHelper extends AbstractTypeHelper {
     if (isBoolean(type)) {
       return "true";
     }
+    if (isLong(type)) {
+      return "" + Math.abs(name.hashCode()) + "L";
+    }
     if (isPrimitiveNumeric(type)) {
       return "" + Math.abs(name.hashCode());
     }

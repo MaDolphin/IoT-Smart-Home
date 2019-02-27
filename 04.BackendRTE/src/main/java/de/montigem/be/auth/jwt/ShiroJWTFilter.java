@@ -5,6 +5,7 @@ import de.montigem.be.auth.jwt.blacklist.BlacklistedToken;
 import de.montigem.be.auth.jwt.blacklist.ITokenBlacklist;
 import de.montigem.be.authz.util.RolePermissionManager;
 import de.montigem.be.database.DatabaseDataSource;
+import de.montigem.be.domain.cdmodelhwc.classes.domainuser.DomainUser;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
 import de.se_rwth.commons.logging.Log;
@@ -26,6 +27,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.Instant;
@@ -72,16 +74,16 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     secret = new SecureRandomNumberGenerator().nextBytes().toBase64();
     Properties props = new Properties();
     props.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-        "org.apache.openejb.client.LocalInitialContextFactory");
+            "org.apache.openejb.client.LocalInitialContextFactory");
     InitialContext context = new InitialContext(props);
     refreshTokenManager = (IRefreshTokenManager) context
-        .lookup("java:global/montigem-be/InMemoryRefreshTokenManager");
+            .lookup("java:global/montigem-be/InMemoryRefreshTokenManager");
     databaseDataSource = (DatabaseDataSource) context
-        .lookup("java:global/montigem-be/DatabaseDataSource");
+            .lookup("java:global/montigem-be/DatabaseDataSource");
     daoLib = (DAOLib) context
-        .lookup("java:global/montigem-be/DAOLib");
+            .lookup("java:global/montigem-be/DAOLib");
     rolePermissionManager = (RolePermissionManager) context
-        .lookup("java:global/montigem-be/RolePermissionManager");
+            .lookup("java:global/montigem-be/RolePermissionManager");
   }
 
   /**
@@ -92,11 +94,11 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
    */
   private static String getSubject(String token) {
     return Jwts.parser()
-        .setSigningKey(secret)
-        .setAllowedClockSkewSeconds(1200)
-        .parseClaimsJws(token)
-        .getBody()
-        .getSubject();
+            .setSigningKey(secret)
+            .setAllowedClockSkewSeconds(1200)
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();
   }
 
   /**
@@ -110,8 +112,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     String[] subjectSplitted = subject.split("\\$");
     if (subjectSplitted.length == 4) {
       return subjectSplitted[0];
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -121,8 +122,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     String[] subjectSplitted = subject.split("\\$");
     if (subjectSplitted.length == 4) {
       return subjectSplitted[2];
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -132,8 +132,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     String[] subjectSplitted = subject.split("\\$");
     if (subjectSplitted.length == 4) {
       return subjectSplitted[3];
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -149,8 +148,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     String[] subjectSplitted = subject.split("\\$");
     if (subjectSplitted.length == 4) {
       return Boolean.valueOf(subjectSplitted[1]);
-    }
-    else {
+    } else {
       return true;
     }
   }
@@ -163,24 +161,22 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
    * @param onlyChangePwd Scope to be encoded in token
    * @return The generated token
    */
-  // TODO GV, SVa
   public static String createTokenForUser(String username, boolean onlyChangePwd, String resource, DAOLib daoLib, RolePermissionManager rolePermissionManager) {
     Date now = new Date();
     Date expiration = new Date(now.getTime() + VALIDITY);
 
     return Jwts.builder()
-        .setId(UUID.randomUUID().toString())
-     //   .setSubject(username + "$" + onlyChangePwd + "$" + resource + "$" + getPermissionBytes(username, resource, daoLib, rolePermissionManager))
-        .setIssuedAt(now)
-        .setExpiration(expiration)
-        .signWith(SignatureAlgorithm.HS512, secret)
-        .compact();
+            .setId(UUID.randomUUID().toString())
+            .setSubject(username + "$" + onlyChangePwd + "$" + resource + "$" + getPermissionBytes(username, resource, daoLib, rolePermissionManager))
+            .setIssuedAt(now)
+            .setExpiration(expiration)
+            .signWith(SignatureAlgorithm.HS512, secret)
+            .compact();
   }
 
-  // TODO GV, SVa
-  /*protected static String getPermissionBytes(String username, String resource, DAOLib daoLib, RolePermissionManager rolePermissionManager) {
+  protected static String getPermissionBytes(String username, String resource, DAOLib daoLib, RolePermissionManager rolePermissionManager) {
     return PermissionFlags.asBinaryString(daoLib.getRoleAssignmentDAO().getRoleAssignmentsByUsername(username, resource), rolePermissionManager);
-  }*/
+  }
 
   public static String generateRefreshToken() {
     return new BigInteger(130, random).toString(32);
@@ -220,30 +216,29 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
    */
   @Override
   protected AuthenticationToken createToken(ServletRequest request, ServletResponse response)
-      throws Exception {
+          throws Exception {
     if (isLoginRequest(request, response)) {
       Log.debug("login request", getClass().getName());
       String json = IOUtils.toString(request.getInputStream());
       if (json != null && !json.isEmpty()) {
         Optional<JWTLogin> login = JsonMarshal.getInstance()
-            .unmarshalOptional(json, JWTLogin.class);
+                .unmarshalOptional(json, JWTLogin.class);
         if (login.isPresent()) {
 
           Log.debug("logging user " + login.get().getUsername() + " in", getClass().getName());
 
           Optional<String> databaseName = databaseDataSource
-              .getDatabaseName(login.get().getResource());
+                  .getDatabaseName(login.get().getResource());
 
           if (!databaseName.isPresent()) {
             return new UPToken();
           }
 
           return new UPToken(login.get().getUsername(), login.get().getPassword(),
-              databaseName.get());
+                  databaseName.get());
         }
       }
-    }
-    else if (isLoggedAttempt(request)) {
+    } else if (isLoggedAttempt(request)) {
 
       HttpServletRequest httpRequest = WebUtils.toHttp(request);
       String token = httpRequest.getHeader(AUTH_HEADER);
@@ -256,26 +251,25 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     return new UPToken();
   }
 
-  // TODO GV, SVA
   @Override
   public boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
-      ServletResponse response) throws IOException {
+                                ServletResponse response) throws IOException {
 
     if (isLoginRequest(request, response)) {
       Instant date = new Date(new Date().getTime() + VALIDITY).toInstant();
       ZonedDateTime expirationDate = ZonedDateTime.ofInstant(date, ZoneId.systemDefault());
-   /*   DomainUser user = ((PrincipalWrapper) subject.getPrincipal()).getUser();
+      DomainUser user = ((PrincipalWrapper) subject.getPrincipal()).getUser();
       String jwToken = createTokenForUser(user.getUsername(),
-          false, ((PrincipalWrapper) subject.getPrincipal()).getResource(), daoLib, rolePermissionManager);
+              false, ((PrincipalWrapper) subject.getPrincipal()).getResource(), daoLib, rolePermissionManager);
       String refreshToken = generateRefreshToken();
       refreshTokenManager.removeRefreshTokenByUsername(user.getUsername());
       refreshTokenManager
-          .registerRefreshToken(refreshToken, user.getUsername());
+              .registerRefreshToken(refreshToken, user.getUsername());
       ExtendedJWT extjwt = new ExtendedJWT(jwToken, refreshToken, expirationDate);
       PrintWriter writer = new PrintWriter(response.getOutputStream());
       WebUtils.toHttp(response).addHeader("content-type", "application/json");
       writer.write(JsonMarshal.getInstance().marshal(extjwt));
-      writer.flush();*/
+      writer.flush();
     }
     return true;
   }
@@ -309,7 +303,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
    */
   @Override
   protected boolean onAccessDenied(ServletRequest request, ServletResponse response)
-      throws Exception {
+          throws Exception {
     boolean access = false;
 
     HttpServletRequest httpReq = WebUtils.toHttp(request);
@@ -317,32 +311,25 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     // check whether authentication is needed
     if (httpReq.getServletPath().startsWith(generalUrl) && "GET".equals(httpReq.getMethod())) {
       access = true;
-    }
-    else if (httpReq.getServletPath().startsWith("/api/auth/tokens") && (httpReq.getMethod()
-        .equals("GET") || "POST".equals(httpReq.getMethod()))) {
+    } else if (httpReq.getServletPath().startsWith("/api/auth/tokens") && (httpReq.getMethod()
+            .equals("GET") || "POST".equals(httpReq.getMethod()))) {
       access = true;
-    }
-    else if (httpReq.getServletPath().startsWith(this.changePwdUrl) && httpReq.getMethod()
-        .equals("POST")) {
+    } else if (httpReq.getServletPath().startsWith(this.changePwdUrl) && httpReq.getMethod()
+            .equals("POST")) {
       access = true;
-    }
-    else if (httpReq.getServletPath().startsWith(activationUrl) && httpReq.getMethod()
-        .equals("POST")) {
+    } else if (httpReq.getServletPath().startsWith(activationUrl) && httpReq.getMethod()
+            .equals("POST")) {
       access = true;
-    }
-    else if (httpReq.getServletPath().startsWith(this.forgotPwdUrl) && httpReq.getMethod()
-        .equals("POST")) {
+    } else if (httpReq.getServletPath().startsWith(this.forgotPwdUrl) && httpReq.getMethod()
+            .equals("POST")) {
       access = true;
-    }
-    else if (httpReq.getServletPath().startsWith("/api/logger/log") && httpReq.getMethod()
-        .equals("POST")) {
+    } else if (httpReq.getServletPath().startsWith("/api/logger/log") && httpReq.getMethod()
+            .equals("POST")) {
       access = true;
-    }
-    else if (httpReq.getServletPath().startsWith("/api/domain/datasource/dbname") && httpReq
-        .getMethod().equals("GET")) {
+    } else if (httpReq.getServletPath().startsWith("/api/domain/datasource/dbname") && httpReq
+            .getMethod().equals("GET")) {
       access = true;
-    }
-    else if (isLoginRequest(request, response)) {
+    } else if (isLoginRequest(request, response)) {
       access = executeLogin(request, response);
       // if JWT must only be used for changing the pwd, validate url that the user tries to access
       if (access && isLoggedAttempt(request)) {
@@ -351,7 +338,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
         try {
           boolean onlyChangePwd = canChangePwdOnly(jwt);
           if (onlyChangePwd && !httpReq.getServletPath()
-              .startsWith("/api/domain/users/me/password")) {
+                  .startsWith("/api/domain/users/me/password")) {
             access = false;
           }
         } catch (Exception e) {
@@ -373,8 +360,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
         return access;
       }
 
-    }
-    else if (isLoggedAttempt(request)) {
+    } else if (isLoggedAttempt(request)) {
       access = executeLogin(request, response);
       if (access && isLogoutRequest(request)) {
 
@@ -405,15 +391,15 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     try {
       username = getUsernameFromToken(jwt);
       expiresAt = Jwts.parser()
-          .setSigningKey(secret)
-          .parseClaimsJws(jwt)
-          .getBody().getExpiration();
+              .setSigningKey(secret)
+              .parseClaimsJws(jwt)
+              .getBody().getExpiration();
 
       HttpServletRequest httpRequest = WebUtils.toHttp(request);
       String token = httpRequest.getHeader(AUTH_HEADER);
       String resource = getServerInstanceFromToken(token);
       tokenBlacklist.addToken(new BlacklistedToken(jwt,
-          LocalDateTime.ofInstant(expiresAt.toInstant(), ZoneId.systemDefault())), resource);
+              LocalDateTime.ofInstant(expiresAt.toInstant(), ZoneId.systemDefault())), resource);
       tokenBlacklist.removeOutdatedTokens(resource);
 
       // invalidate refresh token
@@ -431,7 +417,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
 
   private boolean checkIfDummy(HttpServletRequest httpReq) {
     boolean test = httpReq.getServletPath().contains("resetDB") ||
-        httpReq.getServletPath().contains("createDummy");
+            httpReq.getServletPath().contains("createDummy");
     return test;
   }
 
