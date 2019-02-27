@@ -16,7 +16,7 @@ webpage Dashboard() {
                     row(c){
                         column(30%){
                             html{
-                                "<customimage>Testtext</p>"
+                                "<p>Testtext</p>"
                             }
                         }
                     }
