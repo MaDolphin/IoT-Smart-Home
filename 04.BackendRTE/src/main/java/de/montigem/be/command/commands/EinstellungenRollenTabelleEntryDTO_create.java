@@ -39,7 +39,7 @@ public class EinstellungenRollenTabelleEntryDTO_create extends EinstellungenRoll
     }
     RoleAssignmentBuilder newRoleAssignment = new RoleAssignmentBuilder();
 
-    if (dto.getObject().getId() >= 0) {
+    if (dto.getObject().getId() > 0) {
       newRoleAssignment.objId(Optional.of(dto.getObject().getId()));
     }
     newRoleAssignment.user(user.orElse(null));

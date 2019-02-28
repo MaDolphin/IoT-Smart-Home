@@ -24,10 +24,10 @@ public class RoleAssignmentValidator extends RoleAssignmentValidatorTOP {
     }
     // if role is not admin then it may only be assigned to accounts
     boolean isValid = !roleAssignmnt.getObjClass().equals("") ?
-            isObjClassHasValue(roleAssignmnt) && roleAssignmnt.getRole().equals(Roles.ADMIN.getIdentifier())
+            isObjClassHasValue(roleAssignmnt)
             : roleAssignmnt.getRole().equals(Roles.ADMIN.getIdentifier());
     if (!isValid) {
-      String msg = "Wenn Rolle ungleich admin ist, dann kann es nur Konten zugewiesen werden.\n";
+      String msg = "Wenn Rolle ungleich admin ist, dann kann es nur User zugewiesen werden.\n";  //TODO GV, SVa
       Log.debug(msg, getClass().getName());
       return Optional.of(msg);
     }
@@ -42,13 +42,10 @@ public class RoleAssignmentValidator extends RoleAssignmentValidatorTOP {
     switch (role) {
       case ADMIN:
         if (a.getObjId().isPresent()) {
-          return Optional.of("Rolle darf kein Konto haben");
+          return Optional.of("Rolle Admin darf kein objID haben");
         }
         break;
       case LESER:
-        if (!a.getObjId().isPresent()) {
-          return Optional.of("Rolle muss ein Konto haben");
-        }
         break;
     }
     return Optional.empty();
