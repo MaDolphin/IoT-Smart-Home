@@ -31,6 +31,10 @@ export const routes: Routes = [
         path: 'guidsl',
         loadChildren: './guidsl/guidsl.module#GuidslModule',
       },
+      {
+        path: 'einstellungen',
+        loadChildren: './einstellungen/einstellungen.module#EinstellungenModule',
+      },
     ]
   },
 
