@@ -38,11 +38,36 @@ public class MontiGemInitUtils {
   private static String serverURL = "http://localhost:4200";
 
   public static void initRoles(RolePermissionManager rpm) {
+    Role roleLeser = new Role(Roles.LESER, Arrays.asList(
+            Permissions.READ
+    ));
+
+    // populate roles with permissions
     Role roleAdmin = new Role(Roles.ADMIN, Arrays.asList(
-        Permissions.NONE
+
+            Permissions.USER_CREATE,
+            Permissions.USER_READ,
+            Permissions.USER_UPDATE,
+            Permissions.USER_DELETE,
+
+            Permissions.ROLE_CREATE,
+            Permissions.ROLE_READ,
+            Permissions.ROLE_UPDATE,
+            Permissions.ROLE_DELETE,
+
+            Permissions.SETTINGS_CREATE,
+            Permissions.SETTINGS_READ,
+            Permissions.SETTINGS_UPDATE,
+            Permissions.SETTINGS_DELETE,
+
+            Permissions.CREATE,
+            Permissions.UPDATE,
+            Permissions.READ,
+            Permissions.DELETE
     ));
 
     rpm.createRole(roleAdmin);
+    rpm.createRole(roleLeser);
   }
 
   public static void initDynamicEnums(DynamicEnumDAO dynumDAO, String resource, Class<?> clazz) {
@@ -101,7 +126,7 @@ public class MontiGemInitUtils {
 
   public static void initDebugUser(DomainUserDAO mudao, RoleAssignmentDAO raDAO, String resource,
                                    boolean isDebug, Class<?> clazz) {
-    DomainUser userAccountReader, userAccountCreator, userProject, userPlan, userFakultaet;
+    DomainUser userAccountReader, userAccountCreator, userProject, userPlan;
 
     // Reader
     String pwdAccountReader = isDebug ? "reader" : null;
@@ -148,18 +173,6 @@ public class MontiGemInitUtils {
       return;
     }
     Log.debug("bootstrap user plan created", clazz.getName());
-
-    // Fakultaet
-    String pwdFakultaet = isDebug ? "fakultaet" : null;
-    userFakultaet = mudao
-            .create(new DomainUser(DomainUserActivationStatus.AKTIVIERT, true, "fakultaet",
-                    "macoco2021@outlook.de", Optional.of(pwdFakultaet), ZonedDateTime.now(), Optional.of("MF")), resource);
-    if (null == userFakultaet) {
-      Log.error(clazz.getName()
-              + " MAB0x0015: Critical error: Could not create bootstrap user 'fakultaet'!");
-      return;
-    }
-    Log.debug("bootstrap user fakultaet created", clazz.getName());
 
     // assign function account reader to bootstrap user
     raDAO.create(
