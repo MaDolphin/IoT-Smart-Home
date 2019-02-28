@@ -19,16 +19,22 @@
       "dom"
     ],
     "paths": {
+      // Common
       "@shared/*": ["src/app/shared/*"],
       "@targetgui/*" : ["target/generated-sources/gui/*"],
       "@targetdtos/*" : ["target/generated-sources/dtos/*"],
       "@srcdtos/*" : ["src/app/shared/architecture/data/dtos/*"],
       "@targetrte/*": ["target/generated-sources/rte/*"],
       "@components/*": ["src/app/shared/components/guidsl/*"],
+
       // Test
       "@testutils/*": ["src/tests/utils/*"],
+
+      // Services
       "@jsonapiservice/*": ["src/app/shared/architecture/services/*"],
       "@loggerservice/*": ["src/app/shared/architecture/services/*"],
+
+      // Einstellungen
       "@einstellungenrollentabelleentry-dto/*" : ["target/generated-sources/dtos/*"],
       "@einstellungenbenutzertabelleentry-dto/*": ["target/generated-sources/dtos/*"],
       "@einstellungenbenutzerformvalidator/*": ["target/generated-sources/dtos/*"],
