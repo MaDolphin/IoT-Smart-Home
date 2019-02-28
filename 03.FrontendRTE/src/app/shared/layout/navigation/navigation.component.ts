@@ -8,6 +8,7 @@ import { DialogCallbackOne } from '@shared/utils/dialog/dialog.callback';
 import { AuthService } from '@shared/auth/auth.service';
 import { NotificationService } from '@shared/notification/notification.service';
 import { Router } from '@angular/router';
+import { PermissionFlags, Token } from "@shared/auth/token";
 
 
 export interface INavigation {
@@ -36,6 +37,24 @@ export class NavigationComponent {
   }
 
   public navigation: INavigation[] = [
+    { label: 'Dashboard', link: ['/', 'dashboard'], icon: 'dashboard' },
+    {
+      label: 'Einstellungen', link: ['/', 'einstellungen', 'profil'], icon: 'settings', expanded: true, children: [
+        {
+          label: 'Mein Profil',
+          link: ['/', 'einstellungen', 'profil'],
+          icon: 'supervisor_account',
+        },
+        {
+          label: 'Benutzer/Rollen',
+          link: ['/', 'einstellungen', 'benutzer'],
+          icon: 'supervisor_account',
+          enabled: (): boolean => {
+            return Token.hasPermissionFor(PermissionFlags.USER)
+          },
+        },
+      ],
+    },
   ];
 
   private version(): string {

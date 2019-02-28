@@ -6,7 +6,7 @@ import { EinstellungenRollenGenComponent } from './einstellungen-rollen-gen.comp
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'benutzer',
+    redirectTo: 'profil',
     pathMatch: 'full',
   },
   {
