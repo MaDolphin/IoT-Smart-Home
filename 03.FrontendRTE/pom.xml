@@ -509,7 +509,6 @@
               <arguments>
                 <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui</argument>
                 <argument>-hcp</argument>
-                <argument>${basedir}/src/app/guidsl/gui-dsl-gen</argument>
                 <argument>${basedir}/src/app/dashboard</argument>
                 <argument>${basedir}/src/app/einstellungen</argument>
                 <argument>-out</argument>
