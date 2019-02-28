@@ -16,7 +16,12 @@ webpage Dashboard() {
                     row(c){
                         column(30%){
                             html{
-                                "<p>Testtext</p>"
+                               "
+                                 <p>Testtext</p>
+                                 <div>
+                                    <img src=\"assets/img/BGlogin.png\" alt=\"MaCoCo Logo\" style=\"max-width: 140px\">
+                                 </div>
+                               "
                             }
                         }
                     }

@@ -46,8 +46,16 @@ export class NavigationComponent {
           icon: 'supervisor_account',
         },
         {
-          label: 'Benutzer/Rollen',
+          label: 'Benutzer',
           link: ['/', 'einstellungen', 'benutzer'],
+          icon: 'supervisor_account',
+          enabled: (): boolean => {
+            return Token.hasPermissionFor(PermissionFlags.USER)
+          },
+        },
+        {
+          label: 'Rollen',
+          link: ['/', 'einstellungen', 'rollen'],
           icon: 'supervisor_account',
           enabled: (): boolean => {
             return Token.hasPermissionFor(PermissionFlags.USER)
