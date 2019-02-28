@@ -13,18 +13,18 @@
     </div>
 
     <!-- User -->
-    <div fxFlex="auto" *ngIf="user" class="user" fxLayoutAlign="end center">
+    <a fxFlex="auto" *ngIf="user" class="user" fxLayoutAlign="end center" routerLink="/einstellungen/profil">
       <div class="instanceName"><i class="fa fa-user-circle-o"></i></div>
       &nbsp;
       <span> {{user.userId}} </span>
-    </div>
+    </a>
     &nbsp;&nbsp;
     <!-- Instance name -->
-    <div fxFlex="auto" *ngIf="instanceName" class="instanceName" fxLayoutAlign="start center">
+    <a fxFlex="auto" *ngIf="instanceName" class="instanceName" fxLayoutAlign="start center" id="abmelden" href="javascript:void(0);" (click)="logout()">
         <i class="fa fa-database"></i>
         &nbsp;
-        <span><a id="abmelden" href="javascript:void(0);" (click)="logout()">{{instanceName}}</a></span>
-    </div>
+        <span> {{instanceName}} </span>
+    </a>
   </div>
 
   <!-- Secondary Header row -->
