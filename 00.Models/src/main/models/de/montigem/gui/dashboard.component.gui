@@ -18,8 +18,14 @@ webpage Dashboard() {
                             html{
                                "
                                  <p>Testtext</p>
+                               "
+                            }
+                        }
+                        column(30%){
+                            html{
+                               "
                                  <div>
-                                    <img src=\"assets/img/BGlogin.png\" alt=\"MaCoCo Logo\" style=\"max-width: 140px\">
+                                    <img src=\"assets/img/BGlogin.png\" alt=\"MaCoCo Logo\" style=\"max-width: 400px\">
                                  </div>
                                "
                             }

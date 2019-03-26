@@ -76,7 +76,7 @@ public class FrontendTransformationUtils {
     if (typeHelper.isZonedDateTime(typeName)) {
       return STRING_FRONTEND;
     }
-    if (typeHelper.isPrimitiveNumeric(typeName)) {
+    if (typeHelper.isPrimitiveNumeric(typeName) || typeHelper.isFloat(typeName) || typeHelper.isDouble(typeName)) {
       return NUMERIC_FRONTEND;
     }
     if (typeHelper.isGenericStringList(typeName)) {
@@ -117,7 +117,7 @@ public class FrontendTransformationUtils {
     if (typeHelper.isZonedDateTime(typeName)) {
       return STRING_FRONTEND;
     }
-    if (typeHelper.isPrimitiveNumeric(typeName)) {
+    if (typeHelper.isPrimitiveNumeric(typeName) || typeHelper.isFloat(typeName) || typeHelper.isDouble(typeName)) {
       return NUMERIC_FRONTEND;
     }
     if (typeHelper.isGenericStringList(typeName)) {
@@ -127,7 +127,7 @@ public class FrontendTransformationUtils {
       String typeArgument = typeHelper.getFirstTypeArgumentOfList(typeName);
       if (isDTOType(symbolTable, typeArgument)) {
         typeArgument += DTOCreator.DTO;
-      } else if (typeHelper.isPrimitiveNumeric(typeArgument)) {
+      } else if (typeHelper.isPrimitiveNumeric(typeArgument) || typeHelper.isFloat(typeName) || typeHelper.isDouble(typeName)) {
         typeArgument = NUMERIC_FRONTEND;
       }
       return typeArgument + ARRAY;
@@ -154,7 +154,7 @@ public class FrontendTransformationUtils {
     if (typeHelper.isZonedDateTime(typeName)) {
       return DATE;
     }
-    if (typeHelper.isPrimitiveNumeric(typeName)) {
+    if (typeHelper.isPrimitiveNumeric(typeName) || typeHelper.isFloat(typeName) || typeHelper.isDouble(typeName)) {
       return NUMERIC_FRONTEND;
     }
     if (typeHelper.isGenericStringList(typeName)) {

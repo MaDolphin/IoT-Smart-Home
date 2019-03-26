@@ -187,6 +187,12 @@ public class TypeHelper extends AbstractTypeHelper {
     if (isPrimitiveNumeric(type)) {
       return "" + Math.abs(name.hashCode());
     }
+    if (isFloat(type)) {
+      return "new Float(" + Math.abs(name.hashCode()) + ")";
+    }
+    if (isDouble(type)) {
+      return "new Double(" + Math.abs(name.hashCode()) + ")";
+    }
     if (isString(type)) {
       return "\"testOf" + TransformationUtils.capitalize(name) + "\"";
     }
@@ -217,6 +223,12 @@ public class TypeHelper extends AbstractTypeHelper {
     }
     if (isPrimitiveNumeric(type)) {
       return "1000";
+    }
+    if (isFloat(type)) {
+      return "5.0f";
+    }
+    if (isDouble(type)) {
+      return "10.0";
     }
     if (isZonedDateTime(type)) {
       return "ZonedDateTime.of(2018, 4, 16, 10, 0, 0, 0, ZoneId.of(\"Z\"))";

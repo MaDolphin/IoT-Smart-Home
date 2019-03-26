@@ -13,10 +13,7 @@ import de.monticore.types.types._ast.ASTSimpleReferenceType;
 import de.monticore.umlcd4a.cd4analysis._ast.*;
 import de.monticore.umlcd4a.symboltable.CDTypeSymbol;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -191,6 +188,14 @@ public abstract class ExtendTrafo extends DexTransformation {
     getImports(typeSymbol).forEach(i -> TransformationUtils
         .addPropertyValue(extendedClass, CompilationUnit.IMPORTS_PROPERTY, i));
 
+    // Add general imports
+    getGeneralImpoerts().forEach(i -> TransformationUtils
+        .addPropertyValue(extendedClass, CompilationUnit.IMPORTS_PROPERTY, i));
+
+  }
+
+  private List<String> getGeneralImpoerts() {
+    return Collections.singletonList("de.montigem.be.error.DataConsistencyException");
   }
 
   protected void addImports(ASTCDEnum extendedEnum, ASTCDEnum domainEnum, CDTypeSymbol typeSymbol) {

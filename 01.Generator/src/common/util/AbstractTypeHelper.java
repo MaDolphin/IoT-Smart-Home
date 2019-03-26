@@ -346,8 +346,7 @@ public abstract class AbstractTypeHelper {
 
   public boolean isPrimitiveNumeric(String typeName) {
     boolean result = false;
-    result = isByte(typeName) || isShort(typeName) || isInt(typeName) || isLong(typeName) || isDouble(typeName)
-        || isFloat(typeName);
+    result = isByte(typeName) || isShort(typeName) || isInt(typeName) || isLong(typeName);
     return result;
   }
 
