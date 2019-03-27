@@ -225,8 +225,6 @@
   <!-- == DEPENDENCY & PLUGIN REPOSITORIES ================================= -->
 
   <profiles>
-
-
     <profile>
       <id>test</id>
       <activation>
@@ -357,63 +355,164 @@
       </build>
     </profile>
 
+    <profile>
+      <id>devserver</id>
+      <properties>
+        <skipTests>true</skipTests>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+              <webResources>
+                <resource>
+                  <directory>src/main/webapp-prod</directory>
+                </resource>
+              </webResources>
+              <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+              <failOnMissingWebXml>false</failOnMissingWebXml>
+              <archive>
+                <manifest>
+                  <addDefaultImplementationEntries>true
+                  </addDefaultImplementationEntries>
+                  <addDefaultSpecificationEntries>true
+                  </addDefaultSpecificationEntries>
+                </manifest>
+              </archive>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+              <execution>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <configuration>
+                  <skip>${maven.test.skip}</skip>
+                  <mainClass>de.montigem.be.database.DatabaseSchemaRetrieval</mainClass>
+                  <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+              <include>admin.properties</include>
+              <include>mail.properties</include>
+              <include>devserver.properties</include>
+              <include>**/*.yaml</include>
+              <include>**/*.ini</include>
+              <include>**/*.xml</include>
+              <include>**/*.yml</include>
+            </includes>
+            <excludes>
+              <exclude>testserver.properties</exclude>
+            </excludes>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>false</filtering>
+            <includes>
+              <include>**/*.pdf</include>
+            </includes>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+
+    <profile>
+      <id>testserver</id>
+      <properties>
+        <skipTests>true</skipTests>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+              <webResources>
+                <resource>
+                  <directory>src/main/webapp-prod</directory>
+                </resource>
+              </webResources>
+              <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+              <failOnMissingWebXml>false</failOnMissingWebXml>
+              <archive>
+                <manifest>
+                  <addDefaultImplementationEntries>true
+                  </addDefaultImplementationEntries>
+                  <addDefaultSpecificationEntries>true
+                  </addDefaultSpecificationEntries>
+                </manifest>
+              </archive>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+              <execution>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <configuration>
+                  <skip>${maven.test.skip}</skip>
+                  <mainClass>de.montigem.be.database.DatabaseSchemaRetrieval</mainClass>
+                  <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+            <includes>
+              <include>admin.properties</include>
+              <include>mail.properties</include>
+              <include>testserver.properties</include>
+              <include>**/*.yaml</include>
+              <include>**/*.ini</include>
+              <include>**/*.xml</include>
+              <include>**/*.yml</include>
+            </includes>
+            <excludes>
+              <exclude>devserver.properties</exclude>
+            </excludes>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>false</filtering>
+            <includes>
+              <include>**/*.pdf</include>
+            </includes>
+          </resource>
+        </resources>
+      </build>
+    </profile>
   </profiles>
 
   <build>
     <defaultGoal>package</defaultGoal>
     <finalName>montigem-be</finalName>
     <plugins>
-      <!--<plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.9</version>
-        <executions>
-          <execution>
-            <id>default-prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>default-prepare-agent-integration</id>
-            <goals>
-              <goal>prepare-agent-integration</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>default-report</id>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>default-report-integration</id>
-            <goals>
-              <goal>report-integration</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>default-check</id>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <rule implementation="org.jacoco.maven.RuleConfiguration">
-                  <element>BUNDLE</element>
-                  <limits>
-                    <limit implementation="org.jacoco.report.check.Limit">
-                      <counter>COMPLEXITY</counter>
-                      <value>COVEREDRATIO</value>
-                      <minimum>0.10</minimum>
-                    </limit>
-                  </limits>
-                </rule>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>-->
       <plugin>
         <groupId>pl.project13.maven</groupId>
         <artifactId>git-commit-id-plugin</artifactId>
