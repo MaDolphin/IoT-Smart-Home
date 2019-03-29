@@ -26,13 +26,18 @@
       "@srcdtos/*" : ["src/app/shared/architecture/data/dtos/*"],
       "@targetrte/*": ["target/generated-sources/rte/*"],
       "@components/*": ["src/app/shared/components/guidsl/*"],
+      "@utils/*": ["src/app/utils/*"],
 
       // Test
       "@testutils/*": ["src/tests/utils/*"],
 
       // Services
+      "@services/*": ["src/app/shared/architecture/services/*"],
       "@jsonapiservice/*": ["src/app/shared/architecture/services/*"],
       "@loggerservice/*": ["src/app/shared/architecture/services/*"],
+
+      // Commands
+      "@commands/*": ["target/generated-sources/commands/*"],
 
       // Einstellungen
       "@einstellungenrollentabelleentry-dto/*" : ["target/generated-sources/dtos/*"],

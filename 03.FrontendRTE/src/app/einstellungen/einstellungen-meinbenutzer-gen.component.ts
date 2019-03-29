@@ -9,7 +9,7 @@ import { OkDTO } from '@shared/architecture/command/aggregate/ok.dto';
 import { NotificationService } from '@shared/utils';
 import { DialogCallbackTwo } from '@shared/utils/dialog/dialog.callback';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
-import {SetNewPassword} from "../../../target/generated-sources/commands/setnewpassword";
+import {SetNewPassword} from "@commands/setnewpassword";
 import {MeinBenutzerPasswortZuruecksetzenDTO} from "@targetdtos/meinbenutzerpasswortzuruecksetzen.dto";
 import { EinstellungenMeinbenutzerGenComponentTOP } from "@targetgui/einstellungen-meinbenutzer-gen.component/einstellungen-meinbenutzer-gen.component-top";
 

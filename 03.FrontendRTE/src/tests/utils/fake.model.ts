@@ -7,8 +7,8 @@ import { JsonObject } from '@upe/typedjson';
 import { JsonMember } from '@upe/typedjson/dist';
 import { IModel, Model } from '@shared/architecture/data/models/model';
 import { JsonApiService } from '@jsonapiservice/json-api.service';
-import { IModelService, ModelService } from '@shared/architecture/services/models/model.service';
 import { NotificationService } from '@shared/notification/notification.service';
+import { IModelService, ModelService } from "@services/model.service";
 
 export interface IFake extends IModel {
   name: string;

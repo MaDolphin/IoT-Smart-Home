@@ -2,9 +2,9 @@
  *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
 
-import { IModel, Model } from '../../../app/shared/architecture/data/models/model';
-import { IViewModel } from '../../../app/shared/architecture/data/viewmodels/viewmodel';
 import { Observable } from 'rxjs/Observable';
+import { IViewModel } from "@shared/architecture/data/viewmodel";
+import { IModel, Model } from "@shared/architecture";
 
 export class ITestModel implements IModel {}
 
