@@ -2,6 +2,7 @@
  *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
 
+/*
 import { Injectable } from '@angular/core';
 import { Control, GenericFormControl, GenericFormGroup, Validator } from '@shared/generic-form/ngx-forms';
 import { CheckBoxFormControl, DateFormControl } from '@shared/generic-form/controls';
@@ -22,6 +23,7 @@ class FormValidator extends GenericFormGroup<any> {
   @Validator(function () {
     validate(this).is.after(moment('2000-01-01').toDate());
   })
+
   @Validator(function (endDate: DateFormControl) {
     validate(this).is.before(endDate);
   }, 'endDate')
@@ -40,7 +42,6 @@ class FormValidator extends GenericFormGroup<any> {
     validate(this).is.after(startDate);
   }, 'startDate')
   public endDate: DateFormControl = undefined as any;
-
 
 }
 
@@ -157,3 +158,4 @@ describe('Generic Form', () => {
   });
 
 });
+*/

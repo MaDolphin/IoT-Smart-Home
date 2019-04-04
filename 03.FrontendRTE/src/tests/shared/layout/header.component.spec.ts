@@ -24,7 +24,7 @@ class NotificationServiceMock {
   notificationYesNo(...args) { }
 }
 
-@Component({selector: 'breadcrumb', template: ''})
+@Component({selector: 'macoco-breadcrumb', template: ''})
 class BreadcrumbStubComponent {}
 
 // Tests

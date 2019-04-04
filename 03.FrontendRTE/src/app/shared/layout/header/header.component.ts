@@ -40,27 +40,9 @@ export class HeaderComponent implements OnInit {
   }
 
   public get title(): string {
-    // Finanzen
-    if (this.isKontoDetailsView && !!this.majorTitle) {
-      return this.majorTitle;
-    }
 
     let url = this.router.url.split('/');
     return url[url.length - 1];
-  }
-
-  public get isKontoDetailsView(): boolean {
-    return this.router.isActive('/finanzen/konten', false)
-      && !this.router.isActive('/finanzen/konten/anlegen', true)
-      && !this.router.isActive('/finanzen/konten/overview', true)
-      && !this.router.isActive('/finanzen/konten/Übersicht', true);
-  }
-
-  public get isPersonDetailsView(): boolean {
-    return this.router.isActive('/personal/mitarbeiter', false)
-      && !this.router.isActive('/personal/mitarbeiter/anlegen', true)
-      && !this.router.isActive('/personal/mitarbeiter/overview', true)
-      && !this.router.isActive('/personal/mitarbeiter/Übersicht', true);
   }
 
   @Output() menu: EventEmitter<void> = new EventEmitter<void>();
