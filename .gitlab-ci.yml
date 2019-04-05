@@ -8,6 +8,7 @@ variables:
   # `installAtEnd` and `deployAtEnd`are only effective with recent version of the corresponding plugins.
   MAVEN_CLI_OPTS: "-s settings.xml --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true"
   DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay
 
 services:
   - docker:dind
