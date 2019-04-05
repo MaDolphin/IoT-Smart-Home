@@ -18,6 +18,7 @@ Validate:
   tags: 
     - dind
   script:
+    - env | grep DOCKER
     - mvn $MAVEN_CLI_OPTS clean install 
     - cd 04.BackendRTE
     - mvn $MAVEN_CLI_OPTS clean install 
