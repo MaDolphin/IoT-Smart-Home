@@ -9,6 +9,9 @@ variables:
   MAVEN_CLI_OPTS: "-s settings.xml --batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true"
   DOCKER_HOST: "tcp://localhost:2375"
 
+services:
+  - docker:dind
+
 Validate:
   image: cschockaert/docker-npm-maven:latest
   stage: build
