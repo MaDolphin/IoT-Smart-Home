@@ -1,23 +1,28 @@
 # MontiGEM
 
-MontiGEM
+## Requirements
+- maven
+- java 8 >= 8 Update 141
+- docker (https://www.docker.com/products/docker-desktop)
+- node 8 (manageable with https://github.com/coreybutler/nvm-windows/releases)
 
-# Projekt erstes mal bauen
-- im Parent-Ordner: `mvn clean install -DskipTests -Pprod`
+## First-time build
+- in parent folder: `mvn clean install -DskipTests -Pprod`
 - in 04.Backend: `mvn clean docker:stop install -DskipTests docker:start tomee:run`
-- in 03.Frontend (andere Konsole):
+- in 03.Frontend (other console):
     - `npm install`
     - `mvn generate-sources -U`
     - `npm run start:jit`
 
-# Backend bauen und starten
+## Backend build and start
 - in 04.Backend: `mvn clean docker:stop install -DskipTests docker:start tomee:run`
 
-# Frontend neu generieren lassen
+## Frontend
+### regenerate
 - in 03.Frontend: `mvn generate-sources -U`
 
-# Frontend starten
+### start
 - in 03.Frontend: `npm run start:jit`
 
-# Website aufrufen
-- Im Webbrowser `localhost:4200`
+## Website
+- Browser `localhost:4200`
