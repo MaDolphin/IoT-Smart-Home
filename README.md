@@ -26,3 +26,15 @@
 
 ## Website
 - Browser `localhost:4200`
+
+# Troubleshooting
+
+## Debug Backend
+### create Intellij remote task (only first time)
+- `Run` -> `Edit Configurations`
+- *+* -> `Remote`
+- `use Module classpath:` => `backend`
+
+### run the backend in debug mode
+- `mvn clean docker:stop install -DskipTests docker:start tomee:debug`
+- as soon as the backend tries to connect to the debugger: debug with Intellij (selected remote configuration)
