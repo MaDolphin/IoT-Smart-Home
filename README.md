@@ -37,4 +37,6 @@
 
 ### run the backend in debug mode
 - `mvn clean docker:stop install -DskipTests docker:start tomee:debug`
-- as soon as the backend tries to connect to the debugger: debug with Intellij (selected remote configuration)
+- as soon as the backend tries to connect to the debugger (`Listening for transport dt_socket at address: 5005
+[] CONNECT ATTEMPT -2147483585 on port: 8080
+`): debug with Intellij (selected remote configuration)
