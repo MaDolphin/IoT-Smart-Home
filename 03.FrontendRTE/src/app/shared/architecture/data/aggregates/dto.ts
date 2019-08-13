@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { ISerializable, Serializable } from '@shared/architecture/serializable';
 import { JsonMember, JsonObject } from '@upe/typedjson';

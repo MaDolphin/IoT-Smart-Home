@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
@@ -103,13 +101,4 @@ export class AutoCompleteInputComponent extends AbstractInputComponent<AutoCompl
    * Called after keyup event
    * @param list {string[]}
    */
-  /*
-  preventWrongInput() {
-    this.modelFormControl.updateValueAndValidity();
-    if (!this.allowNewInput && this.value && !this._autoCompleteFromArray.transform(this.value, this.options)) {
-      this.modelFormControl.patchValue(this.value.slice(0, -1));
-    }
-  }
   /** */
-
-}

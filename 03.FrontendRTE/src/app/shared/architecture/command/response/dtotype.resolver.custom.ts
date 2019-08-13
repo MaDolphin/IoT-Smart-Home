@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { ElementType } from '@upe/typedjson/dist/untils';
 import { IDTO } from '@shared/architecture';

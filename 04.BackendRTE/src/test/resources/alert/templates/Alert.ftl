@@ -1,3 +1,4 @@
+<#-- (c) https://github.com/MontiCore/monticore -->
 <#-- avaiable in template: alert, account, budget -->
 <#-- Condition -->
 <#compress>

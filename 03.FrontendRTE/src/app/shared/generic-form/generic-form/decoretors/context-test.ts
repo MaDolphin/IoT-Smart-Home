@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { CONTEXT_TEST } from '../config';
 import { GenericFormControl } from '../generic-form-control';

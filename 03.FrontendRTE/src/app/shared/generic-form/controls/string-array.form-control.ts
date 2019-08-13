@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Injectable } from '@angular/core';
 import { GenericFormControl } from '@shared/generic-form/generic-form';
@@ -9,7 +7,6 @@ import { IGenericFormGroup } from "@shared/generic-form/generic-form/generic-for
 @Injectable()
 export class StringArrayFormControl<G extends IGenericFormGroup = IGenericFormGroup> extends GenericFormControl<string, G> {
 
-  public separator: RegExp = /\s*,\s*/;
   public joiner: string = ', ';
 
   public getModelValue(): string[] {

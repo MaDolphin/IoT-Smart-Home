@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { Control, Group, Validator } from "@shared/generic-form/generic-form/decoretors";
 import { EinstellungenBenutzerTabelleEntryDTO } from "@targetdtos/einstellungenbenutzertabelleentry.dto";
 import { TextFormControl } from "@shared/generic-form/controls";

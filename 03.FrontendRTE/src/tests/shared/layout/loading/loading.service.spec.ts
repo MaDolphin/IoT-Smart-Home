@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { getTestBed, inject, TestBed } from '@angular/core/testing';
 import { LoadingService } from '@shared/layout/loading/loading.service';

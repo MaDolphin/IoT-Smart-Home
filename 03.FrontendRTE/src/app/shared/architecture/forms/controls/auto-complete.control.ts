@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { ValidationErrors, ValidatorFn } from '@angular/forms';
 import 'rxjs/add/operator/startWith';

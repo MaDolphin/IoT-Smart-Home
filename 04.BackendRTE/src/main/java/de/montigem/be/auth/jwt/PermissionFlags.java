@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.montigem.be.auth.jwt;
 
 import de.montigem.be.authz.Permissions;

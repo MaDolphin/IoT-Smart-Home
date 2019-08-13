@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { CommonModule, DecimalPipe, PercentPipe } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';

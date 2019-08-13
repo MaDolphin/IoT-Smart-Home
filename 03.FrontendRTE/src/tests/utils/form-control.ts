@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ValidatorFn } from '@angular/forms';

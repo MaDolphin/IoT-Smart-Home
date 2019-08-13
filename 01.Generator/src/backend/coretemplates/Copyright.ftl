@@ -1,3 +1,4 @@
+<#-- (c) https://github.com/MontiCore/monticore -->
 <#--
 ****************************************************************************
 MontiCore Language Workbench, www.monticore.de
@@ -37,6 +38,3 @@ software, even if advised of the possibility of such damage.
 -->
 ${tc.signature()}
 
-/*
-*  (c) Monticore license: https://github.com/MontiCore/monticore
-*/

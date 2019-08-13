@@ -1,10 +1,5 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
 package common.util;
 
 import de.monticore.types.TypesPrinter;

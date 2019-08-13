@@ -1,7 +1,5 @@
+/* (c) https://github.com/MontiCore/monticore */
 
-/*
- * Copyright (c) 2016 RWTH Aachen. All rights reserved. http://www.se-rwth.de/
- */
 package de.montigem.be.domain.cdmodelhwc.classes.domainuser;
 
 import de.montigem.be.auth.jwt.MontiGemSecurityUtils;

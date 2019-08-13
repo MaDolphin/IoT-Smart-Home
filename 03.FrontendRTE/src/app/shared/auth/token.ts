@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { JsonMember, JsonObject, TypedJSON } from '@upe/typedjson';
 import * as moment from 'moment';

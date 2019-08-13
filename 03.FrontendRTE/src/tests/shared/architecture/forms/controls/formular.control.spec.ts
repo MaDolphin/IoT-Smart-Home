@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/toPromise';

@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 package de.montigem.be.database;
 
 import org.apache.openejb.resource.jdbc.router.AbstractRouter;

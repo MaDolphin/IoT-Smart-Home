@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { deepEqual } from '../utils/deep-eql';
 import { flag } from '../utils/flag';

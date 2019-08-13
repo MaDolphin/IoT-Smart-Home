@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Logger } from '@upe/logger';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';

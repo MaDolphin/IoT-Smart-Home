@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { by, element } from 'protractor';
 import { promise } from 'selenium-webdriver';
 import { getElement, setInputByName } from '../../utilits/helper.e2e-util';

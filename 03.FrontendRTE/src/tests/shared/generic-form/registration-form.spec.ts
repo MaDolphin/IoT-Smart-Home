@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Component, DebugElement, Injectable, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';

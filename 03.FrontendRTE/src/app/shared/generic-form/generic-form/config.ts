@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 export const SUBMIT                      = 'on-submit';
 export const BEFORE_SUBMIT               = 'before-submit';

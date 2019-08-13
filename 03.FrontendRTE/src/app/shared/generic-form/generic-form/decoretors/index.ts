@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 export { AddIf, RequiredIf, DisabledIf, RemoveIf, ReadonlyIf, PlaceholderIf, LabelIf } from './if';
 export { OnChange, OnValidChange } from './on-change';

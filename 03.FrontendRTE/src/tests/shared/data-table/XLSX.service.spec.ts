@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { XLSXService } from '@components/data-table/XLSX.service';
 import * as XLSX from 'xlsx';

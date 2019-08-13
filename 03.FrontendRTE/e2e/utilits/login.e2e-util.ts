@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {browser} from 'protractor';
 import {LoginPo} from '../pageobjects/login/login.po';
 import {Logger} from '@upe/logger';

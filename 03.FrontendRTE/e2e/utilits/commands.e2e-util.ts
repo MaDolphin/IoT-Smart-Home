@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import 'rxjs/add/operator/concatMap';
 import { E2ECommandCaller } from "./command-manager.e2e-util";
 import { IDTO } from "@shared/architecture";

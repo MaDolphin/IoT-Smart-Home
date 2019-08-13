@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { AFTER_SUBMIT, BEFORE_SUBMIT, MULTI_SUB_GROUPS_PROPERTY, SUB_GROUPS_PROPERTY, SUBMIT } from '../../config';

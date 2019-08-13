@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { ValidationError } from "@shared/generic-form/validator";
 import { TextFormControl } from "@shared/generic-form/controls";
 import { IEinstellungenBenutzerForm } from "./einstellungenbenutzer.form.interface";
