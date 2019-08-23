@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { Component, OnInit } from '@angular/core';
 import { TextFormControl } from '@shared/generic-form/controls';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';

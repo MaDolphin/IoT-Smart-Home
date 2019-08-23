@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {getElementById, moneyToNumber} from '../../utilits/helper.e2e-util';
 import {promise} from 'selenium-webdriver';
 

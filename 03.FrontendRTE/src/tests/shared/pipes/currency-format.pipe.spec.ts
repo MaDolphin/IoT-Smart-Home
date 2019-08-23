@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { CurrencyPipe } from '@shared/pipes/currency.pipe';
 import { NumberToMoneyPipe } from '@shared/pipes/number-to-money.pipe';

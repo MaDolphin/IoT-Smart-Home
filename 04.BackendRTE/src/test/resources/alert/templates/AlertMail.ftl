@@ -1,3 +1,4 @@
+<#-- (c) https://github.com/MontiCore/monticore -->
 <#-- avaiable in template: alert, account, budget, user -->
 Subject: Erinnerung: ${account.name} überzogen<br>
 To: ${user.email}<br>

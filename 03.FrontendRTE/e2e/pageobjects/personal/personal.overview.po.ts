@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {promise} from 'selenium-webdriver';
 import {
   clickOnRowActionButtons,
