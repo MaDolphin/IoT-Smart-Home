@@ -1,5 +1,5 @@
-<#-- (c) https://github.com/MontiCore/monticore -->
 <#ftl encoding='UTF-8'>
+<#-- (c) https://github.com/MontiCore/monticore -->
 <#--
   The core method in a builder to validate if an attribute value is consistent.
   
