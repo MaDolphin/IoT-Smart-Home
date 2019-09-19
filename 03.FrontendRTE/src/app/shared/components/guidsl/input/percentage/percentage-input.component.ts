@@ -73,4 +73,5 @@ export class PercentageInputComponent extends AbstractInputComponent<PercentageC
       value = this.modelFormControl.value;
     }
     this.modelFormControl.setValue(value)
-    /** */
+  }
+}

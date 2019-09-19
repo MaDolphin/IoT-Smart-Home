@@ -7,6 +7,7 @@ import { IGenericFormGroup } from "@shared/generic-form/generic-form/generic-for
 @Injectable()
 export class StringArrayFormControl<G extends IGenericFormGroup = IGenericFormGroup> extends GenericFormControl<string, G> {
 
+  public separator: RegExp = /\s*,\s*/;
   public joiner: string = ', ';
 
   public getModelValue(): string[] {

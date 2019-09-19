@@ -50,7 +50,4 @@ export class PercentFormControl<G extends IGenericFormGroup = IGenericFormGroup>
     let re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
     return num.toString().match(re)[0];
   }
-
-  // TODO: this seems to override parent validator, even if the parent control is used
-  // i.e. this validator will be invoked when TwoDecimalNumberFormControl is used
-  /**/
+}
