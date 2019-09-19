@@ -1,0 +1,39 @@
+stages:
+  - build
+
+variables:
+  # This will supress any download for dependencies and plugins or upload messages which would clutter the console log.
+  # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
+  MAVEN_OPTS: "-Xmx4096m -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  # `installAtEnd` and `deployAtEnd`are only effective with recent version of the corresponding plugins.
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true"
+  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_DRIVER: overlay
+
+#services:
+#  - docker:dind
+before_script:
+  - export CHROME_BIN=/usr/bin/google-chrome
+
+.Validate:
+  only:
+    refs:
+      - master
+  stage: build
+  tags:
+    - shell
+  script:
+    - export DOCKER_HOST="tcp://localhost:2375"
+    #- socat TCP-LISTEN:2375,reuseaddr,fork UNIX-CONNECT:/var/run/docker.sock &
+    #- mvn $MAVEN_CLI_OPTS -s settings.xml clean install -DskipTests -Pprod
+    - cd 01.Generator
+    - mvn $MAVEN_CLI_OPTS -s ../settings.xml clean install
+    - cd ../02.OCL
+    - mvn $MAVEN_CLI_OPTS -s ../settings.xml clean install
+    - cd ../04.BackendRTE
+    - mvn $MAVEN_CLI_OPTS -s ../settings.xml clean docker:stop install -Ptestserver
+    - cd ../03.FrontendRTE
+    #- npm install
+    - mvn $MAVEN_CLI_OPTS -s ../settings.xml generate-sources -U
+    #- npm run start:jit
+    - mvn $MAVEN_CLI_OPTS -s ../settings.xml install
