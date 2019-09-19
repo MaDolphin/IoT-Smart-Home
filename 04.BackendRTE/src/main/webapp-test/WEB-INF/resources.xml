@@ -17,8 +17,7 @@
 	</Resource>
 
     <Resource id="DataSource" type="javax.sql.DataSource">
-        <!-- jdbcUrl = jdbc:mysql://192.168.99.100:3306/macoco -->
-        jdbcUrl = jdbc:mysql://localhost:3305/datasource
+        jdbcUrl = jdbc:mysql://localhost:3305/datasource?useSSL=false&amp;allowPublicKeyRetrieval=true
         jdbcDriver = com.mysql.cj.jdbc.Driver
 
         userName = admin
@@ -28,7 +27,7 @@
     </Resource>
 
 	<Resource id="TestDB" type="javax.sql.DataSource">
-		jdbcUrl = jdbc:mysql://localhost:3306/testdb
+		jdbcUrl = jdbc:mysql://localhost:3306/testdb?useSSL=false&amp;allowPublicKeyRetrieval=true
 		jdbcDriver = com.mysql.cj.jdbc.Driver
 
 		userName = admin
