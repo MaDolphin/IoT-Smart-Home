@@ -7,7 +7,7 @@ import { AuthComponent } from '@shared/auth/auth.component';
 import { ForgotComponent } from '@shared/auth/forgot/forgot.component';
 import { LoginComponent } from '@shared/auth/login/login.component';
 import { MainLayoutComponent } from '@shared/layout/main/main-layout.component';
-import { DashboardComponent } from "@targetgui/dashboard.component/dashboard.component";
+import { DashboardComponent } from "@dashboard/dashboard.component";
 
 export const routes: Routes = [
   {

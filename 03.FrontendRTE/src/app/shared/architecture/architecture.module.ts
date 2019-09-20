@@ -13,6 +13,7 @@ import { LoggerService } from '@loggerservice/logger.service';
 import { RouterLocalService } from './services/router.local.service';
 import { StorageService } from './services/storage.service';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
+import { WebSocketService } from '@shared/architecture/services/websocket.service';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ export class ArchitectureModule {
         DownloadFileService,
         LoggerService,
         CommandRestService,
+        WebSocketService,
       ]
     };
   }

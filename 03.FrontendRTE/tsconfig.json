@@ -20,3 +20,42 @@
     ],
     "paths": {
       // Common
+      "@shared/*": ["src/app/shared/*"],
+      "@targetgui/*" : ["target/generated-sources/gui/*"],
+      "@targetdtos/*" : ["target/generated-sources/dtos/*"],
+      "@srcdtos/*" : ["src/app/shared/architecture/data/dtos/*"],
+      "@targetrte/*": ["target/generated-sources/rte/*"],
+      "@components/*": ["src/app/shared/components/guidsl/*"],
+      "@utils/*": ["src/app/utils/*"],
+
+      // Test
+      "@testutils/*": ["src/tests/utils/*"],
+
+      // Services
+      "@services/*": ["src/app/shared/architecture/services/*"],
+      "@jsonapiservice/*": ["src/app/shared/architecture/services/*"],
+      "@loggerservice/*": ["src/app/shared/architecture/services/*"],
+
+      // Commands
+      "@commands/*": ["target/generated-sources/commands/*"],
+
+      // Dashboard
+      "@dashboard/*": ["src/app/dashboard/*"],
+
+      // Einstellungen
+      "@einstellungenrollentabelleentry-dto/*" : ["target/generated-sources/dtos/*"],
+      "@einstellungenbenutzertabelleentry-dto/*": ["target/generated-sources/dtos/*"],
+      "@einstellungenbenutzerformvalidator/*": ["target/generated-sources/dtos/*"],
+      "@einstellungenbenutzertabelle-dto/*": ["target/generated-sources/dtos/*"],
+      "@einstellungenrollentabelle-dto/*": ["target/generated-sources/dtos/*"],
+      "@meinbenutzerpasswortzuruecksetzen-dto/*" : ["target/generated-sources/dtos/*"],
+      "@einstellungenbenutzerform/*" : ["src/app/einstellungen/*"],
+      "@meinbenutzerinfotabelle-dto/*": ["target/generated-sources/dtos/*"],
+      "@meinbenutzerrollentabelle-dto/*": ["target/generated-sources/dtos/*"],
+      "@userlist-dto/*" : ["target/generated-sources/dtos/*"],
+      "@rolelist-dto/*" : ["target/generated-sources/dtos/*"],
+      "@statuslist-dto/*" : ["target/generated-sources/dtos/*"],
+      "@objectlist-dto/*" : ["target/generated-sources/dtos/*"]
+    }
+  }
+}

@@ -3,8 +3,12 @@
 package de.montigem.be.authz.util;
 
 import de.montigem.be.auth.UserActivationManager;
+import de.montigem.be.auth.jwt.JWTRealm;
+import de.montigem.be.auth.jwt.JWToken;
 import de.montigem.be.auth.jwt.PrincipalWrapper;
+import de.montigem.be.auth.jwt.ShiroJWTFilter;
 import de.montigem.be.authz.ObjectClasses;
+import de.montigem.be.authz.PolicyDecisionPoint;
 import de.montigem.be.authz.Roles;
 import de.montigem.be.authz.model.Role;
 import de.montigem.be.domain.cdmodelhwc.classes.domainuser.DomainUser;
@@ -14,14 +18,18 @@ import de.montigem.be.domain.cdmodelhwc.daos.RoleAssignmentDAO;
 import de.montigem.be.util.DAOLib;
 import de.se_rwth.commons.logging.Log;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.UnavailableSecurityManagerException;
+import org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy;
+import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
+import org.apache.shiro.authz.permission.WildcardPermissionResolver;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.Subject;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import javax.naming.NamingException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Stateless
@@ -67,6 +75,10 @@ public class SecurityHelper {
 
   public DomainUser getCurrentUser() {
     return SecurityUtils.getSubject().getPrincipals().oneByType(PrincipalWrapper.class).getUser();
+  }
+
+  public static DomainUser getCurrentUser(Subject subject) {
+    return subject.getPrincipals().oneByType(PrincipalWrapper.class).getUser();
   }
 
   public boolean grantCurrentUserRoleAndPermission(String role, String objClass, Long objId, String attribute) {
@@ -167,7 +179,10 @@ public class SecurityHelper {
   public String getSessionCompliantResource() {
     Subject subject = SecurityUtils.getSubject();
     return ((PrincipalWrapper) subject.getPrincipal()).getResource();
+  }
 
+  public static String getSessionCompliantResource(Subject subject) {
+    return ((PrincipalWrapper) subject.getPrincipal()).getResource();
   }
 
   public RolePermissionManager getRolePermissionManager() {
@@ -198,5 +213,31 @@ public class SecurityHelper {
 
   public UserActivationManager getUserActivationManager() {
     return userActivationManager;
+  }
+
+  public static void createSubjectAndLogin(String user, String resource, DAOLib daoLib, RolePermissionManager rolePermissionManager) throws NamingException, UnavailableSecurityManagerException {
+    DefaultSecurityManager securityManager = new DefaultSecurityManager();
+    createSubjectAndLogin(securityManager, user, resource, daoLib, rolePermissionManager);
+  }
+
+  public static void createSubjectAndLogin(DefaultSecurityManager securityManager, String user, String resource, DAOLib daoLib, RolePermissionManager rolePermissionManager)
+      throws NamingException {
+    ModularRealmAuthenticator authenticator = new ModularRealmAuthenticator();
+    authenticator.setAuthenticationStrategy(new AtLeastOneSuccessfulStrategy());
+    securityManager.setAuthenticator(authenticator);
+
+    AuthorizingRealm authorizer = new PolicyDecisionPoint();
+    authorizer.setPermissionResolver(new WildcardPermissionResolver());
+    securityManager.setAuthorizer(authorizer);
+
+    JWTRealm jwtRealm = new JWTRealm();
+    securityManager.setRealms(Collections.singletonList(jwtRealm));
+    SecurityUtils.setSecurityManager(securityManager);
+
+    Subject subject = SecurityUtils.getSubject();
+
+    JWToken token = new JWToken(ShiroJWTFilter.createTokenForUser(user, false, resource, daoLib, rolePermissionManager),
+        user, resource);
+    subject.login(token);
   }
 }
