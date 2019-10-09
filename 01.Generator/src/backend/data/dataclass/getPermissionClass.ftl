@@ -2,12 +2,16 @@
 <#--
   @author: SE RWTH Aachen
 -->
-${signature("clazz", "name")}
+${signature("clazz", "permissionClass", "default")}
 {
-  return
-  <#if clazz.getSuperclassOpt().isPresent()>
+return
+<#if permissionClass.isPresent()>
+  ObjectClasses.${permissionClass.get()}.getIdentifier();
+<#else>
+    <#if clazz.getSuperclassOpt().isPresent()>
       super.getPermissionClass();
-  <#else>
-      "${name?uncap_first}";
-  </#if>
+    <#else>
+      ObjectClasses.${default}.getIdentifier();
+    </#if>
+</#if>
 }

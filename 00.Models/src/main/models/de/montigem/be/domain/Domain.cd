@@ -9,7 +9,6 @@ classdiagram Domain {
     // User
 
     class DomainUser {
-                                         <<dbColumn = "unique=true">>
       String username;
       Optional<String> encodedPassword;
       String passwordSaltBase64;
@@ -17,7 +16,6 @@ classdiagram Domain {
       Optional<String> initials;
       DomainUserActivationStatus activated;
       boolean enabled;
-                                         <<dbColumn = "unique=true">>
       String email;
       Optional<String> timID;
     }

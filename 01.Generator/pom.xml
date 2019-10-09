@@ -28,8 +28,8 @@
 
   <!-- == PROJECT METAINFORMATION ========================================= -->
 
-  <name>MontiGEMGenerator</name>
-  <description>MontiGEM Generator</description>
+  <name>MontiGem Generator</name>
+  <description>MontiGem Generator</description>
 
   <organization>
     <name>Department of Software Engineering, RWTH Aachen University</name>
@@ -58,6 +58,13 @@
       <groupId>de.monticore</groupId>
       <artifactId>monticore-grammar</artifactId>
       <version>${monticore.version}</version>
+    </dependency>
+
+    <!-- .. Tagging ........................................... -->
+    <dependency>
+      <groupId>de.monticore.tool</groupId>
+      <artifactId>tagapi</artifactId>
+      <version>0.0.1</version>
     </dependency>
   </dependencies>
 
@@ -124,6 +131,79 @@
           <skipTests>${skip.tests}</skipTests>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>de.se_rwth.maven</groupId>
+        <artifactId>se-groovy-maven-plugin</artifactId>
+        <version>1.2.3</version>
+        <executions>
+          <execution>
+            <id>tagapi</id>
+            <configuration>
+              <script>de/monticore/tool/tagapi/generator/script/tag.groovy</script>
+              <baseClass>de.monticore.tool.tagapi.generator.TaggingScript</baseClass>
+              <arguments>
+                <model>${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd</model>
+                <out>${project.build.directory}/generated-sources/</out>
+                <testOut>${project.build.directory}/generated-test-sources/</testOut>
+                <modelPath>${project.parent.basedir}/00.Models/src/main/models/de/montigem</modelPath>
+                <handcodedPath>${basedir}/src/</handcodedPath>
+                <grammarVisitor>de.monticore.umlcd4a.cd4analysis._visitor.CD4AnalysisVisitor</grammarVisitor>
+                <grammarNode>de.monticore.umlcd4a.cd4analysis._ast.ASTCD4AnalysisNode</grammarNode>
+              </arguments>
+            </configuration>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>de.monticore.tool</groupId>
+            <artifactId>tagapi</artifactId>
+            <version>0.0.1</version>
+          </dependency>
+          <dependency>
+            <groupId>de.se_rwth.commons</groupId>
+            <artifactId>se-commons-utilities</artifactId>
+            <version>1.7.9</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>1</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-sources/</source>
+              </sources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>2</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>${project.build.directory}/generated-test-sources/</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
 
     <sourceDirectory>src</sourceDirectory>

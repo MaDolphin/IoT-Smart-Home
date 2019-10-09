@@ -1,0 +1,11 @@
+/*
+ *  (c) https://github.com/MontiCore/monticore
+ */
+
+package de.montigem.tagging.tagschema;
+
+import de.monticore.umlcd4a.symboltable.*;
+
+tagschema AuthSchema {
+    tagtype PermissionClass: [NONE | USER | ROLE_ASSIGNMENT | SETTINGS] for Class;
+}
