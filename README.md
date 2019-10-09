@@ -6,6 +6,7 @@
 - java 8 (>= 8 Update 141)
 - docker (https://www.docker.com/products/docker-desktop)
 - node 8 (manageable with https://github.com/coreybutler/nvm-windows/releases)
+- settings.xml (contact your supervisor)
 
 ## First-time build
 - in parent folder: `mvn clean install -DskipTests -Pprod`

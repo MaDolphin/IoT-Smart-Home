@@ -14,6 +14,7 @@
     </parent>
 
     <packaging>jar</packaging>
+    <name>MontiGem OCL</name>
 
     <properties>
         <monticore.generator.version>5.0.0</monticore.generator.version>
