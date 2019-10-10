@@ -2,14 +2,13 @@
  *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
 
-package tagschema.matcher;
+package tagschema.matcher.cd4a;
 
 import de.monticore.umlcd4a.cd4analysis._ast.*;
 import de.se_rwth.commons.Joiners;
 
-// used for CD4A
-public class CommonTagVisitor extends CommonTagVisitorTOP {
-  public CommonTagVisitor(String identifierPath) {
+public class CD4ATagVisitor extends CD4ATagVisitorTOP {
+  public CD4ATagVisitor(String identifierPath) {
     super(identifierPath);
   }
 

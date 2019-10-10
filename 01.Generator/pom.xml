@@ -64,7 +64,7 @@
     <dependency>
       <groupId>de.monticore.tool</groupId>
       <artifactId>tagapi</artifactId>
-      <version>0.0.1</version>
+      <version>0.0.2-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
@@ -148,8 +148,7 @@
                 <testOut>${project.build.directory}/generated-test-sources/</testOut>
                 <modelPath>${project.parent.basedir}/00.Models/src/main/models/de/montigem</modelPath>
                 <handcodedPath>${basedir}/src/</handcodedPath>
-                <grammarVisitor>de.monticore.umlcd4a.cd4analysis._visitor.CD4AnalysisVisitor</grammarVisitor>
-                <grammarNode>de.monticore.umlcd4a.cd4analysis._ast.ASTCD4AnalysisNode</grammarNode>
+                <grammars>cd4a,de.monticore.umlcd4a.cd4analysis._visitor.CD4AnalysisVisitor,de.monticore.umlcd4a.cd4analysis._ast.ASTCD4AnalysisNode</grammars>
               </arguments>
             </configuration>
             <phase>generate-sources</phase>
@@ -162,7 +161,7 @@
           <dependency>
             <groupId>de.monticore.tool</groupId>
             <artifactId>tagapi</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2-SNAPSHOT</version>
           </dependency>
           <dependency>
             <groupId>de.se_rwth.commons</groupId>

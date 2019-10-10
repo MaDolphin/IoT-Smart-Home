@@ -26,7 +26,7 @@ import configure.ConfigureDexGenerator
 import de.monticore.tool.tagapi.rte.TagRunner
 import tagschema.SchemaFactory
 import tagschema.TagRepository
-import tagschema.matcher.Matcher
+import tagschema.matcher.CommonMatcher
 
 debug("Input file     : " + model.getAbsolutePath())
 debug("Model path     : " + modelPath)
@@ -90,12 +90,12 @@ topFlag = true
  * Tag Runner
  *==================================================*/
 
-matcher = new Matcher()
+matcher = new CommonMatcher(cdAst)
 globalRepository = new TagRepository()
 schemaFactory = new SchemaFactory()
 
 tagRunner = new TagRunner()
-tagRunner.matcher(matcher).repository(globalRepository).schema(schemaFactory).run(cdAst, modelPath)
+tagRunner.matcher(matcher).repository(globalRepository).schema(schemaFactory).run(modelPath)
 
 /*==================================================*
  * Generate Dataclass
