@@ -38,10 +38,10 @@ public class AggregateDTOCreator extends DTOCreator {
     ASTCDMethod method = new CDMethodBuilder()
             .name("getAll")
         .addParameter("CommandManager", "commandManager")
-            .returnType("Promise<" + typeSymbol.getName() + "DTO>").Public().Static().build();
+        .returnType("Promise<" + typeSymbol.getName() + DTO + ">").Public().Static().build();
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
             new TemplateHookPoint("frontend.data.DTOGetAll",
-                    typeSymbol.getName()));
+                typeSymbol.getName(), typeSymbol.getName() + DTO));
     return method;
   }
 

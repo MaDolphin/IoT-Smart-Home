@@ -3,6 +3,7 @@
 package frontend.data;
 
 import backend.common.CoreTemplate;
+import backend.dtos.DTOListCreator;
 import com.google.common.collect.Lists;
 import common.CreateTrafo;
 import common.util.*;
@@ -62,6 +63,7 @@ public class FullDTOCreator extends CreateTrafo {
     methods.add(getGetDataMethod(domainClass, typeSymbol));
     methods.add(getCreateMethod(domainClass, typeSymbol));
     methods.add(getUpdateMethod(domainClass, typeSymbol));
+    methods.add(getGetAllMethod(domainClass, typeSymbol));
     return methods;
   }
 
@@ -80,10 +82,17 @@ public class FullDTOCreator extends CreateTrafo {
     imports.add("{ IdDTO } from '@shared/architecture/command/aggregate/id.dto'");
 
     imports.add(FrontendTransformationUtils
+        .getImportCheckHWC(typeSymbol.getName() + FullDTOListCreator.FULLDTOLIST, handcodePath, FullDTOListCreator.FILEEXTENION, FullDTOListCreator.SUBPACKAGE,
+            Optional.of(typeSymbol.getName().toLowerCase())));
+
+    imports.add(FrontendTransformationUtils
         .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.CREATE_CMD, handcodePath, "create", CommandCreator.SUBPACKAGE,
             Optional.of(typeSymbol.getName().toLowerCase())));
     imports.add(FrontendTransformationUtils
         .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.UPDATE_CMD, handcodePath, "update", CommandCreator.SUBPACKAGE,
+            Optional.of(typeSymbol.getName().toLowerCase())));
+    imports.add(FrontendTransformationUtils
+        .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETALL_CMD, handcodePath, "getAll", CommandCreator.SUBPACKAGE,
             Optional.of(typeSymbol.getName().toLowerCase())));
 
     Optional<String> hwcImport = FrontendTransformationUtils
@@ -258,6 +267,17 @@ public class FullDTOCreator extends CreateTrafo {
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
         new TemplateHookPoint("frontend.data.DTOUpdate",
             typeSymbol.getName()));
+    return method;
+  }
+
+  private ASTCDMethod getGetAllMethod(ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
+    ASTCDMethod method = new CDMethodBuilder().Static()
+        .name("getAll")
+        .addParameter("CommandManager", "commandManager")
+        .returnType("Promise<" + domainClass.getName() + DTOListCreator.DTOLIST + ">").Public().build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
+        new TemplateHookPoint("frontend.data.DTOGetAll",
+            typeSymbol.getName(), typeSymbol.getName() + DTOListCreator.DTOLIST));
     return method;
   }
 

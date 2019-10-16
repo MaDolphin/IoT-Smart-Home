@@ -43,12 +43,16 @@ public abstract class AbstractDomainDAO<D extends IObject> {
     return em.getCriteriaBuilder();
   }
 
-  public CriteriaQuery<? extends IObject> getCriteriaQuery() {
+  public CriteriaQuery<D> getCriteriaQuery() {
     return getCriteriaBuilder().createQuery(getDomainClass());
   }
 
-  public Root<? extends IObject> getCriteriaRoot() {
+  public Root<D> getCriteriaRoot() {
     return getCriteriaQuery().from(getDomainClass());
+  }
+
+  public Root<D> getCriteriaRoot(CriteriaQuery<D> cq) {
+    return cq.from(getDomainClass());
   }
 
   @Transactional

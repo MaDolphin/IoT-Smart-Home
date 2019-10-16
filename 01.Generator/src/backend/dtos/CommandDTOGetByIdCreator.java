@@ -24,7 +24,7 @@ public class CommandDTOGetByIdCreator extends CommandCreator {
   @Override
   protected List<ASTCDAttribute> createAttributes(ASTCDClass extendedClass, ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
     List<ASTCDAttribute> attributes = new ArrayList<>();
-    ASTCDAttribute identifier = new CDAttributeBuilder().Protected().type("long").setName("objectId")
+    ASTCDAttribute identifier = new CDAttributeBuilder().Protected().type("Long").setName("objectId")
         .build();
     attributes.add(identifier);
 

@@ -53,6 +53,7 @@ public class CommandDTOTypeAdapterTrafo extends TypeAdapterTrafo {
       cmdList.add(className + TransformationUtils.CREATE_CMD);
       cmdList.add(className + TransformationUtils.DELETE_CMD);
       cmdList.add(className + TransformationUtils.GETBYID_CMD);
+      cmdList.add(className + TransformationUtils.GETALL_CMD);
       cmdList.add(className + TransformationUtils.UPDATE_CMD);
       for (ASTCDAttribute attr : symbolTable.get().getVisibleNotDerivedAttributesInHierarchyAsCDAttribute(className)) {
         cmdList.add(className + TransformationUtils.SET_CMD + TransformationUtils.capitalize(attr.getName()));

@@ -1,6 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.montigem.be.error;
 
+import de.montigem.be.command.rte.general.CommandDTO;
+
 import javax.ws.rs.core.Response.Status;
 
 /**
@@ -112,4 +114,7 @@ public class MontiGemErrorFactory {
     return new MontiGemError(MontiGemErrorCode.MAIL_EXCEPTION,Status.NOT_ACCEPTABLE," Die angegebene Mail Adresse ist nicht korrekt oder die Mail Properties sind nicht vorhanden");
   }
 
+  public static MontiGemError undoError(String code, CommandDTO commandDTO) {
+    return new MontiGemError(MontiGemErrorCode.UNDO, Status.NOT_ACCEPTABLE, code + ": Command " + commandDTO + " cannot be undone before being called at least once");
+  }
 }

@@ -42,6 +42,7 @@ public class DTOTypeAdapterTrafo extends TypeAdapterTrafo {
       String className = c.getName();
       cList.add(className + "DTO");
       cList.add(className + "FullDTO");
+      cList.add(className + "FullDTOList");
      }
 
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
