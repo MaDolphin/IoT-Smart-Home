@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { browser, by, element, ElementArrayFinder, ElementFinder, protractor } from 'protractor';
 import { Locator } from 'protractor/built/locators';
 import 'rxjs/add/operator/concatMap';

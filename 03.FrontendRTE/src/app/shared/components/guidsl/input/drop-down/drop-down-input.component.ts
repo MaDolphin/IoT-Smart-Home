@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Component, OnInit } from '@angular/core';
 import { DropDownControl, DropDownControlOption } from '@shared/architecture/forms/controls/drop-down.control';

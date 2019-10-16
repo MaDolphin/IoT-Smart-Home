@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import 'reflect-metadata';
 import { ERROR_MSG, FORCE_TYPE, MAX } from '../config';

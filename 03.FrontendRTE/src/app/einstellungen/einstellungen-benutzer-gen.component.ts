@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorDTO } from '@shared/architecture/command/aggregate/error.dto';

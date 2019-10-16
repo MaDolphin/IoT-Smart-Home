@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import 'rxjs/add/operator/concatMap';
 import { Observable } from "rxjs/Rx";
 import * as variables from "./login.e2e-util";

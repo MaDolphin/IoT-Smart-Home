@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Observable } from 'rxjs/Observable';
 import { IViewModel } from "@shared/architecture/data/viewmodel";

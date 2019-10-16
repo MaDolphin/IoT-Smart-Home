@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Headers, Http, HttpModule, Response, ResponseOptions, XHRBackend } from '@angular/http';

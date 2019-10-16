@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { AbstractControl, FormArray, FormGroup, ValidationErrors } from '@angular/forms';
 import { AFTER_VALIDATE, BEFORE_VALIDATE } from '../../config';

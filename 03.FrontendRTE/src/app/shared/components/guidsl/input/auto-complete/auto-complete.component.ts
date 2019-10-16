@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
@@ -32,8 +30,8 @@ export class AutoCompleteInputComponent extends AbstractInputComponent<AutoCompl
     if (keys.length === 1 && keys[0] === 'modelFormControl') {
       // Update the filtered Options
       this.filteredOptions = this.modelFormControl.valueChanges.pipe(
-          startWith<string>(''),
-          map(v => v ? this._filter(v) : this.options.slice())
+        startWith<string>(''),
+        map(v => v ? this._filter(v) : this.options.slice())
       );
     }
   }
@@ -96,20 +94,4 @@ export class AutoCompleteInputComponent extends AbstractInputComponent<AutoCompl
       // this.modelFormControl.patchValue(this._autoCompleteFromArray.transform(this.value, this.options));
     }
   }
-
-  /**
-   * Remove the last entered char if then the input value don't match with any item
-   * in the passed string array
-   * Called after keyup event
-   * @param list {string[]}
-   */
-  /*
-  preventWrongInput() {
-    this.modelFormControl.updateValueAndValidity();
-    if (!this.allowNewInput && this.value && !this._autoCompleteFromArray.transform(this.value, this.options)) {
-      this.modelFormControl.patchValue(this.value.slice(0, -1));
-    }
-  }
-  /** */
-
 }

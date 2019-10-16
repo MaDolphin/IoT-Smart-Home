@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 package backend.scripts
 
@@ -25,6 +23,10 @@ import backend.dtos.FullDTOLoadersForDataclassCreator
 import backend.dtos.FullDtoCreator
 import common.PackageTrafo
 import configure.ConfigureDexGenerator
+import de.monticore.tool.tagapi.rte.TagRunner
+import tagschema.SchemaFactory
+import tagschema.TagRepository
+import tagschema.matcher.CommonMatcher
 
 debug("Input file     : " + model.getAbsolutePath())
 debug("Model path     : " + modelPath)
@@ -85,14 +87,25 @@ clonedCDSym = ConfigureDexGenerator.createCDSymbolTable(clonedCD, modelPath)
 topFlag = true
 
 /*==================================================*
+ * Tag Runner
+ *==================================================*/
+
+matcher = new CommonMatcher(cdAst)
+globalRepository = new TagRepository()
+schemaFactory = new SchemaFactory()
+
+tagRunner = new TagRunner()
+tagRunner.matcher(matcher).repository(globalRepository).schema(schemaFactory).run(modelPath)
+
+/*==================================================*
  * Generate Dataclass
  *==================================================*/
 
 // modify class
-new DataClassTrafo().transform(cdAst)
+new DataClassTrafo().tagging(globalRepository).transform(cdAst)
 
 // add annotations to attributes
-new AnnotationTrafo().handcodedPath(handcodedPath).generateTOPClasses(topFlag).transform(cdAst)
+new AnnotationTrafo().tagging(globalRepository).handcodedPath(handcodedPath).generateTOPClasses(topFlag).transform(cdAst)
 
 // generate access methods for attributes
 new AccessMethodTrafo().transform(cdAst)

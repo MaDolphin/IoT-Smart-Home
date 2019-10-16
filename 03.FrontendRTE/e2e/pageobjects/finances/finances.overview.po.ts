@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {getElementById} from '@utilities/helper.e2e-util';
 import {MoneyToNumberPipe} from '@shared/pipes/money-to-number.pipe';
 import {promise} from 'selenium-webdriver';

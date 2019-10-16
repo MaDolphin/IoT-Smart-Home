@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { RouterModule, Routes } from '@angular/router';
 import { EinstellungenBenutzerGenComponent } from './einstellungen-benutzer-gen.component';
 import { EinstellungenMeinbenutzerGenComponent } from './einstellungen-meinbenutzer-gen.component';

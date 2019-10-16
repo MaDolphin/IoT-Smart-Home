@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { CommandResultDTO } from '@shared/architecture/command/response/command.result.dto';
 import { CommandDTO } from '@shared/architecture/command/rte/command.dto';

@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { ReflectiveInjector } from '@angular/core';
 import { AbstractControl, FormArray } from '@angular/forms';

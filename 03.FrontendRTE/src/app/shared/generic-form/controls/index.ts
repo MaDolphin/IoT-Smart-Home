@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 export { CheckBoxFormControl } from './check-box.form-control';
 export { DateFormControl } from './date.form-control';

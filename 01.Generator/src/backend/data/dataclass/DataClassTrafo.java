@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 package backend.data.dataclass;
 
@@ -19,6 +17,8 @@ import de.monticore.umlcd4a.cd4analysis._ast.*;
 import de.monticore.umlcd4a.symboltable.CDAssociationSymbol;
 import de.monticore.umlcd4a.symboltable.CDFieldSymbol;
 import de.monticore.umlcd4a.symboltable.CDTypeSymbol;
+import de.montigem.tagging.tagschema.AuthSchema.tags.PermissionClassTag;
+import de.montigem.tagging.tagschema.AuthSchema.tags.PermissionClassTagEnum;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -87,6 +87,7 @@ public class DataClassTrafo extends ExtendTrafo {
     imports.add("com.google.common.base.Objects");
     imports.add("com.google.common.primitives.Longs");
     imports.add("javax.persistence.*");
+    imports.add("de.montigem.be.authz.ObjectClasses");
     imports.add("de.montigem.be.domain.rte.interfaces.IDomainValidator");
     imports.add("de.montigem.be.domain.rte.interfaces.IObject");
     imports.add("de.montigem.be.domain.cdmodelhwc.classes.DomainClass");
@@ -402,9 +403,11 @@ public class DataClassTrafo extends ExtendTrafo {
         .returnType("String").name("getPermissionClass")
         .build();
 
+    Optional<PermissionClassTagEnum> permissionClassTagEnum = this.tagRepository.getAuthSchemaRepository().getPermissionClassTagOpt(handledClass).map(PermissionClassTag::getValue);
+
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
         new TemplateHookPoint("backend.data.dataclass.getPermissionClass",
-            handledClass, handledClass.getName()));
+            handledClass, permissionClassTagEnum, PermissionClassTagEnum.NONE.toString()));
 
     return method;
   }

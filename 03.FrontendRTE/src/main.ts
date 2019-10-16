@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import './polyfills.ts';
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';

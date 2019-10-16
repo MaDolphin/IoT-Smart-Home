@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {browser} from 'protractor';
 import {promise} from 'selenium-webdriver';
 import {getButtonByName, setInputByName} from '../../utilits/helper.e2e-util';

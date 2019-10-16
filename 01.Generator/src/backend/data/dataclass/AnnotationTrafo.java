@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 package backend.data.dataclass;
 
@@ -141,7 +139,7 @@ public class AnnotationTrafo extends DexTransformation {
           }
           attribute.getModifier().getStereotype().getValueList().add(value);
         }
-        else if (TransformationUtils.getColumDefinitionAnnotation(attribute).isPresent()) {
+        else if (this.tagRepository.getDBSchemaRepository().hasColumnDefTag(attribute)) {
           ASTModifier modifier;
           ASTCDStereotype stereotype;
           if (attribute.getModifierOpt().isPresent()) {
@@ -157,12 +155,13 @@ public class AnnotationTrafo extends DexTransformation {
             stereotype = CD4AnalysisMill.cDStereotypeBuilder().build();
             modifier = CD4AnalysisMill.modifierBuilder().setStereotype(stereotype).build();
           }
-          getDBColumnDefinitionAnnotation(attribute).map(value -> stereotype.getValueList()
-                  .add(CD4AnalysisMill.cDStereoValueBuilder().setName(value).setValue(TransformationUtils.ATTRIBUTE_ANNOATION).build()));
+          String value = getDBColumnDefinitionAnnotation(this.tagRepository.getDBSchemaRepository().getColumnDefTag(attribute).getValue());
+          stereotype.getValueList()
+              .add(CD4AnalysisMill.cDStereoValueBuilder().setName(value).setValue(TransformationUtils.ATTRIBUTE_ANNOATION).build());
           modifier = DefaultVisibilitySetter.createModifierIfNecessary(Optional.of(modifier));
           attribute.setModifier(modifier);
         }
-        else if (TransformationUtils.getDBColumnAnnotation(attribute).isPresent()) {
+        else if (this.tagRepository.getDBSchemaRepository().hasUniqueDBColumnTag(attribute)) {
           ASTModifier modifier;
           ASTCDStereotype stereotype;
           if (attribute.getModifierOpt().isPresent()) {
@@ -178,7 +177,7 @@ public class AnnotationTrafo extends DexTransformation {
             stereotype = CD4AnalysisMill.cDStereotypeBuilder().build();
             modifier = CD4AnalysisMill.modifierBuilder().setStereotype(stereotype).build();
           }
-          getDBColumnUniqueAnnotation(attribute).map(value -> stereotype.getValueList()
+          getDBColumnUniqueAnnotation().map(value -> stereotype.getValueList()
                   .add(CD4AnalysisMill.cDStereoValueBuilder().setName(value).setValue(TransformationUtils.ATTRIBUTE_ANNOATION).build()));
           modifier = DefaultVisibilitySetter.createModifierIfNecessary(Optional.of(modifier));
           attribute.setModifier(modifier);
@@ -206,12 +205,16 @@ public class AnnotationTrafo extends DexTransformation {
     return Arrays.asList("@LazyCollection(LazyCollectionOption.FALSE)", "@ElementCollection");
   }
 
+  private static String getDBColumnDefinitionAnnotation(String columnDefinition) {
+    return "@Column(columnDefinition  = \"" + columnDefinition + "\")";
+  }
+
   private static Optional<String> getDBColumnDefinitionAnnotation(ASTCDAttribute attr) {
     return TransformationUtils.getColumDefinitionAnnotation(attr).map(s -> "@Column(columnDefinition  = \"" + s + "\")");
   }
 
-  private static Optional<String> getDBColumnUniqueAnnotation(ASTCDAttribute attr) {
-    return TransformationUtils.getDBColumnAnnotation(attr).map(s -> "@Column(" + s + ")");
+  private static Optional<String> getDBColumnUniqueAnnotation() {
+    return Optional.of("@Column(unique=true)");
   }
 
   private static List<String> getDBColumnDefinitionModifier() {

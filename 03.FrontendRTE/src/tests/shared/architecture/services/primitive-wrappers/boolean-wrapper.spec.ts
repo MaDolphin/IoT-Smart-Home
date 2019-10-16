@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { TypedJSON } from '@upe/typedjson';
 import { BooleanWrapper } from '@shared/architecture/services/primitive-wrappers/boolean-wrapper';

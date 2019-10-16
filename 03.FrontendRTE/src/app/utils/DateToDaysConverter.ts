@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 export class DateToDaysConverter {
 
   private static ONE_DAY: number = 1000 * 60 * 60 * 24;

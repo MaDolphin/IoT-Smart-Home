@@ -1,5 +1,6 @@
+<!-- (c) https://github.com/MontiCore/monticore -->
 <!--
-  ~ /* (c) Monticore license: https://github.com/MontiCore/monticore */
+  ~ 
   -->
 
 <resources>
@@ -15,7 +16,7 @@
 	</Resource>
 
 	<Resource id="TestDB" type="javax.sql.DataSource">
-		jdbcUrl = jdbc:mysql://db:3306/testdb
+		jdbcUrl = jdbc:mysql://db:3306/testdb?useSSL=false&amp;allowPublicKeyRetrieval=true
 		jdbcDriver = com.mysql.cj.jdbc.Driver
 
 		userName = admin
@@ -23,7 +24,7 @@
 	</Resource>
 
 	<Resource id="DataSource" type="javax.sql.DataSource">
-		jdbcUrl = jdbc:mysql://datasource:3306/datasource
+		jdbcUrl = jdbc:mysql://datasource:3306/datasource?useSSL=false&amp;allowPublicKeyRetrieval=true
 		jdbcDriver = com.mysql.cj.jdbc.Driver
 
 		userName = admin

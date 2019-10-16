@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Component, ElementRef, EventEmitter, Injectable, Output, ViewChild } from '@angular/core';
 import { DateAdapter, NativeDateAdapter } from '@angular/material';

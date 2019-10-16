@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { ValidatorFn } from '@angular/forms';
 import { IModel } from '@shared/architecture/data';

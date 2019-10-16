@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 package de.montigem.be.domain.rte.dao;
 
 import de.montigem.be.domain.cdmodelhwc.classes.types.DynamicEnum;

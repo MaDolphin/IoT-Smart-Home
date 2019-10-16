@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 package common;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -19,6 +17,7 @@ import de.monticore.umlcd4a.cd4analysis._ast.ASTCDCompilationUnit;
 import de.monticore.umlcd4a.cd4analysis._ast.ASTCDDefinition;
 import ocl.monticoreocl.ocl._ast.ASTCompilationUnit;
 import ocl.monticoreocl.ocl._ast.ASTOCLFile;
+import tagschema.TagRepository;
 
 /**
  * TODO: Write me!
@@ -55,6 +54,8 @@ abstract public class DexTransformation {
 
   protected Optional <ASTOCLFile> ocl = Optional.empty();
 
+  protected TagRepository tagRepository;
+
   /**
    * Set the path for handcoding extensions
    *
@@ -70,7 +71,12 @@ abstract public class DexTransformation {
     this.generateTOP = flag;
     return this;
   }
-  
+
+  public final DexTransformation tagging(TagRepository tagRepository) {
+    this.tagRepository = tagRepository;
+    return this;
+  }
+
   /**
    * Execute transformation
    *

@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 package de.montigem.be.database;
 
 import de.montigem.be.MontiGemInitUtils;
@@ -39,7 +37,7 @@ public class DatabaseDataSourceUtil {
   public static String getDatenbankBezeichner(String resource) {
     boolean isOnServer = MontiGemInitUtils.isOnServer();
     String query =
-        "SELECT * FROM datasource.DataSource db where " + resource + " = LOWER(db.dbname) limit 1";
+        "SELECT * FROM datasource.DataSource db where '" + resource + "' = LOWER(db.dbname) limit 1";
     String myUrl = setMappingUrl(isOnServer);
     try {
       Connection conn = getConnection(myUrl, "admin", "pass");

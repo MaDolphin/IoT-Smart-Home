@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {browser, by, ElementArrayFinder, ElementFinder} from 'protractor';
 import {promise} from 'selenium-webdriver';
 import {getElement, moneyToNumber} from './helper.e2e-util';

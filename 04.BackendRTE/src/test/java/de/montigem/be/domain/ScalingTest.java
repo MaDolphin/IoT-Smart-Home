@@ -1,7 +1,5 @@
+/* (c) https://github.com/MontiCore/monticore */
 
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
 
 package de.montigem.be.domain;
 

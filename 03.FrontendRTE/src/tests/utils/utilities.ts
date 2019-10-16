@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { CommonModule } from '@angular/common';
 import { async, TestBed } from '@angular/core/testing';

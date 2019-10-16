@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { GenericFormGroup } from '@shared/generic-form/ngx-forms';
 import { EinstellungenBenutzerTabelleEntryDTO } from '@einstellungenbenutzertabelleentry-dto/einstellungenbenutzertabelleentry.dto';
 import { CheckBoxFormControl, TextFormControl } from '@shared/generic-form/controls';

@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 package de.montigem.be.auth.jwt;
 
@@ -13,6 +11,8 @@ import de.montigem.be.domain.cdmodelhwc.classes.domainuser.DomainUser;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
 import de.se_rwth.commons.logging.Log;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.commons.io.IOUtils;
@@ -178,6 +178,12 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
             .compact();
   }
 
+  public static Jws<Claims> validateToken(String token) {
+    return Jwts.parser()
+        .setSigningKey(secret)
+        .parseClaimsJws(token);
+  }
+
   protected static String getPermissionBytes(String username, String resource, DAOLib daoLib, RolePermissionManager rolePermissionManager) {
     return PermissionFlags.asBinaryString(daoLib.getRoleAssignmentDAO().getRoleAssignmentsByUsername(username, resource), rolePermissionManager);
   }
@@ -332,6 +338,8 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
       access = true;
     } else if (httpReq.getServletPath().startsWith("/api/domain/datasource/dbname") && httpReq
             .getMethod().equals("GET")) {
+      access = true;
+    } else if (httpReq.getServletPath().startsWith("/api/websocket")) {
       access = true;
     } else if (isLoginRequest(request, response)) {
       access = executeLogin(request, response);

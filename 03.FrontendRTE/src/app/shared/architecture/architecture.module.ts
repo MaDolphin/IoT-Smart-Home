@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
@@ -15,6 +13,7 @@ import { LoggerService } from '@loggerservice/logger.service';
 import { RouterLocalService } from './services/router.local.service';
 import { StorageService } from './services/storage.service';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
+import { WebSocketService } from '@shared/architecture/services/websocket.service';
 
 @NgModule({
   imports: [
@@ -39,6 +38,7 @@ export class ArchitectureModule {
         DownloadFileService,
         LoggerService,
         CommandRestService,
+        WebSocketService,
       ]
     };
   }

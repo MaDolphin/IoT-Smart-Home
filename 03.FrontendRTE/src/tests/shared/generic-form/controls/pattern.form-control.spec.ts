@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { PatternFormControl } from '@shared/generic-form/controls';
 import { expect } from 'chai';

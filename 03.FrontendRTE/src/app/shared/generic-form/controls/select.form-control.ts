@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Injectable } from '@angular/core';
 import { ERROR_MSG, REQUIRED } from '../generic-form/config';
