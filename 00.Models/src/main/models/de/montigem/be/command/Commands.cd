@@ -13,7 +13,7 @@ classdiagram Commands {
      }
 
      class PasswordResetById {
-         long userId;
+         Long userId;
          String password;
      }
 
@@ -62,7 +62,7 @@ classdiagram Commands {
       }
 
       class EinstellungenRollenTabelleEntryDTO_delete {
-         long id;
+         Long id;
       }
 
  //--------------- USER -------------------

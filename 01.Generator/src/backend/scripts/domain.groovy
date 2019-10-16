@@ -17,10 +17,7 @@ import backend.data.test.DummyTestClassCreator
 import backend.data.test.TestClassCreator
 import backend.data.test.ValidatorTestClassCreator
 import backend.data.validator.ValidatorCreator
-import backend.dtos.DTOLoadersForDataclassCreator
-import backend.dtos.DtoForDataclassAggregatesCreator
-import backend.dtos.FullDTOLoadersForDataclassCreator
-import backend.dtos.FullDtoCreator
+import backend.dtos.*
 import common.PackageTrafo
 import configure.ConfigureDexGenerator
 import de.monticore.tool.tagapi.rte.TagRunner
@@ -167,11 +164,17 @@ new DaoCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(
 debug("\tAggregate DTOs creation")
 new DtoForDataclassAggregatesCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
 
+debug("\tDTO Lists creation")
+new DTOListCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
+
 // generate FullDtos for domain classes
 new FullDtoCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
 
 debug("\tDTOLoader classes creation")
 new DTOLoadersForDataclassCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
+
+debug("\tDTOListLoader classes creation")
+new DTOListLoadersCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
 
 debug("\tFullDTOLoader classes creation")
 new FullDTOLoadersForDataclassCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
@@ -181,6 +184,7 @@ new FullDTOLoadersForDataclassCreator().handcodedPath(handcodedPath).generateTOP
  *==================================================*/
 debug("\tCommands creation")
 new CommandGetByIdCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
+new CommandGetAllCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
 new CommandCreateCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
 new CommandDeleteCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)
 new CommandUpdateCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(clonedCD).transform(cdAst)

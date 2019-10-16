@@ -32,13 +32,17 @@ public abstract class CommandCreator extends ExtendTrafo {
   protected Optional<ASTCDClass> getOrCreateExtendedClass(ASTCDClass domainClass,
                                                           CDTypeSymbol typeSymbol) {
     String typeName = typeSymbol.getName();
-    ASTCDClass addedClass = new CDClassBuilder().superclass("CommandDTO")
+    ASTCDClass addedClass = new CDClassBuilder().superclass(getSuperclass())
             .setName(typeName + commandName).build();
     TransformationUtils.setProperty(addedClass, SUBPACKAGE_PROPERTY, SUBPACKAGE);
     TransformationUtils.setProperty(addedClass, FILEEXTENSION_PROPERTY, fileExtension);
     TransformationUtils.setProperty(addedClass, FILENAME_PROPERTY, typeName.toLowerCase());
     getOutputAst().getCDClassList().add(addedClass);
     return Optional.of(addedClass);
+  }
+
+  protected String getSuperclass() {
+    return "CommandDTO";
   }
 
   @Override

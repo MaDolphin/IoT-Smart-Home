@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 public class CommandSetAttributeCreator extends CommandCreator {
 
   public CommandSetAttributeCreator() {
@@ -26,7 +25,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
   }
 
   protected List<ASTCDClass> getOrCreateExtendedClassList(ASTCDClass domainClass,
-                                                          CDTypeSymbol typeSymbol) {
+      CDTypeSymbol typeSymbol) {
     String typeName = typeSymbol.getName();
     List<ASTCDClass> classList = Lists.newArrayList();
 
@@ -36,8 +35,8 @@ public class CommandSetAttributeCreator extends CommandCreator {
 
     for (ASTCDAttribute attr : attrList) {
       ASTCDClass addedClass = new CDClassBuilder().Public().superclass(COMMAND)
-              .subpackage(TransformationUtils.COMMANDS_PACKAGE)
-              .setName(typeName + TransformationUtils.SET_CMD + TransformationUtils.capitalize(attr.getName())).build();
+          .subpackage(TransformationUtils.COMMANDS_PACKAGE)
+          .setName(typeName + TransformationUtils.SET_CMD + TransformationUtils.capitalize(attr.getName())).build();
       getOutputAst().getCDClassList().add(addedClass);
       classList.add(addedClass);
 
@@ -45,7 +44,8 @@ public class CommandSetAttributeCreator extends CommandCreator {
       CDAssociationSymbol assoc = assocAttrList.get(attr);
       if (assoc != null) {
         setterName = AssociationNameUtil.getSetAllMethodName(assoc).orElse(GetterSetterHelper.getPlainSetter(attr));
-      } else {
+      }
+      else {
         setterName = GetterSetterHelper.getPlainSetter(attr);
       }
       addImport(addedClass, attr);
@@ -66,14 +66,15 @@ public class CommandSetAttributeCreator extends CommandCreator {
     TypeHelper helper = new TypeHelper();
     if (helper.isGenericList(type)) {
       type = helper.getFirstTypeArgumentOfList(type);
-    } else if (helper.isGenericOptional(type)) {
+    }
+    else if (helper.isGenericOptional(type)) {
       type = helper.getFirstTypeArgumentOfOptional(type);
     }
     Optional<CDTypeSymbol> typeSymbol = symbolTable.get().getTypeSymbolIfDefinedInModel(type);
     if (typeSymbol.isPresent()) {
       TransformationUtils.addPropertyValue(clazz, CompilationUnit.IMPORTS_PROPERTY,
-              TransformationUtils.getQualifiedNameForDomainOrDtoType(typeSymbol.get().getPackageName(),
-                      type, TransformationUtils.isDomainType(typeSymbol.get())));
+          TransformationUtils.getQualifiedNameForDomainOrDtoType(typeSymbol.get().getPackageName(),
+              type, TransformationUtils.isDomainType(typeSymbol.get())));
     }
 
   }
@@ -83,7 +84,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
     List<String> imports = super.getImports(typeSymbol);
 
     String p = Joiners.DOT.join(typeSymbol.getPackageName(), TransformationUtils.DTOS_PACKAGE,
-            typeSymbol.getName() + "DTOLoader");
+        typeSymbol.getName() + "DTOLoader");
     imports.add(p);
     return imports;
   }
@@ -102,7 +103,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
   }
 
   protected List<ASTCDConstructor> createConstructors(ASTCDClass clazz, ASTCDClass domainClass,
-                                                      CDTypeSymbol typeSymbol, ASTCDAttribute attr) {
+      CDTypeSymbol typeSymbol, ASTCDAttribute attr) {
     List<ASTCDConstructor> constructors = Lists.newArrayList();
 
     // add empty constructor for deserializing
@@ -139,18 +140,26 @@ public class CommandSetAttributeCreator extends CommandCreator {
    */
   @Override
   protected List<ASTCDMethod> createMethods(ASTCDClass extendedClass, ASTCDClass domainClass,
-                                            CDTypeSymbol typeSymbol) {
+      CDTypeSymbol typeSymbol) {
     return new ArrayList<>();
   }
 
   protected List<ASTCDMethod> createMethods(ASTCDClass extendedClass, ASTCDClass domainClass,
-                                            CDTypeSymbol typeSymbol, ASTCDAttribute attr) {
+      CDTypeSymbol typeSymbol, ASTCDAttribute attr) {
     List<ASTCDMethod> methodList = Lists.newArrayList();
 
     List<ASTCDAttribute> attrs = createAttributes(extendedClass, domainClass, typeSymbol, attr);
     for (ASTCDAttribute a : attrs) {
       methodList.add(createGetMethod(extendedClass.getName(), a));
     }
+
+    methodList.add(createCheckContractMethod(extendedClass.getName(), attrs));
+
+    String identifier = domainClass.getName();
+    String className = extendedClass.getName();
+    methodList.add(getDomainObjectMethod(identifier, className));
+    methodList.add(getPermissionCheckMethod(identifier, className, "UPDATE"));
+    methodList.add(getDoActionMethod(identifier, className, attr));
 
     return methodList;
   }
@@ -167,8 +176,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
         .returnType("DTO").build();
 
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
-        new TemplateHookPoint("backend.commands.Set", symbolTable.get(), domainClass.getName(), attr,
-            clazz.getName(), setterName));
+        new TemplateHookPoint("backend.commands.Set", domainClass.getName(), clazz.getName(), attr.getName()));
     clazz.addCDMethod(method);
     return method;
   }
@@ -186,17 +194,42 @@ public class CommandSetAttributeCreator extends CommandCreator {
       /*extendedClass.getCDAttributeList()
               .addAll(createAttributes(extendedClass, domainClass, typeSymbol));*/
       extendedClass.getCDAttributeList()
-              .addAll(createStaticAttributes(extendedClass, domainClass, typeSymbol));
+          .addAll(createStaticAttributes(extendedClass, domainClass, typeSymbol));
       replaceAttributes(extendedClass, domainClass, typeSymbol);
       /*extendedClass.getCDConstructorList()
               .addAll(createConstructors(extendedClass, domainClass, typeSymbol));*/
       /*extendedClass.getCDMethodList().addAll(createMethods(extendedClass, domainClass, typeSymbol));*/
       extendedClass.getCDMethodList()
-              .addAll(createStaticMethods(extendedClass, domainClass, typeSymbol));
+          .addAll(createStaticMethods(extendedClass, domainClass, typeSymbol));
       replaceMethods(extendedClass, domainClass, typeSymbol);
       // Add annotations to class
       addTypeAnnotations(extendedClass);
     }
+  }
+
+  protected ASTCDMethod getDomainObjectMethod(String identifier, String className) {
+    ASTCDMethod method = new CDMethodBuilder().Protected()
+        .addParameter("SecurityHelper", "securityHelper")
+        .addParameter("DAOLib", "daoLib")
+        .returnType("Result<" + identifier + ", ErrorDTO>")
+        .name("getDomainObject").build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
+        new TemplateHookPoint("backend.commands.GetDomainObjectFindAndLoad", identifier, className, "objectId"));
+
+    return method;
+  }
+
+  protected ASTCDMethod getDoActionMethod(String identifier, String className, ASTCDAttribute attribute) {
+    ASTCDMethod method = new CDMethodBuilder().Protected()
+        .addParameter(identifier, "object")
+        .addParameter("SecurityHelper", "securityHelper")
+        .addParameter("DAOLib", "daoLib")
+        .returnType("DTO")
+        .name("doAction").build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
+        new TemplateHookPoint("backend.commands.DoActionSetAttribute", identifier, className, attribute.getName()));
+
+    return method;
   }
 
 }

@@ -112,7 +112,12 @@ public enum MontiGemErrorCode {
   /**
    * This error denoted that the Mail Properties are missing
    */
-  @SerializedName("MAV0x0205") MAIL_EXCEPTION("MAB0x0205");
+  @SerializedName("MAV0x0205") MAIL_EXCEPTION("MAB0x0205"),
+
+  /**
+   * This error denoted that an undo operation can't be executed before the do part
+   */
+  @SerializedName("MAV0x0206") UNDO("MAB0x0206");
 
 
   private String code;

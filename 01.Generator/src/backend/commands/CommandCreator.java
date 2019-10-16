@@ -32,11 +32,15 @@ public abstract class CommandCreator extends CreateTrafo {
   protected Optional<ASTCDClass> getOrCreateExtendedClass(ASTCDClass domainClass,
                                                           CDTypeSymbol typeSymbol) {
     String typeName = typeSymbol.getName();
-    ASTCDClass addedClass = new CDClassBuilder().Public().superclass(COMMAND)
+    ASTCDClass addedClass = new CDClassBuilder().Public().superclass(getSuperclass())
         .subpackage(TransformationUtils.COMMANDS_PACKAGE)
         .setName(checkIfTOPExtension(TransformationUtils.COMMANDS_PACKAGE, typeName + suffix)).build();
     getOutputAst().getCDClassList().add(addedClass);
     return Optional.of(addedClass);
+  }
+
+  protected String getSuperclass() {
+    return COMMAND;
   }
 
   @Override
@@ -87,6 +91,8 @@ public abstract class CommandCreator extends CreateTrafo {
     methodList.add(createDoRunMethod(extendedClass, domainClass));
 
     List<ASTCDAttribute> attrs = createAttributes(extendedClass, domainClass, typeSymbol);
+
+    methodList.add(createCheckContractMethod(extendedClass.getName(), attrs));
     for (ASTCDAttribute attr : attrs) {
       methodList.add(createGetMethod(extendedClass.getName(), attr));
     }
@@ -100,6 +106,16 @@ public abstract class CommandCreator extends CreateTrafo {
         .name(TransformationUtils.makeCamelCase("get", attr.getName())).build();
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
         new StringHookPoint("{return this." + attr.getName() + ";}"));
+    return method;
+  }
+
+  protected ASTCDMethod createCheckContractMethod(String className, List<ASTCDAttribute> attrs) {
+    ASTCDMethod method = new CDMethodBuilder().Protected()
+        .returnType("Optional<DTO>")
+        .name("checkContract").build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
+        new TemplateHookPoint("backend.commands.CheckContract", className, attrs));
+
     return method;
   }
 
@@ -122,6 +138,7 @@ public abstract class CommandCreator extends CreateTrafo {
     imports.add("de.montigem.be.authz.ObjectClasses");
     imports.add("de.montigem.be.authz.Permissions");
     imports.add("de.montigem.be.util.DAOLib");
+    imports.add("de.montigem.be.util.Result");
     imports.add("de.montigem.be.error.MontiGemError");
     imports.add("de.montigem.be.error.MontiGemErrorFactory");
     imports.add("de.montigem.be.command.rte.general.CommandDTO");
@@ -159,5 +176,18 @@ public abstract class CommandCreator extends CreateTrafo {
   }
 
   protected abstract void setTemplate(ASTCDMethod method, ASTCDClass domainClass, String className);
+
+  protected ASTCDMethod getPermissionCheckMethod(String identifier, String className, String permission) {
+    ASTCDMethod method = new CDMethodBuilder().Protected()
+        .addParameter(identifier, "object")
+        .addParameter("SecurityHelper", "securityHelper")
+        .addParameter("DAOLib", "daoLib")
+        .returnType("Optional<ErrorDTO>")
+        .name("checkPermission").build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
+        new TemplateHookPoint("backend.commands.CheckPermission", className, permission));
+
+    return method;
+  }
 
 }
