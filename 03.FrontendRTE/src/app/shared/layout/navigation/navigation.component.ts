@@ -2,13 +2,14 @@
  *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
 
-import { Component } from '@angular/core';
-import { JsonApiService } from '@jsonapiservice/json-api.service';
-import { DialogCallbackOne } from '@shared/utils/dialog/dialog.callback';
-import { AuthService } from '@shared/auth/auth.service';
-import { NotificationService } from '@shared/notification/notification.service';
-import { Router } from '@angular/router';
-import { PermissionFlags, Token } from "@shared/auth/token";
+import {Component} from '@angular/core';
+import {JsonApiService} from '@jsonapiservice/json-api.service';
+import {DialogCallbackOne} from '@shared/utils/dialog/dialog.callback';
+import {AuthService} from '@shared/auth/auth.service';
+import {NotificationService} from '@shared/notification/notification.service';
+import {Router} from '@angular/router';
+import {PermissionFlags, Token} from "@shared/auth/token";
+import {NavigationGenComponent} from "@targetgui/navigation.gen.component";
 
 
 export interface INavigation {
@@ -32,14 +33,23 @@ export class NavigationComponent {
   constructor(private jsonApi: JsonApiService,
   private auth: AuthService,
     private router: Router,
-    private notification: NotificationService, ) {
-
+    private notification: NotificationService,
+  ) {
+    this.navigation.concat(NavigationGenComponent.navigation)
   }
 
   public navigation: INavigation[] = [
-    { label: 'Dashboard', link: ['/', 'dashboard'], icon: 'dashboard' },
     {
-      label: 'Einstellungen', link: ['/', 'einstellungen', 'profil'], icon: 'settings', expanded: true, children: [
+      label: 'Dashboard',
+      link: ['/', 'dashboard'],
+      icon: 'dashboard'
+    },
+    {
+      label: 'Einstellungen',
+      link: ['/', 'einstellungen', 'profil'],
+      icon: 'settings',
+      expanded: true,
+      children: [
         {
           label: 'Mein Profil',
           link: ['/', 'einstellungen', 'profil'],

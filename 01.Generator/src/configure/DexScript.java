@@ -45,14 +45,13 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static common.util.CompilationUnit.*;
 import static common.util.TransformationUtils.*;
+import static frontend.common.FrontendTransformationUtils.getImportPathCheckHWC;
 
 /**
  * Script class for processing Dex models
@@ -476,4 +475,49 @@ public class DexScript extends Script implements GroovyRunner {
   public CDSymbolTable createSymTab(ASTCDCompilationUnit compUnit, List<File> modelPaths) {
     return ConfigureDexGenerator.createCDSymbolTable(compUnit, modelPaths);
   }
+
+  public Map<String, List<ASTCDClass>> createImportMap() {
+    return new HashMap<String, List<ASTCDClass>>();
+  }
+
+  public void getClassesFromAst(Map<String, List<ASTCDClass>> map, ASTCDCompilationUnit compUnit, String pckg) {
+    if (map == null) {
+      map = new HashMap<String, List<ASTCDClass>>();
+    }
+
+    map.putIfAbsent(pckg, new ArrayList<>());
+
+    map.get(pckg).addAll(compUnit.getCDDefinition().getCDClassList());
+  }
+
+
+  public void generateTSConfigFile(Map<String, List<ASTCDClass>> map, File out, IterablePath hwc) {
+    Map<String,String> importMap = new HashMap<>();
+
+    Iterator<Map.Entry<String, List<ASTCDClass>>> it = map.entrySet().iterator();
+    while (it.hasNext()) {
+      Map.Entry<String, List<ASTCDClass>> pair = it.next();
+
+      for (ASTCDClass clazz : pair.getValue()){
+        String fileExtension = "";
+        String className = clazz.getName();
+        if (pair.getKey().equals(DTOS_PACKAGE) || pair.getKey().equals(CLASSES_PACKAGE)) {
+          fileExtension = DTOS_PACKAGE;
+          className=className + "-dto";
+        }
+
+        importMap.put(className, getImportPathCheckHWC(clazz.getName(), Optional.of(hwc), fileExtension, pair.getKey(), Optional.empty()));
+      }
+      it.remove();
+    }
+
+    final GeneratorSetup tsConfigGeneratorSetup = new GeneratorSetup();
+    tsConfigGeneratorSetup.setTracing(true);
+    tsConfigGeneratorSetup.setOutputDirectory(out);
+    final GeneratorEngine generator = new GeneratorEngine(tsConfigGeneratorSetup);
+    generator.generateNoA("frontend.data.CDToolTSConfig", Paths.get("tsconfig.json"), importMap);
+
+  }
+
+
 }

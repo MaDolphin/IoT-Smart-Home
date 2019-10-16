@@ -26,14 +26,19 @@ export const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         data: {pageTitle: 'Dashboard'}
-      },
-      {
+      },/*
+     {
         path: 'guidsl',
         loadChildren: './guidsl/guidsl.module#GuidslModule',
       },
       {
         path: 'einstellungen',
         loadChildren: './einstellungen/einstellungen.module#EinstellungenModule',
+      },
+      */
+      {
+        path: 'generated',
+        loadChildren: '@targetgui/generatedGUI.module#GeneratedGUIModule',
       },
     ]
   },

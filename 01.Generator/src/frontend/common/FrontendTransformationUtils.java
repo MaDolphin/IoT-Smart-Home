@@ -291,6 +291,34 @@ public class FrontendTransformationUtils {
   }
 
   /**
+   * Returns an import statement for the specified handwritten or generated type
+   *
+   * @param simpleName    - type name
+   * @param handcodedPath - handcoded Path
+   * @param fileExtension - file name suffix (e.g. "aggregate" or "dto")
+   * @param subpackage    - subpackage (e.g. "dtos" or "dtos")
+   * @param fileName      - file name if known
+   * @return an import statement for the specified handwritten or generated type
+   */
+  public static String getImportPathCheckHWC(String simpleName,
+      Optional<IterablePath> handcodedPath, String fileExtension, String subpackage,
+      Optional<String> fileName) {
+    String file = fileName.orElse(simpleName.toLowerCase());
+    if (!fileExtension.equals(TransformationUtils.CLASSES_PACKAGE)) file = Joiners.DOT.join(file, fileExtension);
+
+    String path = Up;
+
+    if (TransformationUtils
+        .existsHandwrittenDotFile(file, subpackage, handcodedPath.get(),
+            TransformationUtils.DOT_TYPESCRIPT_FILE_EXTENSION)) {
+      path += FromTargetToHWC + HWC;
+    } else if (fileExtension.equals(TransformationUtils.DTOS_PACKAGE)) {
+      return "target/generated-sources/dtos/*";
+    }
+    return path + subpackage + "/" + file;
+  }
+
+  /**
    * Returns an import statement for the specified type if HWC exists
    *
    * @param simpleName    - type name

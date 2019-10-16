@@ -8,6 +8,7 @@ import backend.common.CollectionTypesWrapper
 import backend.common.DefaultVisibilitySetter
 import backend.common.DuplicateAttributesRemoverTrafo
 import backend.common.TypesConverter
+import common.util.TransformationUtils
 import configure.ConfigureDexGenerator
 import frontend.common.FrontendRenameDomainTrafo
 import frontend.data.AggregateDTOCreator
@@ -21,6 +22,8 @@ debug("Model path     : " + modelPath)
 debug("Output dir     : " + out.getAbsolutePath())
 debug("Handcoded path : " + _configuration.getHandcodedPathAsStrings())
 debug("Template path  : " + _configuration.getTemplatePathAsStrings())
+
+pathMap = createImportMap()
 
 while (models.hasNext()) {
   aggregate = models.next()
@@ -72,6 +75,8 @@ while (models.hasNext()) {
   topFlag = true
   clearClassDiagram(cdAst)
 
+  getClassesFromAst(pathMap, clonedCD, TransformationUtils.DTOS_PACKAGE)
+
 /*==================================================*
  * Generate Dataclass
  *==================================================*/
@@ -120,6 +125,7 @@ if (!commandAst.isPresent()) {
 info("Command model " + cmdmodel + " processed successfully!")
 commandSym = ConfigureDexGenerator.createCDSymbolTable(commandAst.get(), modelPath)
 checkMontiGemCoCos(commandAst.get())
+getClassesFromAst(pathMap, commandAst.get(), TransformationUtils.COMMANDS_PACKAGE)
 genCmdAst = createClassDiagram()
 new CommandOfModelCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).input(commandAst.get()).transform(genCmdAst)
 
@@ -136,6 +142,8 @@ if (!domainAst.isPresent()) {
 }
 info("Model " + model + " processed successfully!")
 
+getClassesFromAst(pathMap, domainAst.get(), TransformationUtils.CLASSES_PACKAGE)
+
 aggregateCD = createClassDiagram()
 cdList = getParsedCds()
 
@@ -143,3 +151,5 @@ debug("\tGenerate DTOTypeResolverCreator")
 new DTOTypeResolverCreator().handcodedPath(handcodedPath).generateTOPClasses(topFlag).transform(aggregateCD, domainAst.get(), cdList)
 
 generateTypeScriptFiles(aggregateCD, ConfigureDexGenerator.getGlex(), modelPath, out, handcodedPath, templatePath)
+
+generateTSConfigFile(pathMap, out, handcodedPath)

@@ -25,6 +25,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { DashboardComponent } from "@targetgui/dashboard.component/dashboard.component";
+import {GeneratedGUIModule} from "@targetgui/generatedGUI.module";
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -69,7 +70,7 @@ export const MY_DATE_FORMATS = {
 
     MatGridListModule,
     ChartsModule,
-
+    GeneratedGUIModule,
     PanelDirectivesModule,
     ButtonDirectivesModule,
 
