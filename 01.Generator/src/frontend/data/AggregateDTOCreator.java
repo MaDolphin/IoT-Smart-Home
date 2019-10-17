@@ -17,15 +17,6 @@ import java.util.Optional;
 public class AggregateDTOCreator extends DTOCreator {
 
   @Override
-  protected List<ASTCDMethod> createMethods(ASTCDClass extendedClass,
-      ASTCDClass domainClass,
-      CDTypeSymbol typeSymbol) {
-    List<ASTCDMethod> methods = super.createMethods(extendedClass, domainClass, typeSymbol);
-    methods.add(getGetAllMethod(domainClass, typeSymbol));
-    return methods;
-  }
-
-  @Override
   protected List<String> getImports(CDTypeSymbol typeSymbol) {
     List<String> imports = super.getImports(typeSymbol);
     imports.add(FrontendTransformationUtils
@@ -34,7 +25,8 @@ public class AggregateDTOCreator extends DTOCreator {
     return imports;
   }
 
-  private ASTCDMethod getGetAllMethod(ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
+  @Override
+  protected ASTCDMethod getGetAllMethod(ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
     ASTCDMethod method = new CDMethodBuilder()
             .name("getAll")
         .addParameter("CommandManager", "commandManager")

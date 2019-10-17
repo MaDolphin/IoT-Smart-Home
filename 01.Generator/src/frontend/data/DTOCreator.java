@@ -91,10 +91,6 @@ public class DTOCreator extends CreateTrafo {
     }
 
     imports.add(FrontendTransformationUtils
-        .getImportCheckHWC(typeSymbol.getName() + FullDTOListCreator.FULLDTOLIST, handcodePath, FullDTOListCreator.FILEEXTENION, FullDTOListCreator.SUBPACKAGE,
-            Optional.of(typeSymbol.getName().toLowerCase())));
-
-    imports.add(FrontendTransformationUtils
             .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETBYID_CMD, handcodePath, CommandGetByIdCreator.FILEEXTENSION, CommandCreator.SUBPACKAGE,
                     Optional.of(typeSymbol.getName().toLowerCase())));
     imports.add(FrontendTransformationUtils
@@ -393,7 +389,7 @@ public class DTOCreator extends CreateTrafo {
     return method;
   }
 
-  private ASTCDMethod getGetAllMethod(ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
+  protected ASTCDMethod getGetAllMethod(ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
     ASTCDMethod method = new CDMethodBuilder().Static()
         .name("getAll")
         .addParameter("CommandManager", "commandManager")
