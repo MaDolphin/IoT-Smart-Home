@@ -49,13 +49,13 @@ public class CommandSetAttributeCreator extends CommandCreator {
         setterName = GetterSetterHelper.getPlainSetter(attr);
       }
       addImport(addedClass, attr);
-      createDoRunMethod(addedClass, domainClass, attr, setterName);
+      createDoRunMethod(addedClass, domainClass, attr);
 
       addedClass.getCDAttributeList()
           .addAll(createAttributes(addedClass, domainClass, typeSymbol, attr));
       addedClass.getCDConstructorList()
           .addAll(createConstructors(addedClass, domainClass, typeSymbol, attr));
-      addedClass.getCDMethodList().addAll(createMethods(addedClass, domainClass, typeSymbol, attr));
+      addedClass.getCDMethodList().addAll(createMethods(addedClass, domainClass, typeSymbol, attr, setterName));
     }
 
     return classList;
@@ -145,7 +145,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
   }
 
   protected List<ASTCDMethod> createMethods(ASTCDClass extendedClass, ASTCDClass domainClass,
-      CDTypeSymbol typeSymbol, ASTCDAttribute attr) {
+      CDTypeSymbol typeSymbol, ASTCDAttribute attr, String setterName) {
     List<ASTCDMethod> methodList = Lists.newArrayList();
 
     List<ASTCDAttribute> attrs = createAttributes(extendedClass, domainClass, typeSymbol, attr);
@@ -159,7 +159,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
     String className = extendedClass.getName();
     methodList.add(getDomainObjectMethod(identifier, className));
     methodList.add(getPermissionCheckMethod(identifier, className, "UPDATE"));
-    methodList.add(getDoActionMethod(identifier, className, attr));
+    methodList.add(getDoActionMethod(identifier, className, attr, setterName));
 
     return methodList;
   }
@@ -169,7 +169,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
     // Do nothing
   }
 
-  private ASTCDMethod createDoRunMethod(ASTCDClass clazz, ASTCDClass domainClass, ASTCDAttribute attr, String setterName) {
+  private ASTCDMethod createDoRunMethod(ASTCDClass clazz, ASTCDClass domainClass, ASTCDAttribute attr) {
     ASTCDMethod method = new CDMethodBuilder().Public().name("doRun")
         .addParameter("SecurityHelper", "securityHelper")
         .addParameter("DAOLib", "daoLib")
@@ -219,7 +219,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
     return method;
   }
 
-  protected ASTCDMethod getDoActionMethod(String identifier, String className, ASTCDAttribute attribute) {
+  protected ASTCDMethod getDoActionMethod(String identifier, String className, ASTCDAttribute attribute, String setterName) {
     ASTCDMethod method = new CDMethodBuilder().Protected()
         .addParameter(identifier, "object")
         .addParameter("SecurityHelper", "securityHelper")
@@ -227,7 +227,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
         .returnType("DTO")
         .name("doAction").build();
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
-        new TemplateHookPoint("backend.commands.DoActionSetAttribute", identifier, className, attribute.getName()));
+        new TemplateHookPoint("backend.commands.DoActionSetAttribute", identifier, className, attribute.getName(), setterName));
 
     return method;
   }
