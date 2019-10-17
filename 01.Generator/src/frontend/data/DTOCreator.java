@@ -3,6 +3,7 @@
 package frontend.data;
 
 import backend.common.CoreTemplate;
+import backend.dtos.DTOListCreator;
 import com.google.common.collect.Lists;
 import common.CreateTrafo;
 import common.util.*;
@@ -67,6 +68,7 @@ public class DTOCreator extends CreateTrafo {
     methods.add(createTransformMethod(domainClass, typeSymbol));
     methods.add(getGetDataMethod(domainClass, typeSymbol));
     methods.add(getGetByIdMethod(domainClass, typeSymbol));
+    methods.add(getGetAllMethod(domainClass, typeSymbol));
     return methods;
   }
 
@@ -89,8 +91,15 @@ public class DTOCreator extends CreateTrafo {
     }
 
     imports.add(FrontendTransformationUtils
+        .getImportCheckHWC(typeSymbol.getName() + FullDTOListCreator.FULLDTOLIST, handcodePath, FullDTOListCreator.FILEEXTENION, FullDTOListCreator.SUBPACKAGE,
+            Optional.of(typeSymbol.getName().toLowerCase())));
+
+    imports.add(FrontendTransformationUtils
             .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETBYID_CMD, handcodePath, CommandGetByIdCreator.FILEEXTENSION, CommandCreator.SUBPACKAGE,
                     Optional.of(typeSymbol.getName().toLowerCase())));
+    imports.add(FrontendTransformationUtils
+        .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETALL_CMD, handcodePath, CommandGetAllCreator.FILEEXTENSION, CommandCreator.SUBPACKAGE,
+            Optional.of(typeSymbol.getName().toLowerCase())));
 
     return imports;
   }
@@ -381,6 +390,17 @@ public class DTOCreator extends CreateTrafo {
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
             new TemplateHookPoint("frontend.data.DTOGetById",
                     typeSymbol.getName()));
+    return method;
+  }
+
+  private ASTCDMethod getGetAllMethod(ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
+    ASTCDMethod method = new CDMethodBuilder().Static()
+        .name("getAll")
+        .addParameter("CommandManager", "commandManager")
+        .returnType("Promise<" + domainClass.getName() + DTOListCreator.DTOLIST + ">").Public().build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
+        new TemplateHookPoint("frontend.data.DTOGetAll",
+            typeSymbol.getName(), typeSymbol.getName() + DTOListCreator.DTOLIST));
     return method;
   }
 
