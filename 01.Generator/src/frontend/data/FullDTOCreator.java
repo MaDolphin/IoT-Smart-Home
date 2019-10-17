@@ -92,7 +92,7 @@ public class FullDTOCreator extends CreateTrafo {
         .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.UPDATE_CMD, handcodePath, "update", CommandCreator.SUBPACKAGE,
             Optional.of(typeSymbol.getName().toLowerCase())));
     imports.add(FrontendTransformationUtils
-        .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETALL_CMD, handcodePath, "getAll", CommandCreator.SUBPACKAGE,
+        .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETALL_CMD, handcodePath, CommandGetAllCreator.FILEEXTENSION, CommandCreator.SUBPACKAGE,
             Optional.of(typeSymbol.getName().toLowerCase())));
 
     Optional<String> hwcImport = FrontendTransformationUtils
