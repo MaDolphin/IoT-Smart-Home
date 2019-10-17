@@ -38,6 +38,10 @@ public class DomainDTOCreator extends DTOCreator {
         .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.DELETE_CMD, handcodePath, "delete", CommandCreator.SUBPACKAGE,
             Optional.of(typeSymbol.getName().toLowerCase())));
 
+    imports.add(FrontendTransformationUtils
+        .getImportCheckHWC(typeSymbol.getName() + FullDTOListCreator.FULLDTOLIST, handcodePath, FullDTOListCreator.FILEEXTENION, FullDTOListCreator.SUBPACKAGE,
+            Optional.of(typeSymbol.getName().toLowerCase())));
+
     List<ASTCDAttribute> attrList = symbolTable.get().getVisibleNotDerivedAttributesInHierarchyAsCDAttribute(typeSymbol.getName());
     for (ASTCDAttribute attr : attrList) {
       imports.add(FrontendTransformationUtils
