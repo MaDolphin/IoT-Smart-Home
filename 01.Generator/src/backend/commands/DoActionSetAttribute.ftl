@@ -1,9 +1,9 @@
 <#-- (c) https://github.com/MontiCore/monticore -->
 
-${tc.signature("identifier", "className", "attribute")}
+${tc.signature("identifier", "className", "attribute", "setterName")}
 {
 // TODO SVa: move functionality to DAO, so it is possible to load needed data
-object.set${attribute?cap_first}(this.${attribute});
+object.${setterName}(this.${attribute});
 
 // TODO SVa: rewrite, to not use object twice
 Optional
@@ -13,7 +13,7 @@ Optional
   return new ErrorDTO("MAB0x9043", MontiGemErrorFactory.validationError(validationErrors.get()));
   }
 
-  daoLib.get${identifier}DAO().set${attribute?cap_first}(objectId, ${attribute});
-  Log.debug("MAB0x9044: ${className}.doAction: set${attribute?cap_first} of object with id: " + objectId + " to " + ${attribute}, "${className}");
+  daoLib.get${identifier}DAO().${setterName}(objectId, ${attribute});
+  Log.debug("MAB0x9044: ${className}.doAction: set${setterName} of object with id: " + objectId + " to " + ${attribute}, "${className}");
   return new IdDTO(objectId);
   }
