@@ -36,8 +36,8 @@ export class EinstellungenRollenGenComponent extends EinstellungenRollenGenCompo
     this._rt_users = this.rt.users;
 
 
-    this._user_usernameOptions = this.ul.users;
-    this._role_nameOptions = this.rl.roles;
+    this.form_user_usernameOptions = this.ul.users;
+    this.form_role_nameOptions = this.rl.roles;
 
     this.form._user_username.placeholder = "Auswahl";
 
