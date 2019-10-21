@@ -35,7 +35,7 @@ public class DomainDTOCreator extends DTOCreator {
   protected List<String> getImports(CDTypeSymbol typeSymbol) {
     List<String> imports = super.getImports(typeSymbol);
     imports.add(FrontendTransformationUtils
-        .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.DELETE_CMD, handcodePath, "delete", CommandCreator.SUBPACKAGE,
+        .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.DELETE_CMD, handcodePath, CommandDeleteCreator.FILEEXTENSION, CommandCreator.SUBPACKAGE,
             Optional.of(typeSymbol.getName().toLowerCase())));
 
     imports.add(FrontendTransformationUtils

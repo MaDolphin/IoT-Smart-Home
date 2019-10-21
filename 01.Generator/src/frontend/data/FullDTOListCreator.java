@@ -80,7 +80,7 @@ public class FullDTOListCreator extends CreateTrafo {
     imports.add("{ IdDTO } from '@shared/architecture/command/aggregate/id.dto'");
 
     imports.add(FrontendTransformationUtils
-        .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETALL_CMD, handcodePath, "getAll", CommandCreator.SUBPACKAGE,
+        .getImportCheckHWC(typeSymbol.getName() + TransformationUtils.GETALL_CMD, handcodePath, CommandGetAllCreator.FILEEXTENSION, CommandCreator.SUBPACKAGE,
             Optional.of(typeSymbol.getName().toLowerCase())));
 
     Optional<String> hwcImport = FrontendTransformationUtils
