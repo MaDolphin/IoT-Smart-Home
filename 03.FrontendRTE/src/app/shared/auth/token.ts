@@ -4,6 +4,7 @@ import { JsonMember, JsonObject, TypedJSON } from '@upe/typedjson';
 import * as moment from 'moment';
 import { DateToStringPipe } from '@shared/pipes/date-to-string.pipe';
 import * as JWT from 'jwt-decode';
+import { Logger } from "@upe/logger";
 
 export enum PermissionFlags {
   NONE = 0,
@@ -12,6 +13,7 @@ export enum PermissionFlags {
 
 @JsonObject()
 export class Token {
+  private static logger: Logger = new Logger({name: 'Statistics'});
 
   public static GetToken(): Token | null {
     try {
@@ -130,6 +132,16 @@ export class Token {
 
   public static bitOr(...permissions: PermissionFlags[]): PermissionFlags {
     return permissions.reduce((a, b) => a | b, PermissionFlags.NONE);
+  }
+
+  public static visitedURL(url: string) {
+    Token.statisticsLog('VisitedURL', url);
+  }
+
+  public static statisticsLog(fn: string, msg: string) {
+    let user = Token.getUserId();
+    let info = fn + ' User: \'' + user + '\', Instance: \'' + Token.getInstanceName() + '\', URL';
+    Token.logger.info(info, msg);
   }
 
 }

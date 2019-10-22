@@ -40,7 +40,7 @@ export class LoggerService implements IHttpLogger {
       return {
         'logname': LogType[log.type],
         'timeStamp': `${log.timeStamp}`,
-        'className': 'Frontend',
+        'className': `${log.name}`,
         'msg': `${log.message}: ${logData}`
       };
     });

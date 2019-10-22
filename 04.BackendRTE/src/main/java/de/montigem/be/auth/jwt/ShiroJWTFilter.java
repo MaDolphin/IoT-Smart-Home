@@ -271,6 +271,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
       DomainUser user = ((PrincipalWrapper) subject.getPrincipal()).getUser();
       String jwToken = createTokenForUser(user.getUsername(),
               false, ((PrincipalWrapper) subject.getPrincipal()).getResource(), daoLib, rolePermissionManager);
+      logUser(jwToken, true);
       String refreshToken = generateRefreshToken();
       refreshTokenManager.removeRefreshTokenByUsername(user.getUsername());
       refreshTokenManager
@@ -363,6 +364,7 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
         // add token to blacklist and clean up blacklist
         // invalidate refresh token
         String jwt = httpReq.getHeader(AUTH_HEADER);
+        logUser(jwt, false);
         access = isAccess(request, access, jwt);
       }
 
@@ -379,18 +381,16 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
         // add token to blacklist and clean up blacklist
         // invalidate refresh token
         String jwt = httpReq.getHeader(AUTH_HEADER);
-        System.out.println(jwt);
+        logUser(jwt, false);
         access = isAccess(request, access, jwt);
       }
       if (!access) {
-
         HttpServletResponse res = WebUtils.toHttp(response);
         res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return access;
       }
     }
     if (!access) {
-      String jwt = httpReq.getHeader(AUTH_HEADER);
       HttpServletResponse res = WebUtils.toHttp(response);
       res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
@@ -431,6 +431,12 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     boolean test = httpReq.getServletPath().contains("resetDB") ||
             httpReq.getServletPath().contains("createDummy");
     return test;
+  }
+
+  private void logUser(String jwt, boolean isLogin) {
+    Log.info(
+        "User: '" + getUsernameFromToken(jwt) + "', Instance: '" + getServerInstanceFromToken(jwt)
+            + "'", isLogin ? "Login-Request" : "Logout-Request");
   }
 
 }
