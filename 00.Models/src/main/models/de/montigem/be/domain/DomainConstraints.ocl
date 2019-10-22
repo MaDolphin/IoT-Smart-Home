@@ -8,7 +8,7 @@ import de.montigem.be.domain.DefaultTypes.*;
 ocl DomainConstraints {
 
     context DomainUser inv isNameAtLeast2Characters:
-        username.length() < 2;
+        username.length() >= 2;
         shortError: "Min. 2 Zeichen";
         error: "Der Benutzername ('" + username + "') hat die Länge (" + username.length() + "), muss aber mindestens die Länge 2 haben";
 }

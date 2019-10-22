@@ -10,16 +10,16 @@ import { IdDTO } from "@shared/architecture/command/aggregate/id.dto";
 import { EinstellungenBenutzerTabelleEntryDTO_create } from "@commands/einstellungenbenutzertabelleentrydto_create";
 import { EinstellungenBenutzerTabelleEntryDTO_update } from "@commands/einstellungenbenutzertabelleentrydto_update";
 import { EinstellungenBenutzerTabelleDTO } from "@targetdtos/einstellungenbenutzertabelle.dto";
-import {DownloadFileService} from "@shared/utils/download-file.service";
-import {CopyToClipboardService} from "@shared/utils/copy-to-clipboard.service";
-import {NotificationService} from "@shared/notification/notification.service";
-import {DomainUserAktivierungsmailSenden_byIds} from "@commands/domainuseraktivierungsmailsenden_byids";
-import {DomainUserAktivierungsmailSenden_byStatus} from "@commands/domainuseraktivierungsmailsenden_bystatus";
-import {OkDTO} from "@shared/architecture/command/aggregate/ok.dto";
-import {IDTO} from "@shared/architecture";
-import {DialogCallbackTwo} from "@shared/utils/dialog/dialog.callback";
-import {ISelectOptions} from "@shared/generic-form/generic-form/decoretors/options";
-import {StatusListDTO} from '@targetdtos/statuslist.dto';
+import { DownloadFileService } from "@shared/utils/download-file.service";
+import { CopyToClipboardService } from "@shared/utils/copy-to-clipboard.service";
+import { NotificationService } from "@shared/notification/notification.service";
+import { DomainUserAktivierungsmailSenden_byIds } from "@commands/domainuseraktivierungsmailsenden_byids";
+import { DomainUserAktivierungsmailSenden_byStatus } from "@commands/domainuseraktivierungsmailsenden_bystatus";
+import { OkDTO } from "@shared/architecture/command/aggregate/ok.dto";
+import { IDTO } from "@shared/architecture";
+import { DialogCallbackTwo } from "@shared/utils/dialog/dialog.callback";
+import { ISelectOptions } from "@shared/generic-form/generic-form/decoretors/options";
+import { StatusListDTO } from '@targetdtos/statuslist.dto';
 import { EinstellungenBenutzerGenComponentTOP } from "@targetgui/einstellungen-benutzer-gen.component/einstellungen-benutzer-gen.component-top";
 
 @Component({
@@ -118,6 +118,9 @@ export class EinstellungenBenutzerGenComponent extends EinstellungenBenutzerGenC
 
   public getFormFullDTO(data): EinstellungenBenutzerTabelleEntryDTO {
     let fullDto = new EinstellungenBenutzerTabelleEntryDTO(data);
+    if (!fullDto.initials) {
+      fullDto.initials = '';
+    }
 
     return fullDto;
   }
