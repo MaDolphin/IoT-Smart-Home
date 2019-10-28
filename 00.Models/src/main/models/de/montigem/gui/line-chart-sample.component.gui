@@ -1,0 +1,23 @@
+webpage LineChartSamplePage(socket LineGraph lineChartData) {  // webpage declaration with data init
+
+  row(c) {                            // layout elements in row (centering)
+    row(50%) {                        // layout elements in row (50% width)
+      linechart "LineChart" {         // line chart declaration with name
+        data : <lineChartData         // data reference (see first line)
+        // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
+        stepSizeY : 2                 // Y Axis step size
+        title: "Realtime Line Chart"  // chart title
+        realtime                      // if chart shows realtime data (enables animation)
+        // overwriteData              // incoming data overwrites current data for chart if set,
+                                      //   otherwise the data is appended to existing list
+      }
+    }
+    row if (isImageVisible()) (c) {
+      image {                         // image declaration
+        width: 30%                    // width of image (retains aspect ratio; in '%' or 'px')
+        source: getImageSource()      // image source (could be a path written as string)
+      }
+    }
+  }
+
+}

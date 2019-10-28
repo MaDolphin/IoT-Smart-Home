@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatIconModule, MatListModule, MatMenuModule, MatSidenavModule, MatToolbarModule, } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatListModule, MatMenuModule, MatSidenavModule, MatToolbarModule, MatSnackBar, MatSnackBarModule, } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { FormDirectivesModule } from '@upe/ngx-bootstrap-directives';
 import { BsDropdownModule, TooltipModule } from 'ngx-bootstrap';
@@ -36,6 +36,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
       MatSidenavModule,
       MatMenuModule,
       MatListModule,
+      MatSnackBarModule,
       PerfectScrollbarModule,
       FormDirectivesModule,
     ],

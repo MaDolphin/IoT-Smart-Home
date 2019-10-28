@@ -9,6 +9,8 @@ import de.montigem.be.authz.util.SecurityHelper;
 import de.montigem.be.command.commands.Info_general;
 import de.montigem.be.command.response.CommandResponseDTO;
 import de.montigem.be.command.rte.general.CommandDTOList;
+import de.montigem.be.database.DatabaseDummies;
+import de.montigem.be.database.DatabaseReset;
 import de.montigem.be.error.JsonException;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.system.common.dtos.StringContainerDTO;
@@ -26,6 +28,12 @@ import static org.junit.Assert.*;
 public class WebSocketTest extends AbstractDomainTest {
   @Inject
   public SecurityHelper securityHelper;
+
+  @Inject
+  public DatabaseDummies databaseDummies;
+
+  @Inject
+  public DatabaseReset databaseReset;
 
   @Test
   public void connect() throws Exception {
@@ -116,6 +124,27 @@ public class WebSocketTest extends AbstractDomainTest {
     });
 
     if (!latch.await(1, TimeUnit.SECONDS)) {
+      fail("should get message in time");
+    }
+  }
+
+  @Test
+  public void sensorTest() throws Exception {
+    loginBootstrapUser();
+    databaseDummies.createDatabaseDummies();
+
+    CountDownLatch latch = new CountDownLatch(10);
+
+    WebSocketClientEndpoint ws = WebSocketClientEndpoint.connect(new URI("ws://localhost:8080/montigem-be/websocket/" + getJWT() + "/Sensor/ANGLE"), session -> {
+        },
+        msg -> {
+          latch.countDown();
+
+          return msg;
+        });
+
+    if (!latch.await(1000, TimeUnit.SECONDS)) {
+      databaseReset.removeDatabaseEntries(false);
       fail("should get message in time");
     }
   }

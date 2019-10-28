@@ -9,7 +9,7 @@ import de.montigem.be.system.einstellungen.Einstellungen.*;
 classdiagram Commands {
 
 //--------------- GENERAL ----------------
-   class ReloadConfig {
+     class ReloadConfig {
      }
 
      class PasswordResetById {
@@ -75,5 +75,6 @@ classdiagram Commands {
       String status;
     }
 
+ //------------ DOMAIN SPECIFIC -------------
 
 }

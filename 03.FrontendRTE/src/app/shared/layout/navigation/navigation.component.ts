@@ -1,12 +1,13 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-import { Component } from '@angular/core';
-import { JsonApiService } from '@jsonapiservice/json-api.service';
-import { DialogCallbackOne } from '@shared/utils/dialog/dialog.callback';
-import { AuthService } from '@shared/auth/auth.service';
-import { NotificationService } from '@shared/notification/notification.service';
-import { Router } from '@angular/router';
-import { PermissionFlags, Token } from "@shared/auth/token";
+import {Component} from '@angular/core';
+import {JsonApiService} from '@jsonapiservice/json-api.service';
+import {DialogCallbackOne} from '@shared/utils/dialog/dialog.callback';
+import {AuthService} from '@shared/auth/auth.service';
+import {NotificationService} from '@shared/notification/notification.service';
+import {Router} from '@angular/router';
+import {PermissionFlags, Token} from "@shared/auth/token";
+import {MatSnackBar} from '@angular/material';
 
 
 export interface INavigation {
@@ -28,14 +29,17 @@ export interface INavigation {
 export class NavigationComponent {
 
   constructor(private jsonApi: JsonApiService,
-  private auth: AuthService,
+    private auth: AuthService,
     private router: Router,
-    private notification: NotificationService, ) {
+    private notification: NotificationService,
+    private snackBar: MatSnackBar
+  ) {
 
   }
 
   public navigation: INavigation[] = [
-    { label: 'Dashboard', link: ['/', 'dashboard'], icon: 'dashboard' },
+    {label: 'Dashboard', link: ['/', 'dashboard'], icon: 'dashboard'},
+    {label: 'Chart', link: ['/', 'guidsl', 'linechart'], icon: 'multiline_chart'},
     {
       label: 'Einstellungen', link: ['/', 'einstellungen', 'profil'], icon: 'settings', expanded: true, children: [
         {
@@ -95,11 +99,17 @@ export class NavigationComponent {
   }
 
   public createDummy() {
+    this.snackBar.open('Creating dummy data...', '', {
+      duration: 3000
+    });
     this.jsonApi.post('/develop/createDummy', {}).subscribe();
     return true;
   }
 
   public resetDB() {
+    this.snackBar.open('Resetting database...', '', {
+      duration: 3000
+    });
     this.jsonApi.get('/develop/resetDB').subscribe();
     return true;
   }

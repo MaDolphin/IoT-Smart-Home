@@ -3,7 +3,7 @@
  */
 
 import { Injectable } from "@angular/core";
-import { Observable, Observer, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 import { Token } from "../../auth/token";
 import { ReplaySubject } from "rxjs";
 
@@ -20,7 +20,7 @@ export class WebSocketService {
       protocol = 'wss';
     }
 
-    let replay = new ReplaySubject();
+    let replay = new ReplaySubject<string>();
 
     // bind the callbacks to the subscriber
     let observable = Observable.create(
