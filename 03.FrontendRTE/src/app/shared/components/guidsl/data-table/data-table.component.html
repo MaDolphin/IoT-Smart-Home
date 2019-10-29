@@ -1,22 +1,31 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 
-<div fxLayout="column" class="data-table" [ngClass]="{'bordered': bordered}">
+<div fxLayout="column" class="data-table" [ngClass]="{'bordered': bordered, 'batchMode': isInBatchMode}">
+  <div fxFlex="grow" fxLayout="row wrap" *ngIf="isFilterable || isExportable || hasCreateNew || allowBatchMode" class="table-header" fxLayoutAlign="start flex-start">
+    <div fxFlex="1 1 auto" fxLayout="row wrap" fxLayoutAlign="start center">
 
-  <div fxFlex="grow" fxLayout="row" *ngIf="isFilterable || isExportable || hasCreateNew" class="table-header">
-    <div fxFlex="grow">
+
       <div *ngIf="isFilterable" class="filter" fxLayout="row" fxLayoutAlign="start center">
         <i fxFlex="40px" class="fa fa-search" aria-hidden="true"></i>
         <mat-form-field fxFlex="200px" floatPlaceholder="never">
           <input matInput #filter (keyup)="updateFilter()" [placeholder]="placeholderFilterInput">
         </mat-form-field>
       </div>
+
+
+      <div *ngIf="allowBatchMode" fxFlex="1 1 auto" style="margin-left:20px;margin-right:20px;" fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="start center">
+        <mat-slide-toggle
+                color="primary"
+                labelPosition="after"
+                (change)="onChangeBatchMode($event)">
+          Stapelverarbeitung
+        </mat-slide-toggle>
+      </div>
     </div>
-    <div fxFlex="grow" fxLayout="row wrap" fxLayoutAlign="end" class="button-wrapper">
-      <button fxFlex="0 1 150px"  *ngIf="isExportable" class="btn btn-outline-primary control-button" (click)="csvExport()">
-        <i class="fa fa-download" aria-hidden="true"></i>
-        Daten exportieren
-      </button>
+
+    <div fxFlex="2 1 auto" fxLayout="row wrap" fxLayoutAlign="end" class="button-wrapper">
       <button
+        type="button"
         fxFlex="0 1 150px"
         *ngIf="selectionType !== 'falsey' && selected !== undefined && selected.length > 0"
         id="addKontoOverview"
@@ -24,80 +33,152 @@
         (click)="onShowSelected()">
         Ausgewählte zeigen
       </button>
-      <button
-        fxFlex="0 1 100px"
-        *ngIf="selectionType !== 'falsey' && selected !== undefined && selected.length > 0"
-        id="addKontoOverview"
-        class="btn btn-outline-primary control-button"
-        (click)="onDeselectAll()">
-        Abwählen
-      </button>
       <button fxFlex="0 1 150px" *ngIf="hasCreateNew" id="addKontoOverview" class="btn btn-outline-primary control-button" (click)="onCreate()">
         <i class="fa fa-plus" aria-hidden="true"></i>
         Konto hinzufügen
       </button>
 
-      <button
-        fxFlex="0 1 200px"
-        *ngIf="hasShowInactiveBtn && presentInactiveRow()"
-        id="showInactiveItems"
-        class="btn btn-outline-primary control-button"
-        (click)="showInactive = !showInactive">
-        <i class="fa" [ngClass]="{'fa-plus': !showInactive, 'fa-minus': showInactive}" ari-hidden="true"></i>
-        Deaktivierte {{showInactive? 'ausblenden ': 'anzeigen ' }}
-      </button>
-
-      <button class="btn btn-outline-primary control-button" [matMenuTriggerFor]="menu" fxFlex="0 0 150px" *ngIf="canHideColumns">
-        <i class="fa fa-list" aria-hidden="true"></i>
-        Spalten
-      </button>
-      <mat-menu #menu="matMenu">
+      <mat-menu #colVisibilityMenu>
         <div (click)="$event.stopPropagation()" >
           <ul class="hideColumns">
-            <ng-container  *ngFor='let col of columns'>
-              <li *ngIf="col.name != ''" >
-                <input type='checkbox'
-                       [id]="col.name"
-                       (click)='toggleColumn(col)'
-                       [checked]='isCheckedColumn(col)'>
-                <label [attr.for]="col.name" [innerHTML]="col.name"></label>
+            <ng-container *ngFor='let col of columns'>
+              <li *ngIf="col.name != ''">
+                <mat-checkbox
+                        [id]="col.id"
+                        (change)='toggleColumn(col)'
+                        [checked]='isCheckedColumn(col)'>
+                  <span [innerHTML]="getColumnById(col.id).name"></span>
+                </mat-checkbox>
               </li>
             </ng-container>
           </ul>
         </div>
       </mat-menu>
 
-      <button
-        class="btn btn-outline-primary control-button"
-        [matMenuTriggerFor]="groupingMenu"
-        fxFlex="0 1 150px" *ngIf="isGroupable">
-        <i class="fa fa-list" aria-hidden="true"></i>
-        Gruppiere nach
-      </button>
       <mat-menu #groupingMenu="matMenu">
         <div (click)="$event.stopPropagation()">
           <ul class="hideColumns">
             <li>
+
+              <mat-radio-button
+                      name="groupingMenu"
+                      [id]="noGroupingId"
+                      (change)="toggleGrouping('Keine Gruppierung')"
+                      checked
+                      >
+                Keine Gruppierung
+              </mat-radio-button>
+<!--
               <input type="radio"
                      name="groupingMenu"
-                     [id]="noGroupingId"
+
                      (click)="toggleGrouping('Keine Gruppierung')"
                      checked/>
               <label>Keine Gruppierung</label>
+              -->
             </li>
             <ng-container *ngFor='let col of columns'>
               <li *ngIf="col.name != '' && !col.excludeFromGrouping" >
+                <mat-radio-button
+                        name="groupingMenu"
+                        [id]="col.id"
+                        [checked]="!!groupedCol && groupedCol.prop.toString() === col.prop.toString() ? 'checked' : false"
+                        (change)="toggleGrouping(col.prop)"
+                  >
+                  {{getColumnName(col)}}
+                </mat-radio-button>
+                <!--
                 <input type="radio"
                        name="groupingMenu"
-                       [id]="col.name"
+                       [id]="col.id"
                        (click)="toggleGrouping(col.prop)"
                        [checked]="!!groupedCol && groupedCol.prop.toString() === col.prop.toString() ? 'checked' : false"/>
-                <label [attr.for]="col.name">{{getColumnName(col)}}</label>
+                <label [attr.for]="col.id">{{getColumnName(col)}}</label>
+                -->
               </li>
             </ng-container>
           </ul>
         </div>
       </mat-menu>
+
+
+
+
+      <button
+              fxFlex="0 1 150px"
+              id="settings"
+              *ngIf="canHideColumns || isGroupable || hasShowInactiveBtn"
+              [matMenuTriggerFor]="columnsMenu"
+              class="btn btn-outline-primary control-button"
+              type="button">
+        <i class="fa fa-cog" ari-hidden="true"></i>
+        Einstellungen
+      </button>
+
+
+
+
+      <mat-menu #columnsMenu="matMenu" [overlapTrigger]="false">
+        <ng-container *ngIf="isExportable">
+          <button  *ngIf="isExportable" mat-menu-item (click)="csvExport()">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            Exportieren
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="hasShowInactiveBtn && presentInactiveRow()">
+          <span class="menu-header">Zeilen</span>
+          <mat-divider></mat-divider>
+
+          <button *ngIf="hasShowInactiveBtn && presentInactiveRow()"
+                  mat-menu-item
+                  id="showInactiveItems"
+                  (click)="showInactive = !showInactive">
+            <i class="fa" [ngClass]="{'fa-plus': !showInactive, 'fa-minus': showInactive}" ari-hidden="true"></i>
+            Deaktivierte {{showInactive? 'ausblenden ': 'anzeigen ' }}
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="isGroupable || canHideColumns">
+
+          <span class="menu-header">Spalten</span>
+          <mat-divider></mat-divider>
+          <button *ngIf="canHideColumns" mat-menu-item [matMenuTriggerFor]="colVisibilityMenu">
+            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+            Aus-/Einblenden
+          </button>
+          <button [matMenuTriggerFor]="groupingMenu" mat-menu-item *ngIf="isGroupable">
+            <i class="fa fa-list" aria-hidden="true"></i>
+            Gruppiere nach
+          </button>
+        </ng-container>
+
+        <span class="menu-header">Einstellungen</span>
+        <mat-divider></mat-divider>
+        <button mat-menu-item [matMenuTriggerFor]="colSaveMenu">
+          <i class="fa fa-save" aria-hidden="true"></i>
+          Speichern
+        </button>
+        <button mat-menu-item [matMenuTriggerFor]="colLoadMenu">
+          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+          Laden
+        </button>
+
+
+
+      </mat-menu>
+
+      <mat-menu #colLoadMenu="matMenu">
+          <button mat-menu-item (click)="loadSettings(TabellenIdentifierTypDTO.USER)">Meine Einstellung</button>
+          <button mat-menu-item (click)="loadSettings(TabellenIdentifierTypDTO.INSTITUT)">Institutsstandard</button>
+          <button mat-menu-item (click)="loadSettings(TabellenIdentifierTypDTO.DEFAULT)">Werkseinstellungen</button>
+      </mat-menu>
+
+      <mat-menu #colSaveMenu="matMenu">
+          <button mat-menu-item (click)="storeSettings(TabellenIdentifierTypDTO.USER)">Für mich</button>
+          <button mat-menu-item disabled (click)="storeSettings(TabellenIdentifierTypDTO.INSTITUT)">Für mein Institut</button>
+      </mat-menu>
+
 
     </div>
   </div>
@@ -111,17 +192,20 @@
             #table
             fxFlex="grow"
             class="material"
+            [summaryRow]="inlineNew"
+            [summaryPosition]="'top'"
+            [summaryHeight]="_scrollbarV ? rowHeight : 64"
             [columnMode]="columnMode"
             [columns]="displayColumns"
-            [count]="count"
+            [count]="rows.length"
             [cssClasses]="cssClasses"
             [displayCheck]="displayCheck"
-            [externalPaging]="externalPaging"
+            [externalPaging]="isGroupable"
             [externalSorting]="externalSorting"
             [footerHeight]="footerHeight"
             [headerHeight]="headerHeight"
             [messages]="messages"
-            [limit]="isGroupable ? undefined : limit"
+            [limit]="limit"
             [loadingIndicator]="loadingIndicator"
             [offset]="offset"
             [reorderable]="reorderable"
@@ -135,10 +219,10 @@
             [trackByProp]="trackByProp"
             [rowClass]="rowClass"
             [rows]="rows"
-            [groupedRows]="groupedRows"
+            [groupedRows]="isGroupable ? getGroupedRows() : groupedRows"
             [groupExpansionDefault]="groupsExpanded === undefined ? undefined : true"
             (scroll)="onScroll($event)"
-            (select)="onSelect($event)"
+
             (page)="onPaginated($event)"
             (sort)="onSort($event)"
             (resize)="onColumnResize($event)">
@@ -153,22 +237,25 @@
           </ngx-datatable-row-detail>
         </ng-template>
 
-        <ng-template [ngIf]="isGroupable">
+        <ng-template [ngIf]="isGroupable && groupRowsBy !== ''">
           <ngx-datatable-group-header [rowHeight]="100" #myGroupHeader (toggle)="onDetailToggle($event)">
             <ng-template let-group="group" let-expanded="expanded" let-column="column" ngx-datatable-group-header-template>
               <ng-template [ngIf]="!!groupRowsBy" >
                 <div class="groupHeader"
                     *ngIf="!group.value[0].emptyRow && group.key">
                   <ng-container *ngFor='let col of displayColumns'>
-                      <a [ngStyle]="getGroupHeaderStyle(col)"
-                         class="groupHeaderContent"
-                         title="Expand/Collapse Group"
-                         (click)="toggleExpandGroup(group)">
+                    <a [ngStyle]="getGroupHeaderStyle(col)"
+                       style="padding: .9rem 1.6rem;"
+                       class="groupHeaderContent"
+                       title="Expand/Collapse Group"
+                       (click)="toggleExpandGroup(group)">
                       <b [class.datatable-icon-right]="!expanded && groupedCol.prop === col.prop"
                          [class.datatable-icon-down]="expanded && groupedCol.prop === col.prop"
-                         [innerHTML]="groupedCol.prop === col.prop ? (transformGroupValue(group.value[0]) | safeHTML) : ''">
+                         [innerHTML]="groupedCol.prop === col.prop ? (transformGroupValue(group) | safeHTML) : ''">
                       </b>
-                      <span [innerHTML]="col.summarize !== undefined ? (summarizeGroup(group.value, col) | safeHTML) : ''">
+                      <span
+                        [ngStyle]="isRightAligned(col) && {'text-align': 'right'}"
+                        [innerHTML]="col.summarize !== undefined ? (summarizeGroup(group, col) | safeHTML) : ''">
                       </span>
                     </a>
                   </ng-container>
@@ -187,41 +274,36 @@
                 let-curPage="curPage"
                 let-offset="offset"
                 let-isVisible="isVisible">
-          <div fxLayout="row" style="align-items: center; height: 35px">
-            <div class="page-count" style="display: flex; align-items: center">
-                        <span *ngIf="selectedMessage">
-                          {{selectedCount.toLocaleString()}} {{selectedMessage}} /
-                        </span>
-              {{inlineNew ? (rows.length - 1).toLocaleString() : rows.length.toLocaleString()}} {{messages.totalMessage}}
+          <div class="footer-pager">
+            <div fxLayout="row" style="align-items: center; height: 35px">
+              <div class="page-count" style="display: flex; align-items: center">
+                <span *ngIf="selectedCount > 0">
+                  {{selectedCount.toLocaleString()}} <span *ngIf="selectedMessage">{{selectedMessage}}</span>/&nbsp;
+                </span>
+                {{emptyTable ? 0 : rows.length}} {{messages.totalMessage}}
+              </div>
 
-
-
+              <div class="page-count-input" *ngIf="limit">
+                <input [textMask]="{mask: mask}" type="text" [value]="limit" #pageCountInput
+                       (keypress)="onKeyPressPageSize($event)"
+                       (select)="$event.stopPropagation()"
+                       (click)="pageCountInput.select()">
+                <span>Einträge pro Seite</span>
+              </div>
             </div>
 
-            <div class="page-count-input" *ngIf="!isGroupable && limit">
-                  <input [textMask]="{mask: mask}" type="text" [value]="limit" (blur)="onPageSizeChange($event.target.value)"
-                        (keypress)="onKeyPressPageSize($event)" (select)="$event.stopPropagation()">
-                  <span>Einträge pro Seite</span>
-            </div>
+            <datatable-pager
+                    [pagerLeftArrowIcon]="'datatable-icon-left'"
+                    [pagerRightArrowIcon]="'datatable-icon-right'"
+                    [pagerPreviousIcon]="'datatable-icon-prev'"
+                    [pagerNextIcon]="'datatable-icon-skip'"
+                    [page]="_scrollbarV ? scrollPage : curPage"
+                    [size]="_scrollbarV ? limit : pageSize"
+                    [count]="_scrollbarV ? rows.length.toLocaleString() : rowCount"
+                    [hidden]="_scrollbarV ? !(rows.length > limit) : !((rowCount / pageSize) > 1)"
+                    (change)="_scrollbarV ? footerPageChange($event) : table.onFooterPage($event)">
+            </datatable-pager>
           </div>
-
-          <div *ngIf="selectionSum !== undefined" class="page-count page-footer-selection-sum">
-            <span>
-              {{ selectionSum(selected) }}
-            </span>
-          </div>
-
-          <datatable-pager
-                  [pagerLeftArrowIcon]="'datatable-icon-left'"
-                  [pagerRightArrowIcon]="'datatable-icon-right'"
-                  [pagerPreviousIcon]="'datatable-icon-prev'"
-                  [pagerNextIcon]="'datatable-icon-skip'"
-                  [page]="curPage"
-                  [size]="pageSize"
-                  [count]="rowCount"
-                  [hidden]="!((rowCount / pageSize) > 1)"
-                  (change)="table.onFooterPage($event)">
-          </datatable-pager>
         </ng-template>
       </ngx-datatable-footer>
 
@@ -237,11 +319,17 @@
   </button>
 </ng-template>
 
-<ng-template let-row="row" let-column="column" let-value="value" #cellTemplate>
-  <div [ngClass]="{'edit': row.id === currentEditId}">
-    <ng-template [ngIf]="row.id !== currentEditId && !row.emptyRow && !column.editInView">
-
-      <div class="cellOverlay"
+<ng-template [ngIf]="!emptyTable" let-row="row" let-column="column" let-value="value" #cellTemplate>
+  <div [ngClass]="{'edit': row && row.id === currentEditId, 'emptyRow': row && row.emptyRow === true}">
+    <ng-template [ngIf]="row && row.id !== currentEditId && !row.emptyRow && !column.editInView">
+      <div *ngIf="!rightClickMenu" 
+           class="cellOverlay"
+           [attr.title]="column.tooltip !== undefined ? column.tooltip(value) : null"
+           [ngStyle]="getCellStyle(column, row, value)"
+           (click)="cellOverlayAction($event, row, column)">
+      </div>
+      <div *ngIf="!!rightClickMenu" 
+           class="cellOverlay"
            [attr.title]="column.tooltip !== undefined ? column.tooltip(value) : null"
            [ngStyle]="getCellStyle(column, row, value)"
            [contextMenu]="rightClickMenu"
@@ -250,6 +338,7 @@
       </div>
       <div class="cellValue"
            *ngIf="groupRowsBy != column.prop"
+           [ngStyle]="isRightAligned(column) && {'text-align': 'right'}"
            [innerHTML]="getCellValue(column, row, value) | safeHTML">
       </div>
       <div class="cellBacklayer"
@@ -257,35 +346,44 @@
       </div>
     </ng-template>
 
-    <ng-template [ngIf]="row.id === currentEditId">
-      <ng-template [ngIf]="editTemplates[column.prop] && !column.uneditable || column.editInView" [ngIfElse]="valueTemplate">
+    <ng-template [ngIf]="row && row.id === currentEditId && !column.editInView">
+      <ng-template [ngIf]="editTemplates[column.prop] && !column.uneditable" [ngIfElse]="valueTemplate">
         <div #editInstances style="min-height: 54px">
-          <ng-container *ngTemplateOutlet="editTemplates[column.prop]"></ng-container>
+          <!-- TODO: Temporal workaround to prevent focus of mat inputs -->
+          <mat-form-field style="display: none"><input matInput></mat-form-field>
+          <ng-template
+            [ngTemplateOutlet]="editTemplates[column.prop]"
+            [ngTemplateOutletContext]="{row: row, column: column, value: value}">
+          </ng-template>
         </div>
       </ng-template>
       <ng-template #valueTemplate>
         <div class="cellValue"
              *ngIf="isExcludedFromGroup(row[groupRowsBy]) || groupRowsBy != column.prop"
+             [ngStyle]="isRightAligned(column) && {'text-align': 'right'}"
              [innerHTML]="getCellValue(column, row, value) | safeHTML"></div>
       </ng-template>
     </ng-template>
 
-    <ng-template [ngIf]="(row.emptyRow && currentEditId === null && !column.uneditable) || column.editInView" [ngIfElse]="valueTemplate">
+    <ng-template [ngIf]="(row && row.emptyRow && currentEditId === null && !column.uneditable && !column.editInView)
+      || (row && column.editInView && currentEditId === null && !row.emptyRow)">
       <div style="min-height: 54px">
-        <ng-container *ngTemplateOutlet="editTemplates[column.prop]"></ng-container>
+        <ng-template
+          [ngTemplateOutlet]="editTemplates[column.prop]"
+          [ngTemplateOutletContext]="{row: row, column: column, value: value}">
+        </ng-template>
       </div>
     </ng-template>
   </div>
 </ng-template>
 
 <ng-template let-column="column" let-value="value" #headerTemplate let-sort="sortFn" let-sortDir="sortDir" ngx-datatable-header-template>
-  <div class="macoco-datatable-header-container datatable-header-cell-wrapper">
+  <div class="macoco-datatable-header-container datatable-header-cell-wrapper" [ngStyle]="isRightAligned(column) && { 'justify-content': 'flex-end' }">
     <div (click)="sort()">
       <span class="datatable-header-cell-label draggable" [innerHtml]="column.name">
       </span>
     </div>
-    <!-- TODO: remove `if` when group sorting is added -->
-    <div *ngIf="!isGroupable" class="macoco-datatable-header-sort-btn">
+    <div class="macoco-datatable-header-sort-btn">
       <span class="sort-btn"
             [class.sort-asc]="sortDir === 'asc'"
             [class.datatable-icon-up]="sortDir === 'asc'"
@@ -298,20 +396,20 @@
 
 <ng-template let-row="row" let-column="column" let-value="value" #actionColumn>
     <div [ngClass]="'cellOverlay'"
-         [ngStyle]="selectionType === 'checkbox' && {'width':
-            column.prop !== displayColumns[displayColumns.length-1].prop
-            ? column.width + 'px'
-            : 'calc(' + column.width + 'px' + ' - 1.2rem)' } ||
+         [ngStyle]="
             selectionType !== 'checkbox' && {'width'
             : 'calc(' + displayColumns[0].width + 'px' + ' + 1.2rem)', 'left': 0}"
          oncontextmenu="return false;"
+         >
+      <!--
          ondblclick="event.stopPropagation();"
-         onclick="event.stopPropagation();">
+         onclick="event.stopPropagation();"
+         -->
     </div>
 
     <!-- Current Row is not beeing Edited -->
-    <ng-template [ngIf]="currentEditId !== row.id && !row.emptyRow" >
-      <div [ngClass]="{'non-visible': currentEditId !== null }">
+    <ng-template [ngIf]="row && currentEditId !== row.id && !row.emptyRow" >
+      <div [ngClass]="{'non-visible': currentEditId !== null, 'emptyRow': true }">
       <button *ngIf="isViewable" class="view" (click)="viewEvent.emit(row)"
         oncontextmenu="return false;"
         onclick="event.stopPropagation();"
@@ -320,7 +418,7 @@
         mat-icon-button>
         <mat-icon class="md-24">remove_red_eye</mat-icon>
       </button>
-      <button *ngIf="isDeletable && !rowHasClass(row, 'empty-budget')" class="delete" (click)="onDelete($event, row)"
+      <button *ngIf="isDeletable && !rowHasClass(row, 'empty-budget') && !isInBatchMode" class="delete" (click)="onDelete($event, row)"
         oncontextmenu="return false;"
         onclick="event.stopPropagation();"
         ondblclick="event.stopPropagation();"
@@ -328,20 +426,21 @@
         mat-icon-button>
         <mat-icon class="md-24">delete</mat-icon>
       </button>
-      <button *ngIf="isEditable && !rowHasClass(row, 'empty-budget')" class="edit" (click)="onEdit($event, row)"
+      <button *ngIf="isEditable && !rowHasClass(row, 'empty-budget') && !isInBatchMode" class="edit" (click)="onEdit($event, row)"
         oncontextmenu="return false;"
         onclick="event.stopPropagation();"
         ondblclick="event.stopPropagation();"
         type="button"
         mat-icon-button>
         <mat-icon class="md-24">edit</mat-icon>
-        </button>
+      </button>
       <button *ngIf="rowHasClass(row, 'empty-budget')" (click)="onEdit($event, row)"
         oncontextmenu="return false;"
         onclick="event.stopPropagation();"
         ondblclick="event.stopPropagation();"
         type="button"
-        mat-icon-button>
+        mat-icon-button
+        class="add">
         <mat-icon class="md-24">add_circle_outline</mat-icon>
       </button>
       <button *ngIf="isDeActivateable" (click)="onDeActivate(row)"
@@ -360,7 +459,7 @@
     </ng-template>
 
     <!-- Current Row is beeing Edited -->
-    <ng-template [ngIf]="row.id === currentEditId">
+    <ng-template [ngIf]="row && row.id === currentEditId">
       <button (click)="onEditSave(row)"
               oncontextmenu="return false;"
               onclick="event.stopPropagation();"
@@ -379,18 +478,47 @@
       </button>
     </ng-template>
 
-    <!-- Initial empty first row to add new elements -->
-    <ng-template [ngIf]="row.emptyRow">
-      <button (click)="onCreate(row)" [ngClass]="{'non-visible': currentEditId !== null}" oncontextmenu="return false;" type="button" mat-icon-button>
-        <mat-icon class="md-24">save</mat-icon>
-      </button>
-      <button (click)="onCreateCancel(row)" [ngClass]="{'non-visible': currentEditId !== null}" oncontextmenu="return false;" type="button" mat-icon-button>
-        <mat-icon class="md-24">clear</mat-icon>
-      </button>
-    </ng-template>
 </ng-template>
 
-<ng-template #checkboxColumn>
+<ng-template #creationRow>
+  <button (click)="onCreate(row)" [ngClass]="{'non-visible': currentEditId !== null, 'creation-row-buttons': !_scrollbarV}"
+    oncontextmenu="return false;" type="button" mat-icon-button>
+    <mat-icon class="md-24">save</mat-icon>
+  </button>
+  <button (click)="onCreateCancel()" [ngClass]="{'non-visible': currentEditId !== null, 'creation-row-buttons': !_scrollbarV}"
+    oncontextmenu="return false;" type="button" mat-icon-button>
+    <mat-icon class="md-24">clear</mat-icon>
+  </button>
+</ng-template>
+
+<ng-template #checkboxColumn let-row="row" let-column="column" let-value="value">
+  <div *ngIf="!allowBatchMode && batchMode"
+       (click)="selectRow($event, row)"
+       [ngClass]="'cellOverlay'"
+       [ngStyle]="
+         selectionType !== 'checkbox' && {'width'
+         : 'calc(' + displayColumns[0].width + 'px' + ')', 'left': 0}"
+       oncontextmenu="return false;">
+  </div>
   <div oncontextmenu="return false;">
+    <div *ngIf="displayCheck(row, column, value)">
+      <mat-checkbox
+              [checked]="selectionCBChecked(row)"
+              (change)="selectionCBChanged($event, row)"
+              [disableRipple]="true"
+              class="selection-checkbox">
+      </mat-checkbox>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #checkboxHeaderColumn>
+  <div oncontextmenu="return false;" style="overflow:hidden">
+    <mat-checkbox
+            [checked]="selectionHCBChecked()"
+            [indeterminate]="selectionHCBIndeterminate()"
+            (change)="selectionHCBChanged($event)"
+            [disableRipple]="true"
+            class="selection-checkbox"></mat-checkbox>
   </div>
 </ng-template>

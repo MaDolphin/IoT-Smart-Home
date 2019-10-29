@@ -16,10 +16,10 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
+import {Router} from '@angular/router';
+import {DatatableComponent} from '@swimlane/ngx-datatable';
 
-import { Logger } from '@upe/logger';
+import {Logger} from '@upe/logger';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/debounceTime';
@@ -27,20 +27,24 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/startWith';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { NUMBER_MASK } from '@shared/architecture/forms/controls/money.control';
-import { ISerializable } from '@shared/architecture/serializable';
-import { RouterLocalService } from '@shared/architecture/services/router.local.service';
-import { StorageService } from '@shared/architecture/services/storage.service';
-import { NotificationService } from '@shared/notification/notification.service';
-import { DialogCallbackTwo } from '@shared/utils/dialog/dialog.callback';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {NUMBER_MASK} from '@shared/architecture/forms/controls/money.control';
+import {ISerializable} from '@shared/architecture/serializable';
+import {RouterLocalService} from '@shared/architecture/services/router.local.service';
+import {StorageService} from '@shared/architecture/services/storage.service';
+import {NotificationService} from '@shared/notification/notification.service';
+import {DialogCallbackTwo} from '@shared/utils/dialog/dialog.callback';
 
-import { JsonSchema } from './data-table-schema';
-import { XLSXService } from './XLSX.service';
-import { IViewModel } from '@shared/architecture/data/viewmodel';
-
+import {JsonSchema} from './data-table-schema';
+import {XLSXService} from './XLSX.service';
+import {CommandRestService} from "@shared/architecture/command/rte/command.rest.service";
+import {CommandManager} from "@shared/architecture/command/rte/command.manager";
+import {OkDTO} from "@shared/architecture/command/aggregate/ok.dto";
+import {IDTO} from "@shared/architecture";
+import {RIGHT_ALIGNED} from './data-table.trasformation';
+import {IViewModel} from '@shared/architecture/data/viewmodel';
 
 export interface ResponseSaving<T> {
   entry: T;
@@ -103,6 +107,9 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     }
 
     this._columns = value;
+    this._columns.forEach((col: TableColumn, i: number) => {
+      col.id = i;
+    });
 
     this.copyColumnDetails();
 
@@ -135,9 +142,12 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    * Default value: 30
    * @type {number}
    */
+  @Input() public headerHeight = 'auto';
+
   public set displayColumns(value: TableColumn[]) {
 
-    let newColumns = this.appendTableControls(value);
+
+    let newColumns = this.appendTableControls(this.removeTableControls(value));
 
     /* TODO: purpose?
     if (this.equalColumns(newColumns, this.displayColumns)) {
@@ -147,8 +157,6 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
     this._displayColumns = newColumns;
   }
-
-  @Input() public headerHeight = 'auto';
 
   public get displayColumns() {
     return this._displayColumns;
@@ -184,18 +192,18 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   public get messages(): TableMassages {
     return Object.assign({
       emptyMessage: 'Keine Daten zum Anzeigen',
-      totalMessage: this.rows.length !== 1 ? 'Einträge' : 'Eintrag',
+      totalMessage: this.rows.length !== 1 || this.emptyTable ? 'Einträge' : 'Eintrag',
       selectedMessage: 'ausgewählt',
     }, this._messages);
   }
-
 
   /**
    * Unique identifier for the datatable.
    * @type {String}
    */
-  @Input()
+  @Input('id')
   public uId: string;
+
 
   /**
    * Static messages in the table you can override for localization.
@@ -209,6 +217,8 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   @ViewChild('detailColumn') detailColumn: TemplateRef<any>;
   @ViewChild('actionColumn') actionColumn: TemplateRef<any>;
   @ViewChild('checkboxColumn') checkboxColumn: TemplateRef<any>;
+  @ViewChild('checkboxHeaderColumn') checkboxHeaderColumn: TemplateRef<any>;
+  @ViewChild('creationRow') creationRow: TemplateRef<any>;
   @ViewChild('cellTemplate') cellTemplate: TemplateRef<any>;
   @ViewChild('headerTemplate') headerTemplate: TemplateRef<any>;
   /**
@@ -263,7 +273,21 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    * Default value: 10.
    * @type {number}
    */
-  @Input() public limit: number = 10;
+  private _limit: number = 10;
+  @Input()
+  public set limit(value: number) {
+    this._limit = value;
+  }
+
+  public get limit(): number {
+    if (!this._limit) {
+      return 10;
+    } else {
+      return this._limit;
+    }
+  }
+
+  private rowsLimitDefault: number = 10;
 
   /**
    * Show the linear loading bar.
@@ -311,6 +335,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    */
   @Input() public scrollbarV: boolean = false;
   private _scrollbarV: boolean = false;
+  public scrollPage: number = 1;
 
   /**
    * A boolean/function you can use to check whether you want to select a particular
@@ -324,15 +349,23 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    * Default value: []
    * @type {Array}
    */
-  @Input() public selected = [];
+  @Input() public _selected: T[] = [];
+
+  @Input() public set selected(value: T[]) {
+    this._selected = value;
+  }
+
+  public get selected(): T[] {
+    return this._selected;
+  }
 
   /**
    * Type of row selection. Options are single, multi, multiClick and chkbox. For no selection pass a falsey.
    * Default value: 'falsey'
    * @type {string}
    */
-  @Input() public selectionType: TableSelectionType = 'falsey';
-  private selectionTypeOriginal: TableSelectionType = 'falsey';
+  @Input() public selectionType: TableSelectionType = undefined;
+  private selectionTypeOriginal: TableSelectionType = undefined;
 
   @Input() public selectionSum: (rows: T) => string;
   /**
@@ -363,9 +396,20 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    * A function that will invoked with each row's properties. The result of the function
    * can be a string or object with key/boolean
    */
-  public rowClassFunction: { function: (row: T) => { [key: string]: boolean } };
+  public rowClassFunction: {function: (row: T) => {[key: string]: boolean}};
 
-  @Input() public rowClass: (row: T) => { [key: string]: boolean };
+  private _rowClass: (row: T) => {[key: string]: boolean} = _ => {return {};};
+
+  @Input() public set rowClass(func: (row: T) => {[key: string]: boolean}) {
+    this._rowClass = func;
+  }
+
+  public get rowClass(): (row: T) => {[key: string]: boolean} {
+    if (this.emptyTable) {
+      return _ => {return {};};
+    }
+    return this._rowClass;
+  }
 
   @Input() public actionColumnTitle = '';
 
@@ -374,7 +418,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   @Input() public actionTemplate: TemplateRef<any>;
 
   @Input() public placeholderFilterInput = 'Suche';
-  @Input() public editTemplates: { [key: string]: TemplateRef<any> } = {};
+  @Input() public editTemplates: {[key: string]: TemplateRef<any>} = {};
 
   @Input() public detailsTemplate: TemplateRef<any>;
 
@@ -404,7 +448,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    */
 
   @Input()
-  public groupExcludeKeys = ['Summe (inkl. Pauschale)', 'Pauschale', 'Summe (ohne. Pauschale)', 'Summe '];
+  public groupExcludeKeys = ["Summe (inkl. Pauschale)", "Pauschale", "Summe (ohne. Pauschale)", "Summe "];
 
   @Input() public hasCreateNew = false;
   @Input() public canHideColumns = true;
@@ -428,11 +472,20 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   @Input()
   public set showInactive(value: boolean) {
     this._showInactive = value;
+
+    if (this.rows.length && this.rows[0] !== undefined && this.inlineNew) {
+      this.emptyTable = false;
+    } else if ((!this.rows.length || this.rows[0] === undefined) && this.inlineNew) {
+      this.emptyTable = true;
+    }
+
     if (this.scrollbarV) {
       this.recreateTable();
     }
     this.regroupRows();
   }
+
+  private showInactiveDefault: boolean = false;
 
   @Input() public dataType;
 
@@ -453,7 +506,32 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   @Input()
   public formEditControl;
 
+  /**
+   * Stapelverarbeitung
+   */
 
+  /**
+   * Display the BatchMode Switcher (Slider)
+   */
+
+  @Input()
+  public allowBatchMode = false;
+
+  /**
+   * State of the Table regarding BatchMode
+   * Can be activated, if table should be in BatchMode, but shouldnt be turned off
+   * i.e. go back to single edit (Example Abgleich)
+   */
+
+  @Input()
+  public batchMode: boolean = false;
+
+  public get isInBatchMode(): boolean {
+    return this.batchMode;
+  }
+
+  @Input()
+  public editableBatchMode: boolean = false;
 
   @Output('create') createEvent: EventEmitter<T> = new EventEmitter();
 
@@ -467,6 +545,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
   @Output('cancelDelete') cancelDeleteEvent: EventEmitter<T> = new EventEmitter();
   @Output('cancelEdit') cancelSaveEvent: EventEmitter<T> = new EventEmitter();
+  @Output('cancelSave') cancel: EventEmitter<T> = new EventEmitter();
 
   @Output('clone') cloneEvent: EventEmitter<D> = new EventEmitter();
 
@@ -478,9 +557,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   @Output('showSelected') showSelectedEvent: EventEmitter<T> = new EventEmitter();
   @Output('deselect') deselectEvent: EventEmitter<T> = new EventEmitter();
 
-  public test() {
-    console.log(this.displayColumns);
-  }
+  @Output('changeBatchMode') changeBatchModeEvent: EventEmitter<boolean> = new EventEmitter();
 
   @Input() public currentEditId: number = null;
 
@@ -500,14 +577,12 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     }
     this._rows = value.filter((row: any) => this.activeRow(row));
     this._allRows = value || [];
-    this._unfilteredRows = this.rows.slice(0);
-    this._unfilteredAllRows = this.rows.slice(0);
+    this._unfilteredRows = this._rows.slice(0);
+    this._unfilteredAllRows = this._rows.slice(0);
     this.setRowsMetadata();
 
-    this.prependCreationRow();
-
     if (this.isGroupable) {
-      this.setGroupedRows();
+      this.setGroupedRows(this.currentSort);
     }
 
     if (this.table && this.rows.length <= this.table.offset * this.limit) {
@@ -524,7 +599,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
       setTimeout(() => {
         detailExpansions.forEach(id => {
           if (this.table && this.table.bodyComponent
-              && this.table.rowDetail
+            && this.table.rowDetail
           ) {
             let r = this.rows[this.rows.findIndex(row => row.id === id)];
             this.table.rowDetail.toggleExpandRow(r);
@@ -532,6 +607,9 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
         })
       })
     }
+
+    this.updateFilter();
+    this.triggerSort();
 
   }
 
@@ -547,6 +625,8 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     }
   }
 
+  public pageNum: number = 0;
+  public emptyTable: boolean = false;
   /*
   @Input()
   public set rightClickMenu(value: any[]) {
@@ -571,6 +651,8 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   @Input()
   public groupRowsBy: string = '';
 
+  private groupRowsByDefault: string = '';
+
   public groupedRows: any[];
   public groupedCol: TableColumn;
 
@@ -592,6 +674,35 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     return this._isGroupable;
   }
 
+  private _internalRows: T[] = [];
+  private _internalAllRows: T[] = [];
+
+  private get _rows(): T[] {
+    return this._internalRows;
+  }
+  private set _rows(rows: T[]) {
+    if (!rows.length && this.inlineNew) {
+      this.emptyTable = true;
+      rows.length = 1;
+    } else if (rows.length && rows[0] !== undefined && this.inlineNew) {
+      this.emptyTable = false;
+    }
+    this._internalRows = rows;
+  }
+
+  private get _allRows(): T[] {
+    return this._internalAllRows;
+  }
+  private set _allRows(rows: T[]) {
+    if (!rows.length && this.inlineNew) {
+      this.emptyTable = true;
+      rows.length = 1;
+    } else if (rows.length && rows[0] !== undefined && this.inlineNew && this.showInactive) {
+      this.emptyTable = false;
+    }
+    this._internalAllRows = rows;
+  }
+
   // variable to help with recreateTable function
   public recreateHelper: any[] = [0];
 
@@ -599,22 +710,27 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   public rightClickMenu: TemplateRef<any>;
   private _isGroupable: boolean = false;
   private _showInactive: boolean = false;
-  private _rows: T[] = [];
-  private _allRows: T[] = [];
   private _unfilteredRows: T[] = [];
   private _unfilteredAllRows: T[] = [];
   protected _messages: TableMassages = {};
   private _cssClasses: TableCssClasses = {};
   private _columns: TableColumn[] = [];
   private _displayColumns: TableColumn[] = [];
+  private currentSort: {prop: string, dir: string};
+  private mainSort: {prop: string, dir: string};
+
+  protected commandManager: CommandManager;
 
   constructor(
-      private notificationService: NotificationService,
-      private _xlsx: XLSXService,
-      private storageService: StorageService,
-      private router: Router,
-      private _routerLocalService: RouterLocalService) {
+    private notificationService: NotificationService,
+    private _xlsx: XLSXService,
+    private storageService: StorageService,
+    private router: Router,
+    private _routerLocalService: RouterLocalService,
+    protected _commandRestService: CommandRestService) {
+    this.commandManager = new CommandManager(this._commandRestService);
   }
+
 
   // Override table resize host listener
   @HostListener('window:resize')
@@ -624,17 +740,18 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
   @HostListener('keydown.enter', ['$event'])
   public handleKeyboardEvent(event: KeyboardEvent) {
-    if ( !this.formControlHasFocus() )
+    if (!this.formControlHasFocus())
       return;
 
     event.stopPropagation();
 
+    (<HTMLElement>document.activeElement).blur();
+
     let row;
 
     if (this.currentEditId === null) {
-      if ( (<any>this.rows[0]).emptyRow) {
-        row = this.rows[0];
-        this.onCreate(row);
+      if (this.inlineNew) {
+        this.onCreate({});
       } else {
         // Hit enter on something which isnt part of the formcontrol for the datatable
         console.error('Enter', document.activeElement);
@@ -643,27 +760,27 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
       row = this.rows.find((e) => {
         return e.id === this.currentEditId;
       });
-      this.onEditSave(row);
+      if (this.selected.length > 0) {
+        this.onEditSave(row);
+      }
     }
-
-
 
 
   }
 
   @HostListener('keydown.escape', ['$event'])
   public handleKeyboardEventEscape(event: KeyboardEvent) {
-    if ( !this.formControlHasFocus() )
+    if (!this.formControlHasFocus())
       return;
 
     let row;
 
     if (this.currentEditId === null) {
-      if ( (<any>this.rows[0]).emptyRow) {
+      if ((<any>this.rows[0]).emptyRow) {
         row = this.rows[0];
       } else {
         // Hit enter on something which isnt part of the formcontrol for the datatable
-        console.error('Enter', document.activeElement);
+        console.error('ESC', document.activeElement);
       }
     } else {
       row = this.rows.find((e) => {
@@ -678,11 +795,20 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
   private formControlHasFocus(): boolean {
     let el: Element = document.activeElement;
-    let controlName = el.getAttribute('name');
+    let controlName;
+    if (el.nodeName === 'MAT-SELECT')
+      controlName = el.getAttribute('id');
+    else
+      controlName = el.getAttribute('name');
 
-    let controls: any = this.formEditControl.controls;
-    if ( controls.hasOwnProperty(controlName))
-      return true;
+    if (controlName === 'wert') {
+      if (el.classList.contains('datatable-control'))
+        return true;
+    } else if (this.formEditControl) {
+      let controls: any = this.formEditControl.controls;
+      if (controls.hasOwnProperty(controlName))
+        return true;
+    }
 
     return false;
   }
@@ -708,6 +834,9 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
       this.loadingIndicator = false;
     }
 
+    this.groupRowsByDefault = this.groupRowsBy;
+    this.showInactiveDefault = this.showInactive;
+    this.rowsLimitDefault = this.limit;
     /*
     this.viewEvent.subscribe((res) => {
       const url = this.viewEventLink + '/' + res.id;
@@ -724,30 +853,68 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
   }
 
-  // TODO: uncomment when sorting is fixed
-  /*
+  public triggerSort() {
+    if (this.sorts.length === 0)
+      return;
+
+    let sortBy = this.sorts[0].prop;
+    let sortDir = this.sorts[0].dir;
+
+    let col = this.displayColumns.find(value => {
+      return value.prop === sortBy;
+    });
+
+    if (col !== undefined) {
+      let event = {
+        column: col,
+        newValue: sortDir,
+        sorts: this.sorts
+      };
+
+      this.onSort(event);
+    }
+  }
+
   public onSort(event) {
     if (this.isGroupable) {
       this.externalSorting = true;
       const sort = event.sorts[0];
-      this.groupedRows = this.groupRows(sort);
+      if (this.groupedCol !== undefined && sort.prop === this.groupedCol.prop) {
+        this.mainSort = sort;
+      }
+      this.currentSort = sort;
+      this.setGroupedRows(sort)
       this.rerenderRows();
-    } else {
-      this.externalSorting = false;
-    }
-  }
-  /** */
-
-  // TODO: original sorting rule, needs to be merged with grouped sorting
-  public onSort(event) {
-    if (this.isGroupable) {
       return;
     }
     if (event.column.sortFn === undefined) {
-      this.externalSorting = false;
+      this.externalSorting = true;
+
+      const sort = event.sorts[0];
+      this._rows.sort((a, b) => {
+        if (!!(<any>a).emptyRow) {
+          return -1;
+        }
+        if (!!(<any>b).emptyRow) {
+          return 1;
+        }
+        return this.compareRows(a, b, sort.prop, sort.dir === 'desc');
+      });
+      this._allRows.sort((a, b) => {
+        if (!!(<any>a).emptyRow) {
+          return -1;
+        }
+        if (!!(<any>b).emptyRow) {
+          return 1;
+        }
+        return this.compareRows(a, b, sort.prop, sort.dir === 'desc');
+      });
+
+      this.currentSort = undefined;
     } else {
       this.externalSorting = true;
       const sort = event.sorts[0];
+      this.currentSort = sort;
       this._rows.sort((a, b) => {
         if (!!(<any>a).emptyRow) {
           return -1;
@@ -773,6 +940,8 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
         this.recreateTable();
       }
     }
+
+
     this.sortEvent.emit(event);
   }
 
@@ -782,7 +951,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     let style = {
       'width': col.width + 'px',
       'min-width': col.width + 'px',
-    };
+    }
     if (col === this.displayColumns[0]) {
       style['margin-left'] = -this.scrollX + 'px'
     }
@@ -792,21 +961,25 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   public onScroll(event) {
     if (event.offsetX !== undefined && event.offsetY !== undefined) {
       this.scrollX = event.offsetX;
+      // assuming rowHeight is a number (must be if table is scrollable)
+      this.scrollPage = Math.ceil((event.offsetY - +this.rowHeight) / (this.limit * +this.rowHeight)) + 1;
+      requestAnimationFrame(this.table.bodyComponent.scroller.updateOffset.bind(this.table.bodyComponent.scroller))
     }
   }
 
   public onKeyPressPageSize(event) {
     if (event.key === 'Enter') {
       this.onPageSizeChange(event.target.value);
+      (<HTMLElement>document.activeElement).blur(); // loose focus
     }
   }
 
   public onPageSizeChange(pageSize) {
-
-    if (pageSize > 0) {
+    if (+pageSize > 0) {
       this.limit = +pageSize;
-    } else
+    } else {
       this.limit = 10;
+    }
 
     this.table.offset = 0;
     this.table.limit = this.limit;
@@ -815,12 +988,39 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     if (this.scrollbarV) {
       this.recreateTable();
     }
+    if (this.isGroupable) {
+      this.setGroupedRows();
+    }
   }
 
   public onPaginated(event) {
+    this.pageNum = event.offset;
     this.table.limit = this.limit;
     this.table.pageSize = this.limit;
     this.table.recalculatePages();
+  }
+
+  public footerPageChange(event) {
+    if (!event || !event.page) {
+      return;
+    }
+    let offsetY;
+    if (this.inlineNew) {
+      // TODO: imprecise offset calculation
+      offsetY = (event.page - 1) * +this.rowHeight * (this.limit + 1) - 3;
+    } else {
+      offsetY = (event.page - 1) * +this.rowHeight * this.limit;
+    }
+    const scroller = this.table.bodyComponent.scroller;
+    // assuming rowHeight is a number (must be if table is scrollable)
+    scroller.setOffset(offsetY);
+    scroller.scrollYPos = offsetY;
+    // setTimeout to delay rerender, since we directly changed child component
+    // of table and not an input property of table (as in normal case)
+    setTimeout(() => {
+      // rerender body after scroll
+      requestAnimationFrame(scroller.updateOffset.bind(scroller))
+    })
   }
 
   public pageCount(): number {
@@ -862,6 +1062,60 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     }
 
     this.storeSettings();
+  }
+
+  public getColumnByProp(prop): TableColumn {
+    return this._columns.find(c => c.prop === prop);
+  }
+
+  public getColumnById(id: number): TableColumn | undefined {
+    return this._columns.find(c => c.id === id);
+  }
+
+  private loadSettings() {
+
+    const data = this.storageService.retrieve('columns_' + this.uId);
+
+    if (this.canHideColumns && data) {
+      let toBeDisplayed: TableColumn[] = [];
+
+      JSON.parse(data).forEach((c) => {
+        let col = this.columns.find((cl) => {
+          return cl.prop === c.prop;
+        });
+
+        if (col)
+          toBeDisplayed.push(col);
+      });
+
+      this.displayColumns = toBeDisplayed;
+
+    } else {
+      this.displayColumns = this._columns.filter(c => !c.hidden);
+    }
+  }
+
+  private storeSettings() {
+
+    let store: any = [];
+
+    if (this.uId) {
+      this.displayColumns.forEach((col: TableColumn) => {
+        if (col.name !== '' &&
+          col.cellClass !== 'action-controls' &&
+          col.cellClass !== 'details-control') {
+
+          store.push({
+            prop: col.prop
+          });
+        }
+
+      });
+
+      this.storageService.store('columns_' + this.uId, JSON.stringify(store));
+    } else {
+      this.logger.warn('MAF0x00A9: no unique identifier for datatable set')
+    }
 
   }
 
@@ -883,7 +1137,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    */
 
   public onCreate(row): void {
-    console.error('datatable', 'onCreate');
+    console.error("datatable", "onCreate");
 
     console.log(this.formEditControl.validate());
 
@@ -908,17 +1162,18 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     }
   */
   public onCreateSuccess() {
-    console.error('successfull oncreate');
+    console.error("successfull oncreate");
   }
 
   public onCreateFailed() {
-    console.error('failed oncreate');
+    console.error("failed oncreate");
 
   }
 
   public onCreateCancel(): void {
     this.currentEditId = null;
-    this.formEditControl.reset();
+    this.formEditControl.resetAndEmpty();
+    this.cancel.emit();
   }
 
 
@@ -927,13 +1182,13 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    */
   public onEdit(event, entry: T): void {
 
+    this.onCreateCancel();
     Reflect.defineMetadata(EDIT_CANCEL, this.onEditCancel.bind(this), entry);
     this.editEvent.emit(entry);
 
     if (this.inlineEdit) {
       this.currentEditId = entry.id;
-      this.selectionTypeOriginal = this.selectionType;
-      this.selectionType = undefined;
+      this.toggleEditMode(true);
     } else {
       if (this.editEventLink !== undefined) {
         this.router.navigateByUrl(this.editEventLink + '/' + entry.id);
@@ -941,7 +1196,10 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
         this.editNavigateEvent.emit(entry);
       }
     }
-    event.stopPropagation();
+    if (!!event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
   }
 
   public onEditSave(entry: T): void {
@@ -949,15 +1207,15 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
     this.formEditControl.markAsCDirty();
     this.formEditControl.markAsCTouched();
-    this.selectionType = this.selectionTypeOriginal;
 
     if (this.formEditControl.valid) {
       let res = this.formEditControl.getModelValue();
 
       res.id = entry.id;
 
+      //this.loadingIndicator = true;
       this.saveEvent.emit({entry: res, success: success});
-      this.currentEditId = null;
+      this.toggleEditMode(false);
 
     } else {
       console.log('Form not valid', this.formEditControl.value);
@@ -978,6 +1236,23 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     /**/
   }
 
+  public toggleEditMode(enterEditMode: boolean) {
+    if (!enterEditMode) {
+      this.currentEditId = null;
+      for (const column of this._columns.filter((c: TableColumn) => c.cellClass !== 'action-controls' && c.cellClass !== 'details-control')) {
+        if (!column.summaryTemplate && !column.uneditable) {
+          column.summaryTemplate = this.editTemplates[column.prop];
+        }
+      }
+      this.displayColumns = [...this.displayColumns];
+    } else {
+      for (const column of this._columns.filter((c: TableColumn) => c.cellClass !== 'action-controls' && c.cellClass !== 'details-control')) {
+        column.summaryTemplate = undefined;
+      }
+      this.displayColumns = [...this.displayColumns];
+    }
+  }
+
   /*
   private markFormGroupTouched(formGroup: FormGroup): void {
     console.log(Object.values(formGroup.controls));
@@ -992,21 +1267,23 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   /** */
 
   public onEditCancel(entry: T): void {
-    this.selectionType = this.selectionTypeOriginal;
+    // this.selectionType = this.selectionTypeOriginal;
+    this.cancelSaveEvent.emit(entry);
+
     if (this.formEditControl !== undefined) {
-      this.formEditControl.reset();
+      this.formEditControl.resetAndEmpty();
     }
 
-    this.cancelSaveEvent.emit(entry);
-    this.currentEditId = null;
+    this.cancel.emit(entry)
+    this.toggleEditMode(false);
   }
 
   public onEditSuccess() {
-    console.log('onEdit Success');
+    console.log("onEdit Success");
   }
 
   public onEditError() {
-    console.log('onEdit Error');
+    console.log("onEdit Error");
   }
 
   public onDeActivate(entry: T): void {
@@ -1047,7 +1324,8 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
         let satisfySearch = false;
         this.columns.forEach(col => {
           let value = DataTableComponent.getRowProp(row, col.prop);
-          if (col.displayValue !== undefined && !col.filterByModelValue) {
+          if (col.displayValue !== undefined && !col.filterByModelValue
+            && !!col.displayValue(value) && (typeof col.displayValue(value) === 'string')) {
             valueSet.push(col.displayValue(value).toLowerCase());
           } else {
             value = value === null || value === undefined ? '' : value;
@@ -1081,8 +1359,6 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
           this._allRows = this._unfilteredAllRows.slice(0);
         }
       }
-
-      this.prependCreationRow();
 
       if (this.scrollbarV) {
         this.recreateTable();
@@ -1150,7 +1426,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
       // TODO: shorten up
       let rowExpansions = new Map(this.table.bodyComponent.rowExpansions);
 
-      this.setGroupedRows();
+      this.setGroupedRows(this.currentSort);
 
 
       let groupKeys = [];
@@ -1158,15 +1434,15 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
         if (v === 1) {
           groupKeys.push(k.key)
         }
-      });
+      })
 
       setTimeout(() => {
         if (this.groupedRows !== undefined && this.groupedRows.length) {
           this.groupedRows.forEach(group => {
             if (group.key
-                && this.table.bodyComponent.rowExpansions.get(group) === 1
-                && !groupKeys.includes(group.key)
-                && !this.isEmptyRowGroup(group)) {
+              && this.table.bodyComponent.rowExpansions.get(group) === 1
+              && !groupKeys.includes(group.key)
+              && !this.isEmptyRowGroup(group)) {
               this.toggleExpandGroup(group);
             }
           })
@@ -1177,9 +1453,28 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
   public cellOverlayAction(event, row, column: TableColumn) {
     this.toggleExpandRow(event, row, column);
-    if (column.onClick !== undefined) {
+
+    if (this.isInBatchMode) {
+      this.selectRow(event, row);
+      // event.stopPropagation();
+    } else if (column.onClick !== undefined) {
       column.onClick(row);
+    } else {
+      event.stopPropagation();
     }
+  }
+
+  public selectRow(event, row) {
+    let index = this.selected.findIndex((r) => r.id === row.id);
+    if (index >= 0)
+      this.selected.splice(index, 1);
+    else
+      this.selected.push(row);
+
+    // TODO: Emit event on selection
+    let selected = this.selected;
+    this.onSelect({selected: selected});
+    event.stopPropagation();
   }
 
   public toggleExpandRow(event, row, column) {
@@ -1203,37 +1498,67 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   }
 
   firedSelect = false;
+  previousSelection: number[] = [];
 
   public onSelect({selected}) {
-
-    let emptyRow = selected.find(row => !!row.emptyRow);
-    if (emptyRow !== undefined) {
-      let index = selected.indexOf(emptyRow);
-      if (index > -1) {
-        selected.splice(index, 1);
-        let skip: boolean = true;
-        selected.forEach(row => {
-          if (!this.selected.includes(row)) {
-            skip = false;
+    /*
+        let editedRow = this.rows.find(row => row.id === this.currentEditId);
+        if (!!editedRow) {
+          let editedRowIndex = selected.indexOf(editedRow);
+          if (this.previousSelection.includes(this.currentEditId) && editedRowIndex === -1) {
+            selected.push(editedRow);
           }
-        });
-        if (skip || !selected.length) {
-          if (!this.firedSelect) {
-            this.table.onBodySelect({selected});
-            this.firedSelect = false;
-          } else {
-            this.firedSelect = true;
+          if (!this.previousSelection.includes(this.currentEditId) && editedRowIndex > -1) {
+            selected.splice(editedRowIndex, 1);
           }
-          return;
         }
-      }
-    }
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
+    
+        let emptyRow = selected.find(row => !!row.emptyRow);
+        this.skipRowSelection(emptyRow, selected)
+    
+        // PS: Why dont we allow to select deactivated rows?
+        // I needed to comment it out, cause of batch processing.
+        /*
+            selected.forEach(row => {
+              if (!this.activeRow(row)) {
+                this.skipRowSelection(row, selected)
+              }
+            })
+    
+         */
+    /*
+        this.previousSelection = selected.filter(row => !!row).map(row => row.id);
+    
+        this.selected.splice(0, this.selected.length);
+        this.selected.push(...selected);
+    
+    
+     */
     this.selectEvent.emit(selected);
   }
 
-  public displayCheck(row) {
+  private skipRowSelection(row, selection): void {
+    if (row !== undefined) {
+      let index = selection.indexOf(row);
+      selection.splice(index, 1);
+      let skip: boolean = true;
+      selection.forEach(selectedRow => {
+        if (!this.selected.includes(selectedRow)) {
+          skip = false;
+        }
+      })
+      if (skip || !selection.length) {
+        if (!this.firedSelect) {
+          this.table.onBodySelect({selected: selection});
+        }
+        return;
+      }
+    }
+  }
+
+
+
+  public displayCheck(row, column?, value?) {
     return !row.emptyRow;
   }
 
@@ -1256,12 +1581,12 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
         }
       });
       return to;
-    };
+    }
     this._rows = sort(this._rows);
     this._allRows = sort(this._allRows);
     this.table.sorts = [];
     if (this.isGroupable) {
-      this.setGroupedRows();
+      this.setGroupedRows(this.currentSort);
     }
     this.resetArrowHTML();
     if (this.scrollbarV) {
@@ -1270,10 +1595,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     this.showSelectedEvent.emit();
   }
 
-  public onDeselectAll() {
-    this.selected = [];
-    this.deselectEvent.emit();
-  }
+
 
   public trackByFn(index: any, item: JsonSchema) {
     return item.key;
@@ -1305,15 +1627,17 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     this.rerenderRows();
   }
 
-  public summarizeGroup(rowGroup, column) {
+  public summarizeGroup(group, column) {
+    let groupFragments = this.groupedRows.filter(gr => gr.key === group.key);
+    let groupValue = [].concat.apply([], groupFragments.map(gr => gr.value));
     let summarization;
     if (!column.summarize.extended) {
-      let arr = rowGroup.map(row => {
+      let arr = groupValue.map(row => {
         return DataTableComponent.getRowProp(row, column.prop)
       });
       summarization = column.summarize.function(arr);
     } else {
-      summarization = column.summarize.function(rowGroup);
+      summarization = column.summarize.function(groupValue);
     }
     if (column.displayValue) {
       summarization = column.displayValue(summarization);
@@ -1324,19 +1648,34 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     return summarization;
   }
 
-  public setGroupedRows(sort?: { dir: string, prop: string }) {
+  public setGroupedRows(sort?: {dir: string, prop: string}) {
+    if (sort === undefined) {
+      this.mainSort = undefined;
+    }
     this.groupedRows = this.groupRows(sort);
   }
 
-  public groupRows(sort?: { dir: string, prop: string }) {
+  public getGroupedRows() {
+    if (!this.groupedRows || !this.groupedRows.length) {
+      return [];
+    }
+    return this.groupedRows.filter(group => group.page === this.pageNum);
+  }
+
+  public groupRows(sort?: {dir: string, prop: string}) {
     // create a map to hold groups with their corresponding results
     if (this.groupedCol === undefined) {
       if (sort !== undefined) {
+        const desc = sort.dir === 'desc';
         this.rows.sort((a, b) => {
-          return this.compareRows(a, b, sort.prop) * (sort.dir === 'desc' ? -1 : 1);
+          return this.compareRows(a, b, sort.prop, desc);
         });
       }
-      return [{key: 0, value: this.rows}];
+      let ungrouped = [];
+      for (let i = 0, j = 0; i < this.rows.length; i += this.limit, ++j) {
+        ungrouped.push({key: 0, value: this.rows.slice(i, i + this.limit), page: j});
+      }
+      return ungrouped;
     }
 
     const map = new Map();
@@ -1362,38 +1701,141 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     let sortedMap;
 
     if (sort !== undefined) {
+      const desc = sort.dir === 'desc';
       if (sort.prop === this.groupedCol.prop) {
         sortedMap = new Map(
-            Array.from(map).sort((a, b) => {
-              return this.compare(a[0], b[0]) * (sort.dir === 'desc' ? -1 : 1);
-            })
+          Array.from(map).sort((a, b) => {
+            return this.compareGroups(a, b, desc);
+          })
         );
       } else {
-        sortedMap = new Map(
-            Array.from(map).map((entry): [string, any] => {
-              return [entry[0], entry[1].sort((a, b) => {
-                return this.compareRows(a, b, sort.prop) * (sort.dir === 'desc' ? -1 : 1);
-              })];
+        if (this.groupedRows !== undefined && this.mainSort !== undefined) {
+          const prevDesc = this.mainSort.dir === 'desc';
+          const groups = this.groupedRows.map(group => group.key);
+          sortedMap = new Map(
+            Array.from(map).sort((a: [string, any[]], b: [string, any[]]): number => {
+              if (a[1].length && a[1][0].emptyRow) {
+                return -1;
+              }
+              if (b[1].length && b[1][0].emptyRow) {
+                return 1;
+              }
+              const indexA = groups.indexOf(a[0]);
+              const indexB = groups.indexOf(b[0]);
+              if (indexA === -1 || indexB === -1) {
+                return this.compareGroups(a, b, prevDesc);
+              }
+              return this.compare(a[0], b[0], prevDesc);
             })
+          );
+        } else {
+          sortedMap = map;
+        }
+        sortedMap = new Map(
+          Array.from(sortedMap).map((entry): [string, any] => {
+            return [entry[0], entry[1].sort((a, b) => {
+              return this.compareRows(a, b, sort.prop, desc);
+            })];
+          })
         );
       }
     } else {
-      sortedMap = map;
+      if (this.groupedRows) {
+        const groups = this.groupedRows.map(group => group.key);
+        sortedMap = new Map(
+          Array.from(map).sort((a: [string, any[]], b: [string, any[]]): number => {
+            if (a[1].length && a[1][0].emptyRow) {
+              return -1;
+            }
+            if (b[1].length && b[1][0].emptyRow) {
+              return 1;
+            }
+            const indexA = groups.indexOf(a[0]);
+            const indexB = groups.indexOf(b[0]);
+            if (indexA < indexB) {
+              return -1;
+            } else {
+              return 1;
+            }
+          })
+        );
+      } else {
+        sortedMap = map;
+      }
     }
 
     const addGroup = (key: any, value: any) => {
-      return {key, value};
+      return {
+        key,
+        value,
+        page: 0,
+        firstOnPage: 1,
+        lastOnPage: value.length,
+        total: value.length
+      };
     };
 
     // convert map back to a simple array of objects
-    return Array.from(sortedMap, x => addGroup(x[0], x[1]));
+    const sortedArray: {
+      key: any,
+      value: any,
+      page: number,
+      firstOnPage?: number,
+      lastOnPage?: number,
+      total?: number
+    }[] = Array.from(sortedMap, x => addGroup(x[0], x[1]));
+
+    // handle row limit per page
+    let rowsOnPage = 0;
+    let pageNum = 0;
+    for (let i = 0; i < sortedArray.length; ++i) {
+      const group = sortedArray[i];
+      group.page = pageNum;
+      rowsOnPage += group.value.length;
+      let overflow = rowsOnPage - this.limit;
+      if (overflow > 0) {
+        const splitGroup1 = {
+          key: group.key,
+          value: group.value.slice(0, -overflow),
+          page: pageNum,
+          firstOnPage: group.firstOnPage,
+          lastOnPage: group.lastOnPage - overflow,
+          total: group.total
+        };
+        ++pageNum;
+        const splitGroup2 = {
+          key: group.key,
+          value: group.value.slice(-overflow),
+          page: pageNum,
+          firstOnPage: splitGroup1.lastOnPage + 1,
+          lastOnPage: group.lastOnPage,
+          total: group.total
+        };
+        sortedArray[i] = splitGroup1;
+        sortedArray.splice(i + 1, 0, splitGroup2);
+        rowsOnPage = 0;
+      }
+    }
+
+    return sortedArray;
+  }
+
+  private isUndefined(obj) {
+    return obj === undefined || obj === 'undefined';
   }
 
   public isExcludedFromGroup(key) {
     return this.groupExcludeKeys.includes(key);
   }
 
-  public transformGroupValue(row: any) {
+  public isFragmentedGroup(curPage): boolean {
+    let curPageGroups = this.groupedRows.filter(gr => gr.page === curPage);
+    let nextPageGroups = this.groupedRows.filter(gr => gr.page === curPage + 1);
+    return curPageGroups.some(group => nextPageGroups.some(gr => gr.key === group.key));
+  }
+
+  public transformGroupValue(group: any) {
+    let row = group.value[0];
     let prefix = this.getColumnName(this.groupedCol);
     if (row === undefined) {
       return prefix;
@@ -1401,7 +1843,12 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     let res = DataTableComponent.getRowProp(row, this.groupedCol.prop);
     // TODO: special case pipes
     if (this.groupedCol.displayValue !== undefined) {
-      return this.groupedCol.displayValue(res);
+      res = this.groupedCol.displayValue(res);
+      // TODO: the same side effect is used to hide advanced table features
+      if (this.isFilterable && this.isExportable) {
+        res += `<br>(Einträge ${group.firstOnPage}&#8209;${group.lastOnPage}/${group.total})`;
+      }
+      return res;
     } else {
       if (res === null || res === undefined) {
         return prefix;
@@ -1409,6 +1856,9 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
       let limit = this.groupedCol.groupHeaderLimit;
       if (limit && res.slice(0, limit) !== res) {
         return res.slice(0, limit) + '...';
+      }
+      if (this.isFilterable && this.isExportable) {
+        res += `<br>(Einträge ${group.firstOnPage}&#8209;${group.lastOnPage}/${group.total})`;
       }
       return res;
     }
@@ -1421,12 +1871,12 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   public getCellValue(column, row, value) {
     if (column.displayValue !== undefined) {
       return !column.detailsColumn
-          ? column.displayValue(value)
-          : this.arrowHTML.get(row).value + ' ' + column.displayValue(value);
+        ? column.displayValue(value)
+        : this.arrowHTML.get(row).value + ' ' + column.displayValue(value);
     } else {
       return !column.detailsColumn
-          ? value
-          : this.arrowHTML.get(row).value + ' ' + value;
+        ? value
+        : this.arrowHTML.get(row).value + ' ' + value;
     }
   }
 
@@ -1444,29 +1894,32 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
   }
 
-  private setGroupExpansionDefault() {
-    if (!this.groupsExpanded) {
-      setTimeout(() => {
-        if (this.groupedRows !== undefined && this.groupedRows.length) {
-          this.groupedRows.forEach(group => {
-            if (group.key
-                && this.table.bodyComponent.rowExpansions.get(group) === 1
-                && !this.isEmptyRowGroup(group)) {
-              this.toggleExpandGroup(group);
-            }
-          })
-        }
-      })
-    }
+  public isRightAligned(column: TableColumn): boolean {
+    return column.displayValue
+      && Reflect.hasMetadata(RIGHT_ALIGNED, column.displayValue)
+      && Reflect.getMetadata(RIGHT_ALIGNED, column.displayValue);
   }
 
   private isEmptyRowGroup(group): boolean {
     return group.value !== undefined
-        && group.value.length === 1
-        && group.value[0].emptyRow === true;
+      && group.value.length === 1
+      && group.value[0].emptyRow === true;
   }
 
   private rerenderRows() {
+
+    let detailExpansions = [];
+    // setup for preserving expanded rows on reload
+    if (this.groupedRows !== undefined && this.groupedRows.length) {
+      if (this.table && this.table.bodyComponent) {
+        this.table.bodyComponent.rowExpansions.forEach((value, group) => {
+          if (value === 1) {
+            detailExpansions.push(group.key);
+          }
+        })
+      }
+    }
+
     // TODO: this is used to rerender the table rows. The workaround is needed due to
     // unsupported by default feature/bug in ngx-datatable library
     setTimeout(() => {
@@ -1476,7 +1929,22 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
       this._rows = [...this._rows];
       this._allRows = [...this._allRows];
     }, 0);
-    this.setGroupExpansionDefault();
+
+    // setup for preserving expanded rows on reload
+    if (!this.groupsExpanded) {
+      setTimeout(() => {
+        if (!!this.groupedRows) {
+          this.groupedRows.forEach(group => {
+            if (group.key
+              && !detailExpansions.includes(group.key)
+              && this.table.bodyComponent.rowExpansions.get(group) === 1
+              && !this.isEmptyRowGroup(group)) {
+              this.toggleExpandGroup(group);
+            }
+          })
+        }
+      })
+    }
   }
 
   ngAfterViewInit() {
@@ -1523,7 +1991,10 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
   private resetBodyHeight() {
     if (this.table && typeof this.rowHeight === 'number') {
-      this.table.bodyHeight = Math.min(this.limit, this.rows.length) * this.rowHeight;
+      const rowCount = this.inlineNew
+        ? Math.min(this.limit + 1, this.rows.length + 1)
+        : Math.min(this.limit, this.rows.length);
+      this.table.bodyHeight = rowCount * this.rowHeight;
     } else {
       console.error('Vertical scroll is not supported without fixed row height');
     }
@@ -1535,39 +2006,62 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     })
   }
 
-  private prependCreationRow() {
-    if (this.inlineNew && !this._rows.some(row => (<any>row).emptyRow === true)) {
-      this._rows.unshift(<any>{isActive: true, emptyRow: true});
+  private compareRows(a: any, b: any, prop: any, desc?: boolean): number {
+    if (a.emptyRow) {
+      return -1;
     }
-    if (this.inlineNew && !this._allRows.some(row => (<any>row).emptyRow === true)) {
-      this._allRows.unshift(<any>{isActive: true, emptyRow: true});
+    if (b.emptyRow) {
+      return 1;
     }
-  }
-
-  private compareRows(a: any, b: any, prop: any): number {
     const aprop = DataTableComponent.getRowProp(a, prop);
     const bprop = DataTableComponent.getRowProp(b, prop);
+    if (this.isUndefined(aprop) || aprop === null) {
+      return -1 * (desc ? -1 : 1);
+    }
+    if (this.isUndefined(bprop) || bprop === null) {
+      return 1 * (desc ? -1 : 1);
+    }
+    let res: number = 0;
     if (aprop instanceof Date && bprop instanceof Date) {
-      return aprop.getTime() - bprop.getTime();
+      res = aprop.getTime() - bprop.getTime();
     } else {
       if (typeof aprop === 'number' && typeof aprop === 'number') {
-        return aprop - bprop;
+        res = aprop - bprop;
       } else {
-        return aprop.toString().localeCompare(bprop.toString());
+        res = aprop.toString().localeCompare(bprop.toString());
       }
     }
+    return res * (desc ? -1 : 1);
   }
 
-  private compare(a: any, b: any): number {
+  private compareGroups(a: any, b: any, desc: boolean): number {
+    if (a[1][0].emptyRow) {
+      return -1;
+    }
+    if (b[1][0].emptyRow) {
+      return 1;
+    }
+    return this.compare(a[0], b[0], desc);
+  }
+
+  private compare(a: any, b: any, desc: boolean): number {
+    if (a === undefined) {
+      return -1;
+    }
+    if (b === undefined) {
+      return 1;
+    }
+    let res: number = 0;
     if (a instanceof Date && b instanceof Date) {
-      return a.getTime() - b.getTime();
+      res = a.getTime() - b.getTime();
     } else {
       if (typeof a === 'number' && typeof b === 'number') {
-        return a - b;
+        res = a - b;
       } else {
-        return a.toString().localeCompare(b.toString());
+        res = a.toString().localeCompare(b.toString());
       }
     }
+    return res * (desc ? -1 : 1);
   }
 
   public static getRowProp(row, prop) {
@@ -1581,119 +2075,13 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     return ref;
   }
 
-  private loadSettings() {
-
-    const data = this.storageService.retrieve('columns_' + this.uId);
-
-    if (this.canHideColumns && data) {
-      let toBeDisplayed: TableColumn[] = [];
-
-      JSON.parse(data).forEach((c) => {
-        let col = this.columns.find((cl) => {
-          return cl.prop === c.prop;
-        });
-
-        if (col)
-          toBeDisplayed.push(col);
-      });
-
-      this.displayColumns = toBeDisplayed;
-
-    } else {
-      this.displayColumns = this._columns.filter(c => !c.hidden);
-    }
-  }
-
-  private storeSettings() {
-
-    let store: any = [];
-
-    if (this.uId) {
-      this.displayColumns.forEach((col: TableColumn) => {
-        if (col.name !== '' &&
-            col.cellClass !== 'action-controls' &&
-            col.cellClass !== 'details-control') {
-
-          store.push({
-            prop: col.prop
-          });
-        }
-
-      });
-
-      this.storageService.store('columns_' + this.uId, JSON.stringify(store));
-    } else {
-      this.logger.warn('MAF0x00A9: no unique identifier for datatable set')
-    }
-
-  }
 
   public isCheckedColumn(col) {
     return this.displayColumns.find(c => {
-      return c.name === col.name;
+      return c.id === col.id;
     });
   }
 
-  /* TODO: remove this?
-  private createFormGroup(columns: TableColumn[], entry: any): FormGroup {
-
-    let formGroup: FormGroup = new FormGroup({});
-
-    let getValue = (object, pathArray) => {
-      if (pathArray.length === 0 || object === undefined)
-        return null;
-
-      let prop = pathArray.shift();
-
-      if (pathArray.length === 0) {
-        return object[prop];
-      }
-
-      return getValue(object[prop], pathArray);
-    };
-
-    columns.filter(col => {
-      if (col.cellClass && col.cellClass === 'action-controls')
-        return false;
-      return true;
-    }).forEach(col => {
-
-      let p: string = col.prop.toString();
-      let nValue;
-
-      let properties = p.split('.');
-      let value = getValue(entry, properties);
-
-      switch (col.type) {
-        case 'date':
-          let stringToDate: StringToDatePipe = new StringToDatePipe();
-          let dateToString: DateToStringPipe = new DateToStringPipe();
-
-          nValue = dateToString.transform(value);
-
-          formGroup.addControl(col.prop.toString(), new DateControl(nValue, stringToDate, dateToString));
-          break;
-        case 'money':
-          let _numberToMoney: NumberToMoneyPipe = new NumberToMoneyPipe(new DecimalPipe('de-DE'));
-          let _moneyToNumber: MoneyToNumberPipe = new MoneyToNumberPipe();
-
-          nValue = _numberToMoney.transform(value);
-          nValue = value;
-
-          formGroup.addControl(col.prop.toString(), new MoneyControl(nValue, _numberToMoney, _moneyToNumber));
-          break;
-        default:
-          formGroup.addControl(col.prop.toString(), new FormControl(value));
-          break;
-      }
-
-
-    });
-
-    return formGroup;
-
-  }
-  /**/
 
   private mergeObject(obj1, obj2) {
     let keys = Object.keys(obj2);
@@ -1732,13 +2120,31 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
       if (!column.cellTemplate) {
         column.cellTemplate = this.cellTemplate;
       }
+      if (!column.summaryTemplate) {
+        if (!column.uneditable) {
+          column.summaryTemplate = this.editTemplates[column.prop];
+        }
+        column.summaryFunc = () => {};
+      }
       column.headerTemplate = this.headerTemplate;
     }
   }
 
+  private removeTableControls(columns: TableColumn[]): TableColumn[] {
+    return columns.filter((value) => {
+      if (value.cellClass === 'action-controls')
+        return false;
+
+      if (value.cellClass === 'selection-checkbox')
+        return false;
+
+      return true;
+    });
+  }
+
   private appendTableControls(columns: TableColumn[]): TableColumn[] {
     const actionColumnIndex = columns.findIndex((c: TableColumn) => c.cellClass === 'action-controls') !== -1;
-    const checkboxColumnIndex = columns.findIndex((c: TableColumn) => !!c.headerCheckboxable) !== -1;
+    const checkboxColumnIndex = columns.findIndex((c: TableColumn) => c.cellClass === 'selection-checkbox') !== -1;
     // const hasDetailsColumn = this._displayColumns.findIndex((c: TableColumn) => c.cellClass === 'details-control') !== -1;
 
     if (this.detailsTemplate) {
@@ -1747,12 +2153,17 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
 
     if (!actionColumnIndex && this.hasActionColumn) {
-      this.addActionColumn(columns);
+      if (!this.isInBatchMode)
+        this.addActionColumn(columns);
+      else if (this.showActionColumnInBatchMode)
+        this.addActionColumn(columns);
     }
 
-    if (!checkboxColumnIndex && this.selectionType === 'checkbox') {
+    if (!checkboxColumnIndex && this.isInBatchMode) {
       this.addCheckboxColumn(columns);
     }
+
+
 
     return columns;
 
@@ -1769,14 +2180,14 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
             row[this.getColumnName(column)] = column.displayValue(DataTableComponent.getRowProp(entry, column.prop));
           } else {
             let vals = DataTableComponent.getRowProp(entry, column.prop);
-              if (vals instanceof Array) {
-                let res: string = '';
-                  for (const val of vals) {
-                    res += val + ',';
-                  }
-                row[this.getColumnName(column)] = res
-             } else {
-                row[this.getColumnName(column)] = vals
+            if (vals instanceof Array) {
+              let res: string = '';
+              for (const val of vals) {
+                res += val + ',';
+              }
+              row[this.getColumnName(column)] = res
+            } else {
+              row[this.getColumnName(column)] = vals
             }
           }
         }
@@ -1810,6 +2221,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     cols.unshift({
       name: this.actionColumnTitle,
       cellTemplate: this.actionColumn,
+      summaryTemplate: this.creationRow,
       resizeable: false,
       sortable: false,
       draggable: false,
@@ -1823,14 +2235,16 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     cols.unshift({
       name: '',
       cellTemplate: this.checkboxColumn,
-      width: 30,
+      headerTemplate: this.checkboxHeaderColumn,
+      width: 44,
       sortable: false,
       canAutoResize: false,
       draggable: false,
       resizeable: false,
       // TODO: when headerCheckboxable set to true behaves incorrectly (library issue)
       headerCheckboxable: false,
-      checkboxable: true,
+      checkboxable: false,
+      cellClass: 'selection-checkbox',
     });
   }
 
@@ -1857,13 +2271,147 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     /**/
   }
 
+
+  /**
+   * Stapelverarbeitung
+   */
+
+  @Input() showActionColumnInBatchMode = false;
+
+  public onChangeBatchMode(mode) {
+    if (mode.checked === this.batchMode)
+      return;
+
+    if (mode.checked === true) {
+      this.startBatchMode();
+    } else {
+      this.stopBatchMode();
+    }
+  }
+
+
+  public startBatchMode() {
+
+    this.batchMode = true;
+
+    this.selectionTypeOriginal = this.selectionType;
+    this.selectionType = 'checkbox';
+
+    this.changeBatchModeEvent.emit(true);
+
+    this.displayColumns = [...this.displayColumns];
+  }
+
+  private stopBatchMode() {
+
+    this.batchMode = false;
+
+    this.selectionType = this.selectionTypeOriginal;
+
+    this.changeBatchModeEvent.emit(false);
+
+    let batchColumnIndex = this.displayColumns.findIndex(value => {
+      return value.cellClass === 'selection-checkbox';
+    });
+
+    if (batchColumnIndex >= 0) {
+      this.displayColumns.splice(batchColumnIndex, 1);
+    }
+
+    this.onDeselectAll();
+
+    this.displayColumns = [...this.displayColumns];
+
+
+  }
+
+  public selectionCBChecked(row) {
+    return this.selected.indexOf(row) > -1;
+  }
+
+  public selectionHCBChecked() {
+    return this.selected.length > 0 && this.selected.length === this.rows.reduce((acc, cur) => {
+      if (this.displayCheck(cur))
+        acc += 1;
+      return acc;
+    }, 0);
+  }
+
+  public selectionHCBIndeterminate() {
+    return this.selected.length > 0 && this.selected.length < this.rows.reduce((acc, cur) => {
+      if (this.displayCheck(cur))
+        acc += 1;
+      return acc;
+    }, 0);
+  }
+
+  public selectionCBChanged(event, row) {
+    if (event.checked === true) {
+      this.selected.push(row);
+    } else {
+      let index = this.selected.findIndex(value => {
+        return value.id === row.id;
+      });
+
+      if (index >= 0) {
+        this.selected.splice(index, 1);
+      }
+    }
+    let selected = this.selected;
+    this.onSelect({selected: selected})
+  }
+
+  public selectionHCBChanged(event) {
+    if (event.checked === true) {
+      this.onSelectAll();
+    } else {
+      this.onDeselectAll();
+    }
+    let selected = this.selected;
+    this.onSelect({selected: selected})
+  }
+
+  public onSelectAll() {
+
+    let rows = this._rows;
+
+    if (this.showInactive) {
+      rows = this._allRows;
+    }
+
+    // PS: Used for performance reason
+    // If we need to keep the order of selection, one would need to iterate over selected array
+    // and only add, if its not already in the list
+    this.onDeselectAll();
+
+    rows.forEach(value => {
+      if (this.displayCheck(value))
+        this.selected.push(value);
+    });
+
+
+    let selected = this.selected;
+    this.onSelect({selected: selected})
+
+
+  }
+
+  public onDeselectAll() {
+    this.selected.length = 0;
+    this.deselectEvent.emit();
+  }
+
+
+
 }
 
 export type TableSelectionType = 'single' | 'multi' | 'multiClick' | 'checkbox' | 'cell' | 'falsey';
 
+export type BatchModeTypes = 'single' | 'batch';
+
 export type TableRowHeight<T> = ((row: T) => number) | number | 'auto';
 
-export type TableMassages = { emptyMessage?: string, totalMessage?: string, selectedMessage?: string };
+export type TableMassages = {emptyMessage?: string, totalMessage?: string, selectedMessage?: string};
 
 export type TableCssClasses = {
   sortAscending?: string,
@@ -1881,11 +2429,14 @@ export type TableCssClasses = {
  */
 export type TableColumnProp = string | number;
 
+
 /**
  * Column Type
  * @type {object}
  */
 export interface TableColumn {
+
+  id?: number;
 
   /**
    * Determines if column is checkbox
@@ -2064,7 +2615,7 @@ export interface TableColumn {
 
   tooltip?: (arg: any) => any;
 
-  summarize?: { function?: (arr: any[]) => any, title?: string, extended?: boolean }
+  summarize?: {function?: (arr: any[]) => any, title?: string, extended?: boolean}
 
   hidden?: boolean;
 
@@ -2078,4 +2629,7 @@ export interface TableColumn {
 
   onClick?: any;
 
+  summaryTemplate?: TemplateRef<any>;
+
+  summaryFunc?: (arg: any) => any;
 }
