@@ -1,7 +1,7 @@
 webpage LineChartSamplePage(socket LineGraph lineChartData) {  // webpage declaration with data init
 
-  row(c) {                            // layout elements in row (centering)
-    row(50%) {                        // layout elements in row (50% width)
+  row(c) {                            // layout elements in a row (centering)
+    column(500px) {                   // layout elements in a column (500px height)
       linechart "LineChart" {         // line chart declaration with name
         data : <lineChartData         // data reference (see first line)
         // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
