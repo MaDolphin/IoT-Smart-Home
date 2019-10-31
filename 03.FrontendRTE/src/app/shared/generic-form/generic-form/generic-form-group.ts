@@ -152,6 +152,19 @@ export abstract class GenericFormGroup<T = any, MSGT extends string = string> ex
     this.onRemoveControl.next(control as any);
   }
 
+  /**
+   * This function sets values of controls to null and resets the state of
+   * controls
+   */
+  public resetAndEmpty(): void {
+    this.reset();
+    // The second reset call is necessary to reset the state of controls, when
+    // there is a ContextChange hook, which fires on first reset and runs
+    // validators. As a result, the controls with "Required" validator will be
+    // marked as invalid and so is the corresponding input field
+    this.reset();
+  }
+
   public getModelValue(): any {
     let res = {};
 
