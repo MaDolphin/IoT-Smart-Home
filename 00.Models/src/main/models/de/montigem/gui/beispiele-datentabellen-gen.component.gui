@@ -5,8 +5,8 @@ webpage beispieleDatentabellen(
                all UserList ul,
                all RoleList rl,
                all ObjectList ol,
-               all EinstellungenRollenTabelle rt,
-               formular RoleForm<EinstellungenRollenTabelleEntryDTO> form
+               formular RoleForm<EinstellungenRollenTabelleEntryDTO> form,
+               all EinstellungenRollenTabelle rt
               ) {
 
     row (space-evenly) {
@@ -16,7 +16,7 @@ webpage beispieleDatentabellen(
                     row(stretch) {
                         label "Einfache Tabelle"
                         row (r,50%) {
-                          /*helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"*/
+                          helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"
                         }
                     }
                 }
@@ -40,7 +40,33 @@ webpage beispieleDatentabellen(
                     row(stretch) {
                         label "Editierbare Tabelle"
                         row (r,50%) {
-                          /*helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"*/
+                          helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"
+                        }
+                    }
+                }
+                body {
+                    datatable "gruppierbareTabelle" {
+                        groupable : <aktivierungsstatus
+                        rows <ut.alleBenutzer {
+                            column "Benutzername"            , < username              , 70;
+                            column "Kürzel"                  , < initials              ,  50;
+                            column "E-mail Adresse"          , < email                 , 200;
+                            column "Registrierungsdatum"     , date(<registrationDate) , 120, disabled;
+                            column "Email Aktivierungsstatus", < aktivierungsstatus    , 140, disabled;
+                            column "Account aktiv"           , checkbox(<istAktiv)     ,  80;
+                        }
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "Editierbare Tabelle"
+                        row (r,50%) {
+                          helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"
                         }
                     }
                 }
@@ -49,6 +75,7 @@ webpage beispieleDatentabellen(
                         editable
                         editTemplates : inlineTemplates
                         inlineEdit
+                        save ->  onSave($event)
                         rows <rt.users {
                           column "Benutzername"         , dropdown(<user.username, <ul.users.username.withId(id))    ,120;
                           column "Rolle"                , dropdown(<role.name, <rl.roles.name.withId(id))            ,120;
@@ -58,7 +85,6 @@ webpage beispieleDatentabellen(
                 }
             }
         }
-
     }
 
 }
