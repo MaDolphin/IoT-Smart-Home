@@ -45,8 +45,7 @@
     "invoke-injectable": true,
     "class-name": true,
     "comment-format": [
-      true,
-      "check-space"
+      false
     ],
     "indent": [
       true,

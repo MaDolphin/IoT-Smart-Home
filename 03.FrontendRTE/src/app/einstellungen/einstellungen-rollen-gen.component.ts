@@ -67,13 +67,9 @@ export class EinstellungenRollenGenComponent extends EinstellungenRollenGenCompo
   }
 
   public onSave(event) {
-
     let fullDto = this.getFormFullDTO(event.entry);
-    console.log('submit', JSON.stringify(fullDto));
-
 
     this.commandManager.addCommand(new EinstellungenRollenTabelleEntryDTO_update(fullDto), (dto: IdDTO) => {
-      console.log('model: ', fullDto);
       this.form.reset();
       this.commandManager = new CommandManager(this._commandRestService);
       this.initAllCommands();
