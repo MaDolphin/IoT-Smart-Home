@@ -1,36 +1,34 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-webpage beispieleDatentabellen() {
-    row (space-evenly){
-        container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px){
+webpage beispieleDatentabellen(
+              all EinstellungenBenutzerTabelle ut,
+              all StatusList sl) {
+
+    row (space-evenly) {
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
             card {
-                head{
-                    row(stretch){
-                        label "Generiert mit MontiGEM"
-                        helpbutton wiki1 "http://www.se-rwth.de/"
+                head {
+                    row(stretch) {
+                        label "Benutzerliste"
+                        row (r,50%) {
+                          /*helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"*/
+                        }
                     }
                 }
-                body{
-                    row(c){
-                        column(30%){
-                            html{
-                               "
-                                 <p>Datentabellen</p>
-                               "
-                            }
-                        }
-                        column(30%){
-                            html{
-                               "
-                                 <div>
-                                    <img src=\"assets/img/BGlogin.png\" alt=\"MaCoCo Logo\" style=\"max-width: 400px\">
-                                 </div>
-                               "
-                            }
+                body {
+                    datatable "einfacheTabelle" {
+                        rows <ut.alleBenutzer {
+                          column "Benutzername"            , < username              ,120;
+                          column "Kürzel"                  , < initials              ,60;
+                          column "E-mail Adresse"          , < email                 ,240;
+                          column "Registrierungsdatum"     , date(<registrationDate) ,120, disabled;
+                          column "Email Aktivierungsstatus", < aktivierungsstatus    ,80, disabled;
+                          column "Account aktiv"           , checkbox(<istAktiv)     ,80;
                         }
                     }
                 }
             }
         }
     }
+
 }

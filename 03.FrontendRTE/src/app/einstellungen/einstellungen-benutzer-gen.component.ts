@@ -63,7 +63,7 @@ export class EinstellungenBenutzerGenComponent extends EinstellungenBenutzerGenC
 
   }
 
-    public initEinstellungenBenutzerTabelleDTOut() {
+  public initEinstellungenBenutzerTabelleDTOut() {
     EinstellungenBenutzerTabelleDTO.getAll(this.commandManager)
       .then((model: EinstellungenBenutzerTabelleDTO) => {
         this.ut = model;

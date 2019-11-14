@@ -16,7 +16,4 @@ export class BeispieleDatentabellenGenComponent extends BeispieleDatentabellenGe
     super(_router, _route, _commandRestService);
   }
 
-  ngOnInit() {
-  }
-
 }
