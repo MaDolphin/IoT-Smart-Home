@@ -30,6 +30,10 @@ export const routes: Routes = [
         loadChildren: './guidsl/guidsl.module#GuidslModule',
       },
       {
+        path: 'beispiele',
+        loadChildren: './beispiele/beispiele.module#BeispieleModule',
+      },
+      {
         path: 'einstellungen',
         loadChildren: './einstellungen/einstellungen.module#EinstellungenModule',
       },

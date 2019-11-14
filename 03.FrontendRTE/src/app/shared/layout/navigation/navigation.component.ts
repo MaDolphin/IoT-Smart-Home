@@ -65,6 +65,39 @@ export class NavigationComponent {
         },
       ],
     },
+    {
+      label: 'Beispiele',
+      link: ['/', 'beispiele', 'datentabellen'],
+      icon: 'settings',
+      expanded: true,
+      children: [
+        {
+          label: 'Datentabellen',
+          link: ['/', 'beispiele', 'datentabellen'],
+          icon: 'supervisor_account',
+        },
+        {
+          label: 'Layout',
+          link: ['/', 'beispiele', 'layout'],
+          icon: 'supervisor_account',
+        },
+        {
+          label: 'Input',
+          link: ['/', 'beispiele', 'input'],
+          icon: 'supervisor_account',
+        },
+        {
+          label: 'Navigation',
+          link: ['/', 'beispiele', 'navigation'],
+          icon: 'supervisor_account',
+        },
+        {
+          label: 'Charts',
+          link: ['/', 'beispiele', 'charts'],
+          icon: 'supervisor_account',
+        },
+      ],
+    },
   ];
 
   private version(): string {

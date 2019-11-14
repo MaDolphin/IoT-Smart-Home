@@ -512,6 +512,7 @@
                 <argument>-hcp</argument>
                 <argument>${basedir}/src/app/dashboard</argument>
                 <argument>${basedir}/src/app/einstellungen</argument>
+                <argument>${basedir}/src/app/beispiele</argument>
                 <argument>${basedir}/src/app/guidsl</argument>
                 <argument>-out</argument>
                 <argument>${basedir}/target/generated-sources/gui</argument>
