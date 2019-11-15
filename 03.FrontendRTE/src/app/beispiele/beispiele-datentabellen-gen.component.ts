@@ -4,6 +4,9 @@ import { CommandRestService } from '@shared/architecture/command/rte/command.res
 import { BeispieleDatentabellenGenComponentTOP } from '@targetgui/beispiele-datentabellen-gen.component/beispiele-datentabellen-gen.component-top';
 import { CommandManager } from "@shared/architecture/command/rte/command.manager";
 import { RoleForm } from "@targetgui/beispiele-datentabellen-gen.component/role.form";
+import { NotificationService } from "@shared/notification/notification.service";
+import { DownloadFileService } from "@shared/utils/download-file.service";
+import { CopyToClipboardService } from "@shared/utils/copy-to-clipboard.service";
 
 @Component({
   templateUrl: '../../../target/generated-sources/gui/beispiele-datentabellen-gen.component/beispiele-datentabellen-gen.component.html',
@@ -12,12 +15,15 @@ import { RoleForm } from "@targetgui/beispiele-datentabellen-gen.component/role.
 export class BeispieleDatentabellenGenComponent extends BeispieleDatentabellenGenComponentTOP implements OnInit {
 
   constructor(
+    _notificationService: NotificationService, // necessary for context menu
+    _dfs: DownloadFileService, // necessary for context menu
+    _ctc: CopyToClipboardService, // necessary for context menu
     form: RoleForm,
     _router: Router,
     _route: ActivatedRoute,
     _commandRestService: CommandRestService,
   ) {
-    super(_router, _route, _commandRestService);
+    super(_notificationService, _dfs, _ctc, _router, _route, _commandRestService);
     this.commandManager = new CommandManager(this._commandRestService);
     this.form = form;
   }
@@ -39,6 +45,16 @@ export class BeispieleDatentabellenGenComponent extends BeispieleDatentabellenGe
 
     this.form._role_name.setValue(event.role.id);
     this.form._user_username.setValue(event.user.id);
+  }
+  //endregion
+
+  //region Tabelle mit Context Menu
+  public getString() {
+    return "Anderer Methodenname ";
+  }
+
+  public isSomething() {
+    return true; // hwc logic belongs here...
   }
   //endregion
 

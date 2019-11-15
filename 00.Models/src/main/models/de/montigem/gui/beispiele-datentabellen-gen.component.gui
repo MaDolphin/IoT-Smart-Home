@@ -15,9 +15,6 @@ webpage beispieleDatentabellen(
                 head {
                     row(stretch) {
                         label "Einfache Tabelle"
-                        row (r,50%) {
-                          helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"
-                        }
                     }
                 }
                 body {
@@ -34,14 +31,35 @@ webpage beispieleDatentabellen(
                 }
             }
         }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "Einfache Tabelle mit Context Menu"
+                    }
+                }
+                body {
+                    datatable "einfacheMitContextMenuTabelle" {
+                        rightClickMenu : contextMenu
+                        rows <ut.alleBenutzer {
+                            column "Benutzername"            , < username              ,120;
+                            column "Kürzel"                  , < initials              ,60;
+                            column "E-mail Adresse"          , < email                 ,240;
+                            column "Registrierungsdatum"     , date(<registrationDate) ,120, disabled;
+                            column "Email Aktivierungsstatus", < aktivierungsstatus    ,80, disabled;
+                            column "Account aktiv"           , checkbox(<istAktiv)     ,80;
+                        }
+                    }
+                }
+            }
+        }
+
         container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
             card {
                 head {
                     row(stretch) {
                         label "Editierbare Tabelle"
-                        row (r,50%) {
-                          helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"
-                        }
                     }
                 }
                 body {
@@ -65,9 +83,6 @@ webpage beispieleDatentabellen(
                 head {
                     row(stretch) {
                         label "Editierbare Tabelle"
-                        row (r,50%) {
-                          helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"
-                        }
                     }
                 }
                 body {
@@ -85,6 +100,14 @@ webpage beispieleDatentabellen(
                 }
             }
         }
+    }
+
+    contextmenu "contextMenu" {
+        entry "Methode 1" -> getA()
+        divider
+        entry "Methode 2" -> getB()
+        entry getString() + "3" -> getC()
+        entry if(isSomething()) "Methode 4" -> getD()
     }
 
 }
