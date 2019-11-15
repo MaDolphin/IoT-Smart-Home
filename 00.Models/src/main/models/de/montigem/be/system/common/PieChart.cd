@@ -1,0 +1,20 @@
+package de.montigem.be.system.common;
+
+import de.montigem.be.domain.Domain.*;
+import java.time.ZonedDateTime;
+
+classdiagram PieChart {
+
+  class PieChartEntry {
+    long value;
+    String name;
+  }
+
+  class PieChart {
+    List<PieChartEntry> entries;
+    long total;
+    ZahlenTyp typ;
+    Optional<String> title;
+  }
+
+}

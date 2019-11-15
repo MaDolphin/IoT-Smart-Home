@@ -56,7 +56,10 @@
       "@rolelist-dto/*" : ["target/generated-sources/dtos/*"],
       "@statuslist-dto/*" : ["target/generated-sources/dtos/*"],
       "@objectlist-dto/*" : ["target/generated-sources/dtos/*"],
-      "@linegraph-dto/*" : ["target/generated-sources/dtos/*"]
+      "@linegraph-dto/*" : ["target/generated-sources/dtos/*"],
+
+      // Beispielkomponenten
+      "@beispielepiechart-dto/*" : ["target/generated-sources/dtos/*"]
     }
   }
 }

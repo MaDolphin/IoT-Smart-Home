@@ -17,7 +17,7 @@ export const routes: Routes = [
     component: BeispieleDatentabellenGenComponent,
   },
   {
-    path: 'charts',
+    path: 'charts/:id',
     component: BeispieleChartsGenComponent,
   },
   {
