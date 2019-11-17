@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import * as Chart from 'chart.js'
-import {ColorsService} from "@shared/utils/colors.service";
-import { FinanzierungsJahreDTO } from "@targetdtos/finanzierungsjahre.dto";
-import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
-import { BeispieleBarChartEntryDTO } from "@targetdtos/beispielebarchartentry.dto";
+import { ColorsService } from "@shared/utils/colors.service";
+import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto"; // TODO: Remove since not generic
+import { BeispieleBarChartEntryDTO } from "@targetdtos/beispielebarchartentry.dto"; // TODO: Remove since not generic
+import { DatumsbereichDTO } from "@targetdtos/datumsbereich.dto";
 
 
 interface BarDataGroup {
@@ -15,7 +15,7 @@ interface BarDataGroup {
 }
 
 @Component({
-  selector: 'macoco-bar-chart',
+  selector: 'montigem-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
@@ -26,8 +26,9 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   public MONTHS = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
-  private _yearStart = '2018';
-  private _yearEnd = '2018';
+  private _yearStart = '2019';
+  private _yearEnd = '2019';
+
   private _xAxis = [];
 
   public dataSet: any = []; // BarDataGroup[];
@@ -54,22 +55,48 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     hour: 5,
   };
 
+  //region Display Year
   private _displayYear: number = (new Date()).getFullYear();
 
   public get displayYear() {
     return this._displayYear;
   }
 
-  // public set displayYear(year: number) {
-  //   this._displayYear = year;
-  //
-  //   // TODO only after init
-  //   // this.chart.ngOnInit();
-  // }
+  public set displayYear(year: number) {
+    this._displayYear = year;
+  }
+  //endregion
 
   @Output('update') updateEvent: EventEmitter<string> = new EventEmitter();
 
   //region Inputs
+  @Input()
+  public set data(data: any) {
+    this.setData(data);
+  }
+
+  @Input()
+  public set dateRange(value: DatumsbereichDTO) {
+    let currentYear = (new Date()).getFullYear();
+
+    if (value) {
+      this._dateRange = [];
+      if (value.abschlussjahr < currentYear) {
+        this._yearStart = String(value.abschlussjahr);
+        this._yearEnd = String(value.abschlussjahr);
+        this.fetchData();
+      } else if (value.startjahr > currentYear && value.abschlussjahr > currentYear) {
+        this._yearStart = String(value.startjahr);
+        this._yearEnd = String(value.abschlussjahr);
+        this.fetchData();
+      }
+
+      for (let i = value.startjahr; i <= value.abschlussjahr; i++) {
+        this._dateRange.push(i);
+      }
+    }
+  }
+
   @Input()
   public set colors(colors: string[]) {
     let i = 0;
@@ -204,7 +231,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
   };
 
-/*  public reloadChart() {
+  public reloadChart() {
     if (this.chart !== undefined) {
       this.chart.chart.destroy();
       this.chart.chart = 0;
@@ -213,8 +240,9 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       this.chart.labels = this.xAxis;
       this.chart.ngOnInit();
     }
-  }*/
+  }
 
+  //region Year
   public get yearStart() {
     return this._yearStart;
   }
@@ -233,13 +261,26 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   public get yearEnd() {
     return this._yearEnd;
   }
+  //endregion
 
-  public get xAxis() {
-    return this._xAxis;
-  }
+  public setData(data: any) {
+    this.updateXAxis();
 
-  public set xAxis(array) {
-    this._xAxis = array;
+    let obj;
+    if (data != null)
+      obj = data;
+    else
+      return;
+
+    this.dataSet = [];
+
+    if (obj instanceof BeispieleBarChartDTO) {
+      this.dataSet = this.parseDataFinanzierungZusammenstellung(data);
+    } else {
+      console.log("Could not parse data");
+      this.dataSet = [];
+    }
+
   }
 
   public hasData(): boolean {
@@ -249,13 +290,15 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  /*public updateChart() {
-    if (this.chart) {
-      this.chart.ngOnInit();
-    }
-  }*/
+  //region Axis
+  public get xAxis() {
+    return this._xAxis;
+  }
 
-  //region Update x/y axis
+  public set xAxis(array) {
+    this._xAxis = array;
+  }
+
   public updateXAxis() {
     let m: any = [];
 
@@ -299,8 +342,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit(): void {
-
-
     this.updateXAxis();
 
     let currentYear = (new Date()).getFullYear();
@@ -309,8 +350,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this._dateRange = [currentYear, currentYear];
 
     Chart.Tooltip.positioners.custom = this.customTooltipPosition;
-
-
   }
 
   public ngAfterViewInit() {
@@ -318,60 +357,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.yearEnd = String((new Date()).getFullYear());
 
     this.fetchData();
-  }
-
-  @Input()
-  public set data(data: any) {
-    this.setData(data);
-  }
-
-  public setData(data: any) {
-    this.updateXAxis();
-
-    let obj;
-    if (data != null)
-      obj = data;
-    else
-      return;
-
-    this.title = "dummy title";
-    // if (obj instanceof PersonDTO) {
-    //   this.title = obj.kuerzel;
-    //   return;
-    // }
-
-    this.dataSet = [];
-
-    if (obj instanceof BeispieleBarChartDTO) {
-      this.dataSet = this.parseDataFinanzierungZusammenstellung(data);
-    } else {
-      console.log("Could not parse data");
-      this.dataSet = [];
-    }
-
-  }
-
-  @Input()
-  public set dateRange(value: FinanzierungsJahreDTO) {
-
-    let currentYear = (new Date()).getFullYear();
-
-    if (value) {
-      this._dateRange = [];
-      if (value.abschlussjahr < currentYear) {
-        this._yearStart = String(value.abschlussjahr);
-        this._yearEnd = String(value.abschlussjahr);
-        this.fetchData();
-      } else if (value.startjahr > currentYear && value.abschlussjahr > currentYear) {
-        this._yearStart = String(value.startjahr);
-        this._yearEnd = String(value.abschlussjahr);
-        this.fetchData();
-      }
-
-      for (let i = value.startjahr; i <= value.abschlussjahr; i++) {
-        this._dateRange.push(i);
-      }
-    }
   }
 
   public updateChart() {
@@ -448,4 +433,5 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   private customTooltipPosition(elements, position) {
     return {x: position.x, y: position.y};
   }
+
 }
