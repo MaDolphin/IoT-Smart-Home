@@ -1,11 +1,12 @@
-/* (c) https://github.com/MontiCore/monticore */
-
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { Logger } from '@upe/logger';
 import { BaseChartDirective } from 'ng2-charts';
-import { RouterLocalService } from '@shared/architecture/services/router.local.service';
+import { FinanzierungZusammenstellungDTO } from '@targetdtos/finanzierungzusammenstellung.dto';
+import { RouterLocalService } from '@services/router.local.service';
+import { FinanzierungZusammenstellungEntryDTO } from '@targetdtos/finanzierungzusammenstellungentry.dto';
 import * as Chart from 'chart.js'
-import { ColorsService } from '@shared/utils/colors.service';
+import {ColorsService} from "@shared/utils/colors.service";
+import { FinanzierungsJahreDTO } from "@targetdtos/finanzierungsjahre.dto";
 
 
 interface BarDataGroup {
@@ -22,20 +23,18 @@ interface BarDataGroup {
 })
 export class BarChartComponent implements OnInit, AfterViewInit {
 
+  @ViewChild(BaseChartDirective)
+  private chart: BaseChartDirective;
+
   public MONTHS = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
 
   private _yearStart = '2018';
   private _yearEnd = '2018';
   private _xAxis = [];
 
-  public chartHeight = '100px';
+  public dataSet: any = []; // BarDataGroup[];
 
   public _customLegend;
-
-  @Input()
-  public set tickSizePercentage(size: number) {
-    this.tickSize.percentage = size;
-  }
 
   public colorSet = [];
   public _dateRange = [2018, 2019];
@@ -57,52 +56,51 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     hour: 5,
   };
 
-  private defaultColor = ['#00549f', '#555555', '#57ab27', '#554496', '#87FF87', '#980000'];
   private _displayYear: number = (new Date()).getFullYear();
-  private logger: Logger = new Logger({name: 'BarChartComponent'});
 
   public get displayYear() {
     return this._displayYear;
   }
 
-  @ViewChild(BaseChartDirective)
-  private chart: BaseChartDirective;
-
-  public set displayYear(year: number) {
-    this._displayYear = year;
-
-    // TODO only after init
-    // this.chart.ngOnInit();
-  }
+  // public set displayYear(year: number) {
+  //   this._displayYear = year;
+  //
+  //   // TODO only after init
+  //   // this.chart.ngOnInit();
+  // }
 
   @Output('update') updateEvent: EventEmitter<string> = new EventEmitter();
 
+  //region Inputs
   @Input()
   public set colors(colors: string[]) {
-    /*
-    this.colorSet = colors.map((color) => {
-      return { backgroundColor: color };
-    });
-*/
-
-
     let i = 0;
-    for (; i < colors.length; i++) {
+    for ( ; i < colors.length; i++) {
       if (i < this.colorSet.length)
         this.colorSet[i].backgroundColor = colors[i];
       else
         break;
     }
 
-    for (; i < colors.length; i++) {
-      this.colorSet.push(
-        {
-          backgroundColor: colors[i]
-        });
-
+    for ( ; i < colors.length; i++) {
+      this.colorSet.push({
+        backgroundColor: colors[i]
+      });
     }
+  }
 
+  @Input()
+  public set tickSizePercentage(size: number) {
+    this.tickSize.percentage = size;
+  }
 
+  @Input()
+  public set useSuggestedMax(suggestedMax: boolean) {
+    if (suggestedMax) {
+      this.maxLimits.type = 'suggestedMax';
+    } else {
+      this.maxLimits.type = 'max';
+    }
   }
 
   @Input()
@@ -127,8 +125,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.maxLimits.type = 'suggestedMax';
     this.maxLimits.suggestedMax.hour = max;
   }
-
-  public dataSet: any = []; // BarDataGroup[];
 
   @Input()
   public set maxHour(max: number) {
@@ -162,6 +158,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   @Input()
   public cmd;
+  //endregion
 
   public options: any = {
     responsive: true,
@@ -174,7 +171,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       display: true,
       position: 'bottom'
     },
-    elements: {point: {radius: 0}},
+    elements: { point: { radius: 0 } },
     scales: {
       xAxes: [
         {
@@ -209,7 +206,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     }
   };
 
-  public reloadChart() {
+/*  public reloadChart() {
     if (this.chart !== undefined) {
       this.chart.chart.destroy();
       this.chart.chart = 0;
@@ -218,12 +215,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       this.chart.labels = this.xAxis;
       this.chart.ngOnInit();
     }
-  }
+  }*/
 
   public get yearStart() {
     return this._yearStart;
   }
-
 
   public set yearEnd(val) {
 
@@ -249,19 +245,19 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   public hasData(): boolean {
-    if (this.dataSet != null && this.dataSet.length > 0)
+    if (this.dataSet != null && this.dataSet.length > 0) {
       return true;
-
+    }
     return false;
   }
 
-
-  public updateChart() {
+  /*public updateChart() {
     if (this.chart) {
       this.chart.ngOnInit();
     }
-  }
+  }*/
 
+  //region Update x/y axis
   public updateXAxis() {
     let m: any = [];
 
@@ -299,8 +295,9 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     tick.stepSize = this.tickSize[axisType];
     delete tick[remove];
   }
+  //endregion
 
-  constructor(protected _routerLocalService: RouterLocalService, protected _colorsService: ColorsService) {
+  constructor(protected _colorsService: ColorsService) {
   }
 
   public ngOnInit(): void {
@@ -339,11 +336,25 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     else
       return;
 
+    this.title = "dummy title";
+    // if (obj instanceof PersonDTO) {
+    //   this.title = obj.kuerzel;
+    //   return;
+    // }
+
     this.dataSet = [];
+
+    if (obj instanceof FinanzierungZusammenstellungDTO) {
+      this.dataSet = this.parseDataFinanzierungZusammenstellung(data);
+    } else {
+      console.log("Could not parse data");
+      this.dataSet = [];
+    }
+
   }
 
   @Input()
-  public set dateRange(value: { startjahr: number, abschlussjahr: number }) {
+  public set dateRange(value: FinanzierungsJahreDTO) {
 
     let currentYear = (new Date()).getFullYear();
 
@@ -353,18 +364,73 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         this._yearStart = String(value.abschlussjahr);
         this._yearEnd = String(value.abschlussjahr);
         this.fetchData();
+      } else if (value.startjahr > currentYear && value.abschlussjahr > currentYear) {
+        this._yearStart = String(value.startjahr);
+        this._yearEnd = String(value.abschlussjahr);
+        this.fetchData();
       }
+
       for (let i = value.startjahr; i <= value.abschlussjahr; i++) {
         this._dateRange.push(i);
       }
     }
   }
 
+  public updateChart() {
+    if (this.chart) {
+      this.chart.ngOnInit();
+    }
+  }
 
   public fetchData() {
-    let param = {start: this.yearStart, end: this.yearEnd};
+    let param = { start: this.yearStart, end: this.yearEnd };
     this.updateEvent.emit(JSON.stringify(param));
   }
+
+  //region Data manipulation - TODO MF: make this more generic
+  private parseDataFinanzierungZusammenstellung(dataSetx: FinanzierungZusammenstellungDTO) {
+    let dataSet: FinanzierungZusammenstellungEntryDTO[] = dataSetx.finanzierungZusammenstellungEntries;
+    let resultSet: BarDataGroup[] = [];
+
+    if (dataSet.length === 0 )
+      return resultSet;
+
+    // Calc Y Axis (Percentage or Hour display)
+    this.updateYAxis(dataSet[0].umfang.zahlenTyp);
+
+    // Planumfang
+    let planUmfangSet = this.createEmptyDataSet('Planumfang');
+
+    dataSet.forEach((dto) => {
+      let index = (dto.jahr - Number(this.yearStart)) * 12 + (dto.monat - 1);
+      planUmfangSet.data[index] = parseFloat((+dto.planUmfang.wert).toFixed(2)) / 100;
+    });
+
+    resultSet.push(planUmfangSet);
+
+    // Umfänge
+    resultSet.push(this.createEmptyDataSet('Beschäftigungsumfang'));
+
+    dataSet.forEach((dto) => {
+      let index = (dto.jahr - Number(this.yearStart)) * 12 + (dto.monat - 1);
+      let setIndex = 1;
+      let value = parseFloat((+dto.umfang.wert).toFixed(2)) / 100;
+      if (value <= 0)
+        return;
+
+      while (setIndex < resultSet.length && !isNaN(resultSet[setIndex].data[index])) {
+        setIndex++;
+      }
+
+      if (setIndex >= resultSet.length)
+        resultSet.push(this.createEmptyDataSet('Monat mit Finanzierungsänderung'));
+
+      resultSet[setIndex].data[index] = value;
+    });
+
+    return resultSet;
+  }
+  //endregion
 
   private createEmptyDataSet(label: string): BarDataGroup {
     let data = [];
@@ -379,38 +445,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       label: label,
       data: data
     };
-  }
-
-  private parseLegendFinanzierungsInDetails(dataSet) {
-    return dataSet.reduce((acc, cur) => {
-      if (acc.findIndex((ks) => {
-        return ks.label === cur.label;
-      }) === -1) {
-        acc.push({
-          label: cur.label,
-          color: this.colorSet[acc.length].backgroundColor
-        });
-      }
-
-      return acc;
-    }, []);
-  }
-
-  private parseColorsFinanzierungsInDetails(dataSet): string[] {
-    let mapping = {};
-
-    dataSet.forEach(ks => {
-      if (!mapping.hasOwnProperty(ks.label)) {
-        let index = Object.keys(mapping).length;
-        mapping[ks.label] = this.colorSet[index].backgroundColor
-      }
-    });
-
-    let res = dataSet.map(ks => {
-      return mapping[ks.label];
-    });
-
-    return res;
   }
 
   private customTooltipPosition(elements, position) {

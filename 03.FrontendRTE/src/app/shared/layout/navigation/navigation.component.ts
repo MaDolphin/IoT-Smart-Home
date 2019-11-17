@@ -93,7 +93,7 @@ export class NavigationComponent {
         },
         {
           label: 'Charts',
-          link: ['/', 'beispiele', 'charts'],
+          link: ['/', 'beispiele', 'charts', '1'],
           icon: 'supervisor_account',
         },
       ],

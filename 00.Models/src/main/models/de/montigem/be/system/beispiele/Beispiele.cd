@@ -8,6 +8,22 @@ classdiagram Beispiele {
   class BeispielePieChart extends PieChart {
   }
 
+  class FinanzierungZusammenstellung {
+      List<FinanzierungZusammenstellungEntry> finanzierungZusammenstellungEntries;
+  }
+
+  class FinanzierungZusammenstellungEntry {
+    int jahr;
+    int monat;
+    ZahlenWert planUmfang;
+    ZahlenWert umfang;
+  }
+
+  class FinanzierungsJahre {
+    int startjahr;
+    int abschlussjahr;
+  }
+
 }
 
 

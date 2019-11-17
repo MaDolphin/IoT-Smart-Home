@@ -59,7 +59,9 @@
       "@linegraph-dto/*" : ["target/generated-sources/dtos/*"],
 
       // Beispielkomponenten
-      "@beispielepiechart-dto/*" : ["target/generated-sources/dtos/*"]
+      "@beispielepiechart-dto/*" : ["target/generated-sources/dtos/*"],
+      "@finanzierungsjahre-dto/*" : ["target/generated-sources/dtos/*"],
+      "@finanzierungzusammenstellung-dto/*" : ["target/generated-sources/dtos/*"]
     }
   }
 }

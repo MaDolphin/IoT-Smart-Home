@@ -1,6 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-webpage beispieleDatentabellen(byId (id) BeispielePieChart mpc) {
+webpage beispieleDatentabellen(
+        byId (id) BeispielePieChart mpc,
+        byId (id) FinanzierungZusammenstellung fz,
+        byId (id) FinanzierungsJahre fj) {
     row (space-evenly) {
 
         container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
@@ -22,6 +25,22 @@ webpage beispieleDatentabellen(byId (id) BeispielePieChart mpc) {
                             title : < mpc.title
                             value : < mpc.total
                         }
+                    }
+                }
+            }
+        }
+
+        container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head{
+                    row(stretch) {
+                        label "Barchart"
+                    }
+                }
+                body {
+                    barchart {
+                        data: <fz
+                        dateRange: <fj
                     }
                 }
             }

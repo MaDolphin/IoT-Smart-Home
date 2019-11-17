@@ -44,6 +44,11 @@ classdiagram Commands {
      class Info_buildTime {
      }
 
+    class FinanzierungZusammenstellung_getByIdAndYear {
+      Long id;
+      List<String> years;
+    }
+
 //--------------- Einstellungen ----------------
    class EinstellungenBenutzerTabelleEntryDTO_update {
           EinstellungenBenutzerTabelleEntry dto;
