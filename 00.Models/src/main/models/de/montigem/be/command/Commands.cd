@@ -27,7 +27,7 @@ classdiagram Commands {
          String newUsername;
      }
 
-     class SetNewPassword{
+     class SetNewPassword {
           String oldPassword;
           String newPassword;
      }
@@ -43,11 +43,6 @@ classdiagram Commands {
 
      class Info_buildTime {
      }
-
-    class FinanzierungZusammenstellung_getByIdAndYear {
-      Long id;
-      List<String> years;
-    }
 
 //--------------- Einstellungen ----------------
    class EinstellungenBenutzerTabelleEntryDTO_update {
@@ -79,6 +74,12 @@ classdiagram Commands {
     class DomainUserAktivierungsmailSenden_byStatus {
       String status;
     }
+
+  //--------------- BEISPIELE -------------------
+  class BeispieleBarChart_getByIdAndYear {
+    Long id;
+    List<String> years;
+  }
 
  //------------ DOMAIN SPECIFIC -------------
 

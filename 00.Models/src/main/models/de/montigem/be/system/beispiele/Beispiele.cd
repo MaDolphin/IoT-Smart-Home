@@ -8,18 +8,19 @@ classdiagram Beispiele {
   class BeispielePieChart extends PieChart {
   }
 
-  class FinanzierungZusammenstellung {
-      List<FinanzierungZusammenstellungEntry> finanzierungZusammenstellungEntries;
+  class BeispieleBarChart {
+      List<BeispieleBarChartEntry> entries;
   }
 
-  class FinanzierungZusammenstellungEntry {
+  // TODO MF: change this
+  class BeispieleBarChartEntry {
     int jahr;
     int monat;
     ZahlenWert planUmfang;
     ZahlenWert umfang;
   }
 
-  class FinanzierungsJahre {
+  class Datumsbereich {
     int startjahr;
     int abschlussjahr;
   }

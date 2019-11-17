@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
 import { BeispieleChartsGenComponentTOP } from '@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component-top';
 import { BarChartComponent } from "@components/charts/bar-chart/bar-chart.component";
-import { FinanzierungZusammenstellungDTO } from "@targetdtos/finanzierungzusammenstellung.dto";
 import { IDTO } from "@shared/architecture";
-import { FinanzierungZusammenstellung_getByIdAndYear } from "@commands/finanzierungzusammenstellung_getbyidandyear";
+import { BeispieleBarChart_getByIdAndYear } from "@commands/beispielebarchart_getbyidandyear";
+import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
 
 
 /**
@@ -24,16 +24,18 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
     super(_router, _route, _commandRestService);
   }
 
+  //region Bar Chart
   @ViewChildren(BarChartComponent) barchart: QueryList<BarChartComponent>;
 
   ngAfterViewInit(): void {
+    // date range changed
     this.barchart.first.updateEvent.subscribe( (value) => {
       let date = JSON.parse(value);
       const dateRange: string[] = [date.start, date.end];
 
-      this.commandManager.addCommand(new FinanzierungZusammenstellung_getByIdAndYear(this.id, dateRange),
+      this.commandManager.addCommand(new BeispieleBarChart_getByIdAndYear(this.id, dateRange),
         (dto: IDTO) => {
-          if (dto instanceof FinanzierungZusammenstellungDTO) {
+          if (dto instanceof BeispieleBarChartDTO) {
             this.fz = dto;
 
             setTimeout( () => {
@@ -47,5 +49,6 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
       this.commandManager.sendCommands();
     });
   }
+  //endregion
 
 }

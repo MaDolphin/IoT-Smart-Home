@@ -2,8 +2,8 @@
 
 webpage beispieleDatentabellen(
         byId (id) BeispielePieChart mpc,
-        byId (id) FinanzierungZusammenstellung fz,
-        byId (id) FinanzierungsJahre fj) {
+        byId (id) BeispieleBarChart fz,
+        byId (id) Datumsbereich j) {
     row (space-evenly) {
 
         container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
@@ -40,7 +40,7 @@ webpage beispieleDatentabellen(
                 body {
                     barchart {
                         data: <fz
-                        dateRange: <fj
+                        dateRange: <j
                     }
                 }
             }

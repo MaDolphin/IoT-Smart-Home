@@ -60,8 +60,8 @@
 
       // Beispielkomponenten
       "@beispielepiechart-dto/*" : ["target/generated-sources/dtos/*"],
-      "@finanzierungsjahre-dto/*" : ["target/generated-sources/dtos/*"],
-      "@finanzierungzusammenstellung-dto/*" : ["target/generated-sources/dtos/*"]
+      "@datumsbereich-dto/*" : ["target/generated-sources/dtos/*"],
+      "@beispielebarchart-dto/*" : ["target/generated-sources/dtos/*"]
     }
   }
 }

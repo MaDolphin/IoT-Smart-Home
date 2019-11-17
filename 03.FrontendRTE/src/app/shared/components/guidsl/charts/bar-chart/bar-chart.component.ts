@@ -7,6 +7,8 @@ import { FinanzierungZusammenstellungEntryDTO } from '@targetdtos/finanzierungzu
 import * as Chart from 'chart.js'
 import {ColorsService} from "@shared/utils/colors.service";
 import { FinanzierungsJahreDTO } from "@targetdtos/finanzierungsjahre.dto";
+import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
+import { BeispieleBarChartEntryDTO } from "@targetdtos/beispielebarchartentry.dto";
 
 
 interface BarDataGroup {
@@ -344,7 +346,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     this.dataSet = [];
 
-    if (obj instanceof FinanzierungZusammenstellungDTO) {
+    if (obj instanceof BeispieleBarChartDTO) {
       this.dataSet = this.parseDataFinanzierungZusammenstellung(data);
     } else {
       console.log("Could not parse data");
@@ -388,8 +390,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   //region Data manipulation - TODO MF: make this more generic
-  private parseDataFinanzierungZusammenstellung(dataSetx: FinanzierungZusammenstellungDTO) {
-    let dataSet: FinanzierungZusammenstellungEntryDTO[] = dataSetx.finanzierungZusammenstellungEntries;
+  private parseDataFinanzierungZusammenstellung(dataSetx: BeispieleBarChartDTO) {
+    let dataSet: BeispieleBarChartEntryDTO[] = dataSetx.entries;
     let resultSet: BarDataGroup[] = [];
 
     if (dataSet.length === 0 )

@@ -38,9 +38,6 @@ classdiagram Domain {
 
     association  [*] RoleAssignment -> (user) DomainUser [1];
 
-// TODO MF: SHOULD BE REPLACED
-    enum ZahlenTyp {EURO, STUNDE, PROZENT, NONE; }
-
     /***********************************************************************************************************************
      * Domain specific classes
      **********************************************************************************************************************/
@@ -63,13 +60,13 @@ classdiagram Domain {
 
      association [1] Sensor -> (value) SensorValue [*];
 
+   // SHOULD BE REPLACED
+   class ZahlenWert {
+       ZahlenTyp zahlenTyp;
+       long wert;
+   }
 
-
-
-     // SHOULD BE REPLACED
-     class ZahlenWert {
-         ZahlenTyp zahlenTyp;
-         long wert;
-       }
+   // TODO MF: SHOULD BE REPLACED
+   enum ZahlenTyp {EURO, STUNDE, PROZENT, NONE; }
 
 }

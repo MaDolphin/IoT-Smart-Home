@@ -7,11 +7,11 @@ import de.montigem.be.domain.dtos.ZahlenWertDTO;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class FinanzierungZusammenstellungEntryDTO extends FinanzierungZusammenstellungEntryDTOTOP {
+public class BeispieleBarChartEntryDTO extends BeispieleBarChartEntryDTOTOP {
 
-  public FinanzierungZusammenstellungEntryDTO(long id, int year) {
+  public BeispieleBarChartEntryDTO(long id, int year) {
     ZahlenWert zahlenWert = new ZahlenWert();
-    zahlenWert.rawInitAttrs(new ArrayList<>(), ZahlenTyp.PROZENT, new Random().nextInt(11)*100);
+    zahlenWert.rawInitAttrs(new ArrayList<>(), ZahlenTyp.PROZENT, new Random().nextInt(11) * 1000L);
     ZahlenWertDTO zahlenWertDTO = new ZahlenWertDTO(zahlenWert);
 
     setPlanUmfang(zahlenWertDTO);

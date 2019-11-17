@@ -5,7 +5,7 @@ import de.montigem.be.util.DAOLib;
 
 import java.util.Calendar;
 
-public class FinanzierungsJahreDTOLoader extends FinanzierungsJahreDTOLoaderTOP {
+public class DatumsbereichDTOLoader extends DatumsbereichDTOLoaderTOP {
 
   private static int getPreviousYear() {
     Calendar prevYear = Calendar.getInstance();
@@ -19,12 +19,12 @@ public class FinanzierungsJahreDTOLoader extends FinanzierungsJahreDTOLoaderTOP 
     return prevYear.get(Calendar.YEAR);
   }
 
-  public FinanzierungsJahreDTOLoader(DAOLib daoLib, SecurityHelper securityHelper) {
-    setDTO(new FinanzierungsJahreDTO(0, getPreviousYear(), getNextYear()));
+  public DatumsbereichDTOLoader(DAOLib daoLib, SecurityHelper securityHelper) {
+    setDTO(new DatumsbereichDTO(0, getPreviousYear(), getNextYear()));
   }
 
-  public FinanzierungsJahreDTOLoader(DAOLib daoLib, long id, SecurityHelper securityHelper) {
-    setDTO(new FinanzierungsJahreDTO(0, getPreviousYear(), getNextYear()));
+  public DatumsbereichDTOLoader(DAOLib daoLib, long id, SecurityHelper securityHelper) {
+    setDTO(new DatumsbereichDTO(0, getPreviousYear(), getNextYear()));
   }
 
 }
