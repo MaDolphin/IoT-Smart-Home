@@ -2,7 +2,7 @@
  *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
 
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { DashboardComponentTOP } from "@targetgui/dashboard.component/dashboard.component-top";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommandRestService } from "@shared/architecture/command/rte/command.rest.service";
@@ -12,7 +12,7 @@ import { WebSocketService } from "@services/websocket.service";
   templateUrl: '../../../target/generated-sources/gui/dashboard.component/dashboard.component.html',
 })
 
-export class DashboardComponent extends DashboardComponentTOP {
+export class DashboardComponent extends DashboardComponentTOP implements OnInit {
   protected socket;
 
   public constructor(
