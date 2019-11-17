@@ -1,9 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import { Logger } from '@upe/logger';
 import { BaseChartDirective } from 'ng2-charts';
-import { FinanzierungZusammenstellungDTO } from '@targetdtos/finanzierungzusammenstellung.dto';
-import { RouterLocalService } from '@services/router.local.service';
-import { FinanzierungZusammenstellungEntryDTO } from '@targetdtos/finanzierungzusammenstellungentry.dto';
 import * as Chart from 'chart.js'
 import {ColorsService} from "@shared/utils/colors.service";
 import { FinanzierungsJahreDTO } from "@targetdtos/finanzierungsjahre.dto";
