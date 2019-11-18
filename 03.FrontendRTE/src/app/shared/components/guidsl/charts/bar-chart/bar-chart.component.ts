@@ -2,11 +2,36 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChil
 import { BaseChartDirective } from 'ng2-charts';
 import * as Chart from 'chart.js'
 import { ColorsService } from "@shared/utils/colors.service";
-import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto"; // TODO: Remove since not generic
-import { BeispieleBarChartEntryDTO } from "@targetdtos/beispielebarchartentry.dto"; // TODO: Remove since not generic
-import { DatumsbereichDTO } from "@targetdtos/datumsbereich.dto";
+import { Options } from "ng5-slider";
 
+export type BarChartXAxisData = { label: BarChartXAxisDataLabel, value: BarChartXAxisDataValue };
+export type BarChartYAxisData = { label: BarChartYAxisDataLabel, value: BarChartYAxisDataValue };
+export type BarChartXAxisDataValue = any;
+export type BarChartYAxisDataValue = number;
+export type BarChartXAxisDataLabel = string;
+export type BarChartYAxisDataLabel = string;
 
+export type YAxisType = 'STUNDE' | 'PROZENT';
+
+export type SortFn = (n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => number;
+
+export type BarChartDataTransformationFn = (data: any, range: IBarChartDataRange) => BarChartData;
+
+export type Color = string;
+
+export interface IBarChartDataEntry {
+  xAxisValue: BarChartXAxisData;
+  yAxisValues: BarChartYAxisData[];
+}
+
+export type BarChartData = IBarChartDataEntry[];
+
+export interface IBarChartDataRange {
+  min: BarChartXAxisDataValue;
+  max: BarChartXAxisDataValue;
+}
+
+// interface solely used for the external charts library
 interface BarDataGroup {
   label: string,
   data: number[]
@@ -15,7 +40,7 @@ interface BarDataGroup {
 }
 
 @Component({
-  selector: 'montigem-bar-chart',
+  selector: 'macoco-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
@@ -24,19 +49,80 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   @ViewChild(BaseChartDirective)
   private chart: BaseChartDirective;
 
-  public MONTHS = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+  private _sortFn: (n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => number = (n1: any, n2: any) => n1 - n2;
 
-  private _yearStart = '2019';
-  private _yearEnd = '2019';
+  public xAxisLabels: BarChartXAxisDataLabel[] = [];
 
-  private _xAxis = [];
+  // bar chart data formatted in a way that is usable by the charts external charts library
+  public dataset: BarDataGroup[] = [];
 
-  public dataSet: any = []; // BarDataGroup[];
+  // raw bar chart data
+  private _data: BarChartData;
+
+  public allXAxisDataInRange: BarChartXAxisData[];
+
+  //region Slider
+  public _sliderValueMin: number = 0;
+  public _sliderValueMax: number = 0;
+  public sliderOptions: Options = {
+    floor: 0,
+    ceil: 0,
+    hideLimitLabels: true,
+    translate: (index: number, _) => this.allXAxisDataInRange[index].label
+  };
+
+  public get sliderValueMin() {
+    return this._sliderValueMin;
+  }
+
+  public set sliderValueMin(index: number) {
+    this._sliderValueMin = index;
+  }
+
+  public get sliderValueMax() {
+    return this._sliderValueMax;
+  }
+
+  public set sliderValueMax(index: number) {
+    this._sliderValueMax = index;
+  }
+
+  public onSliderChanged() {
+    this.shownDataRange.min = this.allXAxisDataInRange[this.sliderValueMin].value;
+    this.shownDataRange.max = this.allXAxisDataInRange[this.sliderValueMax].value;
+    this.fetchData();
+  }
+  //endregion
 
   public _customLegend;
 
   public colorSet = [];
-  public _dateRange = [2018, 2019];
+
+  public _dataRange: IBarChartDataRange = { min: 0, max: 0};
+  public shownDataRange: IBarChartDataRange = { min: 0, max: 0 };
+
+  private getAllXAxisDataInRange(): BarChartXAxisData[] {
+    return this._data
+      .map((entry: IBarChartDataEntry) => entry.xAxisValue)
+      .filter((data: BarChartXAxisData) => this.sortFn(data.value, this._dataRange.min) >= 0 && this.sortFn(data.value, this._dataRange.max) <= 0)
+  }
+
+  public getAllXAxisDataValues(): BarChartXAxisDataValue[] {
+    return this._data
+      .map((entry: IBarChartDataEntry) => {
+        return entry.xAxisValue.value;
+      });
+  }
+
+  private getAllYAxisDataLabels(): Set<BarChartYAxisDataLabel> {
+    let labels: Set<BarChartYAxisDataLabel> = new Set();
+    this._data.forEach((entry: IBarChartDataEntry) => {
+      entry.yAxisValues.forEach((data: BarChartYAxisData) => {
+        labels.add(data.label)
+      });
+    });
+    return labels;
+  }
 
   private maxLimits = {
     type: 'max',
@@ -55,50 +141,39 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     hour: 5,
   };
 
-  //region Display Year
-  private _displayYear: number = (new Date()).getFullYear();
+  private _transformFn: BarChartDataTransformationFn;
 
-  public get displayYear() {
-    return this._displayYear;
-  }
-
-  public set displayYear(year: number) {
-    this._displayYear = year;
-  }
-  //endregion
-
-  @Output('update') updateEvent: EventEmitter<string> = new EventEmitter();
+  @Output('update') updateEvent: EventEmitter<IBarChartDataRange> = new EventEmitter();
 
   //region Inputs
+  //region Optional
   @Input()
-  public set data(data: any) {
-    this.setData(data);
+  public set dataTransformation(transformFn: BarChartDataTransformationFn) {
+    this._transformFn = transformFn;
   }
 
+  // TODO MF: get rid of this!
   @Input()
-  public set dateRange(value: DatumsbereichDTO) {
-    let currentYear = (new Date()).getFullYear();
+  public set dateRange(_: any) {}
 
-    if (value) {
-      this._dateRange = [];
-      if (value.abschlussjahr < currentYear) {
-        this._yearStart = String(value.abschlussjahr);
-        this._yearEnd = String(value.abschlussjahr);
-        this.fetchData();
-      } else if (value.startjahr > currentYear && value.abschlussjahr > currentYear) {
-        this._yearStart = String(value.startjahr);
-        this._yearEnd = String(value.abschlussjahr);
-        this.fetchData();
-      }
-
-      for (let i = value.startjahr; i <= value.abschlussjahr; i++) {
-        this._dateRange.push(i);
-      }
+  @Input()
+  public set dataRange(range: IBarChartDataRange) {
+    if (!range) {
+      this._dataRange = {
+        min: 0,
+        max: 0
+      };
+      this.shownDataRange = this._dataRange;
+      return;
     }
+
+    this._dataRange = range;
+    this.shownDataRange = Object.assign({}, this._dataRange) as IBarChartDataRange;
+    console.log("Set data range in dataRange setter");
   }
 
   @Input()
-  public set colors(colors: string[]) {
+  public set colors(colors: Color[]) {
     let i = 0;
     for ( ; i < colors.length; i++) {
       if (i < this.colorSet.length)
@@ -179,10 +254,67 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   @Input()
-  public hideYearSelect: boolean = false;
+  public set sortFn(fn: SortFn) {
+    this._sortFn = fn;
+  }
+
+  public get sortFn(): SortFn {
+    return this._sortFn;
+  }
+
+  private _yAxisType: YAxisType = 'PROZENT';
 
   @Input()
-  public cmd;
+  public set yAxisType(type: YAxisType) {
+    this._yAxisType = type
+  }
+
+  public get yAxisType(): YAxisType {
+    return this._yAxisType;
+  }
+  //endregion
+
+  //region Mandatory
+  @Input()
+  public set data(data: any) {
+    if (data === undefined || !data || !this.shownDataRange) {
+      return;
+    }
+
+    this._data = this._transformFn(data, this.shownDataRange);
+
+    // Update axes
+    this.updateXAxis();
+    this.updateYAxis(this._yAxisType);
+
+    // Reset existing data set
+    this.dataset = [];
+
+    // Create bar chart data groups from specified data set
+    this.getAllYAxisDataLabels().forEach((label: BarChartYAxisDataLabel) => {
+      let values: BarChartYAxisDataValue[] = this._data
+        .map((entry: IBarChartDataEntry) => {
+          return entry.yAxisValues.find((yData: BarChartYAxisData) => yData.label === label).value;
+        });
+
+      const barDataGroup: BarDataGroup = {
+        label: label,
+        data: values,
+      };
+
+      this.dataset.push(barDataGroup)
+    });
+
+    // do this only once when the first chunk of data arrived
+    if (!this.allXAxisDataInRange) {
+      this.allXAxisDataInRange = this.getAllXAxisDataInRange();
+      this.shownDataRange.min = this.allXAxisDataInRange[0].value;
+      this.shownDataRange.max = this.allXAxisDataInRange[this.allXAxisDataInRange.length - 1].value;
+      this.sliderOptions.ceil = this.allXAxisDataInRange.length - 1;
+      this._sliderValueMax = this.allXAxisDataInRange.length - 1;
+    }
+  }
+  //endregion
   //endregion
 
   public options: any = {
@@ -236,81 +368,24 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       this.chart.chart.destroy();
       this.chart.chart = 0;
 
-      this.chart.datasets = this.dataSet;
-      this.chart.labels = this.xAxis;
+      this.chart.datasets = this.dataset;
+      this.chart.labels = this.xAxisLabels;
       this.chart.ngOnInit();
     }
   }
 
-  //region Year
-  public get yearStart() {
-    return this._yearStart;
-  }
-
-  public set yearEnd(val) {
-
-    this._yearEnd = val;
-    this.updateXAxis();
-  }
-
-  public set yearStart(val) {
-    this._yearStart = val;
-    this.updateXAxis();
-  }
-
-  public get yearEnd() {
-    return this._yearEnd;
-  }
-  //endregion
-
-  public setData(data: any) {
-    this.updateXAxis();
-
-    let obj;
-    if (data != null)
-      obj = data;
-    else
-      return;
-
-    this.dataSet = [];
-
-    if (obj instanceof BeispieleBarChartDTO) {
-      this.dataSet = this.parseDataFinanzierungZusammenstellung(data);
-    } else {
-      console.log("Could not parse data");
-      this.dataSet = [];
-    }
-
-  }
-
   public hasData(): boolean {
-    if (this.dataSet != null && this.dataSet.length > 0) {
-      return true;
-    }
-    return false;
+    return this.dataset != null && this.dataset.length > 0;
   }
 
   //region Axis
-  public get xAxis() {
-    return this._xAxis;
-  }
-
-  public set xAxis(array) {
-    this._xAxis = array;
-  }
-
   public updateXAxis() {
-    let m: any = [];
-
-    for (let year = Number(this.yearStart); year <= Number(this.yearEnd); year++) {
-      m = m.concat(this.MONTHS.map((month) => {
-        return month + ' ' + year.toString().slice(-2);
-      }));
+    if (this._data) {
+      this.xAxisLabels = this._data.map((group: IBarChartDataEntry) => group.xAxisValue.label);
     }
-    this.xAxis = m;
   }
 
-  public updateYAxis(type: string) {
+  public updateYAxis(type: YAxisType) {
     let tick = this.options.scales.yAxes[0].ticks;
 
     let append;
@@ -344,18 +419,23 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   public ngOnInit(): void {
     this.updateXAxis();
 
-    let currentYear = (new Date()).getFullYear();
-
     this.colors = this._colorsService.getColors();
-    this._dateRange = [currentYear, currentYear];
+
+    // set data range manually iff no data range was provided via input
+    if (!this._dataRange) {
+      console.log("set data range in ngOnInit");
+      const allXAxisValuesSorted: BarChartXAxisDataValue[] = this.getAllXAxisDataValues()
+        .sort((n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => this.sortFn(n1, n2));
+      this._dataRange = {
+        min: allXAxisValuesSorted[0],
+        max: allXAxisValuesSorted[allXAxisValuesSorted.length - 1]
+      };
+    }
 
     Chart.Tooltip.positioners.custom = this.customTooltipPosition;
   }
 
   public ngAfterViewInit() {
-    this.yearStart = String((new Date()).getFullYear());
-    this.yearEnd = String((new Date()).getFullYear());
-
     this.fetchData();
   }
 
@@ -366,71 +446,10 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   public fetchData() {
-    let param = { start: this.yearStart, end: this.yearEnd };
-    this.updateEvent.emit(JSON.stringify(param));
+    this.updateEvent.emit(this.shownDataRange);
   }
 
-  //region Data manipulation - TODO MF: make this more generic
-  private parseDataFinanzierungZusammenstellung(dataSetx: BeispieleBarChartDTO) {
-    let dataSet: BeispieleBarChartEntryDTO[] = dataSetx.entries;
-    let resultSet: BarDataGroup[] = [];
-
-    if (dataSet.length === 0 )
-      return resultSet;
-
-    // Calc Y Axis (Percentage or Hour display)
-    this.updateYAxis(dataSet[0].umfang.zahlenTyp);
-
-    // Planumfang
-    let planUmfangSet = this.createEmptyDataSet('Planumfang');
-
-    dataSet.forEach((dto) => {
-      let index = (dto.jahr - Number(this.yearStart)) * 12 + (dto.monat - 1);
-      planUmfangSet.data[index] = parseFloat((+dto.planUmfang.wert).toFixed(2)) / 100;
-    });
-
-    resultSet.push(planUmfangSet);
-
-    // Umfänge
-    resultSet.push(this.createEmptyDataSet('Beschäftigungsumfang'));
-
-    dataSet.forEach((dto) => {
-      let index = (dto.jahr - Number(this.yearStart)) * 12 + (dto.monat - 1);
-      let setIndex = 1;
-      let value = parseFloat((+dto.umfang.wert).toFixed(2)) / 100;
-      if (value <= 0)
-        return;
-
-      while (setIndex < resultSet.length && !isNaN(resultSet[setIndex].data[index])) {
-        setIndex++;
-      }
-
-      if (setIndex >= resultSet.length)
-        resultSet.push(this.createEmptyDataSet('Monat mit Finanzierungsänderung'));
-
-      resultSet[setIndex].data[index] = value;
-    });
-
-    return resultSet;
-  }
-  //endregion
-
-  private createEmptyDataSet(label: string): BarDataGroup {
-    let data = [];
-
-    for (let year = Number(this.yearStart); year <= Number(this.yearEnd); year++) {
-      for (let m = 0; m < this.MONTHS.length; m++) {
-        data.push(NaN);
-      }
-    }
-
-    return {
-      label: label,
-      data: data
-    };
-  }
-
-  private customTooltipPosition(elements, position) {
+  private customTooltipPosition(_, position) {
     return {x: position.x, y: position.y};
   }
 
