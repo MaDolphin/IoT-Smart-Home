@@ -15,7 +15,7 @@ export type YAxisType = 'STUNDE' | 'PROZENT';
 
 export type SortFn = (n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => number;
 
-export type BarChartDataTransformationFn = (data: any, range: IBarChartDataRange) => BarChartData;
+export type BarChartDataTransformationFn = (data: any, range?: IBarChartDataRange) => BarChartData;
 
 export type Color = string;
 
@@ -98,8 +98,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   public colorSet = [];
 
-  public _dataRange: IBarChartDataRange = { min: 0, max: 0};
-  public shownDataRange: IBarChartDataRange = { min: 0, max: 0 };
+  public _dataRange: IBarChartDataRange;
+  public shownDataRange: IBarChartDataRange;
 
   private getAllXAxisDataInRange(): BarChartXAxisData[] {
     return this._data
@@ -158,15 +158,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   @Input()
   public set dataRange(range: IBarChartDataRange) {
-    if (!range) {
-      this._dataRange = {
-        min: 0,
-        max: 0
-      };
-      this.shownDataRange = this._dataRange;
-      return;
-    }
-
     this._dataRange = range;
     this.shownDataRange = Object.assign({}, this._dataRange) as IBarChartDataRange;
     console.log("Set data range in dataRange setter");
@@ -277,11 +268,21 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   //region Mandatory
   @Input()
   public set data(data: any) {
-    if (data === undefined || !data || !this.shownDataRange) {
+    if (data === undefined || !data) {
       return;
     }
 
     this._data = this._transformFn(data, this.shownDataRange);
+
+    // set data range manually iff no data range was provided via input
+    if (!this._dataRange) {
+      const allXAxisValuesSorted: BarChartXAxisDataValue[] = this.getAllXAxisDataValues()
+        .sort((n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => this.sortFn(n1, n2));
+      this.dataRange = {
+        min: allXAxisValuesSorted[0],
+        max: allXAxisValuesSorted[allXAxisValuesSorted.length - 1]
+      };
+    }
 
     // Update axes
     this.updateXAxis();
@@ -420,17 +421,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.updateXAxis();
 
     this.colors = this._colorsService.getColors();
-
-    // set data range manually iff no data range was provided via input
-    if (!this._dataRange) {
-      console.log("set data range in ngOnInit");
-      const allXAxisValuesSorted: BarChartXAxisDataValue[] = this.getAllXAxisDataValues()
-        .sort((n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => this.sortFn(n1, n2));
-      this._dataRange = {
-        min: allXAxisValuesSorted[0],
-        max: allXAxisValuesSorted[allXAxisValuesSorted.length - 1]
-      };
-    }
 
     Chart.Tooltip.positioners.custom = this.customTooltipPosition;
   }

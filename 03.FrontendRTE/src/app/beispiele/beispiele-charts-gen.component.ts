@@ -48,7 +48,7 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
 
     // this.barchart.first.dataTransformation = beispieleBarChartTransformation2;
     // this.barchart.first.sortFn = (s1: string, s2: string) => s1.localeCompare(s2, 'de');
-    // this.barchart.first.dataRange = this.beispieleBarChartDataRange2;
+    // this.barchart.first.dataRange = this.beispieleBarChartDataRange2; // date range is optional for this example
     // this.barchart.first.yAxisType = "STUNDE";
     // this.barchart.first.stacked = true;
 

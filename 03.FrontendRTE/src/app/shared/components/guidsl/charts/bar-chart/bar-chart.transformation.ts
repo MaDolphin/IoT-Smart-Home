@@ -57,12 +57,14 @@ function alphabetPosition(letter: string): number {
   return letter.charCodeAt(0) - 97;
 }
 
-export function beispieleBarChartTransformation2(dto: BeispieleBarChartDTO, range: IBarChartDataRange): BarChartData {
+export function beispieleBarChartTransformation2(dto: BeispieleBarChartDTO, range?: IBarChartDataRange): BarChartData {
   let data: BarChartData = [];
 
   // compute alphabet
   let allLetters: string[] = [];
-  for (let i = alphabetPosition(range.min); i <= alphabetPosition(range.max); i++) {
+  const first = range ? alphabetPosition(range.min) : 0;
+  const last = range ? alphabetPosition(range.max) : 25;
+  for (let i = first; i <= last; i++) {
     allLetters.push(String.fromCharCode(97 + i));
   }
 
