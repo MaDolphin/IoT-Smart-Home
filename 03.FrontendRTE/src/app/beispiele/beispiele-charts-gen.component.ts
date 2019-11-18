@@ -30,8 +30,8 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
 
   // represents the maximum data range of the available data
   public beispieleBarChartDataRange1: IBarChartDataRange = {
-    min: new Date("2018-01"), // first day of 2018
-    max: new Date("2020-12"), // last day of 2020
+    min: new Date("2018-01"), // e.g. YYYY-MM
+    max: new Date("2018-12"),
   };
 
   // public beispieleBarChartDataRange2: IBarChartDataRange = {

@@ -6,7 +6,7 @@ webpage beispieleDatentabellen(
         byId (id) Datumsbereich j) {
     row (space-evenly) {
 
-        container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
             card {
                 head{
                     row(stretch) {
@@ -30,7 +30,7 @@ webpage beispieleDatentabellen(
             }
         }
 
-        container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
             card {
                 head{
                     row(stretch) {
@@ -38,9 +38,19 @@ webpage beispieleDatentabellen(
                     }
                 }
                 body {
-                    barchart {
-                        data: <fz
-                        dateRange: <j
+                    row(c, spacebelow) {
+                        barchart {
+                            data: <fz
+                            dateRange: <j
+                        }
+                    }
+                    row(c) {
+                        button "Strafsteuerübersicht"{
+                            click -> moveToF1Overview()
+                        }
+                        button "Kontenübersicht"{
+                            click -> navigateToFinanzenOverview()
+                        }
                     }
                 }
             }
