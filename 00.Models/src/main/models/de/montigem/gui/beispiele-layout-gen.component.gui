@@ -6,28 +6,52 @@ webpage beispieleDatentabellen() {
             card {
                 head{
                     row(stretch){
-                        label "Generiert mit MontiGEM"
+                        label "Willkommen in MontiGEM"
                         helpbutton wiki1 "http://www.se-rwth.de/"
                     }
                 }
                 body{
                     row(c){
-                        column(30%){
-                            html{
-                               "
-                                 <p>Layout</p>
-                               "
+                        column(){
+                        infosign{
+                          icon    :   info
+                          header  : "Hinweis:"
+                          message : "Der Bereich Personal befindet sich noch in Entwicklung und ist bislang noch nicht ausreichend mit den Rollen/Rechten im Sinne des Datenschutzes und der Anforderungen der Personalräte versehen. Verwenden Sie hier daher bitte keine Echtdaten!
+                                 Fiktive Personaldaten dürfen natürlich zur Testung eingegeben werden."
+                        }
+                       }
+                    }
+                    row(c){
+                        column(){
+                            infosign if(cmdStatus == "waiting") {
+                              icon    : load
+                              header  : "Daten werden geladen..."
+                              message : "Haben sie bitte noch einen Augenblick Geduld. Dies kann einen Moment dauern ..."
                             }
                         }
-                        column(30%){
-                            html{
-                               "
-                                 <div>
-                                    <img src=\"assets/img/BGlogin.png\" alt=\"MaCoCo Logo\" style=\"max-width: 400px\">
-                                 </div>
-                               "
+                    }
+                    row(c){
+                        label "Labeltext1"
+                        column(){
+                            label "Labeltext1"
+                        }
+                        column(){
+                            label "Labeltext2" {
+                              color: black
+                              fontsize : 16
                             }
                         }
+                        column(){
+                            label if(isLabelTrue()) "Label text:"
+                        }
+                    }
+                    row(c){
+                        html{
+                            "<p style='font-style: italic;'>We are not live yet</p>"
+                        }
+                    }
+                    row(c){
+                        textoutput { "This website is under construction" }
                     }
                 }
             }
