@@ -3,6 +3,7 @@
 webpage beispieleDatentabellen(
         byId (id) BeispielePieChart mpc,
         byId (id) BeispieleBarChart fz,
+        byId (id) BeispieleBarChart fz2,
         byId (id) Datumsbereich j) {
     row (space-evenly) {
 
@@ -38,19 +39,25 @@ webpage beispieleDatentabellen(
                     }
                 }
                 body {
-                    row(c, spacebelow) {
-                        barchart {
-                            data: <fz
-                            dateRange: <j
-                        }
+                    barchart {
+                        data: <fz
+                        dateRange: <j
                     }
-                    row(c) {
-                        button "Strafsteuerübersicht"{
-                            click -> moveToF1Overview()
-                        }
-                        button "Kontenübersicht"{
-                            click -> navigateToFinanzenOverview()
-                        }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "Barchart 2"
+                    }
+                }
+                body {
+                    barchart {
+                        data: <fz2
+                        dateRange: <j
                     }
                 }
             }
