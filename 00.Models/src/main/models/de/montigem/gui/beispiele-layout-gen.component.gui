@@ -31,27 +31,28 @@ webpage beispieleDatentabellen() {
                         }
                     }
                     row(c){
-                        label "Labeltext1"
                         column(){
-                            label "Labeltext1"
-                        }
-                        column(){
-                            label "Labeltext2" {
+                            label "Please be alert!!" {
                               color: black
                               fontsize : 16
                             }
                         }
                         column(){
-                            label if(isLabelTrue()) "Label text:"
+                           label "...."
+                        }
+                        column(){
+                            label if(isLabelTrue()) "...!!!"
                         }
                     }
                     row(c){
-                        html{
-                            "<p style='font-style: italic;'>We are not live yet</p>"
+                        column(){
+                            textoutput { "This website is under construction" }
                         }
-                    }
-                    row(c){
-                        textoutput { "This website is under construction" }
+                        column(){
+                            html{
+                                "<p style='font-style: italic;margin-top: 9px;'>We are not live yet</p>"
+                            }
+                        }
                     }
                 }
             }

@@ -17,6 +17,9 @@ export class BeispieleLayoutGenComponent extends BeispieleLayoutGenComponentTOP 
   }
 
   ngOnInit() {
+    this.cmdStatus='waiting';
+    this.isLabelTrue();
   }
+  public isLabelTrue(): boolean { return true; }
 
 }
