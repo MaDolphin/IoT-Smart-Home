@@ -1,22 +1,89 @@
 import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
-import { BarChartData, IBarChartDataEntry, IBarChartDataRange } from "@components/charts/bar-chart/bar-chart.component";
+import { BarChartData, BarChartYAxisData, IBarChartDataEntry, IBarChartDataRange } from "@components/charts/bar-chart/bar-chart.component";
 
 import * as moment from 'moment';
+import { BeispieleBarChartEntryDTO } from "@targetdtos/beispielebarchartentry.dto";
 
 interface IBeispielBarChartRange {
   min: Date,
   max: Date
 }
 
+export function beispieleBarChartTransformation3(dto: BeispieleBarChartDTO, range: IBarChartDataRange) {
+  let dtoEntries = dto.entries;
+  if (dtoEntries.length === 0) {
+    return []
+  }
+
+  // TODO: Set Y Axis Type
+
+  let data: BarChartData = createEmptyDataEntries(range);
+
+  dtoEntries.forEach((dtoEntry: BeispieleBarChartEntryDTO) => {
+    let date = moment().year(dtoEntry.jahr).month(dtoEntry.monat - 1).startOf('month');
+
+    let planUmfangValue: BarChartYAxisData = {
+      label: "Planumfang",
+      value: parseFloat((+dtoEntry.planUmfang.wert).toFixed(2)) / 100
+    };
+
+    let beschaeftigungsUmfangValue: BarChartYAxisData = {
+      label: "Beschäftigungsumfang",
+      value: parseFloat((+dtoEntry.umfang.wert).toFixed(2)) / 100
+    };
+
+    data = data.map((entry: IBarChartDataEntry) => {
+      if (moment(entry.xAxisValue.value).isSame(date, 'month')) {
+        entry.yAxisValues.push(planUmfangValue);
+        entry.yAxisValues.push(beschaeftigungsUmfangValue);
+      }
+      return entry;
+    })
+  });
+
+  return data;
+}
+
+function createEmptyDataEntries(range: IBarChartDataRange): BarChartData {
+  let startDate = moment(range.min);
+  let endDate = moment(range.max);
+
+  let allDates: Date[] = [];
+  allDates.push(startDate.toDate());
+
+  let month = moment(startDate);
+  while (month < endDate) {
+    month.add(1, "month");
+    allDates.push(month.toDate());
+  }
+
+  let data: BarChartData = [];
+
+  for (let date of allDates) {
+    let entry: IBarChartDataEntry = {
+      xAxisValue: {
+        label: moment(date).locale('de').format("MMM YYYY"),
+        value: date
+      },
+      yAxisValues: []
+    };
+    data.push(entry);
+  }
+
+  return data;
+}
+
 export function beispieleBarChartTransformation1(dto: BeispieleBarChartDTO, range: IBeispielBarChartRange): BarChartData {
+  console.log("DTO", dto);
+
   if (dto.entries.length === 0) {
     return [];
   }
 
   let data: BarChartData = [];
 
-  let startDate = moment(range.min);
-  let endDate = moment(range.max);
+  let startDate = moment(range.min).startOf('month');
+  let endDate = moment(range.max).startOf('month');
 
   let allDates: Date[] = [];
   allDates.push(startDate.toDate());

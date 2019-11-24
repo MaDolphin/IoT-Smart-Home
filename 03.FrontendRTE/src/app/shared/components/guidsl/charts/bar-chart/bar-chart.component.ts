@@ -295,7 +295,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.getAllYAxisDataLabels().forEach((label: BarChartYAxisDataLabel) => {
       let values: BarChartYAxisDataValue[] = this._data
         .map((entry: IBarChartDataEntry) => {
-          return entry.yAxisValues.find((yData: BarChartYAxisData) => yData.label === label).value;
+          return entry.yAxisValues.length > 0 ? entry.yAxisValues.find((yData: BarChartYAxisData) => yData.label === label).value : 0;
         });
 
       const barDataGroup: BarDataGroup = {

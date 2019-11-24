@@ -3,10 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
 import { BeispieleChartsGenComponentTOP } from '@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component-top';
 import { BarChartComponent, IBarChartDataRange } from "@components/charts/bar-chart/bar-chart.component";
-import { beispieleBarChartTransformation1, beispieleBarChartTransformation2 } from "@components/charts/bar-chart/bar-chart.transformation";
+import {
+  beispieleBarChartTransformation1,
+  beispieleBarChartTransformation2,
+  beispieleBarChartTransformation3
+} from "@components/charts/bar-chart/bar-chart.transformation";
 import { BeispieleBarChart_getById } from "@commands/beispielebarchart.getbyid";
 import { IDTO } from "@shared/architecture";
 import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
+import * as moment from "moment";
 
 
 /**
@@ -43,7 +48,7 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
 
   ngAfterViewInit(): void {
     this.barchart.first.dataTransformation = beispieleBarChartTransformation1;
-    this.barchart.first.sortFn = (d1: Date, d2: Date) => d1.getTime() - d2.getTime();
+    this.barchart.first.sortFn = (d1: any, d2: any) => moment(d1).toDate().getTime() - moment(d2).toDate().getTime();
     this.barchart.first.dataRange = this.beispieleBarChartDataRange1;
 
     this.barchart.last.dataTransformation = beispieleBarChartTransformation2;
