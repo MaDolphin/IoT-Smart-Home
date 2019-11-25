@@ -124,8 +124,10 @@ export class LineChartComponent implements OnInit {
     protected _strToDate: StringToDatePipe) {}
 
   private setXAxisSize(min: number, max: number) {
+    /*
     this.options.scales.xAxes[0].ticks.min = min;
     this.options.scales.xAxes[0].ticks.max = max;
+    /**/
   }
 
   public options: any = {
@@ -153,11 +155,11 @@ export class LineChartComponent implements OnInit {
           display: true,
           position: 'bottom',
           gridLines: {
-            display: false,
+            display: true,
           },
           ticks: {
             min: 0,
-            max: 100,
+            max: 20,
             stepSize: 1,
           }
         }
@@ -168,6 +170,8 @@ export class LineChartComponent implements OnInit {
           display: true,
           position: 'left',
           ticks: {
+            min: 0,
+            max: 600,
             stepSize: 50000,
             callback: function (value, index, values) {
               return new Intl.NumberFormat().format(value);
