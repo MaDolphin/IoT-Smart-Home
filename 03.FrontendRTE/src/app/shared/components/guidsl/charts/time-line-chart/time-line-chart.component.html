@@ -1,34 +1,15 @@
-<!-- (c) https://github.com/MontiCore/monticore -->
-<!--
-  ~ 
-  -->
-
 <div fxLayout="column" style="margin:auto;" >
-    <div fxLayout="row" style="justify-content: flex-end;">
-        <div *ngFor="let item of kontenSet, let i = index"
-             style="align-items: center;margin-left:10px"
-             fxLayout="row">
-            <div [style.backgroundColor]="getColor(i)"
-                 [style.height]="'3px'"
-                 fxFlex="0 0 40px"></div>
-            <span style="margin-left:10px" fxFlex>{{item}}</span>
-        </div>
-
-        <div fxFlex="0 0 auto"
-             style="margin-left:10px;">
-            <select [(ngModel)]="yearStart" (change)="queryUpdate()">
-                <ng-container *ngFor="let year of _dateRange">
-                    <option *ngIf="year <= yearEnd">{{year}}</option>
-                </ng-container>
-            </select>
-
-            <select [(ngModel)]="yearEnd" (change)="queryUpdate()">
-                <ng-container *ngFor="let year of _dateRange">
-                    <option *ngIf="year >= yearStart">{{year}}</option>
-                </ng-container>
-            </select>
+    <!--region Range Slider -->
+    <div fxLayout="row" fxLayoutAlign="stretch" *ngIf="dataRange">
+        <div class="range-control range" fxLayout fxLayoutGap="10px">
+            <span>{{dateToString(dataRange.min)}}</span>
+            <ng5-slider (userChangeEnd)="onSliderChanged()" [(value)]="sliderValueMin" [(highValue)]="sliderValueMax" [options]="sliderOptions"></ng5-slider>
+            <span>{{dateToString(dataRange.max)}}</span>
         </div>
     </div>
+    <!--endregion-->
+
+    <!--region Chart-->
     <div fxFlex="1 1 100%" fxLayout="row" >
         <div style="position: relative;height:100px;width:100%;" *ngIf="hasData()">
             <canvas #baseChart baseChart
@@ -41,6 +22,21 @@
         </div>
         <div *ngIf="!hasData()">Keine Daten vorhanden</div>
     </div>
+    <!--endregion-->
+
+    <!--region Legend-->
+    <div fxLayout fxLayoutAlign="space-around" style="padding-top: 15px">
+        <div *ngFor="let item of labels, let i = index"
+             style="align-items: center;margin-left:10px"
+             fxLayout="row">
+            <div [style.backgroundColor]="getColor(i)"
+                 [style.height]="'3px'"
+                 fxFlex="0 0 40px"></div>
+            <span style="margin-left:10px" fxFlex>{{item}}</span>
+        </div>
+    </div>
+    <!--endregion-->
+
 </div>
 
 
