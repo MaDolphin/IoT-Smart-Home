@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
 import { BeispieleChartsGenComponentTOP } from '@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component-top';
@@ -12,7 +12,9 @@ import { BeispieleBarChart_getById } from "@commands/beispielebarchart.getbyid";
 import { IDTO } from "@shared/architecture";
 import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
 import * as moment from "moment";
-
+import { beispielTransformation, transformBeispieleJahreDTO } from "@components/charts/time-line-chart/time-line-chart.transformation";
+import { ILineChartDataRange, TimeLineChartComponent } from "@components/charts/time-line-chart/time-line-chart.component";
+import { BeispieleTimeline_getByIdAndYear } from "@commands/beispieletimeline_getbyidandyear";
 
 /**
  * See BeispielePieChartDTO.java, BeispielePieChartDTOLoader.java for more details on how to use PieCharts
@@ -94,6 +96,41 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
       this.commandManager.sendCommands();
     });
   }
+  //endregion
+
+  //region TimeLine Chart
+  transformFnTimeLineChart_fz3 = beispielTransformation;
+  rangeTransformFnTimeLineChart_fz3 = transformBeispieleJahreDTO;
+  shownRangeTimeLineChart_fz3 = {
+    "min": moment(new Date()).startOf('year').toDate(),
+    "max": moment(new Date()).endOf('year').toDate()
+  };
+
+  @ViewChild(TimeLineChartComponent) timeLine: TimeLineChartComponent;
+
+  ngOnInit(): void {
+    super.ngOnInit();
+
+    this.timeLine.updateEvent.subscribe((range: ILineChartDataRange) => {
+      // const dateRange: string[] = ['' + range.min.getFullYear(), '' + range.max.getFullYear()];
+
+      this.commandManager.addCommand(new BeispieleBarChart_getById(this.id),
+        (dto: IDTO) => {
+          if (dto instanceof BeispieleBarChartDTO) {
+            this.fz3 = dto;
+
+            setTimeout( () => {
+              this.timeLine.updateChart();
+            }, 100);
+          } else {
+            console.error("Received something wrong");
+          }
+        });
+
+      this.commandManager.sendCommands();
+    });
+  }
+
   //endregion
 
 }

@@ -33,7 +33,7 @@ webpage beispieleDatentabellen() {
                     row(c){
                         column(){
                             label "Please be alert!!" {
-                              color: black
+                              color: "black"
                               fontsize : 16
                             }
                         }

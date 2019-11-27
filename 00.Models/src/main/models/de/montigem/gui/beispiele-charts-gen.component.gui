@@ -4,6 +4,7 @@ webpage beispieleDatentabellen(
         byId (id) BeispielePieChart mpc,
         byId (id) BeispieleBarChart fz,
         byId (id) BeispieleBarChart fz2,
+        byId (id) BeispieleBarChart fz3,
         byId (id) Datumsbereich j) {
     row (space-evenly) {
 
@@ -57,6 +58,22 @@ webpage beispieleDatentabellen(
                 body {
                     barchart {
                         data: <fz2
+                        dateRange: <j
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head{
+                    row(stretch) {
+                        label "TimeLineChart"
+                    }
+                }
+                body {
+                    timeline {
+                        data: <fz3
                         dateRange: <j
                     }
                 }
