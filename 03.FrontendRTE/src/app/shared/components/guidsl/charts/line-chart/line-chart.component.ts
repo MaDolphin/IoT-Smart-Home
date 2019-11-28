@@ -1,5 +1,4 @@
 import {Component, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
-import {RouterLocalService} from '@shared/architecture/services/router.local.service';
 import {ColorsService} from '@shared/utils/colors.service';
 import {BaseChartDirective} from 'ng2-charts';
 import 'chartjs-plugin-streaming';
