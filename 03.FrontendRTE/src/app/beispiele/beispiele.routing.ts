@@ -5,7 +5,6 @@ import { BeispieleChartsGenComponent } from './beispiele-charts-gen.component';
 import { BeispieleInputGenComponent } from './beispiele-input-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
-import {PaperComponent} from './paper.component';
 
 export const routes: Routes = [
   {
@@ -32,10 +31,6 @@ export const routes: Routes = [
   {
     path: 'navigation',
     component: BeispieleNavigationGenComponent,
-  },
-  {
-    path: 'paper',
-    component: PaperComponent,
   }
 ];
 

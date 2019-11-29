@@ -61,9 +61,7 @@
       // Beispielkomponenten
       "@beispielepiechart-dto/*" : ["target/generated-sources/dtos/*"],
       "@datumsbereich-dto/*" : ["target/generated-sources/dtos/*"],
-      "@beispielebarchart-dto/*" : ["target/generated-sources/dtos/*"],
-      "@chartlc-dto/*": ["target/generated-sources/dtos/*"],
-      "@chartbb-dto/*": ["target/generated-sources/dtos/*"]
+      "@beispielebarchart-dto/*" : ["target/generated-sources/dtos/*"]
     }
   }
 }

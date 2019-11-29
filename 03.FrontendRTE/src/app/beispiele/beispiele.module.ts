@@ -15,7 +15,6 @@ import { BeispieleChartsGenComponent } from './beispiele-charts-gen.component';
 import { BeispieleInputGenComponent } from './beispiele-input-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
-import {PaperComponent} from './paper.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +22,7 @@ import {PaperComponent} from './paper.component';
     BeispieleChartsGenComponent,
     BeispieleInputGenComponent,
     BeispieleLayoutGenComponent,
-    BeispieleNavigationGenComponent,
-    PaperComponent
+    BeispieleNavigationGenComponent
   ],
   imports: [
     MatIconModule,
