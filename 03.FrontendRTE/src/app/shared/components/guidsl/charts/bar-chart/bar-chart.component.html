@@ -6,10 +6,10 @@
     <div fxLayout="row" style="justify-content: flex-end;">
         <div fxFlex="0 0 auto"
              style="margin-left:10px; margin-top: 10px" >
-            <div class="range-control range" *ngIf="allXAxisDataInRange" fxLayout fxLayoutGap="10px">
-                <span>{{allXAxisDataInRange[0].label}}</span>
-                <ng5-slider (userChangeEnd)="onSliderChanged()" [(value)]="sliderValueMin" [(highValue)]="sliderValueMax" [options]="sliderOptions" style="width: 300px"></ng5-slider>
-                <span>{{allXAxisDataInRange[allXAxisDataInRange.length - 1].label}}</span>
+            <div class="range-control range" *ngIf="allXAxisDataValuesInRange" fxLayout fxLayoutGap="10px">
+                <span>{{barChartXAxisDataValueStringifyFn(allXAxisDataValuesInRange[0])}}</span>
+                <ng5-slider (userChangeEnd)="onSliderChanged($event)" [(value)]="sliderValueMin" [(highValue)]="sliderValueMax" [options]="sliderOptions" style="width: 300px"></ng5-slider>
+                <span>{{barChartXAxisDataValueStringifyFn(allXAxisDataValuesInRange[allXAxisDataValuesInRange.length - 1])}}</span>
             </div>
         </div>
     </div>

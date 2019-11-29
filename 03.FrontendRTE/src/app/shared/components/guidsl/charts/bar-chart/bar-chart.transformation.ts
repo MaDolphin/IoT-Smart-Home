@@ -33,9 +33,9 @@ export function beispieleBarChartTransformation3(dto: BeispieleBarChartDTO, rang
     };
 
     data = data.map((entry: IBarChartDataEntry) => {
-      if (moment(entry.xAxisValue.value).isSame(date, 'month')) {
-        entry.yAxisValues.push(planUmfangValue);
-        entry.yAxisValues.push(beschaeftigungsUmfangValue);
+      if (moment(entry.xAxis.value).isSame(date, 'month')) {
+        entry.yAxis.push(planUmfangValue);
+        entry.yAxis.push(beschaeftigungsUmfangValue);
       }
       return entry;
     })
@@ -61,11 +61,8 @@ function createEmptyDataEntries(range: IBarChartDataRange): BarChartData {
 
   for (let date of allDates) {
     let entry: IBarChartDataEntry = {
-      xAxisValue: {
-        label: moment(date).locale('de').format("MMM YYYY"),
-        value: date
-      },
-      yAxisValues: []
+      xAxis: date,
+      yAxis: []
     };
     data.push(entry);
   }
@@ -96,11 +93,8 @@ export function beispieleBarChartTransformation1(dto: BeispieleBarChartDTO, rang
 
   for (let date of allDates) {
     let entry: IBarChartDataEntry = {
-      xAxisValue: {
-        label: moment(date).locale('de').format("MMM YYYY"),
-        value: date
-      },
-      yAxisValues: [
+      xAxis: date,
+      yAxis: [
         {
           label: "Katekorie 1",
           value: Math.random() * 100
@@ -128,20 +122,12 @@ export function beispieleBarChartTransformation2(dto: BeispieleBarChartDTO, rang
   let data: BarChartData = [];
 
   // compute alphabet
-  let allLetters: string[] = [];
-  const first = range ? alphabetPosition(range.min) : 0;
-  const last = range ? alphabetPosition(range.max) : 25;
-  for (let i = first; i <= last; i++) {
-    allLetters.push(String.fromCharCode(97 + i));
-  }
+  let allLetters: string[] = getAllLettersInRange(range);
 
   for (let letter of allLetters) {
     let entry: IBarChartDataEntry = {
-      xAxisValue: {
-        label: letter,
-        value: letter
-      },
-      yAxisValues: [
+      xAxis: letter,
+      yAxis: [
         {
           label: "Foo",
           value: Math.random() * 5
@@ -155,4 +141,47 @@ export function beispieleBarChartTransformation2(dto: BeispieleBarChartDTO, rang
     data.push(entry);
   }
   return data;
+}
+
+/**
+ * Returns an array containing exactly 1 date object element for each month that fits into the given range.
+ * @param range
+ */
+export function getAllMonthsInRange(range: IBeispielBarChartRange): Date[] {
+  let startDate = moment(range.min).startOf('month');
+  let endDate = moment(range.max).startOf('month');
+
+  let allDates: Date[] = [];
+  allDates.push(startDate.toDate());
+
+  let month = moment(startDate);
+  while (month < endDate) {
+    month.add(1, "month");
+    allDates.push(month.toDate());
+  }
+
+  return allDates;
+}
+
+/**
+ * Returns an array containing exactly 1 date object element for each month that fits into the given range.
+ * @param range
+ */
+export function getAllLettersInRange(range: IBarChartDataRange): string[] {
+  // compute alphabet
+  let allLetters: string[] = [];
+  console.log(range);
+  const first = range !== undefined ? alphabetPosition(range.min) : 0;
+  const last = range !== undefined ? alphabetPosition(range.max) : 25;
+  for (let i = first; i <= last; i++) {
+    allLetters.push(String.fromCharCode(97 + i));
+  }
+  return allLetters
+}
+
+export function transformFinanzierungsJahreDTO(dto: any): IBarChartDataRange {
+  return {
+    min: moment().set('year', dto.startjahr).startOf('year').toDate(),
+    max: moment().set('year', dto.abschlussjahr).endOf('year').toDate()
+  };
 }

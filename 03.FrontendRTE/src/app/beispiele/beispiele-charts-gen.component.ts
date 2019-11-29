@@ -6,7 +6,7 @@ import { BarChartComponent, IBarChartDataRange } from "@components/charts/bar-ch
 import {
   beispieleBarChartTransformation1,
   beispieleBarChartTransformation2,
-  beispieleBarChartTransformation3
+  beispieleBarChartTransformation3, getAllLettersInRange, getAllMonthsInRange, transformFinanzierungsJahreDTO
 } from "@components/charts/bar-chart/bar-chart.transformation";
 import { BeispieleBarChart_getById } from "@commands/beispielebarchart.getbyid";
 import { IDTO } from "@shared/architecture";
@@ -36,26 +36,33 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
   // -- YOU COULD ALSO USE EXAMPLE 2 --
 
   // represents the maximum data range of the available data
-  private beispieleBarChartDataRange1: IBarChartDataRange = {
-    min: new Date("2018-01"), // e.g. YYYY-MM
-    max: new Date("2018-12"),
+  private currentYearRange: IBarChartDataRange = {
+    min: moment(new Date()).startOf('year').toDate(),
+    max: moment(new Date()).endOf('year').startOf('month').toDate(),
   };
 
-  // private beispieleBarChartDataRange2: IBarChartDataRange = {
-  //   min: "b", // first day of 2018
-  //   max: "y", // last day of 2020
-  // };
+  private beispieleBarChartDataRange: IBarChartDataRange = {
+    min: "b",
+    max: "y",
+  };
 
   @ViewChildren(BarChartComponent) barchart: QueryList<BarChartComponent>;
 
-  ngAfterViewInit(): void {
-    this.barchart.first.dataTransformation = beispieleBarChartTransformation1;
-    this.barchart.first.sortFn = (d1: any, d2: any) => moment(d1).toDate().getTime() - moment(d2).toDate().getTime();
-    this.barchart.first.dataRange = this.beispieleBarChartDataRange1;
+  public barChartXAxisDataValueStringifyFn_fz = (date: Date) => {
+    return moment(date).locale('de').format("MMM YYYY"); // e.g. 'Nov. 2019'
+  };
+  public getAllXAxisDataValuesFn_fz = getAllMonthsInRange;
+  public rangeTransformation_fz = transformFinanzierungsJahreDTO;
+  public dataTransformation_fz = beispieleBarChartTransformation1;
+  public sortFn_fz = (d1: any, d2: any) => moment(d1).startOf('month').toDate().getTime() - moment(d2).startOf('month').toDate().getTime();
+  public shownDataRange_fz = this.currentYearRange;
 
-    this.barchart.last.dataTransformation = beispieleBarChartTransformation2;
-    this.barchart.last.sortFn = (s1: string, s2: string) => s1.localeCompare(s2, 'de');
-    // this.barchart.last.dataRange = this.beispieleBarChartDataRange2; // date range is optional for this example
+  public barChartXAxisDataValueStringifyFn_fz2 = (letter: string) => letter; // TOTO MF: Remove this
+  public getAllXAxisDataValuesFn_fz2 = getAllLettersInRange;
+  public dataTransformation_fz2 = beispieleBarChartTransformation2;
+  public sortFn_fz2 = (s1: string, s2: string) => s1.localeCompare(s2, 'de');
+
+  ngAfterViewInit(): void {
     this.barchart.last.yAxisType = "STUNDE";
     this.barchart.last.stacked = true;
 
