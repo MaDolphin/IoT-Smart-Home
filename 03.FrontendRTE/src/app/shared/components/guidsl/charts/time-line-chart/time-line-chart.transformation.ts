@@ -3,13 +3,20 @@ import {
   LineChartData, TimeLineChartComponent
 } from "@shared/components/guidsl/charts/time-line-chart/time-line-chart.component";
 import * as moment from "moment";
-import { BeispieleJahreDTO } from "@targetdtos/beispielejahre.dto";
+import { DatumsbereichDTO } from "@targetdtos/datumsbereich.dto";
 
-export function transformBeispieleJahreDTO(dto: BeispieleJahreDTO): ILineChartDataRange {
+export function transformDatumsbereichDTO(dto: DatumsbereichDTO): ILineChartDataRange {
   return TimeLineChartComponent.correctRange({
     min: moment().set('year', dto.startjahr).startOf('year').toDate(),
     max: moment().set('year', dto.abschlussjahr).endOf('year').toDate()
   });
+}
+
+export function transformBeispiel2(dto: DatumsbereichDTO) {
+  return {
+    min: "b",
+    max: "y",
+  }
 }
 
 /**

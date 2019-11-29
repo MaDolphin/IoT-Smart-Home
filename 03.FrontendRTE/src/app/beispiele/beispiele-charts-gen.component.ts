@@ -6,15 +6,16 @@ import { BarChartComponent, IBarChartDataRange } from "@components/charts/bar-ch
 import {
   beispieleBarChartTransformation1,
   beispieleBarChartTransformation2,
-  beispieleBarChartTransformation3, getAllLettersInRange, getAllMonthsInRange, transformFinanzierungsJahreDTO
+  getAllLettersInRange,
+  getAllMonthsInRange,
+  transformFinanzierungsJahreDTO
 } from "@components/charts/bar-chart/bar-chart.transformation";
 import { BeispieleBarChart_getById } from "@commands/beispielebarchart.getbyid";
 import { IDTO } from "@shared/architecture";
 import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
 import * as moment from "moment";
-import { beispielTransformation, transformBeispieleJahreDTO } from "@components/charts/time-line-chart/time-line-chart.transformation";
+import { beispielTransformation, transformBeispiel2, transformDatumsbereichDTO } from "@components/charts/time-line-chart/time-line-chart.transformation";
 import { ILineChartDataRange, TimeLineChartComponent } from "@components/charts/time-line-chart/time-line-chart.component";
-import { BeispieleTimeline_getByIdAndYear } from "@commands/beispieletimeline_getbyidandyear";
 
 /**
  * See BeispielePieChartDTO.java, BeispielePieChartDTOLoader.java for more details on how to use PieCharts
@@ -61,6 +62,7 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
   public getAllXAxisDataValuesFn_fz2 = getAllLettersInRange;
   public dataTransformation_fz2 = beispieleBarChartTransformation2;
   public sortFn_fz2 = (s1: string, s2: string) => s1.localeCompare(s2, 'de');
+  public rangeTransformation_fz2 = transformBeispiel2;
 
   ngAfterViewInit(): void {
     this.barchart.last.yAxisType = "STUNDE";
@@ -107,7 +109,7 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
 
   //region TimeLine Chart
   transformFnTimeLineChart_fz3 = beispielTransformation;
-  rangeTransformFnTimeLineChart_fz3 = transformBeispieleJahreDTO;
+  rangeTransformFnTimeLineChart_fz3 = transformDatumsbereichDTO;
   shownRangeTimeLineChart_fz3 = {
     "min": moment(new Date()).startOf('year').toDate(),
     "max": moment(new Date()).endOf('year').toDate()
