@@ -1,0 +1,16 @@
+{
+  "name": "formatter",
+  "version": "1.0.0",
+  "description": "Formats the generated typescript files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "./node_modules/.bin/prettier --write \"../target/generated-sources/gui/**/*.ts\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "1.19.1"
+  }
+}
