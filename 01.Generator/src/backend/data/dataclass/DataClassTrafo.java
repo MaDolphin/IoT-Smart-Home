@@ -72,7 +72,7 @@ public class DataClassTrafo extends ExtendTrafo {
   }
 
   @Override
-  protected List<String> getInterfaceNames(CDTypeSymbol typeSymbol) {
+  protected List<String> getClassInterfaceNames(CDTypeSymbol typeSymbol) {
     List<String> interfaces = new ArrayList<>();
     interfaces.add("DomainClass");
     interfaces.add("IObject");

@@ -189,7 +189,7 @@ public class CommandSetAttributeCreator extends CommandCreator {
     CDTypeSymbol typeSymbol = symbolTable.get().resolve(domainClass.getName()).get();
     for (ASTCDClass extendedClass : getOrCreateExtendedClassList(domainClass, typeSymbol)) {
       addImports(extendedClass, domainClass, typeSymbol);
-      extendedClass.getInterfaceList().addAll(createInterfaces(domainClass, typeSymbol));
+      extendedClass.getInterfaceList().addAll(createClassInterfaces(domainClass, typeSymbol));
       getSuperclass(domainClass, typeSymbol).ifPresent(extendedClass::setSuperclass);
       /*extendedClass.getCDAttributeList()
               .addAll(createAttributes(extendedClass, domainClass, typeSymbol));*/

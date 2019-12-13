@@ -56,7 +56,7 @@ public class FrontendValidatorCreator extends CreateTrafo {
   }
 
   @Override
-  protected List<String> getInterfaceNames(CDTypeSymbol typeSymbol) {
+  protected List<String> getClassInterfaceNames(CDTypeSymbol typeSymbol) {
     return new ArrayList<>();
   }
 

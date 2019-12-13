@@ -47,7 +47,7 @@ public abstract class ExtendTrafo extends DexTransformation {
     if (clazz.isPresent()) {
       ASTCDClass extendedClass = clazz.get();
       addImports(extendedClass, domainClass, typeSymbol);
-      extendedClass.getInterfaceList().addAll(createInterfaces(domainClass, typeSymbol));
+      extendedClass.getInterfaceList().addAll(createClassInterfaces(domainClass, typeSymbol));
       getSuperclass(domainClass, typeSymbol).ifPresent(extendedClass::setSuperclass);
       extendedClass.getCDAttributeList()
           .addAll(createAttributes(extendedClass, domainClass, typeSymbol));
@@ -68,7 +68,7 @@ public abstract class ExtendTrafo extends DexTransformation {
     if (interf.isPresent()) {
       ASTCDInterface extendedInterface = interf.get();
       addImports(extendedInterface, domainClass, typeSymbol);
-      extendedInterface.getInterfaceList().addAll(createInterfaces(domainClass, typeSymbol));
+      extendedInterface.getInterfaceList().addAll(createInterfaceInterfaces(domainClass, typeSymbol));
       extendedInterface.getCDAttributeList()
           .addAll(createStaticAttributes(extendedInterface, domainClass, typeSymbol));
       replaceAttributes(extendedInterface, domainClass, typeSymbol);
@@ -85,7 +85,7 @@ public abstract class ExtendTrafo extends DexTransformation {
     if (interf.isPresent()) {
       ASTCDInterface extendedInterface = interf.get();
       addImports(extendedInterface, domainInterface, typeSymbol);
-      extendedInterface.getInterfaceList().addAll(createInterfaces(domainInterface, typeSymbol));
+      extendedInterface.getInterfaceList().addAll(createInterfaceInterfaces(domainInterface, typeSymbol));
       extendedInterface.getCDAttributeList()
           .addAll(createStaticAttributes(extendedInterface, domainInterface, typeSymbol));
       extendedInterface.getCDMethodList()
@@ -107,7 +107,7 @@ public abstract class ExtendTrafo extends DexTransformation {
       extendedEnum.getCDConstructorList().addAll(createConstructors(extendedEnum, typeSymbol));
       extendedEnum.getCDAttributeList()
           .addAll(createAttributes(extendedEnum, domainEnum, typeSymbol));
-      extendedEnum.getInterfaceList().addAll(createInterfaces(domainEnum, typeSymbol));
+      extendedEnum.getInterfaceList().addAll(createEnumInterfaces(domainEnum, typeSymbol));
       extendedEnum.getCDMethodList()
           .addAll(createMethods(extendedEnum, domainEnum, typeSymbol));
       replaceMethods(extendedEnum, domainEnum, typeSymbol);
@@ -216,15 +216,39 @@ public abstract class ExtendTrafo extends DexTransformation {
 
   //----------- INTERFACES -------------------------------------
 
-  protected List<ASTSimpleReferenceType> createInterfaces(ASTCDType extendedType,
+  protected List<ASTSimpleReferenceType> createClassInterfaces(ASTCDType extendedType,
       CDTypeSymbol typeSymbol) {
     List<ASTSimpleReferenceType> interfaces = new ArrayList<>();
-    getInterfaceNames(typeSymbol)
+    getClassInterfaceNames(typeSymbol)
         .forEach(i -> interfaces.add(new CDSimpleReferenceBuilder().name(i).build()));
     return interfaces;
   }
 
-  protected List<String> getInterfaceNames(CDTypeSymbol typeSymbol) {
+  protected List<ASTSimpleReferenceType> createInterfaceInterfaces(ASTCDType extendedType,
+      CDTypeSymbol typeSymbol) {
+    List<ASTSimpleReferenceType> interfaces = new ArrayList<>();
+    getInterfaceInterfaceNames(typeSymbol)
+        .forEach(i -> interfaces.add(new CDSimpleReferenceBuilder().name(i).build()));
+    return interfaces;
+  }
+
+  protected List<ASTSimpleReferenceType> createEnumInterfaces(ASTCDType extendedType,
+      CDTypeSymbol typeSymbol) {
+    List<ASTSimpleReferenceType> interfaces = new ArrayList<>();
+    getEnumInterfaceNames(typeSymbol)
+        .forEach(i -> interfaces.add(new CDSimpleReferenceBuilder().name(i).build()));
+    return interfaces;
+  }
+
+  protected List<String> getClassInterfaceNames(CDTypeSymbol typeSymbol) {
+    return Lists.newArrayList();
+  }
+
+  protected List<String> getInterfaceInterfaceNames(CDTypeSymbol typeSymbol) {
+    return Lists.newArrayList();
+  }
+
+  protected List<String> getEnumInterfaceNames(CDTypeSymbol typeSymbol) {
     return Lists.newArrayList();
   }
 
@@ -232,7 +256,8 @@ public abstract class ExtendTrafo extends DexTransformation {
       ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
     if (getSuperclassName(domainClass, typeSymbol).isPresent()) {
       return Optional.of(new CDSimpleReferenceBuilder().name(getSuperclassName(domainClass, typeSymbol).get()).build());
-    } else {
+    }
+    else {
       return Optional.empty();
     }
   }
