@@ -41,7 +41,9 @@ webpage beispieleDatentabellen(
                 }
                 body {
                     datatable "einfacheMitContextMenuTabelle" {
-                        rightClickMenu : contextMenu
+                        references {
+                          rightClickMenu : contextMenu
+                        }
                         rows <ut.alleBenutzer {
                             column "Benutzername"            , < username              ,120;
                             column "Kürzel"                  , < initials              ,60;
@@ -64,7 +66,9 @@ webpage beispieleDatentabellen(
                 }
                 body {
                     datatable "gruppierbareTabelle" {
-                        groupable : <aktivierungsstatus
+                        conditions {
+                            groupable : <aktivierungsstatus
+                        }
                         rows <ut.alleBenutzer {
                             column "Benutzername"            , < username              , 70;
                             column "Kürzel"                  , < initials              ,  50;
@@ -87,10 +91,16 @@ webpage beispieleDatentabellen(
                 }
                 body {
                     datatable "editierbareTabelle" {
-                        editable
-                        editTemplates : inlineTemplates
-                        inlineEdit
-                        save ->  onSave($event)
+                        references {
+                            editTemplates : inlineTemplates
+                        }
+                        methods {
+                            save -> onSave($event)
+                        }
+                        conditions {
+                            inlineEdit
+                            editable
+                        }
                         rows <rt.users {
                           column "Benutzername"         , dropdown(<user.username, <ul.users.username.withId(id))    ,120;
                           column "Rolle"                , dropdown(<role.name, <rl.roles.name.withId(id))            ,120;

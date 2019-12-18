@@ -95,9 +95,11 @@ row(c){
       }
       body{
        datatable "meinBenutzerRollenTabelle" {
-         nonFilterable
-         nonExportable
-         noScrollbarH
+         conditions {
+           nonFilterable
+           nonExportable
+           noScrollbarH
+         }
          rows <urt.users {
            column "Rolle"            ,  < role        , 110;
            column "Recht auf"        ,  < name        , 240;
