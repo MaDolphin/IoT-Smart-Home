@@ -1,25 +1,20 @@
-/* (c) https://github.com/MontiCore/monticore */
-
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Logger } from '@upe/logger';
-import { AuthService } from '@shared/auth/auth.service';
-import { NotificationService } from '@shared/notification/notification.service';
-import { User } from '@shared/user/user';
-import { DialogCallbackOne } from '@shared/utils/dialog/dialog.callback';
-import { Fullscreen } from '@shared/layout/main/fullscreen';
+import { AuthService } from '../../auth/auth.service';
+import { NotificationService } from '../../notification/notification.service';
+import { User } from '../../user/user';
+import { DialogCallbackOne } from '../../utils/dialog/dialog.callback';
 import { HeaderService, IBreadcrumbTitle } from './header.service';
-import { BreadcrumbComponent } from '@shared/layout/breadcrumb/breadcrumb.component';
+import { BreadcrumbComponent } from "@shared/layout/breadcrumb/breadcrumb.component";
+import * as moment from 'moment';
 
 @Component({
   selector: 'macoco-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-
 export class HeaderComponent implements OnInit {
   public majorTitle: string;
-  public minorTitle: string;
   public pspElement: string;
 
   @ViewChild('breadcrumb')
@@ -30,7 +25,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public get exp(): string {
-    return this.auth.exp;
+    return "Sie bleiben angemeldet bis " + moment(this.auth.exp).locale("de").format('LT') + " Uhr";
   }
 
   public get instanceName(): string {
@@ -38,22 +33,18 @@ export class HeaderComponent implements OnInit {
   }
 
   public get title(): string {
-
     let url = this.router.url.split('/');
     return url[url.length - 1];
   }
 
   @Output() menu: EventEmitter<void> = new EventEmitter<void>();
   public curDate: Date = new Date();
-  private fullscreen: Fullscreen = new Fullscreen();
-
-  private logger: Logger = new Logger({ name: 'HeaderComponent' });
 
   constructor(
     private headerService: HeaderService,
     private auth: AuthService,
     private router: Router,
-    private notification: NotificationService,
+    private notification: NotificationService
   ) {
   }
 
@@ -85,7 +76,4 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  public toggleFullscreen() {
-    this.fullscreen.toggle();
-  }
 }

@@ -1,33 +1,64 @@
-/* (c) https://github.com/MontiCore/monticore */
-
 @import "../../../../scss/variables";
 
-//== Hilfe, Abmelden,... Top right
-.btn-text {
-  font-size: $font-size-h5;
-  line-height: 24px;
-  text-transform: uppercase;
-  cursor: pointer;
-  padding-top: 5px;
-}
-
-//== Header Feld gesamt
 .header {
   background-color: $rwth-black-4;
   color: $rwth-blue;
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-bottom: 3px;
+  min-height: 65px;
 
-  > div {
-    padding-left:36px;
-    padding-right:36px;
+  @media print { .notPrinted { display: none !important; } }
+
+  .header-icon {
+    font-size: $font-size-h3;
+    padding-top: 5px; // TODO MF: better solution necessary
   }
 
-  > div:first-child {
-    padding-left: 39px;
+  .token-tooltip {
+    white-space: pre-line;
   }
 
-//== Überschrift
+  .bell-icon {
+    padding-top: 0;
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .action-separator {
+    width: 2px;
+    background-color: $rwth-blue;
+    height: 50%;
+    margin-left: 8px;
+    margin-right: 5px;
+  }
+
+  .header-button {
+    //background-color: rgba(0,0,0,.1);
+    background-color: transparent;
+    border-radius: 3px;
+    border: 0;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  .mat-badge-content {
+    background-color: $rwth-blue;
+  }
+
+  .header-button:hover {
+    background-color: rgba(0,0,0,.05);
+  }
+
+  .header-button:focus {
+    background-color: rgba(0,0,0,.1);
+  }
+
+  @media print {
+    .title-container { flex-direction: column !important; }
+  }
+
   .title-container {
-
     .title {
       font-size: $font-size-h2;
       font-weight: bold;
@@ -42,35 +73,20 @@
   }
 }
 
-.button {
-  font-weight:bold;
-  font-size: $font-size-h6;
-  text-transform: uppercase;
+.overlay-panel {
+  margin-top: 6px;
+  background-color: white;
+  width: 40vw;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
 }
 
-.user {
-  img {
-    width:20px;
-    border-radius:20px;
-    margin-right:5px;
-    padding-bottom: 5px;
-  }
-  margin-right:5px;
-}
-
-.token {
-  font-size: 10px;
-  white-space:nowrap;
-  margin-right:5px;
-  font-weight:bold;
-  span, i {
-    margin:0px;
-    padding:0px 2px 2px 5px;
-  }
-}
-
-.instanceName {
-  font-size: $font-size-h4;
-  margin-right: 5px;
-  text-transform: uppercase;
+@keyframes bell {
+  0% {transform: rotate(15deg);}
+  12.5% {transform: rotate(-10deg);}
+  25% {transform: rotate(5deg);}
+  37.5% {transform: rotate(-5deg);}
+  50% {transform: rotate(3deg);}
+  62.5% {transform: rotate(-2deg)}
+  75% {transform: rotate(2deg)}
+  100% {transform: rotate(0);}
 }
