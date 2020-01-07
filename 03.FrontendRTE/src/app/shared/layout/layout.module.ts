@@ -15,7 +15,7 @@ import { LoadingModule } from './loading/loading.module';
 import { MainLayoutComponent } from './main/main-layout.component';
 import { MainLayoutService } from './main/main-layout.service';
 import { BigBreadcrumbsComponent } from './navigation/big-breadcrumbs.component';
-import { NavigationComponent } from './navigation/navigation.component';
+import { NavigationComponent } from './navigation/side-navigation/navigation.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 
 

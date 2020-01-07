@@ -27,6 +27,7 @@
       "@targetrte/*": ["target/generated-sources/rte/*"],
       "@components/*": ["src/app/shared/components/guidsl/*"],
       "@utils/*": ["src/app/utils/*"],
+      "@navigation/*": ["target/generated-sources/navigation/navigation/*"],
 
       // Test
       "@testutils/*": ["src/tests/utils/*"],

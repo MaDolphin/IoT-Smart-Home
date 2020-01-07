@@ -534,7 +534,7 @@
         <version>1.6.0</version>
         <executions>
           <execution>
-            <id>generate_guidsl</id>
+            <id>generate_guidsl_pages</id>
             <goals>
               <goal>java</goal>
             </goals>
@@ -544,7 +544,7 @@
               <includePluginDependencies>true</includePluginDependencies>
               <mainClass>guidsl.GUITool</mainClass>
               <arguments>
-                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui</argument>
+                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui/pages</argument>
                 <argument>-hcp</argument>
                 <argument>${basedir}/src/app/dashboard</argument>
                 <argument>${basedir}/src/app/einstellungen</argument>
@@ -552,6 +552,23 @@
                 <argument>${basedir}/src/app/guidsl</argument>
                 <argument>-out</argument>
                 <argument>${basedir}/target/generated-sources/gui</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate_guidsl_navigation</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <skip>${maven.main.skip}</skip>
+              <includePluginDependencies>true</includePluginDependencies>
+              <mainClass>guidsl.GUITool</mainClass>
+              <arguments>
+                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui/navigation</argument>
+                <argument>-out</argument>
+                <argument>${basedir}/target/generated-sources/navigation</argument>
               </arguments>
             </configuration>
           </execution>

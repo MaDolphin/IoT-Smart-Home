@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-@import "../../../../scss/variables";
+@import "src/scss/variables";
 
 aside {
   background-color: $rwth-blue;
@@ -25,7 +25,7 @@ h6 {
   display: block;
   height: 87px;
   width: 87px;
-  background: url(../../../../assets/img/montigem_outline.png) center no-repeat,linear-gradient(transparent,transparent);
+  background: url(src/assets/img/montigem_outline.png) center no-repeat,linear-gradient(transparent,transparent);
   background-size:cover;
   text-indent: -9999px;
   -webkit-filter: drop-shadow(0 6px 5px rgba(0, 0, 0, 0.55));
