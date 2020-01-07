@@ -5,7 +5,7 @@
   color: $rwth-blue;
   padding-left: 36px;
   padding-right: 36px;
-  padding-bottom: 3px;
+  padding-bottom: 0;
   min-height: 65px;
 
   @media print { .notPrinted { display: none !important; } }

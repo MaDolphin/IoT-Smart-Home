@@ -32,11 +32,11 @@ export class NavigationComponent {
 
   //region Action buttons
   public actionButtons: IActionButton[] = [
-    {
-      id: 'hilfe',
-      tooltip: 'Hilfe',
-      icon: 'help_outline'
-    },
+    // {
+    //   id: 'hilfe',
+    //   tooltip: 'Hilfe',
+    //   icon: 'help_outline'
+    // },
     {
       id: 'abmelden',
       tooltip: 'Abmelden',
