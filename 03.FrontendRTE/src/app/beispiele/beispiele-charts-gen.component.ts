@@ -30,7 +30,7 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
     _route: ActivatedRoute,
     _commandRestService: CommandRestService,
   ) {
-    super(_router, _route, _commandRestService);
+    super(_commandRestService, _route, _router);
   }
 
   //region Bar Chart

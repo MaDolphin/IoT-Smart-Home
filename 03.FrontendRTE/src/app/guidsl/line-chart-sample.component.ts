@@ -14,7 +14,7 @@ export class LineChartSampleComponent extends LineChartSampleComponentTOP {
     protected _router: Router,
     protected _route: ActivatedRoute,
     protected _commandRestService: CommandRestService) {
-    super(_router, _route, _commandRestService, _webSocketService);
+    super(_commandRestService, _route, _router, _webSocketService);
   }
 
   public isImageVisible(): boolean {

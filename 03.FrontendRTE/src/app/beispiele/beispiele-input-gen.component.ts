@@ -13,7 +13,7 @@ export class BeispieleInputGenComponent extends BeispieleInputGenComponentTOP im
     _route: ActivatedRoute,
     _commandRestService: CommandRestService,
   ) {
-    super(_router, _route, _commandRestService);
+    super(_commandRestService, _route, _router);
   }
 
   ngOnInit() {

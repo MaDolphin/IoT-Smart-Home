@@ -27,7 +27,7 @@ export class EinstellungenRollenGenComponent extends EinstellungenRollenGenCompo
     protected _router: Router,
     protected _route: ActivatedRoute,
     protected _commandRestService: CommandRestService) {
-    super(_router, _route, _commandRestService);
+    super(_commandRestService, _route, _router);
     this.commandManager = new CommandManager(this._commandRestService);
     this.form = form;
   }

@@ -20,7 +20,7 @@ export class DashboardComponent extends DashboardComponentTOP implements OnInit 
     _route: ActivatedRoute,
     _commandRestService: CommandRestService,
     protected _webSocketService: WebSocketService) {
-    super(_router, _route, _commandRestService);
+    super(_commandRestService, _route, _router);
 
     this.socket = _webSocketService.open('None', ['Info']);
   }

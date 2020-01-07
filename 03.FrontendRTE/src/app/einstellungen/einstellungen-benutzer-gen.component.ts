@@ -39,7 +39,7 @@ export class EinstellungenBenutzerGenComponent extends EinstellungenBenutzerGenC
     protected _commandRestService: CommandRestService,
     protected _dfs: DownloadFileService,
     protected _ctc: CopyToClipboardService) {
-    super(_router, _route, _commandRestService, _ctc, _dfs, _notificationService);
+    super(_commandRestService, _ctc, _dfs, _notificationService, _route, _router);
     this.commandManager = new CommandManager(this._commandRestService);
     this.form = form;
   }

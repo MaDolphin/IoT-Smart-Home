@@ -23,7 +23,7 @@ export class BeispieleDatentabellenGenComponent extends BeispieleDatentabellenGe
     _route: ActivatedRoute,
     _commandRestService: CommandRestService,
   ) {
-    super(_router, _route, _commandRestService, _ctc, _dfs, _notificationService,);
+    super(_commandRestService, _ctc, _dfs, _notificationService, _route, _router);
     this.commandManager = new CommandManager(this._commandRestService);
     this.form = form;
   }
