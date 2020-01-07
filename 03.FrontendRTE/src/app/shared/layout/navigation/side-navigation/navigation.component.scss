@@ -1,12 +1,82 @@
-/* (c) https://github.com/MontiCore/monticore */
-
 @import "src/scss/variables";
 
 aside {
   background-color: $rwth-blue;
   height: 100%;
   padding-top: 40px;
+  overflow: hidden;
 }
+
+.animate {
+  transition: width 1s;
+}
+
+.toggleNavBarButton {
+  font-size: 30px;
+  color: white;
+  margin-top:-40px;
+  cursor: pointer;
+}
+
+aside {
+  width: $navbar-width;
+  .navText, .subNavText, .minorLink span {
+    opacity: 1;
+  }
+
+  .toggleNavBarButton:before {
+    font-family: 'Material Icons';
+    content: '\e314';
+  }
+}
+
+aside.smallNavBar {
+  width: $navbar-small-width;
+
+  .navText, .subNavText, .minorLink span{
+    opacity:0;
+  }
+
+  .toggleNavBarButton:before {
+    font-family: 'Material Icons';
+    content: '\e315';
+  }
+}
+
+.navText, .subNavText, .minorLink span {
+  overflow:hidden;
+  transition: opacity 0.5s linear 0.25s;
+}
+
+@media screen and (max-width: $navbar-small-layout-threshold) {
+  aside {
+    width: $navbar-small-width;
+
+    .navText, .subNavText, .minorLink span {
+      opacity: 0;
+    }
+
+    .toggleNavBarButton:before {
+      font-family: 'Material Icons';
+      content: '\e315';
+    }
+  }
+
+  aside.largeNavBar {
+    width: $navbar-width;
+
+
+    .navText, .subNavText, .minorLink span {
+      opacity: 1;
+    }
+
+    .toggleNavBarButton:before {
+      font-family: 'Material Icons';
+      content: '\e314';
+    }
+  }
+}
+
 
 img {
   width: 81px;
@@ -24,7 +94,7 @@ h6 {
 .logo-brand {
   display: block;
   height: 87px;
-  width: 87px;
+  width: 100px;
   background: url(src/assets/img/montigem_outline.png) center no-repeat,linear-gradient(transparent,transparent);
   background-size:cover;
   text-indent: -9999px;
@@ -44,13 +114,13 @@ h6 {
   margin-bottom: 10px !important;
 }
 
-.main-nav{
+.main-nav {
   font-weight: bold;
   font-size: 18px;
   transition: 0.3s;
 }
 
-.main-nav:hover{
+.main-nav:hover {
   background-color: $rwth-blue-1;
 }
 
@@ -60,44 +130,40 @@ md-list-item, md-list-item .md-list-item-inner {
 }
 
 .nav {
-  hight : 30px;
+  height : 30px;
   .sufix {
     position: absolute;
     right: 0;
   }
 
-
-
   .sub-nav {
     padding-top: 0;
-    display: none;
+    //display: none;
 
     .mat-list-item {
       min-height: 36px;
       height: 36px;
     }
 
-    .active {
+    .active, .force-active {
       background-color: rgba(0, 0, 0, 0.2);
 
       .rectangle {
         @include rectangle-left();
       }
-
     }
 
   }
 
-  .sub{
+  .sub {
     transition: 0.3s;
   }
 
   .sub:hover{
     background-color: $rwth-blue-1;
-
   }
 
-  .active {
+  .active, .force-active {
     background-color: rgba(0, 0, 0, 0.1);
 
     .dot:before {
@@ -112,36 +178,28 @@ md-list-item, md-list-item .md-list-item-inner {
     }
 
     .main-nav {
-
       .rectangle {
         @include rectangle-left();
       }
-
     }
-
   }
 
   .active-parent {
-
     .sub-nav {
       display: initial;
     }
-
   }
 
   .force-active {
-
     .sub-nav {
       display: initial;
     }
-
   }
 
   .mat-list-item {
     border-top: 1px solid rgba(0, 0, 0, .35);
     box-shadow: -2px 0 4px 0 rgba(0, 0, 0, .3);
   }
-
 
 
   .mat-list-item.last {
@@ -160,9 +218,7 @@ md-list-item, md-list-item .md-list-item-inner {
     text-decoration: none;
     width: 100%;
   }
-
 }
-
 
 @keyframes ripple {
   0% {
@@ -176,4 +232,119 @@ md-list-item, md-list-item .md-list-item-inner {
     opacity: 0;
     transform: scale(1);
   }
+}
+
+.subNavText {
+  white-space:nowrap;
+}
+
+.minorLink {
+  white-space:nowrap;
+
+  span {
+    vertical-align: super;
+  }
+}
+
+#scrollableNavBar::-webkit-scrollbar {
+}
+
+.expanded {
+}
+
+.collapsed {
+}
+
+.expanded:before {
+  font-family: "Material Icons";
+  content: "\e5cf";
+  color: white;
+}
+
+.collapsed:before {
+  font-family: "Material Icons";
+  content: "\e5ce";
+  color: white;
+}
+
+.collapsed, .expanded {
+  margin-top: -6px;
+  margin-right: 15px;
+  width: 10px;
+  height: 10px;
+}
+
+.nav-version-row {
+  div {
+    white-space:nowrap;
+  }
+
+  div, a {
+    color: white;
+  }
+}
+
+.bottom-row {
+  margin-bottom: 10px;
+}
+
+::ng-deep .mat-snack-bar-container.mat-snack-bar-center {
+  margin-bottom: 20px !important;
+  background-color: $rwth-blue;
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12);
+}
+
+::ng-deep .mat-snack-bar-container {
+  min-width: 0 !important;
+}
+
+hr{
+  margin: 0px;
+  padding: 0px;
+  color: #000;
+}
+
+.dropdown-content {
+  display: none;
+  position: fixed;
+  margin-left: 44px;
+  background-color: #fff;
+  min-width: 150px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 99;
+  font-weight: 700;
+}
+
+#dropdown-main-item {
+  background-color: $rwth-black-4;
+  height: 48px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.dropdown-content a {
+  position: relative;
+  display: block;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 42px;  /* instead margin to prevent hover covering only font-size */
+  color: #000;
+  padding-left: 4px; /* gets replaced by a border when this navigation item is active */
+  padding-right: 4px;
+}
+
+/* Show the dropdown menu on hover */
+.main-nav:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a:hover,
+.dropdown-content a.hover{
+  background-color: $rwth-black-5;
+}
+
+.active-dropdown-item {
+  border-right: 4px solid $rwth-blue;
+  padding-right: 0 !important;
+  transition: border-width 0.1s linear, padding-right 0.1s linear;
 }

@@ -1,87 +1,108 @@
-<!-- (c) https://github.com/MontiCore/monticore -->
-<!--
-  ~ 
-  -->
+<!-- Wrapper for the whole navigation component -->
+<aside
+        fxLayout="column"
+        fxLayoutAlign="start"
+        fxLayoutGap="25px"
+        class="animate"
+        [ngClass]="{'smallNavBar': navBarExpanded === false, 'largeNavBar': navBarExpanded === true}"
+>
 
-<aside fxLayout="column" fxLayoutAlign="start" fxLayoutGap="25px">
-  <a fxFlex="auto" fxLayoutAlign="center" routerLink="/dashboard">
+  <!-- Toggle Button -->
+<!--  <div fxLayout="row" fxLayoutAlign="end" class="toggleNavBarButton" (click)="toggleNavBar()"></div>-->
+
+  <!-- Logo -->
+  <a fxFlex="0 0 90px" fxLayoutAlign="center" routerLink="/dashboard">
     <div class="logo-brand ">App - Logo</div>
   </a>
-  <div fxFlex="100" fxFlexFill>
+
+  <!--region Navigation items-->
+  <perfect-scrollbar fxFlex="100" fxFlexFill id="scrollableNavBar">
     <mat-list class="nav">
       <ng-template ngFor [ngForOf]="navigation" let-main>
-        <div routerLinkActive="active active-parent" [ngClass]="{'force-active': !!main.expanded}">
-            <mat-list-item *ngIf="(!main.enabled || main.enabled())" class="main-nav">
-            <a *ngIf="main.link" [routerLink]="main.link" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
-              <mat-icon fxFlex="auto">{{main.icon}}</mat-icon>
-              <span fxFlex="100">{{main.label}}</span>
-              <span class="sufix" [ngClass]="{ 'rectangle': !main.children, 'dot': !!main.children }"></span>
+        <div routerLinkActive="active active-parent" [ngClass]="{'force-active': isExpanded(main)}">
+          <!--region List of main navigation items-->
+          <mat-list-item *ngIf="(!main.enabled || main.enabled())" class="main-nav">
+            <a *ngIf="main.link" [routerLink]="main.link" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+              <mat-icon fxLayout fxLayoutAlign="center center">{{main.icon}}</mat-icon>
+              <span fxFlex class="navText">{{main.label}}</span>
             </a>
+
+            <span (click)="toggleNav(main)" class="sufix" [ngClass]="navClass(main)" *ngIf="navBarExpanded"></span>
+
             <a *ngIf="!main.link" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
               <mat-icon fxFlex="auto">{{main.icon}}</mat-icon>
-              <span fxFlex="100">{{main.label}}</span>
+              <span fxFlex="100" class="navText">{{main.label}}</span>
               <mat-icon fxFlex="auto">build</mat-icon>
               <span class="sufix" [ngClass]="{ 'rectangle': !main.children, 'dot': !!main.children }"></span>
             </a>
+
+            <!-- Hover Overlay Containing Sub Navigation Items -->
+            <div class="dropdown-content" *ngIf="!navBarExpanded">
+              <a [routerLink]="main.link" id="dropdown-main-item" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">{{main.label}}</a>
+              <ng-template ngFor [ngForOf]="main.children" let-sub>
+                <a
+                        [routerLink]="sub.link" *ngIf="(!sub.enabled || sub.enabled())"
+                        fxLayout="row"
+                        fxLayoutGap="5px"
+                        fxLayoutAlign="center center"
+                        routerLinkActive="active-dropdown-item"
+                >
+                  {{sub.label}}
+                </a>
+                <hr>
+              </ng-template>
+            </div>
           </mat-list-item>
-            <mat-list class="sub-nav" *ngIf="(main.children && (!main.enabled || main.enabled()))">
-                <ng-template ngFor [ngForOf]="main.children" let-sub>
-                    <mat-list-item class="sub" *ngIf="(!sub.enabled || sub.enabled())" routerLinkActive="active">
-                        <a [routerLink]="sub.link" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
-                            <!--<mat-icon fxFlex="auto">subdirectory_arrow_right</mat-icon>-->
-                            <!--<mat-icon fxFlex="auto">{{sub.icon}}</mat-icon>-->
-                            <span style="text-indent:20px;" fxFlex="100">{{sub.label}}</span>
-                            <span class="sufix rectangle"></span>
-                        </a>
-                    </mat-list-item>
-                </ng-template>
+          <!--endregion-->
+
+          <!--region List of sub navigation items for parent navigation item that is currently active-->
+          <mat-list class="sub-nav" *ngIf="isExpanded(main) && navBarExpanded">
+            <ng-template ngFor [ngForOf]="main.children" let-sub>
+              <mat-list-item class="sub" *ngIf="(!sub.enabled || sub.enabled())" routerLinkActive="active">
+                <a [routerLink]="sub.link" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
+                  <span style="text-indent:20px;" fxFlex="100" class="subNavText">{{sub.label}}</span>
+                  <span class="sufix rectangle"></span>
+                </a>
+              </mat-list-item>
+            </ng-template>
           </mat-list>
+          <!--endregion-->
         </div>
       </ng-template>
     </mat-list>
-  </div>
+  </perfect-scrollbar>
+  <!--endregion-->
 
-  <!--
-  <div fxFlex="30" fxFlexFill>
-    <mat-list class="nav">
-      <a [routerLink]="http://134.61.116.13/w/" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
-        <div routerLinkActive="active active-parent">
-              <a fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
-              <mat-icon fxFlex="auto">help</mat-icon>
-              <span fxFlex="100">Handbuch</span>
-            </a>
-        </div>
-      </a>
-     </mat-list>
-  </div>
-  -->
+  <!--region Bottom part of this side navigation-->
+  <div
+          class="bottom-row"
+          fxLayout="column"
+          fxLayoutGap="25px"
+  >
+    <!-- Action buttons such as 'Abmelden' or 'Hilfe' -->
+    <montigem-action-buttons
+            fxLayout
+            fxLayoutAlign="center"
+            [expanded]="navBarExpanded"
+            [actionButtons]="actionButtons"
+            (clicked)="onClick($event)"
+    ></montigem-action-buttons>
 
-  <div  fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="15px">
-
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlexOffset="15" style="color: white">
-      <div> </div>
-      <i class="material-icons md-34">help_outline</i>
-      <a id="hilfe" target="_blank" href="https://se-rwth.de" style="color: white; font-size:14px; text-transform: uppercase;">Hilfe</a>
+    <!-- Version, Impressum und Datenschut -->
+    <div
+            *ngIf="navBarExpanded"
+            class="nav-version-row"
+            fxLayout="column"
+            fxLayoutAlign="center center"
+            fxLayoutGap="5px"
+    >
+      <div>{{versionInfo()}}</div>
+      <div fxLayout fxLayoutGap="10px">
+        <a id="impressum" class="minorLink" target="_blank" href="https://macoco.rwth-aachen.de/w/index.php/Team">Impressum</a>
+        <a id="datenschutz" class="minorLink" href="/einstellungen/datenschutz">Datenschutz</a>
+      </div>
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlexOffset="15" style="color: white">
-      <div> </div>
-      <i class="material-icons md-24">exit_to_app</i>
-      <a id="abmelden" href="javascript:void(0);" (click)="logout()" style="color: white; font-size:14px; text-transform: uppercase;">Abmelden</a>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlexOffset="15" style="color: white">
-      <div> </div>
-      <i class="material-icons md-24">create</i>
-      <a id="create" href="javascript:void(0);" (click)="createDummy()" style="color: white; font-size:14px; text-transform: uppercase;">Create Dummies</a>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlexOffset="15" style="color: white">
-      <div> </div>
-      <i class="material-icons md-24">delete</i>
-      <a id="reset" href="javascript:void(0);" (click)="resetDB()" style="color: white; font-size:14px; text-transform: uppercase;">Reset DB</a>
-    </div>
-
   </div>
-  <div fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlexOffset="15" >
-    <div style="color: white"> {{versionInfo()}}</div>
-    <br>
-  </div>
+  <!--endregion-->
+
 </aside>

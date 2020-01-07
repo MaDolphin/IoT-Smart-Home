@@ -1,0 +1,30 @@
+<div
+        fxLayout="column"
+        fxLayoutGap="5px"
+        class="action-container"
+>
+  <div
+          *ngFor="let actionRow of _actionButtons; let index = index; let last = last;"
+          fxLayout="row"
+          fxFlex="100"
+          fxLayoutAlign="start center"
+          fxLayoutGap="15px"
+  >
+    <div *ngFor="let actionButton of actionRow">
+      <button
+              #tooltip="matTooltip"
+              mat-icon-button
+              fxFlex
+              fxLayout="column"
+              class="action-button"
+              fxLayoutAlign="center center"
+              [matTooltip]="actionButton.tooltip"
+              [matTooltipPosition]="expanded ? (last && index > 0 ? 'below' : 'above') : 'right'"
+              [id]="actionButton.id"
+              (click)="onClick(tooltip, actionButton.id)"
+      >
+        <i class="material-icons">{{actionButton.icon}}</i>
+      </button>
+    </div>
+  </div>
+</div>

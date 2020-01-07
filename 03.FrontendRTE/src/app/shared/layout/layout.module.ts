@@ -17,7 +17,9 @@ import { MainLayoutService } from './main/main-layout.service';
 import { BigBreadcrumbsComponent } from './navigation/big-breadcrumbs.component';
 import { NavigationComponent } from './navigation/side-navigation/navigation.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-
+import { MatTabsModule } from "@angular/material/tabs";
+import { ActionButtonsComponent } from "@shared/layout/navigation/side-navigation/action-buttons/action-buttons.component";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule(
   {
@@ -39,13 +41,16 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
       MatSnackBarModule,
       PerfectScrollbarModule,
       FormDirectivesModule,
+      MatTabsModule,
+      MatTooltipModule,
     ],
     declarations: [
       MainLayoutComponent,
+      ActionButtonsComponent,
       NavigationComponent,
       BigBreadcrumbsComponent,
       HeaderComponent,
-      BreadcrumbComponent,
+      BreadcrumbComponent
     ],
     exports: [
       LoadingModule,
