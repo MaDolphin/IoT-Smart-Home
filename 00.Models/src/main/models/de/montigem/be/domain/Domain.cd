@@ -6,7 +6,9 @@ import java.time.ZonedDateTime;
 
 classdiagram Domain {
 
-    // User
+    /***********************************************************************************************************************
+     * Mandatory classes
+     **********************************************************************************************************************/
 
     class DomainUser {
       String username;
@@ -35,4 +37,36 @@ classdiagram Domain {
     }
 
     association  [*] RoleAssignment -> (user) DomainUser [1];
+
+    /***********************************************************************************************************************
+     * Domain specific classes
+     **********************************************************************************************************************/
+
+     class Sensor {
+      String sensorId;
+      SensorType type;
+     }
+
+     enum SensorType {
+      TEMPERATURE,
+      ANGLE,
+      PERCENT;
+     }
+
+     class SensorValue {
+      ZonedDateTime timestamp;
+      int value;
+     }
+
+     association [1] Sensor -> (value) SensorValue [*];
+
+   // SHOULD BE REPLACED
+   class ZahlenWert {
+       ZahlenTyp zahlenTyp;
+       long wert;
+   }
+
+   // TODO MF: SHOULD BE REPLACED
+   enum ZahlenTyp {EURO, STUNDE, PROZENT, NONE; }
+
 }

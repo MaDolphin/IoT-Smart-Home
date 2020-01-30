@@ -1,0 +1,68 @@
+sidenavigation : [
+  {
+    label: "Dashboard"
+    link: ["/", "dashboard"]
+    icon: "dashboard"
+  },
+  {
+    label: "Chart"
+    link: ["/", "guidsl", "linechart"]
+    icon: "multiline_chart"
+  },
+  {
+    label: "Einstellungen"
+    link: ["/", "einstellungen", "profil"]
+    icon: "settings"
+    children: [
+      {
+        label: "Mein Profil"
+        link: ["/", "einstellungen", "profil"]
+        icon: "supervisor_account"
+      },
+      {
+        label: "Benutzer"
+        link: ["/", "einstellungen", "benutzer"]
+        icon: "supervisor_account"
+        enabled: ifPermission(USER)
+      },
+      {
+        label: "Rollen"
+        link: ["/", "einstellungen", "rollen"]
+        icon: "supervisor_account"
+        enabled: ifPermission(USER)
+      }
+    ]
+  },
+  {
+    label: "Beispiele"
+    link: ["/", "beispiele", "datentabellen"]
+    icon: "help"
+    children: [
+      {
+        label: "Datentabellen"
+        link: ["/", "beispiele", "datentabellen"]
+        icon: "supervisor_account"
+      },
+      {
+        label: "Layout"
+        link: ["/", "beispiele", "layout"]
+        icon: "supervisor_account"
+      },
+      {
+        label: "Input"
+        link: ["/", "beispiele", "input"]
+        icon: "supervisor_account"
+      },
+      {
+        label: "Navigation"
+        link: ["/", "beispiele", "navigation"]
+        icon: "supervisor_account"
+      },
+      {
+        label: "Charts"
+        link: ["/", "beispiele", "charts", "1"]
+        icon: "supervisor_account"
+      }
+    ]
+  }
+]

@@ -73,7 +73,7 @@ public class BuilderCreator extends CreateTrafo {
   }
 
   @Override
-  protected List<String> getInterfaceNames(CDTypeSymbol typeSymbol) {
+  protected List<String> getClassInterfaceNames(CDTypeSymbol typeSymbol) {
     List<String> interfaces = new ArrayList<>();
     if (!typeSymbol.getSuperClass().isPresent()) {
       interfaces.add("IDomainBuilder<" + typeSymbol.getName() + ">");

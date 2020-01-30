@@ -1,18 +1,49 @@
-/* (c) https://github.com/MontiCore/monticore */
-
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Logger } from '@upe/logger';
 import { BaseChartDirective } from 'ng2-charts';
-import { RouterLocalService } from '@shared/architecture/services/router.local.service';
 import * as Chart from 'chart.js'
-import { ColorsService } from '@shared/utils/colors.service';
+import { ColorsService } from "@shared/utils/colors.service";
+import { Options } from "ng5-slider";
+
+export type BarChartYAxisData = { label: BarChartYAxisDataLabel, value: BarChartYAxisDataValue, stack?: string };
+export type BarChartXAxisDataValue = any;
+export type BarChartYAxisDataValue = number;
+export type BarChartXAxisDataLabel = string;
+export type BarChartYAxisDataLabel = string;
+
+export type YAxisType = 'STUNDE' | 'PROZENT';
+
+export type SortFn = (n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => number;
+
+export type BarChartDataTransformationFn = (data: any, range?: IBarChartDataRange) => BarChartData;
+export type BarChartRangeTransformationFn = (range: IBarChartDataRange) => BarChartXAxisDataValue[];
+export type BarChartXAxisDataValueStringifyFn = (value: BarChartXAxisDataValue) => string
+export type BarChartDataRangeTransformationFn = (range: any) => IBarChartDataRange;
 
 
+export type Color = string;
+
+export interface IBarChartDataEntry {
+  xAxis: BarChartXAxisDataValue;
+  yAxis: BarChartYAxisData[];
+}
+
+export type BarChartData = IBarChartDataEntry[];
+
+export interface IBarChartDataRange {
+  min: BarChartXAxisDataValue;
+  max: BarChartXAxisDataValue;
+}
+
+// interface solely used for the external charts library
 interface BarDataGroup {
   label: string,
   data: number[]
   stack?: string
-  backgroundColor?: string
+  fillColor?: string
+  backgroundColor?: any
+  borderColor?: any
+  hoverBackgroundColor?: any
+  hoverBorderColor?: any
 }
 
 @Component({
@@ -22,23 +53,87 @@ interface BarDataGroup {
 })
 export class BarChartComponent implements OnInit, AfterViewInit {
 
-  public MONTHS = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+  @ViewChild(BaseChartDirective)
+  private chart: BaseChartDirective;
 
-  private _yearStart = '2018';
-  private _yearEnd = '2018';
-  private _xAxis = [];
-
-  public chartHeight = '100px';
+  // transform methods
+  private _sortFn: (n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => number = (n1: any, n2: any) => n1 - n2;
+  private _rangeTransformFn: BarChartDataRangeTransformationFn;
+  private _transformFn: BarChartDataTransformationFn;
+  public _getAllXAxisDataValuesFn: BarChartRangeTransformationFn;
+  public _barChartXAxisDataValueStringifyFn: BarChartXAxisDataValueStringifyFn = (value: any) => '' + value;
 
   public _customLegend;
 
-  @Input()
-  public set tickSizePercentage(size: number) {
-    this.tickSize.percentage = size;
+  public colorSet = [];
+
+  // range variables
+  public _dataRange: IBarChartDataRange;
+  public _shownDataRange: IBarChartDataRange;
+
+  public xAxisLabels: BarChartXAxisDataLabel[] = [];
+
+  // bar chart data formatted in a way that is usable by the charts external charts library
+  public dataset: BarDataGroup[] = [];
+
+  // raw bar chart data
+  private _data: BarChartData;
+
+  public allXAxisDataValuesInRange: BarChartXAxisDataValue[];
+
+  //region Slider
+  public _sliderValueMin: number = 0;
+  public _sliderValueMax: number = 0;
+  public sliderOptions: Options = {
+    floor: 0,
+    ceil: 0,
+    hideLimitLabels: true,
+    translate: (index: number, _) => this._barChartXAxisDataValueStringifyFn(this.allXAxisDataValuesInRange[index])
+  };
+
+  public get sliderValueMin() {
+    return this._sliderValueMin;
   }
 
-  public colorSet = [];
-  public _dateRange = [2018, 2019];
+  public set sliderValueMin(index: number) {
+    this._sliderValueMin = index;
+  }
+
+  public get sliderValueMax() {
+    return this._sliderValueMax;
+  }
+
+  public set sliderValueMax(index: number) {
+    this._sliderValueMax = index;
+  }
+
+  public onSliderChanged(event) {
+    this._shownDataRange.min = this.allXAxisDataValuesInRange[event.value];
+    this._shownDataRange.max = this.allXAxisDataValuesInRange[event.highValue];
+    this.fetchData();
+  }
+  //endregion
+
+  private getAllXAxisDataValuesInRange(): BarChartXAxisDataValue[] {
+    return this._getAllXAxisDataValuesFn(this._dataRange);
+  }
+
+  public getAllXAxisDataValuesInData(): BarChartXAxisDataValue[] {
+    return this._data
+      .map((entry: IBarChartDataEntry) => {
+        return entry.xAxis;
+      });
+  }
+
+  private getAllYAxisDataLabels(): Set<BarChartYAxisDataLabel> {
+    let labels: Set<BarChartYAxisDataLabel> = new Set();
+    this._data.forEach((entry: IBarChartDataEntry) => {
+      entry.yAxis.forEach((data: BarChartYAxisData) => {
+        labels.add(data.label)
+      });
+    });
+    return labels;
+  }
 
   private maxLimits = {
     type: 'max',
@@ -57,52 +152,153 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     hour: 5,
   };
 
-  private defaultColor = ['#00549f', '#555555', '#57ab27', '#554496', '#87FF87', '#980000'];
-  private _displayYear: number = (new Date()).getFullYear();
-  private logger: Logger = new Logger({name: 'BarChartComponent'});
-
-  public get displayYear() {
-    return this._displayYear;
+  private addEmptyBars(stackData) {
+    for (const stack of this.getAllStacks(this._data)) {
+      stackData.get(stack).push(NaN);
+    }
   }
 
-  @ViewChild(BaseChartDirective)
-  private chart: BaseChartDirective;
-
-  public set displayYear(year: number) {
-    this._displayYear = year;
-
-    // TODO only after init
-    // this.chart.ngOnInit();
+  private getAllStacks(data: BarChartData): string[] {
+    const stacks = new Set();
+    data.forEach((dataEntry: IBarChartDataEntry) => {
+      const yAxis = dataEntry.yAxis;
+      for (const bar of yAxis) {
+        if (bar.stack) {
+          stacks.add(bar.stack);
+        }
+      }
+    });
+    return Array.from(stacks.values());
   }
 
-  @Output('update') updateEvent: EventEmitter<string> = new EventEmitter();
+  private setDataSetWithoutStacks() {
+    this.getAllYAxisDataLabels().forEach((label: BarChartYAxisDataLabel) => {
+      let values: BarChartYAxisDataValue[] = this._data
+        .map((entry: IBarChartDataEntry) => {
+          return entry.yAxis.length > 0 ? entry.yAxis.find((yData: BarChartYAxisData) => yData.label === label).value : 0;
+        });
+
+      const barDataGroup: BarDataGroup = {
+        label: label,
+        data: values,
+      };
+
+      this.dataset.push(barDataGroup)
+    });
+  }
+
+  private setDataSetWithStacks(allStackLabels: string[]) {
+    this.colors = [];
+    this.options.scales.xAxes[0].barPercentage = 0.8;
+
+    let index = 0;
+
+    // Create bar chart data groups from specified data set
+    this.getAllYAxisDataLabels().forEach((label: BarChartYAxisDataLabel) => {
+      const stackData = new Map<string, BarChartYAxisDataValue[]>();
+
+      // insert empty arrays for each stack into the map
+      for (const stack of allStackLabels) {
+        stackData.set(stack, []);
+      }
+
+      this._data.forEach((entry: IBarChartDataEntry) => {
+        if (entry.yAxis.length > 0) {
+          let yDatas = entry.yAxis.filter((yData: BarChartYAxisData) => yData.label === label);
+
+          for (const stack of allStackLabels) {
+            let yData = yDatas.find((yData: BarChartYAxisData) => yData.stack == stack);
+            if (yData) {
+              stackData.get(stack).push(yData.value);
+            } else {
+              stackData.get(stack).push(NaN);
+            }
+          }
+        } else {
+          this.addEmptyBars(stackData);
+        }
+      });
+
+      for (const stack of allStackLabels) {
+        const barDataGroup: BarDataGroup = {
+          label: label,
+          data: stackData.get(stack),
+          stack: stack,
+          backgroundColor : this._colorsService.getColors()[index],
+        };
+
+        this.dataset.push(barDataGroup)
+      }
+      index++;
+    });
+
+  }
+
+  @Output('update') updateEvent: EventEmitter<IBarChartDataRange> = new EventEmitter();
+
+  //region Inputs
+  //region Optional
+  @Input()
+  public set dataTransformation(transformFn: BarChartDataTransformationFn) {
+    this._transformFn = transformFn;
+  }
+
+  // TODO MF: get rid of this!
+  @Input()
+  public set dateRange(_: any) {}
 
   @Input()
-  public set colors(colors: string[]) {
-    /*
-    this.colorSet = colors.map((color) => {
-      return { backgroundColor: color };
-    });
-*/
+  public set shownDataRange(range: IBarChartDataRange) {
+    this._shownDataRange = range;
+  }
 
+  @Input()
+  public set dataRange(range: IBarChartDataRange) {
+    if (range) {
+      if (!!this._rangeTransformFn) {
+        this._dataRange = this._rangeTransformFn(range);
+      } else {
+        this._dataRange = range;
+      }
+      if (!this._shownDataRange) {
+        this._shownDataRange = Object.assign({}, this._dataRange) as IBarChartDataRange;
+      }
+    }
+  }
+
+  @Input()
+  public set colors(colors: Color[]) {
+    if (colors.length == 0) {
+      this.colorSet = [{}];
+    }
 
     let i = 0;
-    for (; i < colors.length; i++) {
+    for ( ; i < colors.length; i++) {
       if (i < this.colorSet.length)
         this.colorSet[i].backgroundColor = colors[i];
       else
         break;
     }
 
-    for (; i < colors.length; i++) {
-      this.colorSet.push(
-        {
-          backgroundColor: colors[i]
-        });
-
+    for ( ; i < colors.length; i++) {
+      this.colorSet.push({
+        backgroundColor: colors[i]
+      });
     }
+  }
 
+  @Input()
+  public set tickSizePercentage(size: number) {
+    this.tickSize.percentage = size;
+  }
 
+  @Input()
+  public set useSuggestedMax(suggestedMax: boolean) {
+    if (suggestedMax) {
+      this.maxLimits.type = 'suggestedMax';
+    } else {
+      this.maxLimits.type = 'max';
+    }
   }
 
   @Input()
@@ -127,8 +323,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.maxLimits.type = 'suggestedMax';
     this.maxLimits.suggestedMax.hour = max;
   }
-
-  public dataSet: any = []; // BarDataGroup[];
 
   @Input()
   public set maxHour(max: number) {
@@ -158,23 +352,104 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   @Input()
-  public hideYearSelect: boolean = false;
+  public set sortFn(fn: SortFn) {
+    this._sortFn = fn;
+  }
+
+  public get sortFn(): SortFn {
+    return this._sortFn;
+  }
+
+  private _yAxisType: YAxisType = 'PROZENT';
 
   @Input()
-  public cmd;
+  public set yAxisType(type: YAxisType) {
+    this._yAxisType = type
+  }
+
+  public get yAxisType(): YAxisType {
+    return this._yAxisType;
+  }
+  //endregion
+
+  //region Mandatory
+  @Input()
+  public set rangeTransformation(transformFn: BarChartDataRangeTransformationFn) {
+    this._rangeTransformFn = transformFn;
+  }
+
+  @Input()
+  public set getAllXAxisDataValuesFn(fn: BarChartRangeTransformationFn) {
+    this._getAllXAxisDataValuesFn = fn;
+  }
+
+  @Input()
+  public set barChartXAxisDataValueStringifyFn(fn: BarChartXAxisDataValueStringifyFn) {
+    this._barChartXAxisDataValueStringifyFn = fn;
+  }
+
+  public get barChartXAxisDataValueStringifyFn(): BarChartXAxisDataValueStringifyFn {
+    return this._barChartXAxisDataValueStringifyFn;
+  }
+
+  @Input()
+  public set data(data: any) {
+    if (data === undefined || !data) {
+      return;
+    }
+
+    this._data = this._transformFn(data, this._shownDataRange);
+
+    // set data range manually iff no data range was provided via input
+    if (!this._dataRange) {
+      const allXAxisValuesSorted: BarChartXAxisDataValue[] = this.getAllXAxisDataValuesInData()
+        .sort((n1: BarChartXAxisDataValue, n2: BarChartXAxisDataValue) => this.sortFn(n1, n2));
+      this.dataRange = {
+        min: allXAxisValuesSorted[0],
+        max: allXAxisValuesSorted[allXAxisValuesSorted.length - 1]
+      };
+    }
+
+    // Update axes
+    this.updateXAxis();
+    this.updateYAxis(this._yAxisType);
+
+    // Reset existing data set
+    this.dataset = [];
+
+    const allStackLabels: string[] = this.getAllStacks(this._data);
+    if (allStackLabels.length > 0) {
+      this.setDataSetWithStacks(allStackLabels);
+    } else {
+      this.setDataSetWithoutStacks();
+    }
+
+    // do this only once when the first chunk of data arrived
+    if (!this.allXAxisDataValuesInRange) {
+      this.allXAxisDataValuesInRange = this.getAllXAxisDataValuesInRange();
+      this.sliderOptions.ceil = this.allXAxisDataValuesInRange.length - 1;
+      this._sliderValueMax = this.allXAxisDataValuesInRange.findIndex((value: BarChartXAxisDataValue) => this._sortFn(value, this._shownDataRange.max) == 0);
+      this._sliderValueMin = this.allXAxisDataValuesInRange.findIndex((value: BarChartXAxisDataValue) => this._sortFn(value, this._shownDataRange.min) == 0);
+    }
+  }
+  //endregion
+  //endregion
 
   public options: any = {
+    animation: false,
+    padding: "10",
+    // borderWidth: "10",
     responsive: true,
     maintainAspectRatio: false,
-    animation: {
-      duration: 1000,
-    },
+    // animation: {
+    //   duration: 1000,
+    // },
     title: {},
     legend: {
       display: true,
       position: 'bottom'
     },
-    elements: {point: {radius: 0}},
+    elements: { point: { radius: 0 } },
     scales: {
       xAxes: [
         {
@@ -198,82 +473,42 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             beginAtZero: true,
           },
           gridLines: {
-            drawBorder: false,
+            drawBorder: true,
           },
         },
       ]
     },
     tooltips: {
       mode: 'x',
-      position: 'custom'
+      position: 'custom',
+      callbacks: {
+        label: (tooltipItem, data) => {
+          if (isNaN(tooltipItem.yLabel)) {
+            return ''
+          }
+          let label = data.datasets[tooltipItem.datasetIndex].label || '';
+          if (label) {
+            label += ': ';
+          }
+          label += tooltipItem.yLabel;
+          return label;
+        }
+      }
     }
   };
 
-  public reloadChart() {
-    if (this.chart !== undefined) {
-      this.chart.chart.destroy();
-      this.chart.chart = 0;
-
-      this.chart.datasets = this.dataSet;
-      this.chart.labels = this.xAxis;
-      this.chart.ngOnInit();
-    }
-  }
-
-  public get yearStart() {
-    return this._yearStart;
-  }
-
-
-  public set yearEnd(val) {
-
-    this._yearEnd = val;
-    this.updateXAxis();
-  }
-
-  public set yearStart(val) {
-    this._yearStart = val;
-    this.updateXAxis();
-  }
-
-  public get yearEnd() {
-    return this._yearEnd;
-  }
-
-  public get xAxis() {
-    return this._xAxis;
-  }
-
-  public set xAxis(array) {
-    this._xAxis = array;
-  }
-
   public hasData(): boolean {
-    if (this.dataSet != null && this.dataSet.length > 0)
-      return true;
-
-    return false;
+    return this.dataset != null && this.dataset.length > 0;
   }
 
-
-  public updateChart() {
-    if (this.chart) {
-      this.chart.ngOnInit();
-    }
-  }
-
+  //region Axis
   public updateXAxis() {
-    let m: any = [];
-
-    for (let year = Number(this.yearStart); year <= Number(this.yearEnd); year++) {
-      m = m.concat(this.MONTHS.map((month) => {
-        return month + ' ' + year.toString().slice(-2);
-      }));
+    if (this._data) {
+      this.xAxisLabels = this._data.map((group: IBarChartDataEntry) => this.barChartXAxisDataValueStringifyFn(group.xAxis));
     }
-    this.xAxis = m;
   }
 
-  public updateYAxis(type: string) {
+  public updateYAxis(type: YAxisType) {
     let tick = this.options.scales.yAxes[0].ticks;
 
     let append;
@@ -299,121 +534,35 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     tick.stepSize = this.tickSize[axisType];
     delete tick[remove];
   }
+  //endregion
 
-  constructor(protected _routerLocalService: RouterLocalService, protected _colorsService: ColorsService) {
+  constructor(protected _colorsService: ColorsService) {
   }
 
   public ngOnInit(): void {
-
-
     this.updateXAxis();
 
-    let currentYear = (new Date()).getFullYear();
-
     this.colors = this._colorsService.getColors();
-    this._dateRange = [currentYear, currentYear];
 
     Chart.Tooltip.positioners.custom = this.customTooltipPosition;
-
-
   }
 
   public ngAfterViewInit() {
-    this.yearStart = String((new Date()).getFullYear());
-    this.yearEnd = String((new Date()).getFullYear());
-
     this.fetchData();
   }
 
-  @Input()
-  public set data(data: any) {
-    this.setData(data);
-  }
-
-  public setData(data: any) {
-    this.updateXAxis();
-
-    let obj;
-    if (data != null)
-      obj = data;
-    else
-      return;
-
-    this.dataSet = [];
-  }
-
-  @Input()
-  public set dateRange(value: { startjahr: number, abschlussjahr: number }) {
-
-    let currentYear = (new Date()).getFullYear();
-
-    if (value) {
-      this._dateRange = [];
-      if (value.abschlussjahr < currentYear) {
-        this._yearStart = String(value.abschlussjahr);
-        this._yearEnd = String(value.abschlussjahr);
-        this.fetchData();
-      }
-      for (let i = value.startjahr; i <= value.abschlussjahr; i++) {
-        this._dateRange.push(i);
-      }
+  public updateChart() {
+    if (this.chart) {
+      this.chart.ngOnInit();
     }
   }
-
 
   public fetchData() {
-    let param = {start: this.yearStart, end: this.yearEnd};
-    this.updateEvent.emit(JSON.stringify(param));
+    this.updateEvent.emit(this._shownDataRange);
   }
 
-  private createEmptyDataSet(label: string): BarDataGroup {
-    let data = [];
-
-    for (let year = Number(this.yearStart); year <= Number(this.yearEnd); year++) {
-      for (let m = 0; m < this.MONTHS.length; m++) {
-        data.push(NaN);
-      }
-    }
-
-    return {
-      label: label,
-      data: data
-    };
-  }
-
-  private parseLegendFinanzierungsInDetails(dataSet) {
-    return dataSet.reduce((acc, cur) => {
-      if (acc.findIndex((ks) => {
-        return ks.label === cur.label;
-      }) === -1) {
-        acc.push({
-          label: cur.label,
-          color: this.colorSet[acc.length].backgroundColor
-        });
-      }
-
-      return acc;
-    }, []);
-  }
-
-  private parseColorsFinanzierungsInDetails(dataSet): string[] {
-    let mapping = {};
-
-    dataSet.forEach(ks => {
-      if (!mapping.hasOwnProperty(ks.label)) {
-        let index = Object.keys(mapping).length;
-        mapping[ks.label] = this.colorSet[index].backgroundColor
-      }
-    });
-
-    let res = dataSet.map(ks => {
-      return mapping[ks.label];
-    });
-
-    return res;
-  }
-
-  private customTooltipPosition(elements, position) {
+  private customTooltipPosition(_, position) {
     return {x: position.x, y: position.y};
   }
+
 }

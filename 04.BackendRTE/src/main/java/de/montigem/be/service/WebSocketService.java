@@ -9,8 +9,10 @@ import de.montigem.be.auth.jwt.ShiroJWTFilter;
 import de.montigem.be.authz.util.RolePermissionManager;
 import de.montigem.be.authz.util.SecurityHelper;
 import de.montigem.be.command.rte.general.CommandManager;
+import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
+import de.montigem.be.util.SensorHandler;
 import de.montigem.be.util.websocket.MessageHandler;
 import de.montigem.be.util.websocket.MessageHandlerType;
 import de.montigem.be.util.websocket.WebSocketSessionManager;
@@ -99,6 +101,9 @@ public class WebSocketService {
       case CommandManager:
         callback = msg -> JsonMarshal.getInstance().marshal(commandManager.manage(msg));
         break;
+      case Sensor:
+        SensorHandler.getInstance().add(session, SensorType.valueOf(usage));
+        // + do the same as default
       case None:
       default:
         callback = msg -> msg;
@@ -248,7 +253,7 @@ public class WebSocketService {
    * @param session
    * @return
    */
-  private JWToken getJWT(Session session) {
+  public static JWToken getJWT(Session session) {
     return (JWToken) session.getUserProperties().get("jwt");
   }
 

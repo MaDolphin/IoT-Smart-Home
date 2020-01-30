@@ -1,0 +1,123 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+webpage beispieleDatentabellen(
+               all EinstellungenBenutzerTabelle ut,
+               all UserList ul,
+               all RoleList rl,
+               all ObjectList ol,
+               formular RoleForm<EinstellungenRollenTabelleEntryDTO> form,
+               all EinstellungenRollenTabelle rt
+              ) {
+
+    row (space-evenly) {
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "Einfache Tabelle"
+                    }
+                }
+                body {
+                    datatable "einfacheTabelle" {
+                        rows <ut.alleBenutzer {
+                            column "Benutzername"            , < username              ,120;
+                            column "Kürzel"                  , < initials              ,60;
+                            column "E-mail Adresse"          , < email                 ,240;
+                            column "Registrierungsdatum"     , date(<registrationDate) ,120, disabled;
+                            column "Email Aktivierungsstatus", < aktivierungsstatus    ,80, disabled;
+                            column "Account aktiv"           , checkbox(<istAktiv)     ,80;
+                        }
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "Einfache Tabelle mit Context Menu"
+                    }
+                }
+                body {
+                    datatable "einfacheMitContextMenuTabelle" {
+                        references {
+                          rightClickMenu : contextMenu
+                        }
+                        rows <ut.alleBenutzer {
+                            column "Benutzername"            , < username              ,120;
+                            column "Kürzel"                  , < initials              ,60;
+                            column "E-mail Adresse"          , < email                 ,240;
+                            column "Registrierungsdatum"     , date(<registrationDate) ,120, disabled;
+                            column "Email Aktivierungsstatus", < aktivierungsstatus    ,80, disabled;
+                            column "Account aktiv"           , checkbox(<istAktiv)     ,80;
+                        }
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "Editierbare Tabelle"
+                    }
+                }
+                body {
+                    datatable "gruppierbareTabelle" {
+                        conditions {
+                            groupable : <aktivierungsstatus
+                        }
+                        rows <ut.alleBenutzer {
+                            column "Benutzername"            , < username              , 70;
+                            column "Kürzel"                  , < initials              ,  50;
+                            column "E-mail Adresse"          , < email                 , 200;
+                            column "Registrierungsdatum"     , date(<registrationDate) , 120, disabled;
+                            column "Email Aktivierungsstatus", < aktivierungsstatus    , 140, disabled;
+                            column "Account aktiv"           , checkbox(<istAktiv)     ,  80;
+                        }
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "Editierbare Tabelle"
+                    }
+                }
+                body {
+                    datatable "editierbareTabelle" {
+                        references {
+                            editTemplates : inlineTemplates
+                        }
+                        methods {
+                            save -> onSave($event)
+                        }
+                        conditions {
+                            inlineEdit
+                            editable
+                        }
+                        rows <rt.users {
+                          column "Benutzername"         , dropdown(<user.username, <ul.users.username.withId(id))    ,120;
+                          column "Rolle"                , dropdown(<role.name, <rl.roles.name.withId(id))            ,120;
+                          column "Recht auf"            , < objectClass                                              ,120, disabled;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    contextmenu "contextMenu" {
+        entry "Methode 1" -> getA()
+        divider
+        entry "Methode 2" -> getB()
+        entry getString() + "3" -> getC()
+        entry if(isSomething()) "Methode 4" -> getD()
+    }
+
+}

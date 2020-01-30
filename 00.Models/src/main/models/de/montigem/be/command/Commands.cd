@@ -9,7 +9,7 @@ import de.montigem.be.system.einstellungen.Einstellungen.*;
 classdiagram Commands {
 
 //--------------- GENERAL ----------------
-   class ReloadConfig {
+     class ReloadConfig {
      }
 
      class PasswordResetById {
@@ -27,7 +27,7 @@ classdiagram Commands {
          String newUsername;
      }
 
-     class SetNewPassword{
+     class SetNewPassword {
           String oldPassword;
           String newPassword;
      }
@@ -75,5 +75,12 @@ classdiagram Commands {
       String status;
     }
 
+  //--------------- BEISPIELE -------------------
+  class BeispieleBarChart_getByIdAndYear {
+    Long id;
+    List<String> years;
+  }
+
+ //------------ DOMAIN SPECIFIC -------------
 
 }

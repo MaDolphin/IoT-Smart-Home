@@ -6,5 +6,6 @@ package de.montigem.be.util.websocket;
 
 public enum MessageHandlerType {
   CommandManager,
+  Sensor,
   None,
 }

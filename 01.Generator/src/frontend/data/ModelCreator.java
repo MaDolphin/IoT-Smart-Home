@@ -79,7 +79,7 @@ public class ModelCreator extends ExtendTrafo {
   }
 
   @Override
-  protected List<String> getInterfaceNames(CDTypeSymbol typeSymbol) {
+  protected List<String> getClassInterfaceNames(CDTypeSymbol typeSymbol) {
     return Lists.newArrayList("I" + typeSymbol.getName());
   }
 

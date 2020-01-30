@@ -18,6 +18,8 @@ public class DatabaseReset {
   private SecurityHelper securityHelper;
 
   public void removeDatabaseEntries(boolean deleteUser) {
+    daoLib.getSensorDAO().removeAll(securityHelper.getSessionCompliantResource());
+
     if (deleteUser) {
       removeUserEntries();
     }

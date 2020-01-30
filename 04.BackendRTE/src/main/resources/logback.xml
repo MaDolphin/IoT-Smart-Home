@@ -17,11 +17,39 @@
     </encoder>
   </appender>
 
+  <!-- this is a rather technically detailed file appender -->
+  <appender name="USAGEFILE" class="ch.qos.logback.core.FileAppender">
+    <file>logs/user.${bySecond}.log</file>
+    <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+      <evaluator>
+        <expression>return (logger.contains("Login-Request") ||
+          logger.contains("Logout-Request") ||
+          logger.contains("Data-Operation") ||
+          logger.contains("Statistics"));
+        </expression>
+      </evaluator>
+      <OnMismatch>DENY</OnMismatch>
+      <OnMatch>NEUTRAL</OnMatch>
+    </filter>
+    <encoder>
+      <pattern>
+        %date{yyyy-MM-dd HH:mm:ss} %logger{26} %message%n
+      </pattern>
+    </encoder>
+  </appender>
+
   <!-- use an async writer to just flush every n entries -->
   <appender name="ASYNC-FILE" class="ch.qos.logback.classic.AsyncAppender">
     <queueSize>2048</queueSize>
     <discardThreshold>0</discardThreshold> <!-- keep all given entries -->
     <appender-ref ref="FILE"/>
+  </appender>
+
+  <!-- use an async writer to just flush every n entries -->
+  <appender name="ASYNC-USAGE-FILE" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>2048</queueSize>
+    <discardThreshold>0</discardThreshold> <!-- keep all given entries -->
+    <appender-ref ref="USAGEFILE"/>
   </appender>
 
   <!-- this is a user friendly console appender -->
@@ -38,7 +66,7 @@
 
   <!-- everything with level >= DEBUG is logged to the file (see above) -->
   <root level="INFO">
-    <!-- <appender-ref ref="FILE" /> -->
+    <appender-ref ref="ASYNC-USAGE-FILE"/>
     <appender-ref ref="ASYNC-FILE"/>
     <!-- <appender-ref ref="CONSOLE"/> -->
   </root>

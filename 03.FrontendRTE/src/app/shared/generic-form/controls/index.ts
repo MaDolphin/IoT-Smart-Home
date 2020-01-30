@@ -10,3 +10,8 @@ export { MoneyFormControl } from './money.form-control';
 export { TwoDecimalNumberFormControl } from './two-decimal-number.form-control';
 export { PercentHourFormControl } from './percent-hour.form-control';
 export { StringArrayFormControl } from './string-array.form-control';
+export { AutoCompleteFormControl } from './auto-complete.form-control';
+export { LabelFormControl } from './label.form-control';
+export { RadioFormControl } from './radio.form-control';
+export { SelectFormControl } from './select.form-control';
+export { SelectWithIdValueFormControl } from './select-with-id-value.form-control';

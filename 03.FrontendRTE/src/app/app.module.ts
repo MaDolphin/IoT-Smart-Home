@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
@@ -24,8 +22,7 @@ import { PipesModule } from '@shared/pipes';
 import { UtilsModule } from '@shared/utils/utils.module';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
-import { DashboardComponent } from "@targetgui/dashboard.component/dashboard.component";
-import {GeneratedGUIModule} from "@targetgui/generatedGUI.module";
+import { DashboardComponent } from '@dashboard/dashboard.component';
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -70,7 +67,7 @@ export const MY_DATE_FORMATS = {
 
     MatGridListModule,
     ChartsModule,
-    GeneratedGUIModule,
+
     PanelDirectivesModule,
     ButtonDirectivesModule,
 

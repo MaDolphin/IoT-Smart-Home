@@ -437,12 +437,12 @@ $dropdown-header-color: $gray-light !default;
 //** Deprecated `$dropdown-caret-color` as of v3.1.0
 $dropdown-caret-color: #000 !default;
 
-//== Navbar
-//
-//##
+// ------ Navbar -------
+$navbar-small-layout-threshold: 1100px;
 
 // Basics of a navbar
 $navbar-width: 200px !default;
+$navbar-small-width: 60px;
 $navbar-height: 50px !default;
 $navbar-margin-bottom: $line-height-computed !default;
 $navbar-border-radius: $border-radius-base !default;

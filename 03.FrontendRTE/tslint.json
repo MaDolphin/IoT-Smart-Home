@@ -45,8 +45,7 @@
     "invoke-injectable": true,
     "class-name": true,
     "comment-format": [
-      true,
-      "check-space"
+      false
     ],
     "indent": [
       true,
@@ -63,8 +62,7 @@
       "check-whitespace"
     ],
     "quotemark": [
-      true,
-      "single"
+      false
     ],
     "semicolon": false,
     "triple-equals": [

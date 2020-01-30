@@ -36,17 +36,23 @@ webpage einstellungenRollen (
         }
         body{
           datatable "rollenTabelle" {
-            nonReorderable
-            editable
-            editTemplates : inlineTemplates
-            inlineEdit
-            inlineNew
-            nonExportable
-            save ->  onSave($event)
-            create -> onCreate($event)
-            deletable
-            /*showInactiveButton*/
-            groupable:<user.username
+            references {
+              editTemplates : inlineTemplates
+            }
+            methods {
+              save ->  onSave($event)
+              create -> onCreate($event)
+            }
+            conditions {
+              nonReorderable
+              editable
+              inlineEdit
+              inlineNew
+              nonExportable
+              deletable
+              /*showInactiveButton*/
+              groupable:<user.username
+            }
             rows <rt.users {
               column "Benutzername"         , dropdown(<user.username, <ul.users.username.withId(id))    ,120;
               column "Rolle"                , dropdown(<role.name, <rl.roles.name.withId(id))        ,120;

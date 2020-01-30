@@ -27,7 +27,7 @@ export class EinstellungenRollenGenComponent extends EinstellungenRollenGenCompo
     protected _router: Router,
     protected _route: ActivatedRoute,
     protected _commandRestService: CommandRestService) {
-    super(_router, _route, _commandRestService);
+    super(_commandRestService, _route, _router);
     this.commandManager = new CommandManager(this._commandRestService);
     this.form = form;
   }
@@ -67,13 +67,9 @@ export class EinstellungenRollenGenComponent extends EinstellungenRollenGenCompo
   }
 
   public onSave(event) {
-
     let fullDto = this.getFormFullDTO(event.entry);
-    console.log('submit', JSON.stringify(fullDto));
-
 
     this.commandManager.addCommand(new EinstellungenRollenTabelleEntryDTO_update(fullDto), (dto: IdDTO) => {
-      console.log('model: ', fullDto);
       this.form.reset();
       this.commandManager = new CommandManager(this._commandRestService);
       this.initAllCommands();

@@ -16,22 +16,28 @@ package ${package};
   import ${i};
 </#list>
 
-${ast.printModifier()} enum ${ast.getName()} {
+${ast.printModifier()} enum ${ast.getName()}
 
-  ${util.printCDEnumConstants(ast.getCDEnumConstantList())};
+<#-- print implements -->
+<#if ast.getInterfaceList()?size gt 0>
+  implements ${ast.printInterfaces()}
+</#if>
+{
 
-  <#-- generate all attributes -->
-  <#list ast.getCDAttributeList() as attribute>
+${util.printCDEnumConstants(ast.getCDEnumConstantList())};
+
+<#-- generate all attributes -->
+<#list ast.getCDAttributeList() as attribute>
     ${tc.includeArgs("backend.coretemplates.Attribute", [attribute])}
-  </#list>
-  
-  <#-- generate all constructors -->  
-  <#list ast.getCDConstructorList() as constr>
+</#list>
+
+<#-- generate all constructors -->
+<#list ast.getCDConstructorList() as constr>
     ${tc.includeArgs("backend.coretemplates.Constructor", [constr])}
-  </#list>
-  
-  <#-- generate all methods -->
-  <#list ast.getCDMethodList() as method>
+</#list>
+
+<#-- generate all methods -->
+<#list ast.getCDMethodList() as method>
     ${tc.includeArgs("backend.coretemplates.Method", [method])}
-  </#list>
+</#list>
 }

@@ -26,7 +26,7 @@ export class EinstellungenMeinbenutzerGenComponent extends EinstellungenMeinbenu
     protected _commandRestService: CommandRestService,
     private auth: AuthService,
     private notification: NotificationService) {
-    super(_router, _route, _commandRestService)
+    super(_commandRestService, _route, _router);
   }
 
   cancelSave_username() {

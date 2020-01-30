@@ -4,7 +4,9 @@
 
 package de.montigem.be.domain.rte.dao;
 
+import de.montigem.be.authz.util.SecurityHelper;
 import de.montigem.be.domain.rte.interfaces.IObject;
+import de.montigem.be.util.DAOLib;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -67,11 +69,11 @@ public class QueryRestriction<D extends IObject, T extends AbstractDomainDAO<D>>
   }
 
   /*
-  public QueryRestriction<D, T> addPredicatesFromRestriction(AttributeRestriction<T> restriction, String columnName) {
-    this.predicates.addAll(restriction.createPredicates(this.cb, this.getRoot().get(columnName)));
-    return this;
-  }
-
+    public QueryRestriction<D, T> addPredicatesFromRestriction(AttributeRestriction<T> restriction, String columnName) {
+      this.predicates.addAll(restriction.createPredicates(this.cb, this.getRoot().get(columnName)));
+      return this;
+    }
+  */
   public QueryRestriction<D, T> addPredicatePermitted(DAOLib daoLib, SecurityHelper securityHelper,
       String objectClass, String... permissions) {
     return addPredicateInIds(securityHelper.getPermittedIds(daoLib, objectClass, permissions));
@@ -81,7 +83,6 @@ public class QueryRestriction<D extends IObject, T extends AbstractDomainDAO<D>>
       String objectClass, String... permissions) {
     return addPredicateInIds(securityHelper.getPermittedIds(daoLib, objectClass, permissions), columnName);
   }
-   */
 
   public QueryRestriction<D, T> addPredicateIsActive(boolean isActive) {
     this.predicates.add(dao.getCriteriaBuilder().equal(dao.getCriteriaRoot().get("istAktiv"), isActive));

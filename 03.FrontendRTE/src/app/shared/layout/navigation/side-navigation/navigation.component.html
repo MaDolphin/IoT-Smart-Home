@@ -1,0 +1,108 @@
+<!-- Wrapper for the whole navigation component -->
+<aside
+        fxLayout="column"
+        fxLayoutAlign="start"
+        fxLayoutGap="25px"
+        class="animate"
+        [ngClass]="{'smallNavBar': navBarExpanded === false, 'largeNavBar': navBarExpanded === true}"
+>
+
+  <!-- Toggle Button -->
+<!--  <div fxLayout="row" fxLayoutAlign="end" class="toggleNavBarButton" (click)="toggleNavBar()"></div>-->
+
+  <!-- Logo -->
+  <a fxFlex="0 0 90px" fxLayoutAlign="center" routerLink="/dashboard">
+    <div class="logo-brand ">App - Logo</div>
+  </a>
+
+  <!--region Navigation items-->
+  <perfect-scrollbar fxFlex="100" fxFlexFill id="scrollableNavBar">
+    <mat-list class="nav">
+      <ng-template ngFor [ngForOf]="navigation" let-main>
+        <div routerLinkActive="active active-parent" [ngClass]="{'force-active': isExpanded(main)}">
+          <!--region List of main navigation items-->
+          <mat-list-item *ngIf="(!main.enabled || main.enabled())" class="main-nav">
+            <a *ngIf="main.link" [routerLink]="main.link" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center">
+              <mat-icon fxLayout fxLayoutAlign="center center">{{main.icon}}</mat-icon>
+              <span fxFlex class="navText">{{main.label}}</span>
+            </a>
+
+            <span (click)="toggleNav(main)" class="sufix" [ngClass]="navClass(main)" *ngIf="navBarExpanded"></span>
+
+            <a *ngIf="!main.link" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
+              <mat-icon fxFlex="auto">{{main.icon}}</mat-icon>
+              <span fxFlex="100" class="navText">{{main.label}}</span>
+              <mat-icon fxFlex="auto">build</mat-icon>
+              <span class="sufix" [ngClass]="{ 'rectangle': !main.children, 'dot': !!main.children }"></span>
+            </a>
+
+            <!-- Hover Overlay Containing Sub Navigation Items -->
+            <div class="dropdown-content" *ngIf="!navBarExpanded">
+              <a [routerLink]="main.link" id="dropdown-main-item" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">{{main.label}}</a>
+              <ng-template ngFor [ngForOf]="main.children" let-sub>
+                <a
+                        [routerLink]="sub.link" *ngIf="(!sub.enabled || sub.enabled())"
+                        fxLayout="row"
+                        fxLayoutGap="5px"
+                        fxLayoutAlign="center center"
+                        routerLinkActive="active-dropdown-item"
+                >
+                  {{sub.label}}
+                </a>
+                <hr>
+              </ng-template>
+            </div>
+          </mat-list-item>
+          <!--endregion-->
+
+          <!--region List of sub navigation items for parent navigation item that is currently active-->
+          <mat-list class="sub-nav" *ngIf="isExpanded(main) && navBarExpanded">
+            <ng-template ngFor [ngForOf]="main.children" let-sub>
+              <mat-list-item class="sub" *ngIf="(!sub.enabled || sub.enabled())" routerLinkActive="active">
+                <a [routerLink]="sub.link" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="center center">
+                  <span style="text-indent:20px;" fxFlex="100" class="subNavText">{{sub.label}}</span>
+                  <span class="sufix rectangle"></span>
+                </a>
+              </mat-list-item>
+            </ng-template>
+          </mat-list>
+          <!--endregion-->
+        </div>
+      </ng-template>
+    </mat-list>
+  </perfect-scrollbar>
+  <!--endregion-->
+
+  <!--region Bottom part of this side navigation-->
+  <div
+          class="bottom-row"
+          fxLayout="column"
+          fxLayoutGap="25px"
+  >
+    <!-- Action buttons such as 'Abmelden' or 'Hilfe' -->
+    <montigem-action-buttons
+            fxLayout
+            fxLayoutAlign="center"
+            [expanded]="navBarExpanded"
+            [actionButtons]="actionButtons"
+            (clicked)="onClick($event)"
+    ></montigem-action-buttons>
+
+    <!-- Version, Impressum und Datenschut -->
+    <div
+            *ngIf="navBarExpanded"
+            class="nav-version-row"
+            fxLayout="column"
+            fxLayoutAlign="center center"
+            fxLayoutGap="5px"
+    >
+      <div>{{versionInfo()}}</div>
+<!--      <div fxLayout fxLayoutGap="10px">-->
+<!--        <a id="impressum" class="minorLink" target="_blank" href="https://macoco.rwth-aachen.de/w/index.php/Team">Impressum</a>-->
+<!--        <a id="datenschutz" class="minorLink" href="/einstellungen/datenschutz">Datenschutz</a>-->
+<!--      </div>-->
+    </div>
+  </div>
+  <!--endregion-->
+
+</aside>

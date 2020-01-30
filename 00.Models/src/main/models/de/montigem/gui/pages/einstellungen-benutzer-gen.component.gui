@@ -61,22 +61,28 @@ webpage einstellungenBenutzer (
         }
         body{
           datatable "benutzerTabelle" {
-              inlineEdit
-              inlineNew
+            references {
               editTemplates : inlineTemplates
-              editable
               rightClickMenu : contextMenu
-              nonExportable
+              activeRow : activeRow
+            }
+            methods {
               save ->  onSave($event)
               create -> onCreate($event)
-              activeRow: activeRow
-              rows <ut.alleBenutzer {
-                column "Benutzername"            , < username              ,120;
-                column "Kürzel"                  , < initials              ,60;
-                column "E-mail Adresse"          , < email                 ,240;
-                column "Registrierungsdatum"     , date(<registrationDate) ,120, disabled;
-                column "Email Aktivierungsstatus", < aktivierungsstatus    ,80, disabled;
-                column "Account aktiv"           , checkbox(<istAktiv)     ,80;
+            }
+            conditions {
+              inlineEdit
+              nonExportable
+              editable
+              inlineNew
+            }
+            rows <ut.alleBenutzer {
+              column "Benutzername"            , < username              ,120;
+              column "Kürzel"                  , < initials              ,60;
+              column "E-mail Adresse"          , < email                 ,240;
+              column "Registrierungsdatum"     , date(<registrationDate) ,120, disabled;
+              column "Email Aktivierungsstatus", < aktivierungsstatus    ,80, disabled;
+              column "Account aktiv"           , checkbox(<istAktiv)     ,80;
             }
           }
         }

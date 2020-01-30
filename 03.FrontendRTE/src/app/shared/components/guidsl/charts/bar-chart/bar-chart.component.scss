@@ -1,8 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 
+@import "../../../../../../scss/variables";
+
 $color-box-width: 12px;
 $label-padding: 6px;
-
 
 .pie-chart-display-toggle {
   flex: 1 1 100%;
@@ -62,4 +63,78 @@ $label-padding: 6px;
   display: inline-block;
   width:40px;
   height: 12px;
+}
+
+.range-control input {
+  text-align: center;
+}
+
+.range {
+  flex: 2 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 9px;
+}
+
+.range /deep/ .ng5-slider {
+  margin: 0;
+}
+
+::ng-deep ng5-slider {
+  cursor: pointer;
+}
+
+.range /deep/ .ng5-slider-pointer {
+  width: 12px;
+  height: 12px;
+  top: -5px;
+  background-color: $rwth-blue;
+  outline: none;
+  cursor: ew-resize;
+}
+
+.range /deep/ .ng5-slider-pointer.ng5-slider-active::after {
+  transform: scale(1);
+  opacity: 1;
+  background-color: rgba(0, 84, 159, .2);
+}
+
+.range /deep/ .ng5-slider-pointer::after {
+  position: absolute;
+  top: -9px;
+  left: -9px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transform: scale(0);
+  opacity: 0;
+  transition: transform .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1),opacity .4s cubic-bezier(.25,.8,.25,1);
+}
+
+.range /deep/ .ng5-slider-bar-wrapper {
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.range /deep/ .ng5-slider-selection {
+  background-color: $rwth-blue;
+}
+
+.range /deep/ .ng5-slider-bar {
+  height: 2px;
+}
+
+.range .ng5-slider[disabled] /deep/ .ng5-slider-pointer {
+  background-color: #C4C4C4;
+}
+
+.range  .ng5-slider[disabled] /deep/ .ng5-slider-selection {
+  background-color: #C4C4C4;
+}
+
+.range .ng5-slider[disabled] /deep/ .ng5-slider-bar {
+  background-color: #C4C4C4;
 }

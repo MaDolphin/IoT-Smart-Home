@@ -1,0 +1,34 @@
+package de.montigem.be.system.beispiele;
+
+import de.montigem.be.domain.Domain.*;
+import de.montigem.be.system.common.PieChart.*;
+
+classdiagram Beispiele {
+
+  class BeispielePieChart extends PieChart {
+  }
+
+  class BeispieleBarChart {
+      List<BeispieleBarChartEntry> entries;
+  }
+
+  // TODO MF: change this
+  class BeispieleBarChartEntry {
+    int jahr;
+    int monat;
+    ZahlenWert planUmfang;
+    ZahlenWert umfang;
+  }
+
+  class Datumsbereich {
+    int startjahr;
+    int abschlussjahr;
+  }
+
+}
+
+
+
+
+
+

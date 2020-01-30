@@ -18,7 +18,10 @@ import de.monticore.umlcd4a.symboltable.CDTypeSymbol;
 import de.se_rwth.commons.Joiners;
 import ocl.monticoreocl.ocl._ast.ASTOCLInvariant;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ValidatorCreator extends CreateTrafo {
@@ -117,7 +120,7 @@ public class ValidatorCreator extends CreateTrafo {
   }
 
   @Override
-  protected List<String> getInterfaceNames(CDTypeSymbol typeSymbol) {
+  protected List<String> getClassInterfaceNames(CDTypeSymbol typeSymbol) {
     List<String> interfaces = new ArrayList<>();
     if (!typeSymbol.getSuperClass().isPresent()) {
       interfaces.add("IDomainValidator<" + typeSymbol.getName() + ">");

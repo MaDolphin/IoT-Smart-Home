@@ -24,6 +24,8 @@ import { BalanceBoxComponent } from '@shared/components/guidsl/balance-box/balan
 import { HorizontalBarChartComponent } from '@shared/components/guidsl/charts/horizonatl-bar-chart/horizontal-bar-chart.component';
 import { BudgetWidgetComponent } from '@shared/components/guidsl/budget-widget/budget-widget.component';
 import { TextMaskModule } from 'angular2-text-mask';
+import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 
 @NgModule({
@@ -38,6 +40,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     PercentageChartComponent,
     BalanceBoxComponent,
     HorizontalBarChartComponent,
+    LineChartComponent,
     BudgetWidgetComponent,
   ],
   imports: [
@@ -59,6 +62,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     MatSelectModule,
     MatTabsModule,
     TextMaskModule,
+    Ng5SliderModule
   ],
   exports: [
     MCContainerComponent,
@@ -72,6 +76,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     PercentageChartComponent,
     BalanceBoxComponent,
     HorizontalBarChartComponent,
+    LineChartComponent,
     BudgetWidgetComponent
   ],
   providers: [

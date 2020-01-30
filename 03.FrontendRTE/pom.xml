@@ -160,7 +160,6 @@
     <finalName>${final.name}</finalName>
     <pluginManagement>
       <plugins>
-
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
@@ -171,13 +170,11 @@
             <encoding>UTF-8</encoding>
           </configuration>
         </plugin>
-
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.18.1</version>
         </plugin>
-
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
@@ -217,40 +214,6 @@
             </execution>
           </executions>
         </plugin>
-
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>1.6.0</version>
-          <executions>
-            <execution>
-              <id>generate_guidsl_from_cd</id>
-              <goals>
-                <goal>java</goal>
-              </goals>
-              <phase>generate-sources
-              </phase>
-              <configuration>
-                <skip>${maven.main.skip}</skip>
-                <includePluginDependencies>true</includePluginDependencies>
-                <mainClass>guidsl.CDTool</mainClass>
-                <arguments>
-                  <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd</argument>
-                  <argument>-out</argument>
-                  <argument>${basedir}/target/generated-sources/gui</argument>
-                </arguments>
-              </configuration>
-            </execution>
-          </executions>
-          <dependencies>
-            <dependency>
-              <groupId>de.monticore.lang</groupId>
-              <artifactId>guidsl</artifactId>
-              <version>0.0.2-SNAPSHOT</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-
         <plugin>
           <groupId>de.se_rwth.maven</groupId>
           <artifactId>se-groovy-maven-plugin</artifactId>
@@ -365,7 +328,6 @@
         <artifactId>frontend-maven-plugin</artifactId>
         <version>${fe.version}</version>
         <executions>
-
           <execution>
             <id>install-node-and-npm</id>
             <phase>generate-resources</phase>
@@ -417,7 +379,47 @@
             </configuration>
           </execution>
 
+          <execution>
+            <id>install-node-and-npm generate sources</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>formatter</workingDirectory>
+              <installDirectory>formatter</installDirectory>
+              <nodeVersion>${node.version}</nodeVersion>
+              <npmVersion>${npm.version}</npmVersion>
+            </configuration>
+          </execution>
 
+          <execution>
+            <id>npm install generate sources</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <workingDirectory>formatter</workingDirectory>
+              <installDirectory>formatter</installDirectory>
+              <skip>${maven.main.skip}</skip>
+              <arguments>install</arguments>
+              <npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>typescript code formatting</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <phase>process-sources</phase>
+            <configuration>
+              <workingDirectory>formatter</workingDirectory>
+              <installDirectory>formatter</installDirectory>
+              <arguments>run format</arguments>
+            </configuration>
+          </execution>
         </executions>
         <configuration>
           <installDirectory>target/node-installation-dir</installDirectory>
@@ -532,25 +534,41 @@
         <version>1.6.0</version>
         <executions>
           <execution>
-            <id>generate_guidsl</id>
+            <id>generate_guidsl_pages</id>
             <goals>
               <goal>java</goal>
             </goals>
-            <phase>generate-sources
-            </phase>
+            <phase>generate-sources</phase>
             <configuration>
               <skip>${maven.main.skip}</skip>
               <includePluginDependencies>true</includePluginDependencies>
               <mainClass>guidsl.GUITool</mainClass>
               <arguments>
-                <argument>-gui</argument>
-                <argument>${basedir}/target/generated-sources/gui/model</argument>
-                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui</argument>
+                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui/pages</argument>
                 <argument>-hcp</argument>
                 <argument>${basedir}/src/app/dashboard</argument>
                 <argument>${basedir}/src/app/einstellungen</argument>
+                <argument>${basedir}/src/app/beispiele</argument>
+                <argument>${basedir}/src/app/guidsl</argument>
                 <argument>-out</argument>
                 <argument>${basedir}/target/generated-sources/gui</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate_guidsl_navigation</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <skip>${maven.main.skip}</skip>
+              <includePluginDependencies>true</includePluginDependencies>
+              <mainClass>guidsl.GUITool</mainClass>
+              <arguments>
+                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui/navigation</argument>
+                <argument>-out</argument>
+                <argument>${basedir}/target/generated-sources/navigation</argument>
               </arguments>
             </configuration>
           </execution>
@@ -559,7 +577,7 @@
           <dependency>
             <groupId>de.monticore.lang</groupId>
             <artifactId>guidsl</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.4-ALPHA</version>
           </dependency>
         </dependencies>
       </plugin>

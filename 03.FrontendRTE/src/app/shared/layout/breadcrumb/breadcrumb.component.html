@@ -1,11 +1,9 @@
-<!-- (c) https://github.com/MontiCore/monticore -->
-<!--
-  ~ 
-  -->
-
 <!-- Breadcrumb -->
 <div fxFlex="grow"  class="breadcrumb-container" fxLayoutAlign="start center">
-        <span *ngFor="let item of breadcrumb" [routerLink]="item.route">
-          {{ item.title | titleTranslation }} <i class="fa fa-angle-right" aria-hidden="true"></i>
-        </span>
+  <ng-container *ngFor="let item of breadcrumb; let last = last; let first = first">
+    <a *ngIf="!last" [routerLink]="item.route">
+      {{ item.title | titleTranslation }}<i style="margin-left: 4px" class="fa fa-angle-right" aria-hidden="true"></i>
+    </a>
+    <span *ngIf="last" matTooltip="Aktuelle Seite" [class.noPadding]="first">{{ item.title | titleTranslation }}</span>
+  </ng-container>
 </div>
