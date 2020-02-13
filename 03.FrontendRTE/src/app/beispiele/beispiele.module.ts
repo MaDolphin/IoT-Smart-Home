@@ -11,10 +11,14 @@ import { routing } from './beispiele.routing';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { BeispieleDatentabellenGenComponent } from './beispiele-datentabellen-gen.component';
-import { BeispieleChartsGenComponent } from './beispiele-charts-gen.component';
 import { BeispieleInputGenComponent } from './beispiele-input-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
+import { BeispieleHorizontalbarchartsGenComponent } from "@targetgui/beispiele-horizontalbarcharts-gen.component/beispiele-horizontalbarcharts-gen.component";
+import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-gen.component/beispiele-piecharts-gen.component";
+import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
+import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
+import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.comp
     BeispieleChartsGenComponent,
     BeispieleInputGenComponent,
     BeispieleLayoutGenComponent,
-    BeispieleNavigationGenComponent
+    BeispieleNavigationGenComponent,
+    BeispieleHorizontalbarchartsGenComponent,
+    BeispielePiechartsGenComponent,
+    BeispieleTimelinechartsGenComponent,
+    BeispieleBarchartsGenComponent
   ],
   imports: [
     MatIconModule,

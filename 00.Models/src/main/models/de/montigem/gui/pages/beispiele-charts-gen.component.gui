@@ -1,101 +1,49 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-webpage beispieleDatentabellen(
-        byId (id) BeispielePieChart mpc,
-        byId (id) BeispieleBarChart fz,
-        byId (id) BeispieleBarChart fz2,
-        byId (id) BeispieleBarChart fz3,
-        all BeispieleHorizontalBarChart hb1,
-        byId (id) Datumsbereich j) {
+webpage beispieleDatentabellen {
 
-    row (space-evenly, spaceabove) {
-        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
-            card {
-                head{
-                    row(stretch) {
-                        label "Generiert mit MontiGEM"
-                        helpbutton wiki1 "http://www.se-rwth.de/"
-                    }
-                }
-                body {
-                    pie "pieChart" {
-                        noWarnings
-                        data <mpc.entries {
-                            title: <name
-                            value: <value
-                        }
-                        total {
-                            title : < mpc.title
-                            value : < mpc.total
-                        }
-                    }
-                }
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "./"
             }
-        }
-
-        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
-            card {
-                head{
-                    row(stretch) {
-                        label "Barchart"
-                    }
-                }
-                body {
-                    barchart {
-                        data: <fz
-                        dateRange: <j
-                    }
-                }
+            tab "BarCharts" {
+              link: "../barcharts/1"
             }
-        }
-
-        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
-            card {
-                head {
-                    row(stretch) {
-                        label "Barchart 2"
-                    }
-                }
-                body {
-                    barchart {
-                        data: <fz2
-                        dateRange: <j
-                    }
-                }
+            tab "HorizontalBarCharts" {
+                link: "../horizontalbarcharts"
             }
-        }
-
-        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
-            card {
-                head {
-                    row(stretch) {
-                        label "TimeLineChart"
-                    }
-                }
-                body {
-                    timeline {
-                        data: <fz3
-                        dateRange: <j
-                    }
-                }
+            tab "TimeLineCharts" {
+                link: "../timelinecharts/1"
             }
-        }
-
-        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
-            card {
-                head {
-                    row(stretch) {
-                        label "LineChart"
-                    }
-                }
-                body {
-                    horizontalbarchart {
-                        data: euro(<hb1.daten)
-                        labels: <hb1.labels
-                    }
-                }
+            tab "PieCharts" {
+              link: "../piecharts/1"
             }
         }
     }
 
+    row (space-evenly, spaceabove) {
+      container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+        card {
+          head {
+            label "Information"
+          }
+          body{
+            row {
+              textoutput {
+                "Auf diesen Seiten finden Sie die verschiedenen Arten von Diagrammen, die derzeit in MontiGem unterstützt werden, und einige Beispiele, wie diese Diagramme konfiguriert werden können."
+              }
+            }
+            row {
+              textoutput { "-" }
+            }
+            row {
+              textoutput {
+                "On these pages you will find the different types of charts currently supported in MontiGem and some examples how these charts can be configured."
+              }
+            }
+          }
+        }
+      }
+    }
 }

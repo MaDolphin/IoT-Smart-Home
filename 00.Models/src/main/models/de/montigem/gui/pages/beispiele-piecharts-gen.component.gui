@@ -1,0 +1,48 @@
+/* (c) https://github.com/MontiCore/monticore */
+webpage beispielePieCharts(
+        byId (id) BeispielePieChart mpc) {
+
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "../../charts"
+            }
+            tab "BarCharts" {
+              link: "../../barcharts/1"
+            }
+            tab "HorizontalBarCharts" {
+                link: "../../horizontalbarcharts"
+            }
+            tab "TimeLineCharts" {
+                link: "../../timelinecharts/1"
+            }
+            tab "PieCharts" {
+              link: "./"
+            }
+        }
+    }
+
+    row (space-evenly, spaceabove) {
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    label "PieChart"
+                }
+                body {
+                    pie "pieChart" {
+                        noWarnings
+                        data <mpc.entries {
+                            title: <name
+                            value: <value
+                        }
+                        total {
+                            title : < mpc.title
+                            value : < mpc.total
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

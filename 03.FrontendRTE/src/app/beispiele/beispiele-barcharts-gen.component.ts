@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
-import { BeispieleChartsGenComponentTOP } from '@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component-top';
 import { BarChartComponent, IBarChartDataRange } from "@components/charts/bar-chart/bar-chart.component";
 import {
   beispieleBarChartTransformation1,
@@ -14,16 +13,16 @@ import { BeispieleBarChart_getById } from "@commands/beispielebarchart.getbyid";
 import { IDTO } from "@shared/architecture";
 import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
 import * as moment from "moment";
-import { beispielTransformation, transformBeispiel2, transformDatumsbereichDTO } from "@components/charts/time-line-chart/time-line-chart.transformation";
-import { ILineChartDataRange, TimeLineChartComponent } from "@components/charts/time-line-chart/time-line-chart.component";
+import { transformBeispiel2 } from "@components/charts/time-line-chart/time-line-chart.transformation";
+import { BeispieleBarchartsGenComponentTOP } from "@targetgui/beispiele-barcharts-gen.component/beispiele-barcharts-gen.component-top";
 
 /**
  * See BeispielePieChartDTO.java, BeispielePieChartDTOLoader.java for more details on how to use PieCharts
  */
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/beispiele-charts-gen.component/beispiele-charts-gen.component.html',
+  templateUrl: '../../../target/generated-sources/gui/beispiele-barcharts-gen.component/beispiele-barcharts-gen.component.html',
 })
-export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP implements OnInit, AfterViewInit {
+export class BeispieleBarchartsGenComponent extends BeispieleBarchartsGenComponentTOP implements OnInit, AfterViewInit {
 
   constructor(
     _router: Router,
@@ -42,7 +41,7 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
     max: moment(new Date()).endOf('year').startOf('month').toDate(),
   };
 
-  private beispieleBarChartDataRange: IBarChartDataRange = {
+  public beispieleBarChartDataRange: IBarChartDataRange = {
     min: "b",
     max: "y",
   };
@@ -105,41 +104,6 @@ export class BeispieleChartsGenComponent extends BeispieleChartsGenComponentTOP 
       this.commandManager.sendCommands();
     });
   }
-  //endregion
-
-  //region TimeLine Chart
-  transformFnTimeLineChart_fz3 = beispielTransformation;
-  rangeTransformFnTimeLineChart_fz3 = transformDatumsbereichDTO;
-  shownRangeTimeLineChart_fz3 = {
-    "min": moment(new Date()).startOf('year').toDate(),
-    "max": moment(new Date()).endOf('year').toDate()
-  };
-
-  @ViewChild(TimeLineChartComponent) timeLine: TimeLineChartComponent;
-
-  ngOnInit(): void {
-    super.ngOnInit();
-
-    this.timeLine.updateEvent.subscribe((range: ILineChartDataRange) => {
-      // const dateRange: string[] = ['' + range.min.getFullYear(), '' + range.max.getFullYear()];
-
-      this.commandManager.addCommand(new BeispieleBarChart_getById(this.id),
-        (dto: IDTO) => {
-          if (dto instanceof BeispieleBarChartDTO) {
-            this.fz3 = dto;
-
-            setTimeout( () => {
-              this.timeLine.updateChart();
-            }, 100);
-          } else {
-            console.error("Received something wrong");
-          }
-        });
-
-      this.commandManager.sendCommands();
-    });
-  }
-
   //endregion
 
 }
