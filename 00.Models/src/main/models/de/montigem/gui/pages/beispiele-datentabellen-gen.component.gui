@@ -61,7 +61,7 @@ webpage beispieleDatentabellen(
             card {
                 head {
                     row(stretch) {
-                        label "Editierbare Tabelle"
+                        label "Gruppierbare Tabelle"
                     }
                 }
                 body {
