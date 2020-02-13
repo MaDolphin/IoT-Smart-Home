@@ -1,5 +1,3 @@
-/* (c) https://github.com/MontiCore/monticore */
-
 import { Component, Input, OnInit } from '@angular/core';
 import { Logger } from '@upe/logger';
 import { copyByValue } from '@shared/utils/util';
@@ -7,6 +5,7 @@ import { copyByValue } from '@shared/utils/util';
 interface NavigationLink {
   link: string,
   title: string,
+  id: string,
   disabled?: boolean,
 }
 
@@ -49,8 +48,6 @@ export class NavigationComponent implements OnInit {
     });
     this.links = [...this.links];
   };
-
-  private logger: Logger = new Logger({ name: 'NavigationComponent' });
 
   constructor() { }
 

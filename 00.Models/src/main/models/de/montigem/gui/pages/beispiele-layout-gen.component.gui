@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 webpage beispieleDatentabellen() {
-    row (space-evenly){
+    row (space-evenly, spaceabove) {
         container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px){
             card {
                 head{

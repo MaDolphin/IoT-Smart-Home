@@ -6,41 +6,34 @@ webpage einstellungenRollen (
                    all EinstellungenRollenTabelle rt,
                    formular  RoleForm<EinstellungenRollenTabelleEntryDTO> form){
 
- column{
-    container(c, spacebelow){
-        navigation "navigationBarLinks" {
-            tab "Mein Benutzerprofil" {
-              link: "../profil"
-             }
-            tab ifPermission(USER)"Benutzer-Verwaltung" {
-              link: "../benutzer"
-            }
-            tab ifPermission(USER)"Rechte/Rollen-Verwaltung" {
-              link: "./"
-              disabled
-            }
-        }
+  column(nospace) {
+    navigation "navigationBarLinks" {
+      tab "Mein Benutzerprofil" {
+        link: "../profil"
+       }
+      tab ifPermission(USER)"Benutzer-Verwaltung" {
+        link: "../benutzer"
+      }
+      tab ifPermission(USER)"Rechte/Rollen-Verwaltung" {
+        link: "./"
+        disabled
+      }
     }
- }
+  }
 
-  row(c){
-  container (80%, minwidth : 550px , padding-right : 10px , padding-left : 10px){
-      card{
-        head{
-          row(stretch) {
-            label "Rollen"
-            row (r,50%) {
-              /*helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"*/
-            }
-          }
+  row(c, spaceabove) {
+    container (80%, minwidth : 550px , padding-right : 10px , padding-left : 10px) {
+      card {
+        head {
+          label "Rollen"
         }
-        body{
+        body {
           datatable "rollenTabelle" {
             references {
               editTemplates : inlineTemplates
             }
             methods {
-              save ->  onSave($event)
+              save -> onSave($event)
               create -> onCreate($event)
             }
             conditions {
@@ -50,17 +43,17 @@ webpage einstellungenRollen (
               inlineNew
               nonExportable
               deletable
-              /*showInactiveButton*/
-              groupable:<user.username
+              groupable : <user.username
             }
             rows <rt.users {
-              column "Benutzername"         , dropdown(<user.username, <ul.users.username.withId(id))    ,120;
-              column "Rolle"                , dropdown(<role.name, <rl.roles.name.withId(id))        ,120;
-              column "Recht auf"            , < objectClass    ,120, disabled;
+              column "Benutzername", dropdown(<user.username, <ul.users.username.withId(id))    ,120;
+              column "Rolle"       , dropdown(<role.name, <rl.roles.name.withId(id))        ,120;
+              column "Recht auf"   , < objectClass    ,120, disabled;
             }
           }
         }
-       }
-     }
+      }
+    }
   }
+
 }

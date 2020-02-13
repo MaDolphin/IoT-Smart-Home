@@ -6,8 +6,9 @@ webpage beispieleDatentabellen(
         byId (id) BeispieleBarChart fz2,
         byId (id) BeispieleBarChart fz3,
         byId (id) Datumsbereich j) {
-    row (space-evenly) {
 
+
+    row (space-evenly) {
         container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
             card {
                 head{
@@ -79,6 +80,6 @@ webpage beispieleDatentabellen(
                 }
             }
         }
-
     }
+
 }

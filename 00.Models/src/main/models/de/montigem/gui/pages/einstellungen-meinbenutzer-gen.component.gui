@@ -4,24 +4,22 @@ webpage EinstellungenMeinBenutzer (
                    all MeinBenutzerPasswortZuruecksetzen upwd
                    ){
 
- column{
-    container(c, spacebelow){
-        navigation "navigationBarLinks" {
-            tab "Mein Benutzerprofil" {
-              link: "./"
-              disabled
-            }
-            tab ifPermission(USER)"Benutzer-Verwaltung" {
-              link: "../benutzer"
-            }
-            tab ifPermission(USER)"Rechte/Rollen-Verwaltung" {
-              link: "../rollen"
-              }
+ column(nospace) {
+    navigation "navigationBarLinks" {
+        tab "Mein Benutzerprofil" {
+          link: "./"
+          disabled
         }
+        tab ifPermission(USER)"Benutzer-Verwaltung" {
+          link: "../benutzer"
+        }
+        tab ifPermission(USER)"Rechte/Rollen-Verwaltung" {
+          link: "../rollen"
+          }
     }
  }
 
-row(c){
+row(c spaceabove) {
  container(40%, minwidth : 550px , padding-right : 10px , padding-left : 10px){
    card{
         head{

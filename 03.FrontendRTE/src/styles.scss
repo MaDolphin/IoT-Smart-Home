@@ -76,20 +76,15 @@ i[disabled="true"], i[disabled="true"]:hover {
   height: 2px !important;
 }
 
-// endregionändern
-
 .btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.active.focus {
   outline: none !important;
 }
-
-// endregion
 
 .table-bordered,
 .table-bordered > tbody > tr > td,
 .table-bordered > tbody > tr > th,
 .table-bordered > thead > tr > th{
   border:2px solid #ddd;
-
 }
 
 .mat-card hr.horizontal {
@@ -115,37 +110,4 @@ datatable-header-cell > div > span.sort-btn {
   display: flex !important;
   justify-content: flex-end;
   flex-direction: column;
-}
-
-
-// region router links
-
-.mat-tab-nav-bar {
-  border:0px;
-}
-
-.mat-tab-links {
-  border:2px solid $rwth-blue;
-  border-radius: 30px;
-  font-weight: bold;
-  @include no-select;
-}
-
-.mat-tab-links .mat-tab-link {
-  border-radius: 30px;
-  color:$rwth-blue;
-  font-weight: bold;
-  opacity: 1;
-  height:34px;
-  margin:-1px;
-}
-
-.mat-tab-link.active {
-  background-color:$rwth-blue;
-  color:white;
-}
-
-// hotfix, hiding ink bar instead of disabling
-.mat-ink-bar {
-  display:none;
 }

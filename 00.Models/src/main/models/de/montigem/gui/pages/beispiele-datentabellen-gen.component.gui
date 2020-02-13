@@ -9,7 +9,7 @@ webpage beispieleDatentabellen(
                all EinstellungenRollenTabelle rt
               ) {
 
-    row (space-evenly) {
+    row (space-evenly, spaceabove) {
         container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
             card {
                 head {
@@ -113,11 +113,14 @@ webpage beispieleDatentabellen(
     }
 
     contextmenu "contextMenu" {
-        entry "Methode 1" -> getA()
-        divider
-        entry "Methode 2" -> getB()
-        entry getString() + "3" -> getC()
-        entry if(isSomething()) "Methode 4" -> getD()
+        group {
+          entry "Methode 1" -> getA()
+        }
+        group {
+          entry "Methode 2" -> getB()
+          entry getString() + "3" -> getC()
+          entry if(isSomething()) "Methode 4" -> getD()
+        }
     }
 
 }

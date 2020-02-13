@@ -1,23 +1,24 @@
-<!-- (c) https://github.com/MontiCore/monticore -->
-<!--
-  ~ 
-  -->
-
-<div fxFlex="grow" fxLayout="row wrap">
+<div class="navigation-container" fxFlex="100" fxLayout="row wrap">
     <!-- Navigation -->
     <div fxFlex="3 0 auto" fxLayoutAlign="start center" fxLayoutGap="24px">
-        <nav mat-tab-nav-bar mat-no-ink-bar>
-
+        <nav mat-tab-nav-bar>
             <div *ngFor="let link of links; let i = index" mat-tab-link
-                 onfocus="this.blur()"
-                 [routerLink]="link.link"
-                 routerLinkActive="active"
-                 [disabled]="link.disabled"
-                 [routerLinkActiveOptions]="{exact: true}"
-                 class="tab-link-{{i}} mat-tab-link"
-                 #rla="routerLinkActive"
-                 [active]="rla.isActive && false">
+                                                           onfocus="this.blur()"
+                    [routerLink]="link.link"
+                                                           routerLinkActive="active"
+                    [disabled]="link.disabled"
+                    [id]="link.id"
+                    [routerLinkActiveOptions]="{exact: true}"
+                    class="tab-link-{{i}} mat-tab-link"
+                    #rla="routerLinkActive"
+                    [active]="rla.isActive && false">
                 {{link.title}}
+            </div>
+            <div *ngIf="links.length == 0" class="tab-link-1 mat-tab-link">
+            </div>
+            <div *ngIf="links.length == 0" class="tab-link-2 mat-tab-link">
+            </div>
+            <div *ngIf="links.length == 0" class="tab-link-3 mat-tab-link">
             </div>
         </nav>
     </div>
