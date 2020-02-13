@@ -5,6 +5,7 @@ webpage beispieleDatentabellen(
         byId (id) BeispieleBarChart fz,
         byId (id) BeispieleBarChart fz2,
         byId (id) BeispieleBarChart fz3,
+        all BeispieleHorizontalBarChart hb1,
         byId (id) Datumsbereich j) {
 
     row (space-evenly, spaceabove) {
@@ -66,7 +67,7 @@ webpage beispieleDatentabellen(
 
         container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
             card {
-                head{
+                head {
                     row(stretch) {
                         label "TimeLineChart"
                     }
@@ -75,6 +76,22 @@ webpage beispieleDatentabellen(
                     timeline {
                         data: <fz3
                         dateRange: <j
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "LineChart"
+                    }
+                }
+                body {
+                    horizontalbarchart {
+                        data: euro(<hb1.daten)
+                        labels: <hb1.labels
                     }
                 }
             }
