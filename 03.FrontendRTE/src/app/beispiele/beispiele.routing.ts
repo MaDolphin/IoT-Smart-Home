@@ -14,6 +14,7 @@ import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datata
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
 import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
 import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component";
+import { BeispieleTextinputsGenComponent } from "./beispiele-textinputs-gen.component";
 
 export const routes: Routes = [
   {
@@ -68,6 +69,10 @@ export const routes: Routes = [
   {
     path: 'images',
     component: BeispieleImagesGenComponent,
+  },
+  {
+    path: 'textinputs',
+    component: BeispieleTextinputsGenComponent
   },
   {
     path: 'layout',

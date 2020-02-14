@@ -11,6 +11,9 @@ webpage BeispieleButtons {
             tab "Buttons" {
                 link: "./"
             }
+            tab "Text Input Elements" {
+                link: "../textinputs"
+            }
         }
     }
 

@@ -12,6 +12,9 @@ webpage beispieleImages {
             tab "Buttons" {
                 link: "../buttons"
             }
+            tab "Text Input Elements" {
+                link: "../textinputs"
+            }
         }
     }
 

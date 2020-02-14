@@ -1,10 +1,9 @@
-/* (c) https://github.com/MontiCore/monticore */
-webpage beispieleDatentabellen {
+webpage BeispieleTextInputs {
 
     column(nospace) {
         navigation "navigationBarLinks" {
             tab "Info" {
-                link: "./"
+                link: "../input"
             }
             tab "Images" {
                 link: "../images"
@@ -13,19 +12,19 @@ webpage beispieleDatentabellen {
                 link: "../buttons"
             }
             tab "Text Input Elements" {
-                link: "../textinputs"
+                link: "./"
             }
         }
     }
 
-    row(c, spaceabove) {
-        container(45%) {
+    row(space-evenly, spaceabove) {
+        container(30%) {
             card {
                 head {
-                    label "Information"
+                    label "Card 1"
                 }
                 body {
-                    textoutput { "Some information" }
+                    textoutput { "Card 1 Body" }
                 }
             }
         }

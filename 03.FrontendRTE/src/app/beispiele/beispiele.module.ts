@@ -24,6 +24,7 @@ import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datata
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
 import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
 import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component";
+import { BeispieleTextinputsGenComponent } from "./beispiele-textinputs-gen.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component"
     BeispieleLinechartsGenComponent,
     BeispieleRowdatatablesGenComponent,
     BeispieleDatatablesInfoGenComponent,
-    BeispieleButtonsGenComponent
+    BeispieleButtonsGenComponent,
+    BeispieleTextinputsGenComponent
   ],
   imports: [
     MatIconModule,
