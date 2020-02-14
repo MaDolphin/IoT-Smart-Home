@@ -71,8 +71,6 @@ function createEmptyDataEntries(range: IBarChartDataRange): BarChartData {
 }
 
 export function beispieleBarChartTransformation1(dto: BeispieleBarChartDTO, range: IBeispielBarChartRange): BarChartData {
-  console.log("DTO", dto);
-
   if (dto.entries.length === 0) {
     return [];
   }
@@ -170,7 +168,6 @@ export function getAllMonthsInRange(range: IBeispielBarChartRange): Date[] {
 export function getAllLettersInRange(range: IBarChartDataRange): string[] {
   // compute alphabet
   let allLetters: string[] = [];
-  console.log(range);
   const first = range !== undefined ? alphabetPosition(range.min) : 0;
   const last = range !== undefined ? alphabetPosition(range.max) : 25;
   for (let i = first; i <= last; i++) {

@@ -61,13 +61,13 @@ export class BreadcrumbComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (event.url) {
-          console.log('Router Navigation End');
-          console.log(this.router.url);
+          // console.log('Router Navigation End');
+          // console.log(this.router.url);
           this.updateBreadcrumb();
           this.replaceKontoId();
           this.titleOfId = null;
         } else {
-          this.logger.warn('could not get url', { event });
+          this.logger.warn('Could not get url', { event });
         }
       }
     });

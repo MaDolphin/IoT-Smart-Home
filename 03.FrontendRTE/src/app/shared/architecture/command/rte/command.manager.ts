@@ -50,7 +50,7 @@ export class CommandManager {
           return Promise.reject(new ErrorDTO('0xF0001', MontiGemError.createInternal('Daten können nicht ausgewertet werden.')));
         }
 
-        console.log('Command ' + response.id + ':', response.dto);
+        this.logger.info('Command ' + response.id, response.dto);
 
         if (response.dto instanceof ErrorDTO) {
           this.reject(<ErrorDTO> response.dto);
@@ -87,16 +87,13 @@ export class CommandManager {
   public sendCommands(): Promise<null> {
     if (this.commands === undefined || this.commands.length === 0) {
       this.logger.info('0xF0004: No commands given');
-      console.log('0xF0004: No commands given');
 
       // if no commands given, just return ok
       return new Promise<null>((resolve, reject) => {
         resolve(null);
       });
     }
-
-    this.logger.debug('0xF0005: sendCommands: ', this.commands);
-    console.log('0xF0005: sendCommands: ', this.commands);
+    this.logger.info('0xF0005: Send Commands', this.commands);
     this.runningCommandId += 1;
 
     // reset callbacks
@@ -116,7 +113,7 @@ export class CommandManager {
       };
       this._callback.send(this.runningCommandId, this.commands, this)
         .catch((err) => {
-        this.logger.info('0xF0008: error', err);
+        this.logger.error('0xF0008: error', err);
         this.clear();
         if (err instanceof SyntaxError) {
           reject(new ErrorDTO('0xF0008', new MontiGemError('Systemfehler', 'Systemfehler', '0xF0008')));
