@@ -14,14 +14,84 @@ webpage BeispieleButtons {
         }
     }
 
-    row(c, spaceabove) {
+    row(space-evenly, spaceabove) {
+        // card 1
         container(30%) {
             card {
                 head {
                     label "Card 1"
                 }
                 body {
-                    textoutput { "Card 1 Body" }
+                    row(c) {
+                        button "Button 1" {
+                            // You can use the TOP mechanism to implement custom behavior
+                            click -> pressedButton1()
+                        }
+                        button "Button 2" {
+                            // Alternatively to using the TOP mechanism, you can also specify the method body directly in the model.
+                            click -> pressedButton2() { "console.log('Pressed Button 2');" }
+                        }
+                    }
+                }
+            }
+        }
+
+        // card 2
+        container(30%) {
+            card {
+                head {
+                    label "Card 2"
+                }
+                body {
+                    row(c) {
+                        button "Disable/Activate Button 4" {
+                            click -> pressedButton3() { "this.isButton3Disabled = !this.isButton3Disabled" }
+                        }
+                        button "Button 4" {
+                            disabled : <isButton3Disabled // boolean attribute isButton3Disabled is generated automatically from this line
+                            click -> pressedButton4()
+                        }
+                    }
+                }
+            }
+        }
+
+        // card 3
+        container(30%) {
+            card {
+                head {
+                    label "Card 3"
+                }
+                body {
+                    row(c) {
+                        button "Button 5" {
+                            styleclass : "btn-outline-primary btn" // specifying multiple additional css classes separated by whitespace
+                            height : 35
+                            width : 290
+                            margin : 10
+                            click -> pressedButton5()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    row(space-evenly) {
+        container(30%) {
+            card {
+                head {
+                    label "Card 4"
+                }
+                body {
+                    row (c) {
+                        button "Show/Hide Button 7" {
+                            click -> pressedButton6()
+                        }
+                        button if(isButton7Visible()) "Button 7" {
+                            click -> pressedButton7()
+                        }
+                    }
                 }
             }
         }
