@@ -54,7 +54,7 @@ webpage LineChartSamplePage(socket LineGraph lineChartData) {  // webpage declar
       container(30%) {
           card {
               head {
-                  label "Realtime LineChart (Create Dummy Data)"
+                  label "Real-Time LineChart"
               }
               body {
                   linechart "LineChart" {           // line chart declaration with name
