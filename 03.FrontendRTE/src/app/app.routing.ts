@@ -26,10 +26,6 @@ export const routes: Routes = [
         data: {pageTitle: 'Dashboard'}
       },
       {
-        path: 'guidsl',
-        loadChildren: './guidsl/guidsl.module#GuidslModule',
-      },
-      {
         path: 'beispiele',
         loadChildren: './beispiele/beispiele.module#BeispieleModule',
       },

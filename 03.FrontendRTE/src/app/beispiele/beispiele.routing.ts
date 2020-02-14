@@ -9,6 +9,7 @@ import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.compon
 import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-gen.component/beispiele-piecharts-gen.component";
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
+import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
   {
     path: 'charts',
     component: BeispieleChartsGenComponent,
+  },
+  {
+    path: 'linecharts',
+    component: BeispieleLinechartsGenComponent,
   },
   {
     path: 'horizontalbarcharts',

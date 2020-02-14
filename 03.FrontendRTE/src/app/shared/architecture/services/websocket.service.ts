@@ -1,7 +1,6 @@
 /*
  *  (c) Monticore license: https://github.com/MontiCore/monticore
  */
-
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from 'rxjs/Rx';
 import { Token } from "../../auth/token";
@@ -14,7 +13,7 @@ export class WebSocketService {
 
   public open(method: string, usage: string[] = ['All']) {
     let protocol;
-    if (location.protocol != 'https:') {
+    if (location.protocol !== 'https:') {
       protocol = 'ws';
     } else {
       protocol = 'wss';

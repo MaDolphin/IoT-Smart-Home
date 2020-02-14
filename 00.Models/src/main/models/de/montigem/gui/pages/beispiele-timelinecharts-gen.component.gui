@@ -20,6 +20,9 @@ webpage beispieleTimeLineCharts(
             tab "PieCharts" {
               link: "../../piecharts/1"
             }
+            tab "LineCharts" {
+              link: "../../linecharts"
+            }
         }
     }
 

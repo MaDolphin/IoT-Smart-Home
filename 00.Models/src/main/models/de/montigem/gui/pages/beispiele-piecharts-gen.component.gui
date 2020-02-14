@@ -19,6 +19,9 @@ webpage beispielePieCharts(
             tab "PieCharts" {
               link: "./"
             }
+            tab "LineCharts" {
+              link: "../../linecharts"
+            }
         }
     }
 

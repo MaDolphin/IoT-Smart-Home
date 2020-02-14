@@ -5,11 +5,6 @@ sidenavigation : [
     icon: "dashboard"
   },
   {
-    label: "Chart"
-    link: ["/", "guidsl", "linechart"]
-    icon: "multiline_chart"
-  },
-  {
     label: "Einstellungen"
     link: ["/", "einstellungen", "profil"]
     icon: "settings"

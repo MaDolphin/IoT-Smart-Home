@@ -19,6 +19,7 @@ import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-g
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
+import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.com
     BeispieleHorizontalbarchartsGenComponent,
     BeispielePiechartsGenComponent,
     BeispieleTimelinechartsGenComponent,
-    BeispieleBarchartsGenComponent
+    BeispieleBarchartsGenComponent,
+    BeispieleLinechartsGenComponent
   ],
   imports: [
     MatIconModule,
