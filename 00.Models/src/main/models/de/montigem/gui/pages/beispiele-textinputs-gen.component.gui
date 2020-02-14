@@ -17,14 +17,178 @@ webpage BeispieleTextInputs {
         }
     }
 
+    // card 1
     row(space-evenly, spaceabove) {
-        container(30%) {
+        container(75%) {
             card {
                 head {
-                    label "Card 1"
+                    label "Simple Textfields"
                 }
                 body {
-                    textoutput { "Card 1 Body" }
+                    row(c) {
+                        column {
+                            row {
+                                textfield {
+                                    input : <textfield1Input
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row {
+                                textfield "Label Textfield 2" {
+                                    input : <textfield1Input
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row {
+                                textfield "Label Textfield 3" {
+                                    input : <textfield1Input
+                                    labelAbove
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row {
+                                textfield {
+                                    placeholder : "myPlaceholder"
+                                    input : <textfield1Input
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row(c) {
+                                button "Show/Hide Textfield" {
+                                    click -> switchVisibleState()
+                                }
+                            }
+                            container if(isTextfieldVisible()) {
+                                row {
+                                    textfield {
+                                        input : <textfield1Input
+                                    }
+                                }
+                                row(c, spaceabove) {
+                                    button "Send" {
+                                        click -> sendTextfield()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // card 2
+    row(space-evenly) {
+        container(75%) {
+            card {
+                head {
+                    label "Textfields With Validation"
+                }
+                body {
+                    row(c) {
+                        column {
+                            row {
+                                percent textfield "Percent Textfield" {
+                                    input : <percentTextfieldInput
+                                    labelAbove
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendPercentTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row {
+                                date textfield "Date Textfield" {
+                                    input : <dateTextfieldInput
+                                    labelAbove
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendDateTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row {
+                                money textfield "Money Textfield" {
+                                    input : <moneyTextfieldInput
+                                    labelAbove
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendMoneyTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row {
+                                hours textfield "Hours Textfield" {
+                                    input : <hoursTextfieldInput
+                                    labelAbove
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendHoursTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row {
+                                password textfield "Password Textfield" {
+                                    input : <passwordTextfield
+                                    labelAbove
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendPasswordTextfield()
+                                }
+                            }
+                        }
+                        column {
+                            row {
+                                number textfield "Number Textfield" {
+                                    input : <numberTextfield
+                                    labelAbove
+                                }
+                            }
+                            row(c, spaceabove) {
+                                button "Send" {
+                                    click -> sendNumberTextfield()
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
