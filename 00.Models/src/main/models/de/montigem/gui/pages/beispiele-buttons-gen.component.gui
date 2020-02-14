@@ -1,28 +1,27 @@
-/* (c) https://github.com/MontiCore/monticore */
-webpage beispieleDatentabellen {
+webpage BeispieleButtons {
 
     column(nospace) {
         navigation "navigationBarLinks" {
             tab "Info" {
-                link: "./"
+                link: "../input"
             }
             tab "Images" {
                 link: "../images"
             }
             tab "Buttons" {
-                link: "../buttons"
+                link: "./"
             }
         }
     }
 
     row(c, spaceabove) {
-        container(45%) {
+        container(30%) {
             card {
                 head {
-                    label "Information"
+                    label "Card 1"
                 }
                 body {
-                    textoutput { "Some information" }
+                    textoutput { "Card 1 Body" }
                 }
             }
         }

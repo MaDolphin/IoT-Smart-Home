@@ -1,13 +1,16 @@
 /* (c) https://github.com/MontiCore/monticore */
-webpage beispieleImages() {
+webpage beispieleImages {
 
     column(nospace) {
         navigation "navigationBarLinks" {
             tab "Info" {
-              link: "../input"
+                link: "../input"
             }
             tab "Images" {
-              link: "./"
+                link: "./"
+            }
+            tab "Buttons" {
+                link: "../buttons"
             }
         }
     }

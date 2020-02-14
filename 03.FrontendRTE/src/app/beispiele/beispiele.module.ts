@@ -23,6 +23,7 @@ import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.comp
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
 import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
+import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.compo
     BeispieleBarchartsGenComponent,
     BeispieleLinechartsGenComponent,
     BeispieleRowdatatablesGenComponent,
-    BeispieleDatatablesInfoGenComponent
+    BeispieleDatatablesInfoGenComponent,
+    BeispieleButtonsGenComponent
   ],
   imports: [
     MatIconModule,
