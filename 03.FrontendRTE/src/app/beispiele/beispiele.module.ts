@@ -10,7 +10,7 @@ import { PipesModule } from '@shared/pipes';
 import { routing } from './beispiele.routing';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
-import { BeispieleDatentabellenGenComponent } from './beispiele-datentabellen-gen.component';
+import { BeispieleDatatablesGenComponent } from './beispiele-datatables-gen.component';
 import { BeispieleInputGenComponent } from './beispiele-input-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
@@ -20,10 +20,12 @@ import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
+import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
+import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
 
 @NgModule({
   declarations: [
-    BeispieleDatentabellenGenComponent,
+    BeispieleDatatablesGenComponent,
     BeispieleChartsGenComponent,
     BeispieleInputGenComponent,
     BeispieleLayoutGenComponent,
@@ -32,7 +34,9 @@ import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.comp
     BeispielePiechartsGenComponent,
     BeispieleTimelinechartsGenComponent,
     BeispieleBarchartsGenComponent,
-    BeispieleLinechartsGenComponent
+    BeispieleLinechartsGenComponent,
+    BeispieleRowdatatablesGenComponent,
+    BeispieleDatatablesInfoGenComponent
   ],
   imports: [
     MatIconModule,

@@ -35,7 +35,7 @@ sidenavigation : [
     children: [
       {
         label: "Datentabellen"
-        link: ["/", "beispiele", "datentabellen"]
+        link: ["/", "beispiele", "datatablesinfo"]
         icon: "supervisor_account"
       },
       {

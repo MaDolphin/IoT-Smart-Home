@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 import { RouterModule, Routes } from '@angular/router';
-import { BeispieleDatentabellenGenComponent } from './beispiele-datentabellen-gen.component';
+import { BeispieleDatatablesGenComponent } from './beispiele-datatables-gen.component';
 import { BeispieleInputGenComponent } from './beispiele-input-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
@@ -10,6 +10,8 @@ import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-g
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
+import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
+import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
 
 export const routes: Routes = [
   {
@@ -18,8 +20,16 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'datentabellen',
-    component: BeispieleDatentabellenGenComponent,
+    path: 'datatablesinfo',
+    component: BeispieleDatatablesInfoGenComponent,
+  },
+  {
+    path: 'datatables',
+    component: BeispieleDatatablesGenComponent,
+  },
+  {
+    path: 'rowdatatables',
+    component: BeispieleRowdatatablesGenComponent,
   },
   {
     path: 'charts',
