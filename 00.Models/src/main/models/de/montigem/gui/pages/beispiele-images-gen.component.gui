@@ -1,0 +1,86 @@
+/* (c) https://github.com/MontiCore/monticore */
+webpage beispieleImages() {
+
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "../input"
+            }
+            tab "Images" {
+              link: "./"
+            }
+        }
+    }
+
+    row (space-evenly, spaceabove) {
+        // card 1
+        container(30%) {
+            card {
+                head {
+                    label "Image (Static)"
+                }
+                body {
+                    image {
+                        source: "assets/img/BGlogin.png"
+                    }
+                }
+            }
+        }
+
+        // card 2
+        container(30%) {
+            card {
+                head {
+                    label "Image (Static With Specified Width In Percent)"
+                }
+                body {
+                    image {
+                        width: 50%
+                        source: "assets/img/BGlogin.png"
+                    }
+                }
+            }
+        }
+    }
+
+    row (space-evenly) {
+        container(30%) {
+            card {
+                head {
+                    label "Image (Static With Specified Width In Pixel)"
+                }
+                body {
+                    image {
+                        width: 200px
+                        source: "assets/img/BGlogin.png"
+                    }
+                }
+            }
+        }
+
+        // card 4
+        container(30%) {
+            card {
+                head {
+                    label "Image (MethodCall)"
+                }
+                body {
+                    row(c) {
+                        button "Show Image 1" {
+                            click -> showImage1()
+                        }
+                        button "Show Image 2" {
+                            click -> showImage2()
+                        }
+                    }
+                    row(spaceabove) {
+                        image {
+                            source: getImageSource()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

@@ -11,7 +11,7 @@ import { routing } from './beispiele.routing';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { BeispieleDatatablesGenComponent } from './beispiele-datatables-gen.component';
-import { BeispieleInputGenComponent } from './beispiele-input-gen.component';
+import { BeispieleImagesGenComponent } from './beispiele-images-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
 import { BeispieleHorizontalbarchartsGenComponent } from "@targetgui/beispiele-horizontalbarcharts-gen.component/beispiele-horizontalbarcharts-gen.component";
@@ -22,12 +22,14 @@ import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.com
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
+import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
 
 @NgModule({
   declarations: [
     BeispieleDatatablesGenComponent,
     BeispieleChartsGenComponent,
     BeispieleInputGenComponent,
+    BeispieleImagesGenComponent,
     BeispieleLayoutGenComponent,
     BeispieleNavigationGenComponent,
     BeispieleHorizontalbarchartsGenComponent,
@@ -47,7 +49,6 @@ import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-ge
     FormDirectivesModule,
     InputModule,
     GuiDslComponentsModule,
-    InputModule,
     PanelDirectivesModule,
     routing,
     PipesModule,

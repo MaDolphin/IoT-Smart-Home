@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 import { RouterModule, Routes } from '@angular/router';
 import { BeispieleDatatablesGenComponent } from './beispiele-datatables-gen.component';
-import { BeispieleInputGenComponent } from './beispiele-input-gen.component';
+import { BeispieleImagesGenComponent } from './beispiele-images-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
 import { BeispieleHorizontalbarchartsGenComponent } from "@targetgui/beispiele-horizontalbarcharts-gen.component/beispiele-horizontalbarcharts-gen.component";
@@ -12,6 +12,7 @@ import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.com
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
+import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
 
 export const routes: Routes = [
   {
@@ -57,7 +58,11 @@ export const routes: Routes = [
   },
   {
     path: 'input',
-    component: BeispieleInputGenComponent,
+    component: BeispieleInputGenComponent
+  },
+  {
+    path: 'images',
+    component: BeispieleImagesGenComponent,
   },
   {
     path: 'layout',

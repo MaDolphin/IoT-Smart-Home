@@ -1,36 +1,25 @@
 /* (c) https://github.com/MontiCore/monticore */
-
 webpage beispieleDatentabellen() {
 
-    // Card
-    row (space-evenly, spaceabove) {
-        container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px){
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "./"
+            }
+            tab "Images" {
+              link: "../images"
+            }
+        }
+    }
+
+    row(c, spaceabove) {
+        container(45%) {
             card {
-                head{
-                    row(stretch){
-                        label "Generiert mit MontiGEM"
-                        helpbutton wiki1 "http://www.se-rwth.de/"
-                    }
+                head {
+                    label "Information"
                 }
-                body{
-                    row(c){
-                        column(30%){
-                            html{
-                               "
-                                 <p>Input</p>
-                               "
-                            }
-                        }
-                        column(30%){
-                            html{
-                               "
-                                 <div>
-                                    <img src=\"assets/img/BGlogin.png\" alt=\"MaCoCo Logo\" style=\"max-width: 400px\">
-                                 </div>
-                               "
-                            }
-                        }
-                    }
+                body {
+                    textoutput { "Some information" }
                 }
             }
         }
