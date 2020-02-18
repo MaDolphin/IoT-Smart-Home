@@ -14,6 +14,9 @@ webpage BeispieleTextInputs {
             tab "Text Input Elements" {
                 link: "./"
             }
+            tab "Autocompletes/Dropdowns" {
+                link: "../autocompletes"
+            }
         }
     }
 

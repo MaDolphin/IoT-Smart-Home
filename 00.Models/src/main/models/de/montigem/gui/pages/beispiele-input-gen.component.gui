@@ -15,6 +15,9 @@ webpage beispieleDatentabellen {
             tab "Text Input Elements" {
                 link: "../textinputs"
             }
+            tab "Autocompletes/Dropdowns" {
+                link: "../autocompletes"
+            }
         }
     }
 

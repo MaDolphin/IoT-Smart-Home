@@ -15,6 +15,7 @@ import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-ge
 import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
 import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component";
 import { BeispieleTextinputsGenComponent } from "./beispiele-textinputs-gen.component";
+import { BeispieleAutocompletesAndDropdownsGenComponent } from "./beispiele-autocompletes-and-dropdowns-gen.component";
 
 export const routes: Routes = [
   {
@@ -73,6 +74,10 @@ export const routes: Routes = [
   {
     path: 'textinputs',
     component: BeispieleTextinputsGenComponent
+  },
+  {
+    path: 'autocompletes',
+    component: BeispieleAutocompletesAndDropdownsGenComponent
   },
   {
     path: 'layout',

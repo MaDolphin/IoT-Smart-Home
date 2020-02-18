@@ -1,0 +1,75 @@
+webpage BeispieleAutocompletesAndDropdowns {
+
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+                link: "../input"
+            }
+            tab "Images" {
+                link: "../images"
+            }
+            tab "Buttons" {
+                link: "../buttons"
+            }
+            tab "Text Input Elements" {
+                link: "../textinputs"
+            }
+            tab "Autocompletes/Dropdowns" {
+                link: "./"
+            }
+        }
+    }
+
+    // card 1
+    row(space-evenly, space: t r l) {
+        card {
+            head {
+                label "Dropdown Form Controls"
+            }
+            body {
+                row(c) {
+                    column {
+                        row {
+                            dropdown "myDropdownLabel1" {
+                                input: <myDropdownInput1
+                                labelAbove
+                            }
+                        }
+                        row(c, spaceabove) {
+                            button "Send" {
+                                click -> sendDropdown1()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // card 2
+    row(space-evenly, space: t r l) {
+        card {
+            head {
+                label "Autocomplete Form Controls"
+            }
+            body {
+                row(c) {
+                    column {
+                        row {
+                            autocomplete "myAutocompleteLabel1" {
+                                input: <myAutocompleteInput1
+                                labelAbove
+                            }
+                        }
+                        row(c, spaceabove) {
+                            button "Send" {
+                                click -> sendAutocomplete1()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
