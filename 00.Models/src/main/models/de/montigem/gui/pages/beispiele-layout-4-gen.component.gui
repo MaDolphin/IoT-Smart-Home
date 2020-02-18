@@ -52,7 +52,7 @@ webpage BeispieleLayout5 {
                     label "Card 2"
                 }
                 body {
-                    // space-between displays equal spacing between the columns
+                    // space-evenly distributes columns evenly so that the columns have equal space around them
                     row(space-evenly) {
                         column {
                             textoutput { "Left Text" }
