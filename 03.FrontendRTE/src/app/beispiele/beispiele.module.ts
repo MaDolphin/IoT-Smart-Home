@@ -26,7 +26,7 @@ import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.compo
 import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component";
 import { BeispieleTextinputsGenComponent } from "./beispiele-textinputs-gen.component";
 import { BeispieleAutocompletesAndDropdownsGenComponent } from './beispiele-autocompletes-and-dropdowns-gen.component';
-import { BeispieleLabelsGenComponent } from "@targetgui/beispiele-labels-gen.component/beispiele-labels-gen.component";
+import { BeispieleLabelsGenComponent } from "./beispiele-labels-gen.component";
 
 @NgModule({
   declarations: [
