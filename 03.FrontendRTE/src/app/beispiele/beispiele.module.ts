@@ -27,6 +27,11 @@ import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component"
 import { BeispieleTextinputsGenComponent } from "./beispiele-textinputs-gen.component";
 import { BeispieleAutocompletesAndDropdownsGenComponent } from './beispiele-autocompletes-and-dropdowns-gen.component';
 import { BeispieleLabelsGenComponent } from "./beispiele-labels-gen.component";
+import { BeispieleLayout1GenComponent } from "@targetgui/beispiele-layout-1-gen.component/beispiele-layout-1-gen.component";
+import { BeispieleLayout2GenComponent } from "@targetgui/beispiele-layout-2-gen.component/beispiele-layout-2-gen.component";
+import { BeispieleLayout3GenComponent } from "@targetgui/beispiele-layout-3-gen.component/beispiele-layout-3-gen.component";
+import { BeispieleLayout4GenComponent } from "@targetgui/beispiele-layout-4-gen.component/beispiele-layout-4-gen.component";
+import { BeispieleLayout5GenComponent } from "@targetgui/beispiele-layout-5-gen.component/beispiele-layout-5-gen.component";
 
 @NgModule({
   declarations: [
@@ -46,7 +51,12 @@ import { BeispieleLabelsGenComponent } from "./beispiele-labels-gen.component";
     BeispieleButtonsGenComponent,
     BeispieleTextinputsGenComponent,
     BeispieleAutocompletesAndDropdownsGenComponent,
-    BeispieleLabelsGenComponent
+    BeispieleLabelsGenComponent,
+    BeispieleLayout1GenComponent,
+    BeispieleLayout2GenComponent,
+    BeispieleLayout3GenComponent,
+    BeispieleLayout4GenComponent,
+    BeispieleLayout5GenComponent,
   ],
   imports: [
     MatIconModule,

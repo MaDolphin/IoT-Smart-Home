@@ -1,59 +1,85 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 webpage beispieleDatentabellen() {
+
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+                link: "./"
+            }
+            tab "Layout 1" {
+                link: "../layout1"
+            }
+            tab "Layout 2" {
+                link: "../layout2"
+            }
+            tab "Layout 3" {
+                link: "../layout3"
+            }
+            tab "Layout 4" {
+                link: "../layout4"
+            }
+            tab "Layout 5" {
+                link: "../layout5"
+            }
+        }
+    }
+
     row (space-evenly, spaceabove) {
         container(30%) {
             card {
                 head{
                     row(stretch){
-                        label "Willkommen in MontiGEM"
-                        helpbutton wiki1 "http://www.se-rwth.de/"
+                        label "Information"
                     }
                 }
                 body{
-                    row(c){
-                        column(){
-                        infosign{
-                          icon    :   info
-                          header  : "Hinweis:"
-                          message : "Der Bereich Personal befindet sich noch in Entwicklung und ist bislang noch nicht ausreichend mit den Rollen/Rechten im Sinne des Datenschutzes und der Anforderungen der Personalräte versehen. Verwenden Sie hier daher bitte keine Echtdaten!
-                                 Fiktive Personaldaten dürfen natürlich zur Testung eingegeben werden."
+                    /*
+                        row(c) {
+                            column() {
+                            infosign{
+                              icon    :   info
+                              header  : "Hinweis:"
+                              message : "Der Bereich Personal befindet sich noch in Entwicklung und ist bislang noch nicht ausreichend mit den Rollen/Rechten im Sinne des Datenschutzes und der Anforderungen der Personalräte versehen. Verwenden Sie hier daher bitte keine Echtdaten!
+                                     Fiktive Personaldaten dürfen natürlich zur Testung eingegeben werden."
+                            }
+                           }
                         }
-                       }
-                    }
-                    row(c){
-                        column(){
-                            infosign if(cmdStatus == "waiting") {
-                              icon    : load
-                              header  : "Daten werden geladen..."
-                              message : "Haben sie bitte noch einen Augenblick Geduld. Dies kann einen Moment dauern ..."
+                        row(c){
+                            column(){
+                                infosign if(cmdStatus == "waiting") {
+                                  icon    : load
+                                  header  : "Daten werden geladen..."
+                                  message : "Haben sie bitte noch einen Augenblick Geduld. Dies kann einen Moment dauern ..."
+                                }
                             }
                         }
-                    }
-                    row(c){
-                        column(){
-                            label "Please be alert!!" {
-                              color: "black"
-                              fontsize : 16
+                        row(c){
+                            column(){
+                                label "Please be alert!!" {
+                                  color: "black"
+                                  fontsize : 16
+                                }
+                            }
+                            column(){
+                               label "...."
+                            }
+                            column(){
+                                label if(isLabelTrue()) "...!!!"
                             }
                         }
-                        column(){
-                           label "...."
-                        }
-                        column(){
-                            label if(isLabelTrue()) "...!!!"
-                        }
-                    }
-                    row(c){
-                        column(){
-                            textoutput { "This website is under construction" }
-                        }
-                        column(){
-                            html{
-                                "<p style='font-style: italic;margin-top: 9px;'>We are not live yet</p>"
+                        row(c){
+                            column(){
+                                textoutput { "This website is under construction" }
+                            }
+                            column(){
+                                html{
+                                    "<p style='font-style: italic;margin-top: 9px;'>We are not live yet</p>"
+                                }
                             }
                         }
-                    }
+                    */
+                    textoutput { "UNDER CONSTRUCTION" }
                 }
             }
         }
