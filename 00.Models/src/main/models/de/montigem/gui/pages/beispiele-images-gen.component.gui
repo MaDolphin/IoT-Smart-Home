@@ -6,6 +6,9 @@ webpage beispieleImages {
             tab "Info" {
                 link: "../input"
             }
+            tab "Labels" {
+                link: "../labels"
+            }
             tab "Images" {
                 link: "./"
             }

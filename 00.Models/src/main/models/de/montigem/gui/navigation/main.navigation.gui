@@ -44,7 +44,7 @@ sidenavigation : [
         icon: "supervisor_account"
       },
       {
-        label: "Input"
+        label: "Input/Output"
         link: ["/", "beispiele", "input"]
         icon: "supervisor_account"
       },

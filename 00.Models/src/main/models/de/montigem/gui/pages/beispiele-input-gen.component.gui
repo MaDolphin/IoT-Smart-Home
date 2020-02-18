@@ -6,6 +6,9 @@ webpage beispieleDatentabellen {
             tab "Info" {
                 link: "./"
             }
+            tab "Labels" {
+                link: "../labels"
+            }
             tab "Images" {
                 link: "../images"
             }

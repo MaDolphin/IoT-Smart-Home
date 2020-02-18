@@ -1,0 +1,39 @@
+webpage BeispieleLabels {
+
+  column(nospace) {
+      navigation "navigationBarLinks" {
+          tab "Info" {
+              link: "../input"
+          }
+          tab "Labels" {
+              link: "./"
+          }
+          tab "Images" {
+              link: "../images"
+          }
+          tab "Buttons" {
+              link: "../buttons"
+          }
+          tab "Text Input Elements" {
+              link: "../textinputs"
+          }
+          tab "Autocompletes/Dropdowns" {
+              link: "../autocompletes"
+          }
+      }
+  }
+
+  row(space-evenly, spaceabove) {
+      container(30%) {
+          card {
+              head {
+                  label "Card 1"
+              }
+              body {
+                  textoutput { "Test Content Card 1" }
+              }
+          }
+      }
+  }
+
+}
