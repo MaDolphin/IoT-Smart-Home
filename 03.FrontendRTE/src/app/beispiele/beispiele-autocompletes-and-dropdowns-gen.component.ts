@@ -39,7 +39,9 @@ export class BeispieleAutocompletesAndDropdownsGenComponent extends BeispieleAut
     ];
 
     this._myDropdownInput1Control.setOptions(this.years);
+    this._myDropdownInput2Control.setOptions(this.years);
     this._myAutocompleteInput1Control.setOptions(this.years);
+    this._myAutocompleteInput2Control.setOptions(this.years);
   }
 
 
@@ -47,8 +49,16 @@ export class BeispieleAutocompletesAndDropdownsGenComponent extends BeispieleAut
     this.showSnackbar(`Model Value Dropdown 1: ${this._myDropdownInput1Control.getModelValue()}`);
   }
 
-
   sendAutocomplete1(): void {
     this.showSnackbar(`Model Value Autocomplete 1: ${this._myAutocompleteInput1Control.getModelValue()}`);
   }
+
+  sendDropdown2(): void {
+    this.showSnackbar(`Model Value Dropdown 2: ${this._myDropdownInput2Control.getModelValue()}`);
+  }
+
+  sendAutocomplete2(): void {
+    this.showSnackbar(`Model Value Autocomplete 2: ${this._myAutocompleteInput2Control.getModelValue()}`);
+  }
+
 }

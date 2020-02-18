@@ -41,6 +41,20 @@ webpage BeispieleAutocompletesAndDropdowns {
                             }
                         }
                     }
+                    column {
+                        row {
+                            dropdown "myDropdownLabel2" {
+                                placeholder : "myDropdown2Placeholder"
+                                input: <myDropdownInput2
+                                labelAbove
+                            }
+                        }
+                        row(c, spaceabove) {
+                            button "Send" {
+                                click -> sendDropdown2()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -64,6 +78,20 @@ webpage BeispieleAutocompletesAndDropdowns {
                         row(c, spaceabove) {
                             button "Send" {
                                 click -> sendAutocomplete1()
+                            }
+                        }
+                    }
+                    column {
+                        row {
+                            autocomplete "myAutocompleteLabel2" {
+                                placeholder : "myAutocomplete2Placeholder"
+                                input: <myAutocompleteInput2
+                                labelAbove
+                            }
+                        }
+                        row(c, spaceabove) {
+                            button "Send" {
+                                click -> sendAutocomplete2()
                             }
                         }
                     }
