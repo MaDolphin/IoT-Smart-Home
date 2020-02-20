@@ -28,8 +28,16 @@ export class BeispieleDatatablesGenComponent extends BeispieleDatatablesGenCompo
     this.form = form;
   }
 
+  // you can override the table columns initialization
+  public initeinfacheTabelleColumns(): void {
+    super.initeinfacheTabelleColumns();
+    this.einfacheTabelleColumns[0].name = "Benutzername (HWC)";
+  }
+
   //region Editierbare Tabelle
   protected init_rt_usersTable() {
+    super.init_rt_usersTable();
+
     this._rt_users = this.rt.users;
 
     // setting options
