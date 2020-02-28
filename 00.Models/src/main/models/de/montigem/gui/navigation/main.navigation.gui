@@ -49,11 +49,6 @@ sidenavigation : [
         icon: "supervisor_account"
       },
       {
-        label: "Navigation"
-        link: ["/", "beispiele", "navigation"]
-        icon: "supervisor_account"
-      },
-      {
         label: "Charts"
         link: ["/", "beispiele", "charts"]
         icon: "supervisor_account"

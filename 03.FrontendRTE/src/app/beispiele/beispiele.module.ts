@@ -13,7 +13,6 @@ import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { BeispieleDatatablesGenComponent } from './beispiele-datatables-gen.component';
 import { BeispieleImagesGenComponent } from './beispiele-images-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
-import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
 import { BeispieleHorizontalbarchartsGenComponent } from "@targetgui/beispiele-horizontalbarcharts-gen.component/beispiele-horizontalbarcharts-gen.component";
 import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-gen.component/beispiele-piecharts-gen.component";
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
@@ -41,7 +40,6 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispieleInputGenComponent,
     BeispieleImagesGenComponent,
     BeispieleLayoutGenComponent,
-    BeispieleNavigationGenComponent,
     BeispieleHorizontalbarchartsGenComponent,
     BeispielePiechartsGenComponent,
     BeispieleTimelinechartsGenComponent,

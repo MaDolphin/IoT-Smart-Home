@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { BeispieleDatatablesGenComponent } from './beispiele-datatables-gen.component';
 import { BeispieleImagesGenComponent } from './beispiele-images-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
-import { BeispieleNavigationGenComponent } from './beispiele-navigation-gen.component';
 import { BeispieleHorizontalbarchartsGenComponent } from "@targetgui/beispiele-horizontalbarcharts-gen.component/beispiele-horizontalbarcharts-gen.component";
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
 import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-gen.component/beispiele-piecharts-gen.component";
@@ -117,10 +116,6 @@ export const routes: Routes = [
   {
     path: 'layout5',
     component: BeispieleLayout5GenComponent,
-  },
-  {
-    path: 'navigation',
-    component: BeispieleNavigationGenComponent,
   }
 ];
 
