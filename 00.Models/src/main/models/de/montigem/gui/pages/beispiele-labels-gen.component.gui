@@ -20,6 +20,9 @@ webpage BeispieleLabels {
           tab "Autocompletes/Dropdowns" {
               link: "../autocompletes"
           }
+          tab "Other" {
+              link: "../other"
+          }
       }
   }
 
