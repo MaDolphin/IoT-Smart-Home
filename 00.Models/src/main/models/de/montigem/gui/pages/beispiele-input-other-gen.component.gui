@@ -59,4 +59,29 @@ webpage OtherInputOutputExamples {
         }
     }
 
+    row(space-evenly) {
+        container(45%) {
+            card {
+                head {
+                    label "Simple Text Output Card"
+                }
+                body {
+                    textoutput { "Simple Text Output" }
+                }
+            }
+        }
+        container(45%) {
+            card {
+                head {
+                    label "HTML"
+                }
+                body {
+                    html {
+                        "<b>Some HTML text</b>"
+                    }
+                }
+            }
+        }
+    }
+
 }
