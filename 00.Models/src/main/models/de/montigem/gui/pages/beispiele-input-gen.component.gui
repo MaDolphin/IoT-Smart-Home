@@ -31,7 +31,19 @@ webpage beispieleDatentabellen {
                     label "Information"
                 }
                 body {
-                    textoutput { "Some information" }
+                    row {
+                        textoutput {
+                            "Auf diesen Seiten finden Sie einige Beispiele von Elementen zur Ein- oder Ausgabe von Daten"
+                        }
+                    }
+                    row {
+                        textoutput { "-" }
+                    }
+                    row {
+                        textoutput {
+                            "On these pages you will find some examples of elements for input or output of data."
+                        }
+                    }
                 }
             }
         }
