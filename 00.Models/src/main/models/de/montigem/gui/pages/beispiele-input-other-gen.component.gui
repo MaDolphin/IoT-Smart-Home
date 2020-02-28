@@ -2,7 +2,7 @@ webpage OtherInputOutputExamples {
     column(nospace) {
         navigation "navigationBarLinks" {
             tab "Info" {
-                link: "./"
+                link: "../input"
             }
             tab "Labels" {
                 link: "../labels"
