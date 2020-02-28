@@ -25,27 +25,36 @@ webpage OtherInputOutputExamples {
         }
     }
 
-    row(c, spaceabove) {
-        container(45%) {
-            card {
-                head {
-                    label "Information"
-                }
-                body {
-                    row {
-                        textoutput {
-                            "Auf diesen Seiten finden Sie einige Beispiele von Elementen zur Ein- oder Ausgabe von Daten"
-                        }
-                    }
-                    row {
-                        textoutput { "-" }
-                    }
-                    row {
-                        textoutput {
-                            "On these pages you will find some examples of elements for input or output of data."
-                        }
-                    }
-                }
+    row(space-evenly, spaceabove) {
+        container(33%) {
+            infosign {
+                icon: info
+                header: "Infosign with 'info' icon"
+                message: "myInfosignMessage1"
+            }
+        }
+        container(33%) {
+            infosign {
+                icon: load
+                header: "Infosign with 'load' icon"
+                message: "myInfosignMessage2"
+            }
+        }
+    }
+
+    row(space-evenly) {
+        container(33%) {
+            infosign {
+                icon: "fa fa-id-card" // can be any icon from https://fontawesome.com/v4.7.0/icons/
+                header: "Infosign with custom icon"
+                message: "myInfosignMessage3"
+            }
+        }
+        container(33%) {
+            infosign ifPermission(USER) {
+                icon: info
+                header: "Infosign with page element condition"
+                message: "myInfosignMessage4"
             }
         }
     }
