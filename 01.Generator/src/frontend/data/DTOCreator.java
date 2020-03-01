@@ -220,7 +220,7 @@ public class DTOCreator extends CreateTrafo {
 
 //----------- PRIVATE  METHODS -------------------------------------
 
-  private void splitAttributeList(List<ASTCDAttribute> attributes, List<ASTCDAttribute> lists, List<ASTCDAttribute> dtos, List<ASTCDAttribute> opts) {
+  private void splitAttributeList(List<ASTCDAttribute> attributes, List<ASTCDAttribute> lists, List<ASTCDAttribute> dtos, List<ASTCDAttribute> opts, List<ASTCDAttribute> rest) {
     for (ASTCDAttribute attr : attributes) {
       if (typeHelper.isGenericList(attr.printType())) {
         if (attr.getType() instanceof ASTSimpleReferenceType) {
@@ -228,7 +228,11 @@ public class DTOCreator extends CreateTrafo {
           if (typeHelper.isReference(type) && !typeHelper.isZonedDateTime(type)) {
             if (!(symbolTable.get().resolve(type).isPresent() && symbolTable.get().resolve(type).get().isEnum())) {
               lists.add(attr);
+            } else {
+              rest.add(attr);
             }
+          } else {
+            rest.add(attr);
           }
         } else {
           throw new RuntimeException(attr.getType() + " is not a ASTSimpleReferenceType");
@@ -240,13 +244,21 @@ public class DTOCreator extends CreateTrafo {
             if (typeHelper.isReference(type) && !typeHelper.isZonedDateTime(type)) {
               if (!(symbolTable.get().resolve(type).isPresent() && symbolTable.get().resolve(type).get().isEnum())) {
                 opts.add(attr);
+              } else {
+                rest.add(attr);
               }
+            } else {
+              rest.add(attr);
             }
           } else {
             if (!(symbolTable.get().resolve(attr.printType()).isPresent() && symbolTable.get().resolve(attr.printType()).get().isEnum())) {
               dtos.add(attr);
+            } else {
+              rest.add(attr);
             }
           }
+        } else {
+          rest.add(attr);
         }
       }
     }
@@ -257,7 +269,8 @@ public class DTOCreator extends CreateTrafo {
     List<ASTCDAttribute> lists = new ArrayList<>();
     List<ASTCDAttribute> dtos = new ArrayList<>();
     List<ASTCDAttribute> opts = new ArrayList<>();
-    splitAttributeList(attributes, lists, dtos, opts);
+    List<ASTCDAttribute> rest = new ArrayList<>();
+    splitAttributeList(attributes, lists, dtos, opts, rest);
 
     ASTCDMethod method = new CDMethodBuilder()
         .name("copy")
@@ -265,7 +278,7 @@ public class DTOCreator extends CreateTrafo {
         .Public()
         .build();
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
-        new TemplateHookPoint("frontend.data.Copy", typeSymbol.getName() + "DTO", dtos, opts, lists));
+        new TemplateHookPoint("frontend.data.Copy", typeSymbol.getName() + "DTO", dtos, opts, lists, rest));
     return method;
   }
 
@@ -377,7 +390,7 @@ public class DTOCreator extends CreateTrafo {
     List<ASTCDAttribute> lists = new ArrayList<>();
     List<ASTCDAttribute> dtos = new ArrayList<>();
     List<ASTCDAttribute> opts = new ArrayList<>();
-    splitAttributeList(attributes, lists, dtos, opts);
+    splitAttributeList(attributes, lists, dtos, opts, new ArrayList<>());
 
     ASTCDMethod method = new CDMethodBuilder().Public()
             .name("transform").build();

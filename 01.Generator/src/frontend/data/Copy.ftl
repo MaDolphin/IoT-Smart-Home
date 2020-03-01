@@ -1,5 +1,5 @@
 <#-- (c) https://github.com/MontiCore/monticore -->
-${tc.signature("dtoClass", "dtos", "opts", "lists")}
+${tc.signature("dtoClass", "dtos", "opts", "lists", "rest")}
 {
   const copiedDTO = new ${dtoClass}();
   <#list dtos as dto>
@@ -17,6 +17,9 @@ ${tc.signature("dtoClass", "dtos", "opts", "lists")}
   <#list lists as list>
     const ${list.getName()} = this.${list.getName()}.map(dto => dto.copy());
     copiedDTO.${list.getName()} = ${list.getName()};
+  </#list>
+  <#list rest as attr>
+    copiedDTO.${attr.getName()} = this.${attr.getName()};
   </#list>
   return copiedDTO;
 }
