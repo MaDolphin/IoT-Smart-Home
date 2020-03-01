@@ -69,6 +69,7 @@ public class DTOCreator extends CreateTrafo {
     methods.add(getGetDataMethod(domainClass, typeSymbol));
     methods.add(getGetByIdMethod(domainClass, typeSymbol));
     methods.add(getGetAllMethod(domainClass, typeSymbol));
+    methods.add(getCopyMethod(domainClass, typeSymbol));
     return methods;
   }
 
@@ -219,6 +220,68 @@ public class DTOCreator extends CreateTrafo {
 
 //----------- PRIVATE  METHODS -------------------------------------
 
+  private void splitAttributeList(List<ASTCDAttribute> attributes, List<ASTCDAttribute> lists, List<ASTCDAttribute> dtos, List<ASTCDAttribute> opts, List<ASTCDAttribute> rest) {
+    for (ASTCDAttribute attr : attributes) {
+      if (typeHelper.isGenericList(attr.printType())) {
+        if (attr.getType() instanceof ASTSimpleReferenceType) {
+          String type = typeHelper.getFirstTypeArgumentOfGeneric((ASTSimpleReferenceType) attr.getType());
+          if (typeHelper.isReference(type) && !typeHelper.isZonedDateTime(type)) {
+            if (!(symbolTable.get().resolve(type).isPresent() && symbolTable.get().resolve(type).get().isEnum())) {
+              lists.add(attr);
+            } else {
+              rest.add(attr);
+            }
+          } else {
+            rest.add(attr);
+          }
+        } else {
+          throw new RuntimeException(attr.getType() + " is not a ASTSimpleReferenceType");
+        }
+      } else {
+        if (typeHelper.isReference(attr.printType()) && !typeHelper.isZonedDateTime(attr.printType())) {
+          if (typeHelper.isGenericOptional(attr.printType())) {
+            String type = typeHelper.getFirstTypeArgumentOfGeneric((ASTSimpleReferenceType) attr.getType());
+            if (typeHelper.isReference(type) && !typeHelper.isZonedDateTime(type)) {
+              if (!(symbolTable.get().resolve(type).isPresent() && symbolTable.get().resolve(type).get().isEnum())) {
+                opts.add(attr);
+              } else {
+                rest.add(attr);
+              }
+            } else {
+              rest.add(attr);
+            }
+          } else {
+            if (!(symbolTable.get().resolve(attr.printType()).isPresent() && symbolTable.get().resolve(attr.printType()).get().isEnum())) {
+              dtos.add(attr);
+            } else {
+              rest.add(attr);
+            }
+          }
+        } else {
+          rest.add(attr);
+        }
+      }
+    }
+  }
+
+  private ASTCDMethod getCopyMethod(ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
+    List<ASTCDAttribute> attributes = domainClass.getCDAttributeList();
+    List<ASTCDAttribute> lists = new ArrayList<>();
+    List<ASTCDAttribute> dtos = new ArrayList<>();
+    List<ASTCDAttribute> opts = new ArrayList<>();
+    List<ASTCDAttribute> rest = new ArrayList<>();
+    splitAttributeList(attributes, lists, dtos, opts, rest);
+
+    ASTCDMethod method = new CDMethodBuilder()
+        .name("copy")
+        .returnType(typeSymbol.getName() + "DTO")
+        .Public()
+        .build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
+        new TemplateHookPoint("frontend.data.Copy", typeSymbol.getName() + "DTO", dtos, opts, lists, rest));
+    return method;
+  }
+
   private Optional<ASTCDConstructor> createCopyConstructor(ASTCDClass extendedClass, ASTCDClass domainClass, CDTypeSymbol type) {
     List<ASTCDAttribute> attributes = createAttributes(extendedClass, domainClass, type);
 
@@ -327,36 +390,8 @@ public class DTOCreator extends CreateTrafo {
     List<ASTCDAttribute> lists = new ArrayList<>();
     List<ASTCDAttribute> dtos = new ArrayList<>();
     List<ASTCDAttribute> opts = new ArrayList<>();
+    splitAttributeList(attributes, lists, dtos, opts, new ArrayList<>());
 
-    for (ASTCDAttribute attr : attributes) {
-      if (typeHelper.isGenericList(attr.printType())) {
-        if (attr.getType() instanceof ASTSimpleReferenceType) {
-          String type = typeHelper.getFirstTypeArgumentOfGeneric((ASTSimpleReferenceType) attr.getType());
-          if (typeHelper.isReference(type) && !typeHelper.isZonedDateTime(type)) {
-            if (!(symbolTable.get().resolve(type).isPresent() && symbolTable.get().resolve(type).get().isEnum())) {
-              lists.add(attr);
-            }
-          }
-        } else {
-          throw new RuntimeException(attr.getType() + " is not a ASTSimpleReferenceType");
-        }
-      } else {
-        if (typeHelper.isReference(attr.printType()) && !typeHelper.isZonedDateTime(attr.printType())) {
-          if (typeHelper.isGenericOptional(attr.printType())) {
-            String type = typeHelper.getFirstTypeArgumentOfGeneric((ASTSimpleReferenceType) attr.getType());
-            if (typeHelper.isReference(type) && !typeHelper.isZonedDateTime(type)) {
-              if (!(symbolTable.get().resolve(type).isPresent() && symbolTable.get().resolve(type).get().isEnum())) {
-                opts.add(attr);
-              }
-            }
-          } else {
-            if (!(symbolTable.get().resolve(attr.printType()).isPresent() && symbolTable.get().resolve(attr.printType()).get().isEnum())) {
-              dtos.add(attr);
-            }
-          }
-        }
-      }
-    }
     ASTCDMethod method = new CDMethodBuilder().Public()
             .name("transform").build();
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), method,
