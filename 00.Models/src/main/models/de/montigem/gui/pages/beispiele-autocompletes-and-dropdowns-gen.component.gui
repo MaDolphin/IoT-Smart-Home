@@ -20,6 +20,9 @@ webpage BeispieleAutocompletesAndDropdowns {
             tab "Autocompletes/Dropdowns" {
                 link: "./"
             }
+            tab "Other" {
+                link: "../other"
+            }
         }
     }
 

@@ -32,7 +32,12 @@ export class BeispieleBarchartsGenComponent extends BeispieleBarchartsGenCompone
     super(_commandRestService, _route, _router);
   }
 
-  //region Bar Chart
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.setNavigationBarLinks();
+  }
+
+//region Bar Chart
   // -- YOU COULD ALSO USE EXAMPLE 2 --
 
   // represents the maximum data range of the available data
@@ -63,46 +68,42 @@ export class BeispieleBarchartsGenComponent extends BeispieleBarchartsGenCompone
   public sortFn_fz2 = (s1: string, s2: string) => s1.localeCompare(s2, 'de');
   public rangeTransformation_fz2 = transformBeispiel2;
 
+
+  // date range changed
+  onUpdateBarChart_fz(range: IBarChartDataRange): void {
+    // fetch data from server for current data range
+    // this is only for demonstration purposes and not complete..
+    // you should use a command like getByIDAndYear to get data within the specified range
+    this.commandManager.addCommand(new BeispieleBarChart_getById(this.id), (dto: IDTO) => {
+      if (dto instanceof BeispieleBarChartDTO) {
+        this.fz = dto;
+      } else {
+        console.error("received wrong dto type");
+      }
+    });
+
+    this.commandManager.sendCommands();
+  }
+
+  onUpdateBarChart_fz2(range: IBarChartDataRange): void {
+    // fetch data from server for current data range
+    // this is only for demonstration purposes and not complete..
+    // you should use a command like getByIDAndYear to get data within the specified range
+    this.commandManager.addCommand(new BeispieleBarChart_getById(this.id), (dto: IDTO) => {
+      if (dto instanceof BeispieleBarChartDTO) {
+        this.fz2 = dto;
+      } else {
+        console.error("received wrong dto type");
+      }
+    });
+
+    this.commandManager.sendCommands();
+  }
+
   ngAfterViewInit(): void {
+    // additional customization
     this.barchart.last.yAxisType = "STUNDE";
     this.barchart.last.stacked = true;
-
-    // date range changed
-    this.barchart.first.updateEvent.subscribe( (range: IBarChartDataRange) => {
-      // fetch data from server for current data range
-      // this is only for demonstration purposes and not complete..
-      // you should use a command like getByIDAndYear to get data within the specified range
-      this.commandManager.addCommand(new BeispieleBarChart_getById(this.id), (dto: IDTO) => {
-        if (dto instanceof BeispieleBarChartDTO) {
-          this.fz = dto;
-          setTimeout( () => {
-            this.barchart.first.updateChart();
-          }, 100);
-        } else {
-          console.error("received wrong dto type");
-        }
-      });
-
-      this.commandManager.sendCommands();
-    });
-
-    this.barchart.last.updateEvent.subscribe( (range: IBarChartDataRange) => {
-      // fetch data from server for current data range
-      // this is only for demonstration purposes and not complete..
-      // you should use a command like getByIDAndYear to get data within the specified range
-      this.commandManager.addCommand(new BeispieleBarChart_getById(this.id), (dto: IDTO) => {
-        if (dto instanceof BeispieleBarChartDTO) {
-          this.fz2 = dto;
-          setTimeout( () => {
-            this.barchart.last.updateChart();
-          }, 100);
-        } else {
-          console.error("received wrong dto type");
-        }
-      });
-
-      this.commandManager.sendCommands();
-    });
   }
   //endregion
 
