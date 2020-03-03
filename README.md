@@ -3,18 +3,33 @@
 
 ## Requirements
 - maven
-- java 8 (>= 8 Update 141)
-- [docker](https://www.docker.com/products/docker-desktop)
-- node 8 (manageable with [nvm-windows](https://github.com/coreybutler/nvm-windows/releases) or [nvm](https://github.com/nvm-sh/nvm))
 - settings.xml (contact your supervisor)
+- java 8 (>= 8 Update 141) [Download Here](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html). Newer Versions of Java (e.g. Java 13) will lead to errors.
+- [Docker](https://www.docker.com/products/docker-desktop)
+    - After installing, leave the default to "Linux-Containers", **not** "Windows-Containers"
+    - Windows: expose daemon: "Docker-Icon" -> "Settings" -> "Expose damon on TCP [...]"
+    - Mac: See below `socat`
+- node 8 (manageable with [nvm-windows](https://github.com/coreybutler/nvm-windows/releases) or [nvm](https://github.com/nvm-sh/nvm))
+    - other versions of node (e.g. 12) lead to errors
+    - `nvm install node 8`
+    - `nvm use node 8.XX.XX`
 
 ## First-time build
-- in parent folder: `mvn clean install -DskipTests -Pprod`
-- in 04.BackendRTE: `mvn clean docker:stop install -DskipTests docker:start tomee:run`
+- in parent folder: 
+    - `mvn clean install -DskipTests -Pprod`
+- in 04.BackendRTE: 
+    - (`cd 04.BackendRTE`)
+    - `mvn clean docker:stop install -DskipTests docker:start tomee:run`
+    - command will not terminate, instead open a new console
 - in 03.FrontendRTE (other console):
+    - (`cd 03.FrontendRTE`)
     - `npm install`
     - `mvn generate-sources -U`
     - `npm run start:jit`
+- open Browser http://localhost:4200
+    - first visit triggers build of the Angular-Frontend
+    - second visit displays page
+    - username: "admin", pswd: "passwort"
 
 ## Backend build and start
 - in 04.BackendRTE: `mvn clean docker:stop install -DskipTests docker:start tomee:run`
