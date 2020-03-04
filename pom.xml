@@ -85,6 +85,7 @@
 		<shiro.version>1.4.0-RC2</shiro.version>
 
 		<!-- FRONTEND -->
+		<janino.version>3.0.6</janino.version>
 	</properties>
 
 
@@ -156,6 +157,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>${janino.version}</version>
 		</dependency>
 
         <!-- TEST -->
