@@ -21,7 +21,7 @@
 
 ## Frontend
 ### regenerate
-- in 03.FrontendRTE: `mvn generate-sources -U`
+- in 03.FrontendRTE: `mvn clean generate-sources -U`
 
 ### start
 - in 03.FrontendRTE: `npm run start:jit`

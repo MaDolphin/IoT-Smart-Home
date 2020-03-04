@@ -261,7 +261,7 @@
         <version>3.0.0</version>
         <executions>
           <execution>
-            <id>pre clean</id>
+            <id>clean package-lock (pre-clean)</id>
             <phase>clean</phase>
             <goals>
               <goal>clean</goal>
@@ -280,7 +280,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>clean target folder</id>
+            <id>clean target folder (clean)</id>
             <phase>verify</phase>
             <goals>
               <goal>clean</goal>
@@ -302,14 +302,26 @@
               </filesets>
             </configuration>
           </execution>
+          <execution>
+            <id>clean node_modules (post-clean)</id>
+            <phase>post-clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+            <configuration>
+              <filesets>
+                <fileset>
+                  <directory>node_modules</directory>
+                  <followSymlinks>false</followSymlinks>
+                </fileset>
+              </filesets>
+            </configuration>
+          </execution>
         </executions>
         <configuration>
           <filesets>
             <fileset>
               <directory>dist</directory>
-            </fileset>
-            <fileset>
-              <directory>node_modules</directory>
             </fileset>
             <fileset>
               <directory>webbapp</directory>
