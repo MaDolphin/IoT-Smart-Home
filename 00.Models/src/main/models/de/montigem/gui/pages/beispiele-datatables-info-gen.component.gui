@@ -1,0 +1,40 @@
+webpage BeispieleDatatablesInfo {
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "./"
+            }
+            tab "DataTables" {
+              link: "../datatables"
+            }
+            tab "RowDataTables" {
+                link: "../rowdatatables"
+            }
+        }
+    }
+
+    row (space-evenly, spaceabove) {
+        container(45%) {
+            card {
+                head {
+                    label "Information"
+                }
+                body {
+                    row {
+                        textoutput {
+                          "Hier finden Sie einige Beispiele von Datentabellen. In einigen Fällen müssen Sie den TOP-Mechanismus verwenden, um die Methoden zu erweitern, um die Kommunikation mit dem Backend zu steuern. Weitere Einzelheiten zur Kommunikation mit dem Backend finden Sie z.B. auf der Einstellungen-Seite."
+                        }
+                    }
+                    row {
+                        textoutput { "-" }
+                    }
+                    row {
+                        textoutput {
+                            "Here you can find some examples of data tables. In some cases, you must use the TOP mechanism to extend the methods to achieve communication with the backend. For example, see the Settings page for more details about backend communication."
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

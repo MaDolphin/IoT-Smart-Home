@@ -1,0 +1,94 @@
+webpage LineChartSamplePage(socket LineGraph lineChartData) {  // webpage declaration with data init
+
+  column(nospace) {
+      navigation "navigationBarLinks" {
+          tab "Info" {
+            link: "../charts"
+          }
+          tab "BarCharts" {
+            link: "../barcharts/1"
+          }
+          tab "HorizontalBarCharts" {
+              link: "../horizontalbarcharts"
+          }
+          tab "TimeLineCharts" {
+              link: "../timelinecharts/1"
+          }
+          tab "PieCharts" {
+            link: "../piecharts/1"
+          }
+          tab "LineCharts" {
+            link: "./"
+          }
+      }
+  }
+
+  row (space-evenly, spaceabove) {
+      // container for card 1
+      container(30%) {
+          card {
+              head {
+                  row(stretch) {
+                      label "Information"
+                  }
+              }
+              body {
+                  row {
+                      textoutput {
+                          "Bitte legen Sie links unten in der Navigation Dummy-Daten an, damit der Graph für kurze Zeit Daten zur Anzeige erhält."
+                      }
+                  }
+                  row {
+                    textoutput { "-" }
+                  }
+                  row {
+                      textoutput {
+                          "Please create dummy data at the bottom left of the navigation, so that the graph receives data to display for a short time."
+                      }
+                  }
+              }
+          }
+      }
+
+      // container for card 2
+      container(30%) {
+          card {
+              head {
+                  label "Real-Time LineChart"
+              }
+              body {
+                  linechart "LineChart" {           // line chart declaration with name
+                      data : <lineChartData         // data reference (see first line)
+                      // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
+                      stepSizeY : 2                 // Y Axis step size
+                      title: "Realtime LineChart"   // chart title
+                      realtime                      // if chart shows realtime data (enables animation)
+                      // overwriteData              // incoming data overwrites current data for chart if set,
+                                                    // otherwise the data is appended to existing list
+                  }
+              }
+          }
+      }
+
+      // container for card 3
+      container(30%) {
+          card {
+              head {
+                  label "Card That Shows Image When Sensor Data Is Received"
+              }
+              body {
+                  row if (isImageVisible()) (c) {
+                      image {                           // image declaration
+                          width: 30%                    // width of image (retains aspect ratio; in '%' or 'px')
+                          source: getImageSource()      // image source (could be a path written as string)
+                      }
+                  }
+                  row if (!isImageVisible()) {
+                      textoutput { "Receiving no sensor data" }
+                  }
+              }
+          }
+      }
+  }
+
+}

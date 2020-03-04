@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
-import {LineChartSampleComponentTOP} from '@targetgui/line-chart-sample.component/line-chart-sample.component-top';
 import {WebSocketService} from '@shared/architecture/services/websocket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
+import { BeispieleLinechartsGenComponentTOP } from "@targetgui/beispiele-linecharts-gen.component/beispiele-linecharts-gen.component-top";
 
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/line-chart-sample.component/line-chart-sample.component.html',
+  templateUrl: '../../../target/generated-sources/gui/beispiele-linecharts-gen.component/beispiele-linecharts-gen.component.html',
 })
-export class LineChartSampleComponent extends LineChartSampleComponentTOP {
+export class BeispieleLinechartsGenComponent extends BeispieleLinechartsGenComponentTOP {
 
   public constructor(
     protected _webSocketService: WebSocketService,

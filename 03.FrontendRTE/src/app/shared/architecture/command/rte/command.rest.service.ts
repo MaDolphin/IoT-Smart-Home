@@ -24,7 +24,7 @@ export class CommandRestService extends ApiService<IDTO> implements CommandCallb
         // serialize the commands
         let cmds = JSON.stringify({id: commandListId, commands: commandList});
 
-        console.log('send: ', cmds);
+        this.logger.info('Send', cmds);
 
         let observer: Observable<any> = this.api.post(
           this.baseUrl,
@@ -37,7 +37,7 @@ export class CommandRestService extends ApiService<IDTO> implements CommandCallb
 
         observer.toPromise().then((jsonResponseList: string) => {
           try {
-            console.log('received: ', jsonResponseList);
+            this.logger.info('Received', jsonResponseList);
             let cmdResponse: CommandResponseDTO = TypedJSON.parse(jsonResponseList, CommandResponseDTO);
             commandManager.received(cmdResponse);
             resolve(null);

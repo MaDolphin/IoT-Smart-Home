@@ -53,6 +53,9 @@ interface BarDataGroup {
 })
 export class BarChartComponent implements OnInit, AfterViewInit {
 
+  @Output('update')
+  public onUpdate = new EventEmitter<IBarChartDataRange>();
+
   @ViewChild(BaseChartDirective)
   private chart: BaseChartDirective;
 
@@ -207,7 +210,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           let yDatas = entry.yAxis.filter((yData: BarChartYAxisData) => yData.label === label);
 
           for (const stack of allStackLabels) {
-            let yData = yDatas.find((yData: BarChartYAxisData) => yData.stack == stack);
+            // tslint:disable-next-line:no-shadowed-variable
+            let yData = yDatas.find((yData: BarChartYAxisData) => yData.stack === stack);
             if (yData) {
               stackData.get(stack).push(yData.value);
             } else {
@@ -234,7 +238,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   }
 
-  @Output('update') updateEvent: EventEmitter<IBarChartDataRange> = new EventEmitter();
+  private updateEvent: EventEmitter<IBarChartDataRange> = new EventEmitter();
 
   //region Inputs
   //region Optional
@@ -268,7 +272,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
   @Input()
   public set colors(colors: Color[]) {
-    if (colors.length == 0) {
+    if (colors.length === 0) {
       this.colorSet = [{}];
     }
 
@@ -398,6 +402,17 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    if (this._dataRange) {
+      if (this._sortFn(this._shownDataRange.min, this._dataRange.min) < 0
+        || this._sortFn(this._shownDataRange.min, this._dataRange.max) > 0
+        || this._sortFn(this._shownDataRange.max, this._dataRange.min) < 0
+        || this._sortFn(this._shownDataRange.max, this._dataRange.max) > 0) {
+        this._shownDataRange = Object.assign({}, this._dataRange) as IBarChartDataRange;
+        this.updateXAxis();
+        this.fetchData();
+      }
+    }
+
     this._data = this._transformFn(data, this._shownDataRange);
 
     // set data range manually iff no data range was provided via input
@@ -428,22 +443,25 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     if (!this.allXAxisDataValuesInRange) {
       this.allXAxisDataValuesInRange = this.getAllXAxisDataValuesInRange();
       this.sliderOptions.ceil = this.allXAxisDataValuesInRange.length - 1;
-      this._sliderValueMax = this.allXAxisDataValuesInRange.findIndex((value: BarChartXAxisDataValue) => this._sortFn(value, this._shownDataRange.max) == 0);
-      this._sliderValueMin = this.allXAxisDataValuesInRange.findIndex((value: BarChartXAxisDataValue) => this._sortFn(value, this._shownDataRange.min) == 0);
+      this._sliderValueMax = this.allXAxisDataValuesInRange.findIndex((value: BarChartXAxisDataValue) => this._sortFn(value, this._shownDataRange.max) === 0);
+      this._sliderValueMin = this.allXAxisDataValuesInRange.findIndex((value: BarChartXAxisDataValue) => this._sortFn(value, this._shownDataRange.min) === 0);
     }
+
+    setTimeout( () => {
+      this.updateChart();
+    }, 100);
   }
   //endregion
   //endregion
 
   public options: any = {
-    animation: false,
+    // animation: false,
     padding: "10",
-    // borderWidth: "10",
     responsive: true,
     maintainAspectRatio: false,
-    // animation: {
-    //   duration: 1000,
-    // },
+    animation: {
+      duration: 1000,
+    },
     title: {},
     legend: {
       display: true,
@@ -545,6 +563,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     this.colors = this._colorsService.getColors();
 
     Chart.Tooltip.positioners.custom = this.customTooltipPosition;
+
+    this.updateEvent.subscribe((range: IBarChartDataRange) => this.onUpdate.emit(range));
   }
 
   public ngAfterViewInit() {

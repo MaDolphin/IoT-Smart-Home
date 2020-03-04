@@ -1,0 +1,112 @@
+webpage BeispieleLayout5 {
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+                link: "../layout"
+            }
+            tab "Layout 1" {
+                link: "../layout1"
+            }
+            tab "Layout 2" {
+                link: "../layout2"
+            }
+            tab "Layout 3" {
+                link: "../layout3"
+            }
+            tab "Layout 4" {
+                link: "./"
+            }
+            tab "Layout 5" {
+                link: "../layout5"
+            }
+        }
+    }
+
+    row (space-between, space : t r l) {
+        container(49%) {
+            card {
+                head {
+                    label "Card 1"
+                }
+                body {
+                    // space-between displays equal spacing between the columns
+                    row(space-between) {
+                        column {
+                            // add other page elements here
+                            textoutput { "Left Text" }
+                        }
+                        column {
+                            textoutput { "Middle Text" }
+                        }
+                        column {
+                            textoutput { "Right Text" }
+                        }
+                    }
+                }
+            }
+        }
+
+        container(49%) {
+            card {
+                head {
+                    label "Card 2"
+                }
+                body {
+                    // space-evenly distributes columns evenly so that the columns have equal space around them
+                    row(space-evenly) {
+                        column {
+                            textoutput { "Left Text" }
+                        }
+                        column {
+                            textoutput { "Middle Text" }
+                        }
+                        column {
+                            textoutput { "Right Text" }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    row (space-between, space : r l) {
+        container(49%) {
+            card {
+                head {
+                    label "Card 3"
+                }
+                body {
+                    row {
+                        textoutput { "Text Row 1" }
+                    }
+                    row {
+                        textoutput { "Text Row 2" }
+                    }
+                    row {
+                        textoutput { "Text Row 3" }
+                    }
+                }
+            }
+        }
+
+        container(49%) {
+            card {
+                head {
+                    label "Card 4"
+                }
+                body {
+                    row(r) {
+                        textoutput { "Right Text" }
+                    }
+                    row(l) {
+                        textoutput { "Left Text" }
+                    }
+                    row(c) {
+                        textoutput { "Middle Text" }
+                    }
+                }
+            }
+        }
+    }
+
+}

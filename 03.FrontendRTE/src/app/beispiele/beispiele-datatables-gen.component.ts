@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
-import { BeispieleDatentabellenGenComponentTOP } from '@targetgui/beispiele-datentabellen-gen.component/beispiele-datentabellen-gen.component-top';
 import { CommandManager } from "@shared/architecture/command/rte/command.manager";
-import { RoleForm } from "@targetgui/beispiele-datentabellen-gen.component/role.form";
+import { RoleForm } from "@targetgui/beispiele-datatables-gen.component/role.form";
 import { NotificationService } from "@shared/notification/notification.service";
 import { DownloadFileService } from "@shared/utils/download-file.service";
 import { CopyToClipboardService } from "@shared/utils/copy-to-clipboard.service";
+import { BeispieleDatatablesGenComponentTOP } from "@targetgui/beispiele-datatables-gen.component/beispiele-datatables-gen.component-top";
 
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/beispiele-datentabellen-gen.component/beispiele-datentabellen-gen.component.html',
+  templateUrl: '../../../target/generated-sources/gui/beispiele-datatables-gen.component/beispiele-datatables-gen.component.html',
   providers: [RoleForm] // necessary for 'editierbareTabelle'
 })
-export class BeispieleDatentabellenGenComponent extends BeispieleDatentabellenGenComponentTOP implements OnInit {
+export class BeispieleDatatablesGenComponent extends BeispieleDatatablesGenComponentTOP implements OnInit {
 
   constructor(
     _notificationService: NotificationService, // necessary for context menu
@@ -28,8 +28,16 @@ export class BeispieleDatentabellenGenComponent extends BeispieleDatentabellenGe
     this.form = form;
   }
 
+  // you can override the table columns initialization
+  public initeinfacheTabelleColumns(): void {
+    super.initeinfacheTabelleColumns();
+    this.einfacheTabelleColumns[0].name = "Benutzername (HWC)";
+  }
+
   //region Editierbare Tabelle
   protected init_rt_usersTable() {
+    super.init_rt_usersTable();
+
     this._rt_users = this.rt.users;
 
     // setting options

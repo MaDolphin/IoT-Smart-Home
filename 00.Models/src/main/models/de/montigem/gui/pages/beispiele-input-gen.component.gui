@@ -1,36 +1,55 @@
 /* (c) https://github.com/MontiCore/monticore */
+webpage beispieleDatentabellen {
 
-webpage beispieleDatentabellen() {
-    row (space-evenly){
-        container(90%, minwidth : 500px, padding-right : 10px, padding-left : 10px){
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+                link: "./"
+            }
+            tab "Labels" {
+                link: "../labels"
+            }
+            tab "Images" {
+                link: "../images"
+            }
+            tab "Buttons" {
+                link: "../buttons"
+            }
+            tab "Text Input Elements" {
+                link: "../textinputs"
+            }
+            tab "Autocompletes/Dropdowns" {
+                link: "../autocompletes"
+            }
+            tab "Other" {
+                link: "../other"
+            }
+        }
+    }
+
+    row(c, spaceabove) {
+        container(45%) {
             card {
-                head{
-                    row(stretch){
-                        label "Generiert mit MontiGEM"
-                        helpbutton wiki1 "http://www.se-rwth.de/"
-                    }
+                head {
+                    label "Information"
                 }
-                body{
-                    row(c){
-                        column(30%){
-                            html{
-                               "
-                                 <p>Input</p>
-                               "
-                            }
+                body {
+                    row {
+                        textoutput {
+                            "Auf diesen Seiten finden Sie einige Beispiele von Elementen zur Ein- oder Ausgabe von Daten"
                         }
-                        column(30%){
-                            html{
-                               "
-                                 <div>
-                                    <img src=\"assets/img/BGlogin.png\" alt=\"MaCoCo Logo\" style=\"max-width: 400px\">
-                                 </div>
-                               "
-                            }
+                    }
+                    row {
+                        textoutput { "-" }
+                    }
+                    row {
+                        textoutput {
+                            "On these pages you will find some examples of elements for input or output of data."
                         }
                     }
                 }
             }
         }
     }
+
 }

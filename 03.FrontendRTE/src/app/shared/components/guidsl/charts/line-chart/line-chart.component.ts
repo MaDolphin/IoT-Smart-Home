@@ -195,11 +195,7 @@ export class LineChartComponent implements OnInit {
   };
 
   public hasData(): boolean {
-    if (this.dataSet !== null && this.dataSet.length > 0) {
-      return true;
-    }
-
-    return false;
+    return this.dataSet !== null && this.dataSet.length > 0;
   }
 
   public ngOnInit(): void {

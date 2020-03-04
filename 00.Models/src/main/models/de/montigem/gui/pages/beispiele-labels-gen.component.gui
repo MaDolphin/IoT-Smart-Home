@@ -1,0 +1,86 @@
+webpage BeispieleLabels {
+
+  column(nospace) {
+      navigation "navigationBarLinks" {
+          tab "Info" {
+              link: "../input"
+          }
+          tab "Labels" {
+              link: "./"
+          }
+          tab "Images" {
+              link: "../images"
+          }
+          tab "Buttons" {
+              link: "../buttons"
+          }
+          tab "Text Input Elements" {
+              link: "../textinputs"
+          }
+          tab "Autocompletes/Dropdowns" {
+              link: "../autocompletes"
+          }
+          tab "Other" {
+              link: "../other"
+          }
+      }
+  }
+
+  row(space-evenly, spaceabove) {
+      container(50%) {
+          card {
+              head {
+                  label "Card 1"
+              }
+              body {
+                  row {
+                      label "Simple Colored Label" {
+                          color : "black"
+                      }
+                  }
+                  row {
+                      label "Colored Label With Border" {
+                          color : "black"
+                          border
+                      }
+                  }
+                  row {
+                      label "Colored Label With Specified Fontsize" {
+                          color : "black"
+                          fontsize : 15
+                      }
+                  }
+                  row {
+                      label "Colored Label With Click Functionality" {
+                          color : "black"
+                          click : clickedLabel()
+                      }
+                  }
+                  row {
+                      label "Label With Specified Fontweight" {
+                          color : "black"
+                          font-weight : "700"
+                      }
+                  }
+                  row(spaceabove) {
+                      button "Show/Hide Label" {
+                          click -> clickedButton1()
+                      }
+                      label if(isVisibleLabel) "Colored Label With Page Element Condition" {
+                          color : "black"
+                      }
+                  }
+                  row(spaceabove) {
+                      button "Switch Label Color" {
+                          click -> clickedButton2()
+                      }
+                      label "Variable Colored Label" {
+                          color : getLabelColor()
+                      }
+                  }
+              }
+          }
+      }
+  }
+
+}

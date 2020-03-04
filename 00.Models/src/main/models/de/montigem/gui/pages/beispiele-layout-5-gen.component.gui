@@ -1,0 +1,37 @@
+webpage BeispieleLayout5 {
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+                link: "../layout"
+            }
+            tab "Layout 1" {
+                link: "../layout1"
+            }
+            tab "Layout 2" {
+                link: "../layout2"
+            }
+            tab "Layout 3" {
+                link: "../layout3"
+            }
+            tab "Layout 4" {
+                link: "../layout4"
+            }
+            tab "Layout 5" {
+                link: "./"
+            }
+        }
+    }
+
+    row (c) {
+        container(30%) {
+            card color : "lightgray" {
+                head {
+                    label "Card 1"
+                }
+                body {
+                    textoutput { "Text Card 1" }
+                }
+            }
+        }
+    }
+}

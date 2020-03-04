@@ -1,0 +1,53 @@
+webpage BeispieleRowDataTables (all MeinBenutzerInfoTabelle uit) {
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "../datatablesinfo"
+            }
+            tab "DataTables" {
+              link: "../datatables"
+            }
+            tab "RowDataTables" {
+                link: "./"
+            }
+        }
+    }
+
+    row (space-evenly, spaceabove) {
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    label "Simple RowDataTable"
+                }
+                body {
+                    datatable "table1" {
+                        columns < uit {
+                            row "Benutzername"        , <username
+                            row "E-Mail Adresse"      , <email
+                            row "Kürzel"              , <initials
+                            row "Registrierungsdatum" , date(<registrationDate)
+                        }
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    label "Editable RowDataTable"
+                }
+                body {
+                    datatable "table2" {
+                        columns < uit {
+                            row "Benutzername"        , <username (editable)
+                            row "E-Mail Adresse"      , <email
+                            row "Kürzel"              , <initials
+                            row "Registrierungsdatum" , date(<registrationDate)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

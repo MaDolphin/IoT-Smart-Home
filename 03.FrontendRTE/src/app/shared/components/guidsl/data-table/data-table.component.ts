@@ -45,13 +45,15 @@ import {OkDTO} from "@shared/architecture/command/aggregate/ok.dto";
 import {IDTO} from "@shared/architecture";
 import {RIGHT_ALIGNED} from './data-table.trasformation';
 import {IViewModel} from '@shared/architecture/data/viewmodel';
-
-export interface ResponseSaving<T> {
-  entry: T;
-  success: Subject<boolean>
-}
-
-export const EDIT_CANCEL = 'EDIT_CANCEL';
+import {
+  EDIT_CANCEL,
+  ResponseSaving,
+  TableColumn,
+  TableCssClasses,
+  TableMassages,
+  TableRowHeight,
+  TableSelectionType
+} from "@components/data-table/data-table-types";
 
 @Component({
   selector: 'macoco-data-table',
@@ -398,7 +400,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
    */
   public rowClassFunction: {function: (row: T) => {[key: string]: boolean}};
 
-  private _rowClass: (row: T) => {[key: string]: boolean} = _ => {return {};};
+  private _rowClass: (row: T) => {[key: string]: boolean} = _ => {return {}; };
 
   @Input() public set rowClass(func: (row: T) => {[key: string]: boolean}) {
     this._rowClass = func;
@@ -406,7 +408,7 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
 
   public get rowClass(): (row: T) => {[key: string]: boolean} {
     if (this.emptyTable) {
-      return _ => {return {};};
+      return _ => {return {}; };
     }
     return this._rowClass;
   }
@@ -1501,39 +1503,33 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
   previousSelection: number[] = [];
 
   public onSelect({selected}) {
-    /*
-        let editedRow = this.rows.find(row => row.id === this.currentEditId);
-        if (!!editedRow) {
-          let editedRowIndex = selected.indexOf(editedRow);
-          if (this.previousSelection.includes(this.currentEditId) && editedRowIndex === -1) {
-            selected.push(editedRow);
-          }
-          if (!this.previousSelection.includes(this.currentEditId) && editedRowIndex > -1) {
-            selected.splice(editedRowIndex, 1);
-          }
-        }
-    
-        let emptyRow = selected.find(row => !!row.emptyRow);
-        this.skipRowSelection(emptyRow, selected)
-    
-        // PS: Why dont we allow to select deactivated rows?
-        // I needed to comment it out, cause of batch processing.
-        /*
-            selected.forEach(row => {
-              if (!this.activeRow(row)) {
-                this.skipRowSelection(row, selected)
-              }
-            })
-    
-         */
-    /*
-        this.previousSelection = selected.filter(row => !!row).map(row => row.id);
-    
-        this.selected.splice(0, this.selected.length);
-        this.selected.push(...selected);
-    
-    
-     */
+    // let editedRow = this.rows.find(row => row.id === this.currentEditId);
+    // if (!!editedRow) {
+    //   let editedRowIndex = selected.indexOf(editedRow);
+    //   if (this.previousSelection.includes(this.currentEditId) && editedRowIndex === -1) {
+    //     selected.push(editedRow);
+    //   }
+    //   if (!this.previousSelection.includes(this.currentEditId) && editedRowIndex > -1) {
+    //     selected.splice(editedRowIndex, 1);
+    //   }
+    // }
+    //
+    // let emptyRow = selected.find(row => !!row.emptyRow);
+    // this.skipRowSelection(emptyRow, selected)
+    //
+    // // PS: Why dont we allow to select deactivated rows?
+    // // I needed to comment it out, cause of batch processing.
+    //     selected.forEach(row => {
+    //       if (!this.activeRow(row)) {
+    //         this.skipRowSelection(row, selected)
+    //       }
+    //     })
+    //
+    // this.previousSelection = selected.filter(row => !!row).map(row => row.id);
+    //
+    // this.selected.splice(0, this.selected.length);
+    // this.selected.push(...selected);
+
     this.selectEvent.emit(selected);
   }
 
@@ -2389,11 +2385,8 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
         this.selected.push(value);
     });
 
-
     let selected = this.selected;
     this.onSelect({selected: selected})
-
-
   }
 
   public onDeselectAll() {
@@ -2401,235 +2394,4 @@ export class DataTableComponent<T extends IViewModel<D> & ISerializable<D>, D> i
     this.deselectEvent.emit();
   }
 
-
-
-}
-
-export type TableSelectionType = 'single' | 'multi' | 'multiClick' | 'checkbox' | 'cell' | 'falsey';
-
-export type BatchModeTypes = 'single' | 'batch';
-
-export type TableRowHeight<T> = ((row: T) => number) | number | 'auto';
-
-export type TableMassages = {emptyMessage?: string, totalMessage?: string, selectedMessage?: string};
-
-export type TableCssClasses = {
-  sortAscending?: string,
-  sortDescending?: string,
-  pagerLeftArrow?: string,
-  pagerRightArrow?: string,
-  pagerPrevious?: string,
-  pagerNext?: string
-}
-
-/**
- * Column property that indicates how to retrieve this column's
- * value from a row.
- * 'a.deep.value', 'normalprop', 0 (numeric)
- */
-export type TableColumnProp = string | number;
-
-
-/**
- * Column Type
- * @type {object}
- */
-export interface TableColumn {
-
-  id?: number;
-
-  /**
-   * Determines if column is checkbox
-   *
-   * @type {boolean}
-   * @memberOf TableColumn
-   */
-  checkboxable?: boolean;
-
-  /**
-   * Determines if the column is frozen to the left
-   *
-   * @type {boolean}
-   * @memberOf TableColumn
-   */
-  frozenLeft?: boolean;
-
-  /**
-   * Determines if the column is frozen to the right
-   *
-   * @type {boolean}
-   * @memberOf TableColumn
-   */
-  frozenRight?: boolean;
-
-  /**
-   * The grow factor relative to other columns. Same as the flex-grow
-   * API from http =//www.w3.org/TR/css3-flexbox/. Basically;
-   * take any available extra width and distribute it proportionally
-   * according to all columns' flexGrow values.
-   *
-   * @type {number}
-   * @memberOf TableColumn
-   */
-  flexGrow?: number;
-
-  /**
-   * Min width of the column
-   *
-   * @type {number}
-   * @memberOf TableColumn
-   */
-  minWidth?: number;
-
-  /**
-   * Max width of the column
-   *
-   * @type {number}
-   * @memberOf TableColumn
-   */
-  maxWidth?: number;
-
-  /**
-   * The default width of the column, in pixels
-   *
-   * @type {number}
-   * @memberOf TableColumn
-   */
-  width?: number;
-
-  /**
-   * Can the column be resized
-   *
-   * @type {boolean}
-   * @memberOf TableColumn
-   */
-  resizeable?: boolean;
-
-  /**
-   * Custom sort comparator
-   *
-   * @type {*}
-   * @memberOf TableColumn
-   */
-  comparator?: any;
-
-  /**
-   * Custom pipe transforms
-   *
-   * @type {PipeTransform}
-   * @memberOf TableColumn
-   */
-  pipe?: PipeTransform;
-
-  displayValue?: (arg: any) => any;
-
-  filterByModelValue?: boolean;
-
-  /**
-   * Can the column be sorted
-   *
-   * @type {boolean}
-   * @memberOf TableColumn
-   */
-  sortable?: boolean;
-
-  /**
-   * Can the column be re-arranged by dragging
-   *
-   * @type {boolean}
-   * @memberOf TableColumn
-   */
-  draggable?: boolean;
-
-  /**
-   * Whether the column can automatically resize to fill space in the table.
-   *
-   * @type {boolean}
-   * @memberOf TableColumn
-   */
-  canAutoResize?: boolean;
-
-  /**
-   * Column name or label
-   *
-   * @type {string}
-   * @memberOf TableColumn
-   */
-  name?: string;
-
-  /**
-   * Property to bind to the row. Example:
-   *
-   * `someField` or `some.field.nested`, 0 (numeric)
-   *
-   * If left blank, will use the name as camel case conversion
-   *
-   * @type {TableColumnProp}
-   * @memberOf TableColumn
-   */
-  prop?: TableColumnProp;
-
-  /**
-   * Cell template ref
-   *
-   * @type {*}
-   * @memberOf TableColumn
-   */
-  cellTemplate?: any;
-
-  /**
-   * Header template ref
-   *
-   * @type {*}
-   * @memberOf TableColumn
-   */
-  headerTemplate?: any;
-
-  /**
-   * CSS Classes for the cell
-   *
-   *
-   * @memberOf TableColumn
-   */
-  cellClass?: string | ((data: any) => string | any);
-
-  /**
-   * CSS classes for the header
-   *
-   *
-   * @memberOf TableColumn
-   */
-  headerClass?: string | ((data: any) => string | any);
-
-  /**
-   * Header checkbox enabled
-   *
-   * @type {boolean}
-   * @memberOf TableColumn
-   */
-  headerCheckboxable?: boolean;
-
-  format?: string
-
-  detailsColumn?: boolean;
-
-  tooltip?: (arg: any) => any;
-
-  summarize?: {function?: (arr: any[]) => any, title?: string, extended?: boolean}
-
-  hidden?: boolean;
-
-  excludeFromGrouping?: boolean;
-
-  uneditable?: boolean;
-
-  groupHeaderLimit?: number;
-
-  editInView?: boolean;
-
-  onClick?: any;
-
-  summaryTemplate?: TemplateRef<any>;
-
-  summaryFunc?: (arg: any) => any;
 }

@@ -1,0 +1,57 @@
+webpage BeispieleLayout2 {
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+                link: "../layout"
+            }
+            tab "Layout 1" {
+                link: "../layout1"
+            }
+            tab "Layout 2" {
+                link: "./"
+            }
+            tab "Layout 3" {
+                link: "../layout3"
+            }
+            tab "Layout 4" {
+                link: "../layout4"
+            }
+            tab "Layout 5" {
+                link: "../layout5"
+            }
+        }
+    }
+
+    row (space : t r l) {
+        card {
+            head {
+                label "Card 1"
+            }
+            body {
+                textoutput { "Body Card 1" }
+            }
+        }
+    }
+
+    row (space : r l) {
+        card {
+            head {
+                label "Card 2"
+            }
+            body {
+                textoutput { "Body Card 2" }
+            }
+        }
+    }
+
+    row (space : r l) {
+        card {
+            head {
+                label "Card 3"
+            }
+            body {
+                textoutput { "Body Card 3" }
+            }
+        }
+    }
+}

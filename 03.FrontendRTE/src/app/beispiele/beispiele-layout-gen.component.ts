@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
 import { BeispieleLayoutGenComponentTOP } from '@targetgui/beispiele-layout-gen.component/beispiele-layout-gen.component-top';
@@ -6,7 +6,7 @@ import { BeispieleLayoutGenComponentTOP } from '@targetgui/beispiele-layout-gen.
 @Component({
   templateUrl: '../../../target/generated-sources/gui/beispiele-layout-gen.component/beispiele-layout-gen.component.html',
 })
-export class BeispieleLayoutGenComponent extends BeispieleLayoutGenComponentTOP implements OnInit {
+export class BeispieleLayoutGenComponent extends BeispieleLayoutGenComponentTOP {
 
   constructor(
     _router: Router,
@@ -15,11 +15,5 @@ export class BeispieleLayoutGenComponent extends BeispieleLayoutGenComponentTOP 
   ) {
     super(_commandRestService, _route, _router);
   }
-
-  ngOnInit() {
-    this.cmdStatus = 'waiting';
-    this.isLabelTrue();
-  }
-  public isLabelTrue(): boolean { return true; }
 
 }

@@ -1,0 +1,101 @@
+/* (c) https://github.com/MontiCore/monticore */
+webpage beispieleHorizonalBarCharts(
+        all BeispieleHorizontalBarChart hb1,
+        all BeispieleHorizontalBarChart hb2,
+        all BeispieleHorizontalBarChart hb3,
+        all BeispieleHorizontalBarChart hb4) {
+
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "../charts"
+            }
+            tab "BarCharts" {
+              link: "../barcharts/1"
+            }
+            tab "HorizontalBarCharts" {
+                link: "./"
+            }
+            tab "TimeLineCharts" {
+                link: "../timelinecharts/1"
+            }
+            tab "PieCharts" {
+              link: "../piecharts/1"
+            }
+            tab "LineCharts" {
+              link: "../../linecharts"
+            }
+        }
+    }
+
+    row (space-evenly, spaceabove) {
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "Simple HorizontalBarChart"
+                    }
+                }
+                body {
+                    horizontalbarchart {
+                        data: euro(<hb1.daten)
+                        labels: <hb1.labels
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "HorizontalBarChart With Displayed XAxis"
+                    }
+                }
+                body {
+                    horizontalbarchart {
+                        data: euro(<hb2.daten)
+                        labels: <hb2.labels
+                        displayXAxis
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "HorizontalBarChart With Legend"
+                    }
+                }
+                body {
+                    horizontalbarchart {
+                        data: euro(<hb3.daten)
+                        labels: <hb3.labels
+                        ledgend
+                    }
+                }
+            }
+        }
+
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "HorizontalBarChart With Legend And Displayed XAxis"
+                    }
+                }
+                body {
+                    horizontalbarchart {
+                        data: euro(<hb4.daten)
+                        labels: <hb4.labels
+                        displayXAxis
+                        ledgend
+                    }
+                }
+            }
+        }
+    }
+
+}

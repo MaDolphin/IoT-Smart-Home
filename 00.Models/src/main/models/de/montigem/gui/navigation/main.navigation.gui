@@ -5,11 +5,6 @@ sidenavigation : [
     icon: "dashboard"
   },
   {
-    label: "Chart"
-    link: ["/", "guidsl", "linechart"]
-    icon: "multiline_chart"
-  },
-  {
     label: "Einstellungen"
     link: ["/", "einstellungen", "profil"]
     icon: "settings"
@@ -40,7 +35,7 @@ sidenavigation : [
     children: [
       {
         label: "Datentabellen"
-        link: ["/", "beispiele", "datentabellen"]
+        link: ["/", "beispiele", "datatablesinfo"]
         icon: "supervisor_account"
       },
       {
@@ -49,18 +44,13 @@ sidenavigation : [
         icon: "supervisor_account"
       },
       {
-        label: "Input"
+        label: "Input/Output"
         link: ["/", "beispiele", "input"]
         icon: "supervisor_account"
       },
       {
-        label: "Navigation"
-        link: ["/", "beispiele", "navigation"]
-        icon: "supervisor_account"
-      },
-      {
         label: "Charts"
-        link: ["/", "beispiele", "charts", "1"]
+        link: ["/", "beispiele", "charts"]
         icon: "supervisor_account"
       }
     ]

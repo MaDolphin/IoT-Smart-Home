@@ -163,6 +163,7 @@
 
 :host ::ng-deep .page-count {
     font-size: $font-size-text;
+    white-space: nowrap;
 }
 
 :host ::ng-deep .datatable-pager li.active a {

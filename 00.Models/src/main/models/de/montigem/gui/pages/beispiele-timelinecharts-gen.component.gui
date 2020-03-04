@@ -1,0 +1,47 @@
+/* (c) https://github.com/MontiCore/monticore */
+webpage beispieleTimeLineCharts(
+        byId (id) BeispieleBarChart fz3,
+        byId (id) Datumsbereich j) {
+
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "../../charts"
+            }
+            tab "BarCharts" {
+              link: "../../barcharts/1"
+            }
+            tab "HorizontalBarCharts" {
+                link: "../../horizontalbarcharts"
+            }
+            tab "TimeLineCharts" {
+                link: "./"
+            }
+            tab "PieCharts" {
+              link: "../../piecharts/1"
+            }
+            tab "LineCharts" {
+              link: "../../linecharts"
+            }
+        }
+    }
+
+    row (space-evenly, spaceabove) {
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    row(stretch) {
+                        label "TimeLineChart"
+                    }
+                }
+                body {
+                    timeline {
+                        data: <fz3
+                        dateRange: <j
+                    }
+                }
+            }
+        }
+    }
+
+}

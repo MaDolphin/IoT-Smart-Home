@@ -1,0 +1,87 @@
+webpage OtherInputOutputExamples {
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+                link: "../input"
+            }
+            tab "Labels" {
+                link: "../labels"
+            }
+            tab "Images" {
+                link: "../images"
+            }
+            tab "Buttons" {
+                link: "../buttons"
+            }
+            tab "Text Input Elements" {
+                link: "../textinputs"
+            }
+            tab "Autocompletes/Dropdowns" {
+                link: "../autocompletes"
+            }
+            tab "Other" {
+                link: "../other"
+            }
+        }
+    }
+
+    row(space-evenly, spaceabove) {
+        container(33%) {
+            infosign {
+                icon: info
+                header: "Infosign with 'info' icon"
+                message: "myInfosignMessage1"
+            }
+        }
+        container(33%) {
+            infosign {
+                icon: load
+                header: "Infosign with 'load' icon"
+                message: "myInfosignMessage2"
+            }
+        }
+    }
+
+    row(space-evenly) {
+        container(33%) {
+            infosign {
+                icon: "fa fa-id-card" // can be any icon from https://fontawesome.com/v4.7.0/icons/
+                header: "Infosign with custom icon"
+                message: "myInfosignMessage3"
+            }
+        }
+        container(33%) {
+            infosign ifPermission(USER) {
+                icon: info
+                header: "Infosign with page element condition"
+                message: "myInfosignMessage4"
+            }
+        }
+    }
+
+    row(space-evenly) {
+        container(45%) {
+            card {
+                head {
+                    label "Simple Text Output Card"
+                }
+                body {
+                    textoutput { "Simple Text Output" }
+                }
+            }
+        }
+        container(45%) {
+            card {
+                head {
+                    label "HTML"
+                }
+                body {
+                    html {
+                        "<b>Some HTML text</b>"
+                    }
+                }
+            }
+        }
+    }
+
+}
