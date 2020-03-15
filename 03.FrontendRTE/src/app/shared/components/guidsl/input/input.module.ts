@@ -41,6 +41,7 @@ import { FocusService } from '@shared/components/guidsl/input/focus.service';
 import { TextMaskInputComponent } from '@shared/components/guidsl/input/text-mask/text-mask-input.component';
 import { TextPatternInputComponent } from '@shared/components/guidsl/input/text-pattern/text-pattern-input.component';
 import { RadioGroupComponent } from '@shared/components/guidsl/input/radio-group/radio-group.component';
+import { MultiDropDownInputComponent } from "@components/input/multi-drop-down/multi-drop-down-input.component";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { RadioGroupComponent } from '@shared/components/guidsl/input/radio-group
     RadioGroupComponent,
     LabelInputComponent,
     TextMaskInputComponent,
-    TextPatternInputComponent
+    TextPatternInputComponent,
+    MultiDropDownInputComponent
   ],
   imports: [
     CommonModule,
@@ -93,6 +95,7 @@ import { RadioGroupComponent } from '@shared/components/guidsl/input/radio-group
     CheckBoxInputComponent,
     PercentageInputComponent,
     TextareaInputComponent,
+    MultiDropDownInputComponent,
     AutoCompleteInputComponent,
     InputComponent,
     LabelInputComponent,

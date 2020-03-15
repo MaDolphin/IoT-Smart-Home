@@ -1,5 +1,3 @@
-/* (c) https://github.com/MontiCore/monticore */
-
 import { ValidatorFn } from '@angular/forms';
 import { FormularControl } from './formular.control';
 
@@ -8,6 +6,8 @@ export type DropDownControlOption<T> = { option: string, value: T }
 export class DropDownControl<T extends string = string> extends FormularControl<string> {
 
   public disabledOptions: T[] = [];
+
+  public acceptMultiple: boolean = false;
 
   public constructor(formState: string = 'null',
                      public options: DropDownControlOption<T>[] = [],

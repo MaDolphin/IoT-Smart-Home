@@ -60,13 +60,18 @@ classdiagram Domain {
 
      association [1] Sensor -> (value) SensorValue [*];
 
-   // SHOULD BE REPLACED
    class ZahlenWert {
-       ZahlenTyp zahlenTyp;
-       long wert;
+     ZahlenTyp zahlenTyp;
+     long wert;
    }
 
-   // TODO MF: SHOULD BE REPLACED
    enum ZahlenTyp {EURO, STUNDE, PROZENT, NONE; }
+
+   enum RechnungsstellungStatus {
+     OFFENE_RECHNUNG,
+     SAP("SAP"),
+     SAP_STORNIERT("SAP(Storniert)"),
+     PLANUNG;
+   }
 
 }
