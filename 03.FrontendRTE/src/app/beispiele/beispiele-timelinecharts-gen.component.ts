@@ -46,10 +46,6 @@ export class BeispieleTimelinechartsGenComponent extends BeispieleTimelinecharts
         (dto: IDTO) => {
           if (dto instanceof BeispieleBarChartDTO) {
             this.fz3 = dto;
-
-            setTimeout( () => {
-              this.timeLine.updateChart();
-            }, 100);
           } else {
             console.error("Received something wrong");
           }

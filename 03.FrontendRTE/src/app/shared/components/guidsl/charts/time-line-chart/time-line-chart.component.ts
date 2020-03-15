@@ -478,6 +478,10 @@ export class TimeLineChartComponent implements OnInit {
         label: entry.label
       } as ING2ChartsEntry;
     });
+
+    setTimeout( () => {
+      this.updateChart();
+    }, 100);
   }
 
   private _tempShownDataRange: ILineChartDataRange;
