@@ -3,10 +3,11 @@
 webpage beispieleDatentabellen(
                all EinstellungenBenutzerTabelle ut,
                all UserList ul,
-               all RoleList rl,
                all ObjectList ol,
-               formular RoleForm<EinstellungenRollenTabelleEntryDTO> form,
-               all EinstellungenRollenTabelle rt
+               formular EditableTableExampleForm<EditableTableExampleEntryDTO> form,
+               all EinstellungenRollenTabelle rt,
+               all EditableTableExample et,
+               enum RechnungsstellungStatus rs
               ) {
 
     column(nospace) {
@@ -115,10 +116,13 @@ webpage beispieleDatentabellen(
                             inlineEdit
                             editable
                         }
-                        rows <rt.users {
-                          column "Benutzername"         , dropdown(<user.username, <ul.users.username.withId(id))    ,120;
-                          column "Rolle"                , dropdown(<role.name, <rl.roles.name.withId(id))            ,120;
-                          column "Recht auf"            , < objectClass                                              ,120, disabled;
+                        rows <et.entries {
+                          //column "Benutzername"         , dropdown(<user.username, <ul.users.username.withId(id))    ,120;
+                          //column "Rolle"                , dropdown(<role.name, <rl.roles.name.withId(id))            ,120;
+                          //column "Recht auf"            , < objectClass                                              ,120, disabled;
+                          column "Entry 1", <entry1, 120;
+                          column "Entry 2", <entry2, 120;
+                          column "Entry 3", multidropdown(<someList.someEntry, <rs), 120;
                         }
                     }
                 }

@@ -34,6 +34,21 @@ classdiagram Beispiele {
     int abschlussjahr;
   }
 
+  // -------- Editable Table Example --------
+  class EditableTableExample {
+    List<EditableTableExampleEntry> entries;
+  }
+
+  class EditableTableExampleEntry {
+    String entry1;
+    String entry2;
+    List<EditableTableExampleSomeListEntry> someList;
+  }
+
+  class EditableTableExampleSomeListEntry {
+    RechnungsstellungStatus someEntry;
+  }
+
 }
 
 

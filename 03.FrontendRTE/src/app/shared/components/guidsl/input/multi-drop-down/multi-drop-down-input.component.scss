@@ -1,0 +1,25 @@
+@import "../../../../../../scss/variables";
+
+:host ::ng-deep .multiselect-dropdown {
+  background-color: $rwth-black-5;
+  border-radius: 3px;
+}
+
+:host ::ng-deep .multiselect-dropdown .dropdown-btn {
+  border: 0px;
+}
+
+::ng-deep .mat-primary .mat-pseudo-checkbox-checked, .mat-primary .mat-pseudo-checkbox-indeterminate {
+  background-color: #1b8ef1 !important;
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: black;
+}
+
+::ng-deep .mat-pseudo-checkbox-checked::after {
+  top: 3px !important;
+  left: 2px !important;
+  width: 13px !important;
+  height: 6px !important;
+}
