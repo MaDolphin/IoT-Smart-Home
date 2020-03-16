@@ -11,8 +11,8 @@
     - Mac: See below `socat`
 - node 8 (manageable with [nvm-windows](https://github.com/coreybutler/nvm-windows/releases) or [nvm](https://github.com/nvm-sh/nvm))
     - other versions of node (e.g. 12) lead to errors
-    - `nvm install node 8`
-    - `nvm use node 8.XX.XX`
+    - `nvm install 8`
+    - `nvm use 8.17.0` (Version Number is in the output of the previous command)
 
 ## First-time build
 - in parent folder: 
