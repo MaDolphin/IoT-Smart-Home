@@ -2,7 +2,6 @@
 <#--
   The method in a unit test class to test a property.
 
-  @author: SE RWTH Aachen
 -->
 ${signature("field")}
 <#assign typeHelper = tc.instantiate("common.util.TypeHelper")>

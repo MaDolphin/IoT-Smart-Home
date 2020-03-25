@@ -3,7 +3,6 @@
 /**
  * The common transformation for creating of additional data classes
  *
- * @author Galina Volkova
  */
 package common;
 
@@ -23,7 +22,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * The common transformation to create additional classes and interfaces for the existing domain types
  *
- * @author Galina Volkova
  */
 public abstract class CreateTrafo extends ExtendTrafo {
 

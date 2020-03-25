@@ -2,7 +2,6 @@
 <#--
   The init method in a unit test
 
-  @author: SE RWTH Aachen
 -->
 ${signature("identifier", "assocs", "callParam")}
 <#assign typeHelper = tc.instantiate("common.util.TypeHelper")>

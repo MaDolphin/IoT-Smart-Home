@@ -12,9 +12,6 @@ import static org.junit.Assert.assertFalse;
 /**
  * TODO: Write me!
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class UniqueErrorCodesTest {
   

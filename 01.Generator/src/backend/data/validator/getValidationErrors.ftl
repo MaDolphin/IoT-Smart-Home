@@ -3,7 +3,6 @@
   The core method to validate if an object is consistent.
   I.e. all OCL contrsints and all basic constraints will be checked.
 
-  @author: SE RWTH Aachen
 -->
 ${signature("identifier", "visibleFields", "checkAssocs", "hasSuperclass", "nonAttributeOclConstraints")}
 <#assign param = identifier?uncap_first>

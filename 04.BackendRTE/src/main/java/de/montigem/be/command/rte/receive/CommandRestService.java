@@ -19,9 +19,6 @@ import javax.ws.rs.core.Response;
  * Service class for the class {} that contains all REST methods
  * for that class.
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 @Stateless
 @Path("/commands")

@@ -2,7 +2,6 @@
 <#--
   Generates the constructor for objects.
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("clazz", "identifier", "parentAttrList", "parentAssocList", "localAttrList", "localAssocList", "assocNameUtil", "assocUtil")}
 <#assign getterSetterHelper = tc.instantiate("common.util.GetterSetterHelper")>

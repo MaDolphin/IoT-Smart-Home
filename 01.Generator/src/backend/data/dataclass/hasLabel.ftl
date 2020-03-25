@@ -2,7 +2,6 @@
 <#--
   Generates the constructor for objects.
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("targetLabel")}
 {

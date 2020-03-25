@@ -2,7 +2,6 @@
 <#--
   The core method in a builder to validate if an object is consistent.
 
-  @author: SE RWTH Aachen
 -->
 ${signature("className", "assoc", "type", "oclConstraints")}
 <#assign cdassoc = tc.instantiate("common.util.CDAssociationUtil")>

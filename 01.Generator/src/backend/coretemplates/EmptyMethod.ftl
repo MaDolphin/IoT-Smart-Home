@@ -2,7 +2,6 @@
 <#--
   Generates an empty method body
 
-  @author: SE RWTH Aachen
 -->
 {
   // default empty body

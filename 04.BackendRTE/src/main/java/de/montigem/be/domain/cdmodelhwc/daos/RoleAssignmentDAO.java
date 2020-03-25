@@ -18,7 +18,6 @@ import java.util.List;
  * Via this point, permissions, roles and assignments can be created, altered
  * and removed.
  *
- * @author Philipp Kehrbusch
  */
 @Stateless
 @Lock(LockType.READ)

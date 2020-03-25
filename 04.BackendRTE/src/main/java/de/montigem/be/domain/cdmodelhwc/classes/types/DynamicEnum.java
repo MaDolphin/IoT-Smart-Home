@@ -11,9 +11,6 @@ import java.util.Set;
 /**
  * Base class for adaptable enums
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 @Entity
 public class DynamicEnum implements IObject {

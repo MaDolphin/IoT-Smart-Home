@@ -22,8 +22,6 @@ import tagschema.TagRepository;
 /**
  * TODO: Write me!
  *
- * @author (last commit) $Author$
- * @since TODO: add version number
  */
 // TODO: concatenation von transformationen. aka. sub trafos und hintereinander
 // ausführungen

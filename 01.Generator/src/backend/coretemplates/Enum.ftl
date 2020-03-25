@@ -4,7 +4,6 @@
   content of an enum (enum-constants, attributes, constructors, methods, 
   and associations).
   
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("package", "importList")}
 <#assign util = tc.instantiate("common.util.TransformationUtils")>

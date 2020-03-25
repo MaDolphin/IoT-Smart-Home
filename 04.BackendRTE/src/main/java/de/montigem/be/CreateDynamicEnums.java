@@ -7,9 +7,6 @@ import de.montigem.be.domain.rte.dao.AbstractDomainDAO;
 /**
  * Creates Dynamic Enums
  *
- * @author (last commit) $$Author$$
- * @version $$Revision$$, $$Date$$
- * @since TODO
  */
 public class CreateDynamicEnums {
 

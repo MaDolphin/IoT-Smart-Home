@@ -3,7 +3,6 @@
   Generates the method body for derived attribute getters. By default it has to throw an exception, as
   it is unknown how the value of the derived attribute is computed.
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("methodName", "identifier")}
 {

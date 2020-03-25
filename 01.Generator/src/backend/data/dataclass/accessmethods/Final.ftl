@@ -4,7 +4,6 @@
   that stores if the original attribute value has been set. Once the value has been set the additionally generated
   attribute is set to "true", which results in the effect that the original attribute value cannot be changed.
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("finalAttrName", "attrName", "newAttrName")}
 {

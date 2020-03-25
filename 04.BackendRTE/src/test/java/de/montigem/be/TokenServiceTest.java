@@ -14,9 +14,6 @@ import de.montigem.be.util.json.JsonBooleanValue;
  * TODO: Write me!
  *
  *
- * @author  (last commit) $Author$
- * @version $Date$<br>
- *          $Revision$
  */
 public class TokenServiceTest extends AbstractDomainTest {
   

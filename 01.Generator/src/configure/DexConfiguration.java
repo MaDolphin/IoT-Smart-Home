@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
  * from (1) its command line arguments, and (2) system properties (not
  * implemented yet).
  * 
- * @author (last commit) $Author$
  */
 public final class DexConfiguration implements Configuration {
   

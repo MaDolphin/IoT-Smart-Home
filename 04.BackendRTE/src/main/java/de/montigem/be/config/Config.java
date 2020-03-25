@@ -8,9 +8,6 @@ import java.time.ZonedDateTime;
  * Configuration class for storing constant values that might be reconfigured at
  * some point in time
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class Config {
 

@@ -9,9 +9,6 @@ import java.util.List;
  * This class is a helper class providing methods to manage parts of lists with reasonable defaults
  * applied in order to avoid unnecessary exceptions
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class SubListHelper {
   

@@ -2,7 +2,6 @@
 <#--
   Generates the getAllNames for enums.
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("enum")}
 <#assign utils = tc.instantiate("common.util.TransformationUtils")>

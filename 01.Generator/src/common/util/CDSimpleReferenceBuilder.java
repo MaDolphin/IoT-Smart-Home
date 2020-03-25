@@ -34,7 +34,6 @@ public class CDSimpleReferenceBuilder extends ASTSimpleReferenceTypeBuilder {
   /**
    * A list of predefined collection types
    *
-   * @author Alexander Roth
    */
   public static class CollectionTypes {
 
@@ -180,7 +179,6 @@ public class CDSimpleReferenceBuilder extends ASTSimpleReferenceTypeBuilder {
   /**
    * Create primitive data types
    *
-   * @author Alexander Roth
    */
   public static class PrimitiveTypes {
 
@@ -207,7 +205,6 @@ public class CDSimpleReferenceBuilder extends ASTSimpleReferenceTypeBuilder {
   /**
    * Create data types
    *
-   * @author Alexander Roth
    */
   public static class DataTypes {
 

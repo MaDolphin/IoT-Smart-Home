@@ -13,9 +13,6 @@ import java.time.format.DateTimeFormatter;
  * TODO: Write me!
  *
  *
- * @author  (last commit) $Author$
- * @version $Date$<br>
- *          $Revision$
  */
 public class ZonedDateTimeAdapter extends TypeAdapter<ZonedDateTime> {
 

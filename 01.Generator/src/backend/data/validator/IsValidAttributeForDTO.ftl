@@ -3,7 +3,6 @@
 <#--
   The core method in a builder to validate if an object is consistent.
 
-  @author: SE RWTH Aachen
 -->
 ${signature("symTab", "field", "identifier")}
 <#assign typeHelper = tc.instantiate("common.util.TypeHelper")>

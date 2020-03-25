@@ -2,7 +2,6 @@
 <#--
   Generates method body for an ordered add all method
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("attrType", "attrName", "rawMethodCall")}
 

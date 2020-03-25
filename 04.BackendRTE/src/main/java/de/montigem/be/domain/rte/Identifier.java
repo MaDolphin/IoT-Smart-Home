@@ -8,9 +8,6 @@ import java.io.Serializable;
  * comprises an id and a revision. The combination of both should be globally
  * unique.
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class Identifier implements Serializable {
   

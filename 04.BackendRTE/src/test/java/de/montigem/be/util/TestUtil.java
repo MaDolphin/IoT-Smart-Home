@@ -18,9 +18,6 @@ import java.util.Optional;
 /**
  * Collection of utility methods for the implementation of Unit Tests
  * 
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class TestUtil {
 

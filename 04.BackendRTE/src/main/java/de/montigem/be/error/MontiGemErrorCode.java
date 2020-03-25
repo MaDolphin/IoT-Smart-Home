@@ -6,9 +6,6 @@ import com.google.gson.annotations.SerializedName;
 /**
  * TODO: Write me!
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public enum MontiGemErrorCode {
 

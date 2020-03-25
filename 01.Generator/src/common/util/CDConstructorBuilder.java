@@ -13,7 +13,6 @@ import de.monticore.umlcd4a.cd4analysis._ast.CD4AnalysisMill;
  * The decoration is concerned with using default values for optional fields, if
  * nothing is given.
  *
- * @author Alexander Roth
  */
 public class CDConstructorBuilder extends ASTCDConstructorBuilder implements
     ModifierModifiable<CDConstructorBuilder> {

@@ -2,7 +2,6 @@
 <#--
   The init method in a unit test
 
-  @author: SE RWTH Aachen
 -->
 ${signature("identifier")}
 <#assign creator = identifier?uncap_first + "Creator">

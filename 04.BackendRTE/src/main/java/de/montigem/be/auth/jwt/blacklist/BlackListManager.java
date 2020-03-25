@@ -4,10 +4,7 @@ package de.montigem.be.auth.jwt.blacklist;
 /**
  * TODO: Write me!
  *
- * @author  (last commit) $Author$
- * @version $Revision$,
  *          $Date$
- * @since   TODO: add version number
  *
  */
 public class BlackListManager {

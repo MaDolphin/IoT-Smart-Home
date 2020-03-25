@@ -31,9 +31,6 @@ import java.util.Optional;
 /**
  * REST service for checking the validity of java web tokens (JWTs).
  *
- * @author (last commit) $Author$
- * @version $Date$<br>
- * $Revision$
  */
 @Stateless
 @Path("/auth/tokens")

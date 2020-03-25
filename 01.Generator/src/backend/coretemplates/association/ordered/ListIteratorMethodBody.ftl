@@ -2,7 +2,6 @@
 <#--
   Generates the default method body for the listIterator method
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("attrName")}
 

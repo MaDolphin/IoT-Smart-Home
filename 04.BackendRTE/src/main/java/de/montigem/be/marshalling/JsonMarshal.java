@@ -6,9 +6,6 @@ package de.montigem.be.marshalling;
  * conveniently exchange the default {@link GsonMarshal} with another instance to marshal and
  * unmarshal from/to JSON.
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class JsonMarshal {
   

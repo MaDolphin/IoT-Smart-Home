@@ -25,7 +25,6 @@ import static com.google.common.base.Preconditions.checkArgument;
  * on: ASTCDDefinition Uses: AST Effects: produces a number of TemplateValues,
  * mainly helpers
  *
- * @author Rumpe
  */
 public class ConfigureDexGenerator {
 

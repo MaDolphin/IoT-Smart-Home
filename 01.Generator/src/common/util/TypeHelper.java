@@ -14,7 +14,6 @@ import java.util.List;
  * This extension provides support for external java types.
  * Currently, only "java.util.Date" is supported.
  *
- * @author JLN
  */
 public class TypeHelper extends AbstractTypeHelper {
 

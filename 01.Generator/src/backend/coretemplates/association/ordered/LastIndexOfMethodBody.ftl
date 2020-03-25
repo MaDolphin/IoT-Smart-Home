@@ -2,7 +2,6 @@
 <#--
   Genertes the method body for the lastIndexOf method.
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("varName")}
 

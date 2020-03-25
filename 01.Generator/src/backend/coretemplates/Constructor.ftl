@@ -2,7 +2,6 @@
 <#--
   Generates a Java constructor 
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("ast")}
 

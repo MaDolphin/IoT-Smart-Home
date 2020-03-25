@@ -24,9 +24,6 @@ import java.util.TimeZone;
  * Service class for the class {@link Log} that contains all REST methods for
  * that class.
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 @Stateless
 @Path("/logger")

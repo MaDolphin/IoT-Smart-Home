@@ -11,7 +11,6 @@ import de.monticore.umlcd4a.cd4analysis._ast.CD4AnalysisNodeFactory;
  * delegate, a builder has to implement the <code>ModifierModifiable</code>
  * interface and use this class to delegate the method calls to.
  *
- * @author Alexander Roth
  */
 public class ConcreteModifierDelegate {
 

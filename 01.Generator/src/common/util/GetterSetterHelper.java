@@ -14,7 +14,6 @@ import de.monticore.umlcd4a.symboltable.CDFieldSymbol;
 /**
  * TODO: Write me!
  *
- * @author (last commit) $Author$
  */
 public class GetterSetterHelper {
 

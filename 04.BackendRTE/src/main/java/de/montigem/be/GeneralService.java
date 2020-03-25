@@ -18,9 +18,6 @@ import javax.ws.rs.core.Response;
  * An example of a REST class with a REST method. This class is the only REST class that does not
  * require any security-related configuration
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 @Stateless
 @Path("/general")

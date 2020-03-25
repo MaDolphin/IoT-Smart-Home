@@ -2,7 +2,6 @@
 <#--
   The init method in a unit test
 
-  @author: SE RWTH Aachen
 -->
 ${signature("identifier", "visibleFields", "assocs")}
 <#assign cdassoc = tc.instantiate("common.util.CDAssociationUtil")>

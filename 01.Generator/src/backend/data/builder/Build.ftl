@@ -2,7 +2,6 @@
 <#--
   The build method is generated to allow object creation.
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("class", "paramList", "allAssociations")}
 

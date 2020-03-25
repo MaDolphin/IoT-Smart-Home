@@ -33,7 +33,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * This class helps in creating, editing, and managing the symboltable for the
  * CD4Analysis language
  *
- * @author Alexander Roth
  */
 // TODO GV, AR: use cd4analisis#CDSymbolTable after the next releasing of
 // cd4analisis

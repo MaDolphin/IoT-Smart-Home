@@ -54,7 +54,6 @@ import static frontend.common.FrontendTransformationUtils.getImportPathCheckHWC;
 /**
  * Script class for processing Dex models
  *
- * @author Galina Volkova
  */
 public class DexScript extends Script implements GroovyRunner {
 

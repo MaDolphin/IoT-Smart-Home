@@ -3,7 +3,6 @@
   Get method for derived attributes. Try to get the value and if it is not implemented,
   then use a default value.
 
-  @author: SE RWTH Aachen
 -->
 ${signature("getMethodName", "defaultValue")}
 

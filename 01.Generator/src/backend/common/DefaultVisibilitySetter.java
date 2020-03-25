@@ -11,7 +11,6 @@ import java.util.Optional;
  * This transformation makes all classes, interfaces, and enums publicly
  * visible.
  *
- * @author Alexander Roth
  */
 public class DefaultVisibilitySetter extends DexTransformation {
 

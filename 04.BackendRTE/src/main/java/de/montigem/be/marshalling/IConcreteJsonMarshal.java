@@ -9,9 +9,6 @@ import java.util.Optional;
 /**
  * Interface for different implementations to marshal to or unmarshal from JSON.
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public interface IConcreteJsonMarshal {
   

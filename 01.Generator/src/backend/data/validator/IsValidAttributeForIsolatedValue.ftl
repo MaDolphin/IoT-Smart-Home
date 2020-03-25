@@ -6,7 +6,6 @@
   It is independently usable of any containing object 
   (and thus usable by DTOs, domain classes, commands etc.)
 
-  @author: SE RWTH Aachen
 -->
 ${signature("field", "attributeRelatedOCLConstraints")}
 <#assign typeHelper = tc.instantiate("common.util.TypeHelper")>

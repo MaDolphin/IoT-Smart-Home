@@ -2,7 +2,6 @@
 <#--
   Add a copyright
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature()}
 

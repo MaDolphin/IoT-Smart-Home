@@ -12,7 +12,6 @@ import de.monticore.umlcd4a.cd4analysis._ast.ASTCDMethod;
 /**
  * A general interface to define a strategy for handling associations
  *
- * @author Alexander Roth
  */
 public interface AssociationStrategy {
 

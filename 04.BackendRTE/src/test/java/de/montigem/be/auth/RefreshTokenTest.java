@@ -17,9 +17,6 @@ import de.montigem.be.util.json.JsonStringValue;
  * TODO: Write me!
  *
  *
- * @author  (last commit) $Author$
- * @version $Date$<br>
- *          $Revision$
  */
 public class RefreshTokenTest extends AbstractDomainTest {
 

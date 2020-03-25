@@ -7,9 +7,6 @@ import java.time.ZonedDateTime;
  * TODO: Write me!
  *
  *
- * @author  (last commit) $Author$
- * @version $Date$<br>
- *          $Revision$
  */
 public class ExtendedJWT {
 

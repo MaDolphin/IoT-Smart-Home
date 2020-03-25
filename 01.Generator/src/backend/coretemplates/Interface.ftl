@@ -2,7 +2,6 @@
 <#--
   Generates a Java interface
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("packageName", "importList")}
 

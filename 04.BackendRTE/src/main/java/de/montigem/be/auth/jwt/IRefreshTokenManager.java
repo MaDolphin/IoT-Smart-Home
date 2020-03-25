@@ -4,9 +4,6 @@ package de.montigem.be.auth.jwt;
 /**
  * TODO: Write me!
  *
- * @author (last commit) $Author$
- * @version $Date$<br>
- * $Revision$
  */
 public interface IRefreshTokenManager {
   

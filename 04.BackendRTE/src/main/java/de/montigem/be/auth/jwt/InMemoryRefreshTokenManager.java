@@ -16,9 +16,6 @@ import static javax.ejb.LockType.WRITE;
 /**
  * TODO: Write me!
  *
- * @author (last commit) $Author$
- * @version $Date$<br>
- * $Revision$
  */
 @Singleton
 public class InMemoryRefreshTokenManager implements IRefreshTokenManager {

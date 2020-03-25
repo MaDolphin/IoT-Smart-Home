@@ -2,7 +2,6 @@
 <#--
   Generates the default set method for optional associations.
 
-  @author: SE RWTH Aachen
 -->
 
 ${tc.signature("param")}

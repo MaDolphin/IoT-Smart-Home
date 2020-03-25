@@ -17,7 +17,6 @@ import de.monticore.umlcd4a.prettyprint.AstPrinter;
  * This transformation replaces all invalid definitions of e.g. List<int>,
  * Set<char> etc. with valid once e.g. List<Integer>, Set<Character>
  *
- * @author Alexander Roth
  */
 public class CollectionTypesWrapper extends DexTransformation {
 

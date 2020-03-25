@@ -10,9 +10,6 @@ import java.util.Optional;
  * setter methods. Therefore, a constant for each data type which represents the value being absent,
  * has to be defined. Additionally, Optional<X> getOptionalX(X x) methods exist for each data type.
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class OptionalHelper {
 

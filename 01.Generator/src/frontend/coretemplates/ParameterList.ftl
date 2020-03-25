@@ -2,7 +2,6 @@
 <#--
   Generates a Java method
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("method")}
 <#assign astPrinter = tc.instantiate("de.monticore.umlcd4a.prettyprint.AstPrinter")>

@@ -20,7 +20,6 @@ import static de.monticore.types.types._ast.TypesNodeFactory.createASTVoidType;
  * decoration is concerned with using default values for optional fields, if
  * nothing is given.
  *
- * @author Alexander Roth
  */
 public class CDMethodBuilder extends ASTCDMethodBuilder implements
     ModifierModifiable<CDMethodBuilder> {

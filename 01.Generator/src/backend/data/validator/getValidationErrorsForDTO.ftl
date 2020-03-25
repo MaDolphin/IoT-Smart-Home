@@ -6,7 +6,6 @@
   (raw) DTO-objects do not contain links to other objects: 
   Thus assoc constraints are omitted here.
 
-  @author: SE RWTH Aachen
 -->
 ${signature("identifier", "visibleFields", "hasSuperclass")}
 <#assign param = identifier?uncap_first + "DTO">

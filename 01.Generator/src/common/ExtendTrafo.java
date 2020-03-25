@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * The common transformation to extend data classes
  *
- * @author Galina Volkova
  */
 public abstract class ExtendTrafo extends DexTransformation {
 

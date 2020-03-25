@@ -16,9 +16,6 @@ import java.util.Optional;
 /**
  * An implementation of {@link IConcreteJsonMarshal} that uses the Google GSON API
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class GsonMarshal implements IConcreteJsonMarshal {
 

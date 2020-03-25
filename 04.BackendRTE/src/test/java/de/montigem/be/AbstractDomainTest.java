@@ -34,9 +34,6 @@ import static org.junit.Assert.assertNotNull;
 /**
  * TODO: Implement AALLL the methods
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 @RunWith(Arquillian.class)
 public abstract class AbstractDomainTest {

@@ -20,7 +20,6 @@ import java.util.Optional;
  * stateless: only a single copy is needed and therefore instantiated at
  * DexConfigure
  *
- * @author Achim Lindt
  */
 
 public abstract class AbstractTypeHelper {

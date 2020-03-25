@@ -3,7 +3,6 @@
 /**
  * The common transformation for creating of additional data classes
  *
- * @author Galina Volkova
  */
 package common;
 
@@ -24,7 +23,6 @@ import static common.util.TransformationUtils.setProperty;
 /**
  * The common transformation to create additional classes for aggregate models
  *
- * @author Galina Volkova
  */
 public abstract class TrafoForAggregateModels extends CreateTrafo {
 

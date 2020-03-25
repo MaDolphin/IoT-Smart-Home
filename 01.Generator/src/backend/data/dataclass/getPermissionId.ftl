@@ -1,6 +1,5 @@
 <#-- (c) https://github.com/MontiCore/monticore -->
 <#--
-  @author: SE RWTH Aachen
 -->
 ${signature("clazz")}
 {

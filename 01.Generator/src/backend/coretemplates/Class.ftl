@@ -2,7 +2,6 @@
 <#--
   Generates a Java class
 
-  @author: SE RWTH Aachen
 -->
 
 ${tc.signature("packageName", "importList")}

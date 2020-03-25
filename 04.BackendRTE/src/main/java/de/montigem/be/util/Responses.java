@@ -15,9 +15,6 @@ import javax.ws.rs.core.Response;
  * This class provides methods to build some default responses as return types of REST interface
  * methods. These responses include both successful responses as errors.
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class Responses {
 

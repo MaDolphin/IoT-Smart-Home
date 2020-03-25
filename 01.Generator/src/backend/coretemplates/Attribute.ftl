@@ -2,7 +2,6 @@
 <#--
   Generates a Java attribute
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("ast")}
 <#assign tansformUtil = tc.instantiate("common.util.TransformationUtils")>

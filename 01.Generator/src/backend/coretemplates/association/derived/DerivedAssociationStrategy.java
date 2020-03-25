@@ -20,7 +20,6 @@ import java.util.Optional;
  * Strategy to handle derived attributes. By default only get methods are
  * generated.
  *
- * @author Alexander Roth
  */
 public class DerivedAssociationStrategy implements AssociationStrategy {
 

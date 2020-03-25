@@ -6,10 +6,7 @@ import javax.xml.bind.ValidationException;
 /**
  * TODO: Write me!
  *
- * @author (last commit) $Author$
- * @version $Revision$,
  *          $Date$
- * @since TODO: add version number
  */
 public interface IDomainBuilder<D extends IObject> {
   

@@ -2,7 +2,6 @@
 <#--
   Generates the default method body for every get method of an attribute.
 
-  @author: SE RWTH Aachen
 -->
 ${tc.signature("type", "attributes")}
 <#assign astPrinter = tc.instantiate("de.monticore.umlcd4a.prettyprint.AstPrinter")>

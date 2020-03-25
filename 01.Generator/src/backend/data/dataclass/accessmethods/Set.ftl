@@ -2,7 +2,6 @@
 <#--
   Generates the default set method for every attribute.
 
-  @author: SE RWTH Aachen
 -->
 
 ${tc.signature("attrType", "attrName", "newAttrName", "isOptional")}

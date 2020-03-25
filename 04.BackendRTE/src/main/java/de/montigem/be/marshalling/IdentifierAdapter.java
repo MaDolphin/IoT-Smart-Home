@@ -11,9 +11,6 @@ import java.io.IOException;
 /**
  * TODO: Write me!
  *
- * @author (last commit) $Author$
- * @version $Revision$, $Date$
- * @since TODO: add version number
  */
 public class IdentifierAdapter extends TypeAdapter<Identifier> {
   
