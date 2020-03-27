@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {
   ILineChartDataRange,
   LineChartData, TimeLineChartComponent

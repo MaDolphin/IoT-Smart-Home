@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.montigem.be.system.beispiele.dtos;
 
 import de.montigem.be.authz.util.SecurityHelper;

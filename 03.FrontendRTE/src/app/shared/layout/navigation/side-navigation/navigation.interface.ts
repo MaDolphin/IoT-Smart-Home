@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 export interface INavigation {
   label: string;
   icon: string;

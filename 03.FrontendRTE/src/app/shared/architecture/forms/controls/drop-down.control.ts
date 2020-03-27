@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { ValidatorFn } from '@angular/forms';
 import { FormularControl } from './formular.control';
 

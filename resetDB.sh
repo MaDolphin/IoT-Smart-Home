@@ -1,4 +1,5 @@
 #!/bin/bash
+# (c) https://github.com/MontiCore/monticore  
 # Dieses Skript Erzeugt Dummy-Werte in der MaCoCo-Instanz-Datenbank
 
 # Überprüfen ob alle Argumente vorhanden sind.

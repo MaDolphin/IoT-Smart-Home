@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
 import { BarChartData, BarChartYAxisData, IBarChartDataEntry, IBarChartDataRange } from "@components/charts/bar-chart/bar-chart.component";
 

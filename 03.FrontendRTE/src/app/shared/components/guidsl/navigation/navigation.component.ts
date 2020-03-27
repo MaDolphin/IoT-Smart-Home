@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { Component, Input, OnInit } from '@angular/core';
 import { Logger } from '@upe/logger';
 import { copyByValue } from '@shared/utils/util';

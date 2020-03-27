@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {Component, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
 import {ColorsService} from '@shared/utils/colors.service';
 import {BaseChartDirective} from 'ng2-charts';

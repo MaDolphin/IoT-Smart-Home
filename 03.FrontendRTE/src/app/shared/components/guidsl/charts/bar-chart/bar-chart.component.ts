@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import * as Chart from 'chart.js'

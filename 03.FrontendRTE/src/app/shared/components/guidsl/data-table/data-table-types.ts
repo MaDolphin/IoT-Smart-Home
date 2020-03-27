@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { Subject } from "rxjs/Subject";
 import { PipeTransform, TemplateRef } from "@angular/core";
 

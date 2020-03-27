@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.montigem.be.command.commands;
 
 import de.montigem.be.authz.util.SecurityHelper;

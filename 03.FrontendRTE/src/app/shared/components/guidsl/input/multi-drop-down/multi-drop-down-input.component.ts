@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {AbstractInputComponent} from "@shared/components/guidsl/input/abstract.input.component";
 import {DropDownControl} from "@shared/architecture/forms/controls/drop-down.control";

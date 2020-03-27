@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import { Component } from '@angular/core';
 import { JsonApiService } from '@shared/architecture/services/json-api.service';
 import { DialogCallbackOne } from '@shared/utils/dialog/dialog.callback';

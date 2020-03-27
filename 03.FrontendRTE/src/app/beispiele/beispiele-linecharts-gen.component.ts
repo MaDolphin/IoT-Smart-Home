@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {Component} from '@angular/core';
 import {WebSocketService} from '@shared/architecture/services/websocket.service';
 import {ActivatedRoute, Router} from '@angular/router';

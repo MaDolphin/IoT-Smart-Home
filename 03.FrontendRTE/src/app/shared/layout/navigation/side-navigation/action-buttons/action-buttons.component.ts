@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { MatTooltip } from "@angular/material/tooltip";
 

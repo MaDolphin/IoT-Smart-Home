@@ -1,6 +1,4 @@
-/*
- *  (c) Monticore license: https://github.com/MontiCore/monticore
- */
+/* (c) https://github.com/MontiCore/monticore */
 
 import { Component, OnInit } from "@angular/core";
 import { DashboardComponentTOP } from "@targetgui/dashboard.component/dashboard.component-top";
