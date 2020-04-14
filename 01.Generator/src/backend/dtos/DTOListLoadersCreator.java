@@ -38,6 +38,8 @@ public class DTOListLoadersCreator extends TrafoForAggregateModels {
     ASTCDConstructor astcdConstructor = new CDConstructorBuilder().Package().Public()
         .setName(clazz.getName()).build();
     constructors.add(astcdConstructor);
+    constructors.add(createConstructorWithDTOList(typeSymbol));
+    constructors.add(createConstructorWithDTOListAsList(typeSymbol));
     constructors.add(createConstructor(typeSymbol));
     return constructors;
   }
@@ -82,6 +84,28 @@ public class DTOListLoadersCreator extends TrafoForAggregateModels {
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), constructor,
         new StringHookPoint(
             "{ super(daoLib, securityHelper); }"));
+    return constructor;
+  }
+
+  protected ASTCDConstructor createConstructorWithDTOList(CDTypeSymbol type) {
+    // build constructor
+    ASTCDConstructor constructor = new CDConstructorBuilder().Public()
+        .addParameter(type.getName() + DTOListCreator.DTOLIST, "dtoList")
+        .setName(type.getName() + DTOLoader).build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), constructor,
+        new StringHookPoint(
+            "{ super(dtoList); }"));
+    return constructor;
+  }
+
+  protected ASTCDConstructor createConstructorWithDTOListAsList(CDTypeSymbol type) {
+    // build constructor
+    ASTCDConstructor constructor = new CDConstructorBuilder().Public()
+        .addParameter("List<" + type.getName() + ">", "dtoList")
+        .setName(type.getName() + DTOLoader).build();
+    getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), constructor,
+        new StringHookPoint(
+            "{ super(new " + type.getName() + DTOListCreator.DTOLIST + "(dtoList)); }"));
     return constructor;
   }
 
