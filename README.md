@@ -17,7 +17,7 @@
 ## First-time build
 - in parent folder: 
     - `mvn clean install -DskipTests -Pprod`
-    - in pom set monticonnect.src.dir absolute path to monticonnect generated montigem models directory.
+    - (in pom set monticonnect.src.dir absolute path to monticonnect generated montigem models directory.)
 - in 04.BackendRTE: 
     - (`cd 04.BackendRTE`)
     - `mvn clean docker:stop install -DskipTests docker:start tomee:run`
@@ -25,6 +25,7 @@
 - in 03.FrontendRTE (other console):
     - (`cd 03.FrontendRTE`)
     - `npm install`
+    - (in pom set monticonnect.src.dir absolute path to monticonnect generated montigem models directory.)
     - `mvn generate-sources -U`
     - `npm run start:jit`
 - open Browser http://localhost:4200

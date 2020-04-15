@@ -27,6 +27,7 @@
     <sonar.tests>src/tests</sonar.tests>
     <project.custom.basedir>${basedir}/../</project.custom.basedir>
     <multiproject.basedir>${basedir}/..</multiproject.basedir>
+    <monticonnect.src.dir>${multiproject.basedir}/00.Models/src/main/models</monticonnect.src.dir>
   </properties>
 
   <profiles>

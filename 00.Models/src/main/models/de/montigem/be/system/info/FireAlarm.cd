@@ -1,0 +1,31 @@
+/**
+  * FireAlarm Tables for GUI
+  *
+  * @Author Julian Krebber
+  */
+package de.montigem.be.system.info;
+
+import de.montigem.be.domain.Domain.*;
+import java.time.ZonedDateTime;
+
+import de.montigem.be.domain.dtos.*;
+
+classdiagram FireAlarm {
+
+  class AlarmCtrlTable {
+      List<AlarmCtrl> alarmCtrl;
+  }
+
+  class SirenCtrlTable {
+    List<SirenCtrl> sirenCtrl;
+  }
+
+  class SmokeSensorTable {
+    List<SmokeSensor> smokeSensor;
+  }
+
+  class TempSensorTable {
+    List<TempSensor> tempSensor;
+  }
+
+}

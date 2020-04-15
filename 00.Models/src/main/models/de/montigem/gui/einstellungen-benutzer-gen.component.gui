@@ -1,0 +1,92 @@
+webpage einstellungenBenutzer (
+                   all EinstellungenBenutzerTabelle ut,
+                   formular  EinstellungenBenutzerForm<EinstellungenBenutzerTabelleEntryDTO> form,
+                   all StatusList sl
+                   ){
+
+   column{
+    container(c, spacebelow){
+        navigation "navigationBarLinks" {
+            tab "Mein Benutzerprofil" {
+              link: "../profil"
+            }
+            tab ifPermission(USER)"Benutzer-Verwaltung" {
+              link: "./"
+              disabled
+            }
+            tab ifPermission(USER)"Rechte/Rollen-Verwaltung" {
+              link: "../rollen"
+            }
+        }
+    }
+
+  row(c){
+  container (80%, minwidth : 550px , padding-right : 10px , padding-left : 10px){
+  column(c){
+    card ifPermission(USER){
+        head{
+          row(stretch) {
+              label "Passwort einrichten / zurücksetzen Email erneut versenden"
+              row (r,50%) {
+                /*helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"*/
+              }
+            }
+        }
+        body{
+           row(25%) {
+               container(r, 300px){
+                   dropdown "Mail an Nutzer mit Status senden" {
+                       placeholder : "Fachgruppe"
+                       input : < sl.name
+                       labelAbove
+                   }
+                }
+                column(c) {
+                   button "Mails senden"{
+                       styleclass:"blue-green-transition"
+                       click -> sendActivationMailbyStatus()
+                   }
+                 }
+           }
+        }
+    }
+    card{
+        head{
+          row(stretch) {
+            label "Benutzerliste"
+            row (r,50%) {
+              /*helpbutton Wiki1 "https://macoco.rwth-aachen.de/w/index.php/Benutzer"*/
+            }
+          }
+        }
+        body{
+          datatable "benutzerTabelle" {
+              inlineEdit
+              inlineNew
+              editTemplates : inlineTemplates
+              editable
+              rightClickMenu : contextMenu
+              nonExportable
+              save ->  onSave($event)
+              create -> onCreate($event)
+              activeRow: activeRow
+              rows <ut.alleBenutzer {
+                column "Benutzername"            , < username              ,120;
+                column "Kürzel"                  , < initials              ,60;
+                column "E-mail Adresse"          , < email                 ,240;
+                column "Registrierungsdatum"     , date(<registrationDate) ,120, disabled;
+                column "Email Aktivierungsstatus", < aktivierungsstatus    ,80, disabled;
+                column "Account aktiv"           , checkbox(<istAktiv)     ,80;
+            }
+          }
+        }
+      }
+    }
+    }
+  }
+    }
+
+ contextmenu "contextMenu"{
+    entry "Aktivierungsmail schicken" -> sendActivationMail($event)
+  }
+}

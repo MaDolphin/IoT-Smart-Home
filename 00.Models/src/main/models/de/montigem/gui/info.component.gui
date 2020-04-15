@@ -1,0 +1,108 @@
+/**
+  * GUI for displaying FireAlarm information
+  *
+  * @Author Arkadii Gerasimov, Julian Krebber
+  */
+webpage Info(all AlarmCtrlTable act,
+             all TempSensorTable tst,
+             all SmokeSensorTable sst,
+             all SirenCtrlTable sct,
+             formular AlarmCtrlForm<SirenCtrlDTO> form) {
+  column(c) {
+
+    card {
+      head {
+        label "Alarm Steuerung"
+      }
+      body {
+        datatable "alarmSteuerungTable" {
+          rightClickMenu : alarmControlMenu
+          nonExportable
+          rows <act.alarmCtrl {
+            column "System"              , < serial               , 180;
+            column "RauchmelderMax"      , number(< smokeCtrlMax) , 100;
+            column "RauchmelderMin"      , number(< smokeCtrlMin) , 100;
+            column "TemperaturMax in °C" , number(< tempCtrlMax)  , 100;
+            column "TemperaturMin in °C" , number(< tempCtrlMin)  , 100;
+            column "AlarmAuslösen"       , checkbox(< alarm)      , 80, disabled;
+          }
+        }
+      }
+    }
+
+    contextmenu "alarmControlMenu" {
+    }
+
+    row(stretch) {
+      row(45%) {
+        card {
+          head {
+            label "Temperatur Sensoren"
+          }
+          body {
+            datatable "temperaturSensorenTable" {
+              rightClickMenu : tempSensorenMenu
+              nonExportable
+              rows <tst.tempSensor {
+                column "Temperatur" , number(< temp) , 100;
+                column "Einheit"    , < unit         , 100;
+              }
+            }
+          }
+        }
+
+        contextmenu "tempSensorenMenu" {
+        }
+      }
+
+      row(45%) {
+        card {
+          head {
+            label "Rauch Sensoren"
+          }
+          body {
+            datatable "rauchSensorenTable" {
+              rightClickMenu : rauchSensorenMenu
+              nonExportable
+              rows <sst.smokeSensor {
+                column "Luftqualität" , number(< smoke) , 100;
+              }
+            }
+          }
+        }
+
+        contextmenu "rauchSensorenMenu" {
+        }
+      }
+    }
+
+    card {
+      head {
+        label "Sirenen Steuerung"
+      }
+      body {
+        datatable "sirenenSteuerungTable" {
+          inlineNew
+          inlineEdit
+          editTemplates : inlineTemplates
+          editable
+          activeRow: activeSirenRow
+          rightClickMenu : sirenControlMenu
+          nonExportable
+          save -> onSaveSiren($event)
+          rows <sct.sirenCtrl {
+            column "Aktiviert"               , checkbox(< enabled)       , 100;
+            column "Ausgelöst (Auto)"        , checkbox(< sirenActive)   , 100, disabled;
+            column "Auslösen (Manuell)"      , checkbox(< sirenOverride) , 100;
+          }
+        }
+      }
+    }
+
+    contextmenu "sirenControlMenu" {
+          entry "Log into browser console" -> log($event)
+          divider
+          entry "Copy to clipboard" -> copy($event)
+    }
+  }
+}
