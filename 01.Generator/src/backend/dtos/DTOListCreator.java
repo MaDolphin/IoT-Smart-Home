@@ -3,11 +3,11 @@ package backend.dtos;
 
 import backend.common.CoreTemplate;
 import com.google.common.collect.Lists;
+import java.util.Collections;
 import common.TrafoForAggregateModels;
 import common.util.*;
 import de.monticore.generating.templateengine.StringHookPoint;
 import de.monticore.generating.templateengine.TemplateHookPoint;
-import de.monticore.types.TypesPrinter;
 import de.monticore.types.types._ast.ASTReturnType;
 import de.monticore.types.types._ast.ASTType;
 import de.monticore.umlcd4a.cd4analysis._ast.*;
@@ -92,12 +92,7 @@ public class DTOListCreator extends TrafoForAggregateModels {
 
   @Override
   protected Optional<String> getSuperclassName(ASTCDClass domainClass, CDTypeSymbol typeSymbol) {
-    if (domainClass.getSuperclassOpt().isPresent()) {
-      return Optional.of(TypesPrinter.printReferenceType(domainClass.getSuperclass()) + DTOLIST);
-    }
-    else {
-      return Optional.of("DTO");
-    }
+    return Optional.of("DTO");
   }
 
   //----------- PRIVATE  METHODS -------------------------------------
@@ -110,13 +105,7 @@ public class DTOListCreator extends TrafoForAggregateModels {
         .setType(CDSimpleReferenceBuilder.CollectionTypes.createList(clazz.getName())).setName("dtos")
         .build());
 
-    boolean hasSuperclass = domainClass.getSuperclassOpt().isPresent();
-    List<CDFieldSymbol> superAttributes = hasSuperclass ?
-        symbolTable.get().getInheritedVisibleAttributesInHierarchy(domainClass.getName()) :
-        new ArrayList<>();
-
     List<ASTCDParameter> constructorArguments = new ArrayList<>();
-    List<ASTCDParameter> superArguments = new ArrayList<>();
 
     Optional<ASTCDParameter> id = addIdAttribute(type);
     if (id.isPresent()) {
@@ -127,24 +116,12 @@ public class DTOListCreator extends TrafoForAggregateModels {
         CDSimpleReferenceBuilder.CollectionTypes.createList(domainClass.getName() + DTO))
         .build());
 
-    // get all visible of the super class
-    superAttributes.stream().map(a -> CD4AnalysisMill.cDParameterBuilder().setName(a.getName()).setType(
-        new CDSimpleReferenceBuilder().name(TransformationUtils
-            .getStringRepresentationForCdOrDtoType(a.getType(), symbolTable.get())).build())
-        .build()).forEach(superArguments::add);
-
-    if (hasSuperclass) {
-      constructorArguments.addAll(superArguments);
-      superArguments.add(0, id.get());
-    }
-
     // build constructor
     ASTCDConstructor constructor = new CDConstructorBuilder().Public()
         .setName(type.getName() + DTOLIST)
         .setCDParameterList(constructorArguments).build();
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), constructor,
-        new TemplateHookPoint("backend.dtos.DTOListConstructor", clazz.getName(), superArguments.stream()
-            .map(ASTCDParameter::getName).collect(Collectors.toList()),
+        new TemplateHookPoint("backend.dtos.DTOListConstructor", clazz.getName(), Collections.emptyList(),
             localAttributes));
     return Optional.of(constructor);
   }
@@ -153,35 +130,18 @@ public class DTOListCreator extends TrafoForAggregateModels {
     // prepare for constructor
     List<ASTCDAttribute> attributes = new ArrayList<>();
 
-    boolean hasSuperclass = domainClass.getSuperclassOpt().isPresent();
-    List<CDFieldSymbol> superAttributes = hasSuperclass ?
-        symbolTable.get().getInheritedVisibleAttributesInHierarchy(domainClass.getName()) :
-        new ArrayList<>();
-
     List<ASTCDParameter> constructorArguments = new ArrayList<>();
-    List<ASTCDParameter> superArguments = new ArrayList<>();
 
     constructorArguments.add(CD4AnalysisMill.cDParameterBuilder().setName("dtos").setType(
         CDSimpleReferenceBuilder.CollectionTypes.createList(domainClass.getName()))
         .build());
-
-    // get all visible of the super class
-    superAttributes.stream().map(a -> CD4AnalysisMill.cDParameterBuilder().setName(a.getName()).setType(
-        new CDSimpleReferenceBuilder().name(TransformationUtils
-            .getStringRepresentationForCdOrDtoType(a.getType(), symbolTable.get())).build())
-        .build()).forEach(superArguments::add);
-
-    if (hasSuperclass) {
-      constructorArguments.addAll(superArguments);
-    }
 
     // build constructor
     ASTCDConstructor constructor = new CDConstructorBuilder().Public()
         .setName(type.getName() + DTOLIST)
         .setCDParameterList(constructorArguments).build();
     getGlex().replaceTemplate(CoreTemplate.EMPTY_METHOD.toString(), constructor,
-        new TemplateHookPoint("backend.dtos.ConstructorFromDataobjectList", clazz.getName(), domainClass.getName() + DTO, superArguments.stream()
-            .map(ASTCDParameter::getName).collect(Collectors.toList()),
+        new TemplateHookPoint("backend.dtos.ConstructorFromDataobjectList", clazz.getName(), domainClass.getName() + DTO, Collections.emptyList(),
             attributes));
     return Optional.of(constructor);
   }
