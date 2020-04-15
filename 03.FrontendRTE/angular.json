@@ -53,7 +53,9 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "app:build:production"
+              "host": "TODO set IP",
+              "browserTarget": "app:build:production",
+              "publicHost": "TODO set Domain"
             }
           }
         },

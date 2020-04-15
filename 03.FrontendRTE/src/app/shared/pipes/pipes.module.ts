@@ -35,6 +35,7 @@ import { StatusToColorPipe } from '@shared/pipes/status-to-color.pipe';
 import { SafeHTMLPipe } from '@shared/pipes/safe-html.pipe';
 import { HourPipe } from '@shared/pipes/hour.pipe';
 import { TitleTranslationPipe } from '@shared/pipes/title-translation.pipe';
+import {PersonMonthsPipe} from './person-months.pipe';
 
 const pipes: any[] = [
   PieChartPriorityPipe,
@@ -71,6 +72,7 @@ const pipes: any[] = [
   SafeHTMLPipe,
   HourPipe,
   TitleTranslationPipe,
+  PersonMonthsPipe
 ];
 
 @NgModule({
@@ -88,7 +90,8 @@ const pipes: any[] = [
     ToPercentPipe,
     SumPipe,
     StringToDatePipe,
-    HourPipe
+    HourPipe,
+    PersonMonthsPipe
   ]
 })
 export class PipesModule {

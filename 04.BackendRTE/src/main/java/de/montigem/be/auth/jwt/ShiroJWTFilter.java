@@ -325,7 +325,10 @@ public class ShiroJWTFilter extends AuthenticatingFilter {
     } else if (httpReq.getServletPath().startsWith("/api/auth/tokens") && (httpReq.getMethod()
             .equals("GET") || "POST".equals(httpReq.getMethod()))) {
       access = true;
-    } else if (httpReq.getServletPath().startsWith(this.changePwdUrl) && httpReq.getMethod()
+  } else if (httpReq.getServletPath().startsWith("/api/domain/receive-json/")) {
+    access = true;
+  }
+    else if (httpReq.getServletPath().startsWith(this.changePwdUrl) && httpReq.getMethod()
             .equals("POST")) {
       access = true;
     } else if (httpReq.getServletPath().startsWith(activationUrl) && httpReq.getMethod()

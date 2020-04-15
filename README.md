@@ -17,6 +17,7 @@
 ## First-time build
 - in parent folder: 
     - `mvn clean install -DskipTests -Pprod`
+    - in pom set monticonnect.src.dir absolute path to monticonnect generated montigem models directory.
 - in 04.BackendRTE: 
     - (`cd 04.BackendRTE`)
     - `mvn clean docker:stop install -DskipTests docker:start tomee:run`
@@ -34,12 +35,19 @@
 ## Backend build and start
 - in 04.BackendRTE: `mvn clean docker:stop install -DskipTests docker:start tomee:run`
 
+### production mode
+- in 04.BackendRTE pom set tomeeHost ip.
+
 ## Frontend
 ### regenerate
 - in 03.FrontendRTE: `mvn clean generate-sources -U`
 
 ### start
 - in 03.FrontendRTE: `npm run start:jit`
+
+### production mode
+- in 03.FrontendRTE angular.json set host and publicHost
+- in 03.FrontendRTE: `npm run start:prod`
 
 ## Website
 - Browser `localhost:4200`

@@ -7,6 +7,8 @@ import de.montigem.be.authz.util.RolePermissionManager;
 import de.montigem.be.config.ConfigInitializer;
 import de.montigem.be.database.DatabaseDataSource;
 import de.montigem.be.domain.cdmodelhwc.classes.domainuser.DomainUser;
+import de.montigem.be.domain.cdmodelhwc.rest.AdapterService;
+import de.montigem.be.domain.cdmodelhwc.rest.MyAdapterHandle;
 import de.montigem.be.util.DAOLib;
 import de.montigem.be.util.SensorHandler;
 import de.se_rwth.commons.logging.Log;
@@ -41,6 +43,8 @@ public class MontiGemStartup {
     // register bootstrap user
     Log.debug("initialize constants", getClass().getName());
     ConfigInitializer.initializeConstants();
+
+        AdapterService.setHandle(new MyAdapterHandle());
 
     List<String> databaseNames = databaseDataSource.getAllDatabaseNames();
 

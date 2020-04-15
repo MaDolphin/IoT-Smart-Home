@@ -23,6 +23,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { DashboardComponent } from '@dashboard/dashboard.component';
+import {InfoComponent} from './info/info.component';
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -48,6 +49,7 @@ export const MY_DATE_FORMATS = {
   declarations: [
     AppComponent,
     DashboardComponent,
+    InfoComponent
   ],
   imports:      [
     BrowserAnimationsModule,

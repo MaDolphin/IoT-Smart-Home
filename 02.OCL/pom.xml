@@ -18,6 +18,7 @@
 
     <properties>
         <monticore.generator.version>5.0.0</monticore.generator.version>
+        <multiproject.basedir>${basedir}/..</multiproject.basedir>
     </properties>
 
     <dependencies>

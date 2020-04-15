@@ -20,6 +20,13 @@
 
 	<!-- == PROJECT PROPERTIES ============================================== -->
 	<properties>
+		<org.apache.pdfbox.version>2.0.6</org.apache.pdfbox.version>
+		<org.apache.poi.version>3.16</org.apache.poi.version>
+		<mysql.version>8.0.11</mysql.version>
+		<io.jsonwebtoken.version>0.7.0</io.jsonwebtoken.version>
+		<org.javamoney.version>1.1</org.javamoney.version>
+		<javax.mail.version>1.9.0-alpha-2</javax.mail.version>
+		<org.apache.commons.version>1.3.2</org.apache.commons.version>
 		<!-- GENERAL -->
 		<model.classifier>models</model.classifier>
 
@@ -86,6 +93,9 @@
 
 		<!-- FRONTEND -->
 		<janino.version>3.0.6</janino.version>
+		<!-- MontiConnect -->
+		<multiproject.basedir>${basedir}</multiproject.basedir>
+		<monticonnect.src.dir>${multiproject.basedir}/00.Models/src/main/models</monticonnect.src.dir>
 	</properties>
 
 
@@ -103,7 +113,98 @@
 
 	<!-- == DEPENDENCIES ==================================================== -->
 	<dependencies>
-		<!--  Common Libraries -->
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-java8</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-envers</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.1-api</artifactId>
+			<version>1.0.0.Final</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-config-core</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomee</groupId>
+			<artifactId>openejb-core</artifactId>
+			<version>${tomee.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${io.jsonwebtoken.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.javamoney</groupId>
+			<artifactId>moneta</artifactId>
+			<version>${org.javamoney.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>${org.apache.pdfbox.version}</version>
+		</dependency>
+		<!-- Common Libraries -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>

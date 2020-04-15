@@ -1,77 +1,124 @@
-/* (c) https://github.com/MontiCore/monticore */
-
+/*Generated file from MCGenerator*/
 package de.montigem.be.domain;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
-classdiagram Domain {
+classdiagram Domain{
 
-    /***********************************************************************************************************************
-     * Mandatory classes
-     **********************************************************************************************************************/
+  class DomainUser{
+    String username;
+    Optional<String> encodedPassword;
+    String passwordSaltBase64;
+    ZonedDateTime registrationDate;
+    Optional<String> initials;
+    DomainUserActivationStatus activated;
+    boolean enabled;
+    String email;
+    Optional<String> timID;
+  }
 
-    class DomainUser {
-      String username;
-      Optional<String> encodedPassword;
-      String passwordSaltBase64;
-      ZonedDateTime registrationDate;
-      Optional<String> initials;
-      DomainUserActivationStatus activated;
-      boolean enabled;
-      String email;
-      Optional<String> timID;
-    }
+  class RoleAssignment{
+    String role;
+    String objClass;
+    Optional<Long> objId;
+    Optional<String> attribute;
+  }
 
-    enum DomainUserActivationStatus {
-      AKTIVIERT,
-      MAIL_NICHT_GESENDET,
-      MAIL_FEHLERHAFT,
-      MAIL_GESENDET;
-    }
+  class Sensor{
+    String sensorId;
+    SensorType type;
+  }
 
-    class RoleAssignment {
-      String role;
-      String objClass;
-      Optional<Long> objId;
-      Optional<String> attribute;
-    }
+  class SensorValue{
+    ZonedDateTime timestamp;
+    int value;
+  }
 
-    association  [*] RoleAssignment -> (user) DomainUser [1];
+  class ZahlenWert{
+    ZahlenTyp zahlenTyp;
+    long wert;
+  }
 
-    /***********************************************************************************************************************
-     * Domain specific classes
-     **********************************************************************************************************************/
+  class AlarmCtrl{
+    <<dbColumn="unique=true">>String serial = "0";
+    int smokeCtrlMax = 0;
+    int smokeCtrlMin = 0;
+    Float tempCtrlMax = 0f;
+    Float tempCtrlMin = 0f;
+    boolean alarm = false;
+  }
 
-     class Sensor {
-      String sensorId;
-      SensorType type;
-     }
+  class TempSensor{
+    Float temp = 0f;
+    String unit = "Celsius";
+  }
 
-     enum SensorType {
-      TEMPERATURE,
-      ANGLE,
-      PERCENT;
-     }
+  class SmokeSensor{
+    int smoke = 0;
+  }
 
-     class SensorValue {
-      ZonedDateTime timestamp;
-      int value;
-     }
+  class SirenCtrl{
+    boolean enabled = true;
+    boolean sirenActive = false;
+    boolean sirenOverride = false;
+  }
 
-     association [1] Sensor -> (value) SensorValue [*];
+  abstract class Adapter;
 
-   class ZahlenWert {
-     ZahlenTyp zahlenTyp;
-     long wert;
-   }
+  class SmokeSensorSmoke_Adapter extends Adapter;
 
-   enum ZahlenTyp {EURO, STUNDE, PROZENT, NONE; }
+  class SirenCtrlSirenActive_Adapter extends Adapter;
 
-   enum RechnungsstellungStatus {
-     OFFENE_RECHNUNG,
-     SAP("SAP"),
-     SAP_STORNIERT("SAP(Storniert)"),
-     PLANUNG;
-   }
+  class TempSensorTemp_Adapter extends Adapter;
+
+  enum DomainUserActivationStatus{
+    AKTIVIERT,
+    MAIL_NICHT_GESENDET,
+    MAIL_FEHLERHAFT,
+    MAIL_GESENDET;
+  }
+
+  enum SensorType{
+    TEMPERATURE,
+    ANGLE,
+    PERCENT;
+  }
+
+  enum ZahlenTyp{
+    EURO,
+    STUNDE,
+    PROZENT,
+    NONE;
+  }
+
+  enum RechnungsstellungStatus{
+    OFFENE_RECHNUNG,
+    SAP("SAP"),
+    SAP_STORNIERT("SAP(Storniert)"),
+    PLANUNG;
+  }
+
+  association  [*]  RoleAssignment -> (user) DomainUser  [1]  ;
+
+  association  [1]  Sensor -> (value) SensorValue  [*]  ;
+
+  association  [*]  AlarmCtrl <-> TempSensor  [*]  ;
+
+  association  [1]  AlarmCtrl <-> SmokeSensor  [*]  ;
+
+  association  [1]  AlarmCtrl -> SirenCtrl  [*]  ;
+
+  association  [1]  SmokeSensorSmoke_Adapter -> SmokeSensor  [1]  ;
+
+  association  [1]  SmokeSensorSmoke_Adapter -> AlarmCtrl  [1]  ;
+
+  association  [1]  SirenCtrlSirenActive_Adapter -> SirenCtrl  [1]  ;
+
+  association  [1]  SirenCtrlSirenActive_Adapter -> AlarmCtrl  [1]  ;
+
+  association  [1]  TempSensorTemp_Adapter -> TempSensor  [1]  ;
+
+  association  [1]  TempSensorTemp_Adapter -> AlarmCtrl  [1]  ;
 
 }

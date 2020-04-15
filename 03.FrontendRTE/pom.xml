@@ -26,6 +26,7 @@
     <sonar.sources>src/app</sonar.sources>
     <sonar.tests>src/tests</sonar.tests>
     <project.custom.basedir>${basedir}/../</project.custom.basedir>
+    <multiproject.basedir>${basedir}/..</multiproject.basedir>
   </properties>
 
   <profiles>
@@ -76,10 +77,10 @@
               <script>frontend/scripts/domain.groovy</script>
               <baseClass>configure.DexScript</baseClass>
               <arguments>
-                <model>${project.custom.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd</model>
+                <model>${monticonnect.src.dir}/de/montigem/be/domain/Domain.cd</model>
                 <ocl>de.montigem.be.domain.DomainConstraints</ocl>
                 <out>${project.build.directory}/generated-sources/</out>
-                <modelPath>${project.custom.basedir}/00.Models/src/main/models</modelPath>
+                <modelPath>${monticonnect.src.dir}</modelPath>
                 <handcodedPath>${basedir}/src/app/shared/architecture/data</handcodedPath>
               </arguments>
             </configuration>
@@ -92,10 +93,10 @@
                   <script>frontend/scripts/domain.groovy</script>
                   <baseClass>configure.DexScript</baseClass>
                   <arguments>
-                    <model>${basedir}/../00.Models/src/main/models/de/montigem/be/domain/Domain.cd</model>
+                    <model>${monticonnect.src.dir}/de/montigem/be/domain/Domain.cd</model>
                     <ocl>de.montigem.be.domain.DomainConstraints</ocl>
                     <out>${project.build.directory}/generated-sources/</out>
-                    <modelPath>${basedir}/../00.Models/src/main/models</modelPath>
+                    <modelPath>${monticonnect.src.dir}</modelPath>
                     <handcodedPath>${basedir}/src/app/shared/architecture/data</handcodedPath>
                   </arguments>
                 </configuration>
@@ -111,10 +112,10 @@
                   <script>frontend/scripts/aggregates.groovy</script>
                   <baseClass>configure.DexScript</baseClass>
                   <arguments>
-                    <models>${basedir}/../00.Models/src/main/models/de/montigem/be/system</models>
-                    <cmdmodel>${basedir}/../00.Models/src/main/models/de/montigem/be/command/Commands.cd</cmdmodel>
+                    <models>${monticonnect.src.dir}/de/montigem/be/system</models>
+                    <cmdmodel>${monticonnect.src.dir}/de/montigem/be/command/Commands.cd</cmdmodel>
                     <out>${project.build.directory}/generated-sources/</out>
-                    <modelPath>${basedir}/../00.Models/src/main/models</modelPath>
+                    <modelPath>${monticonnect.src.dir}</modelPath>
                     <handcodedPath>${basedir}/src/app/shared/architecture/data</handcodedPath>
                   </arguments>
                 </configuration>
@@ -171,11 +172,13 @@
             <encoding>UTF-8</encoding>
           </configuration>
         </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.18.1</version>
         </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
@@ -224,9 +227,9 @@
             <script>frontend/scripts/domain.groovy</script>
             <baseClass>configure.DexScript</baseClass>
             <arguments>
-              <model>${project.custom.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd</model>
+              <model>${monticonnect.src.dir}/de/montigem/be/domain/Domain.cd</model>
               <out>${project.build.directory}/generated-sources/</out>
-              <modelPath>${project.custom.basedir}/00.Models/src/main/models</modelPath>
+              <modelPath>${monticonnect.src.dir}</modelPath>
               <handcodedPath>${basedir}/src/app/shared/architecture/data</handcodedPath>
             </arguments>
           </configuration>
@@ -557,12 +560,13 @@
               <includePluginDependencies>true</includePluginDependencies>
               <mainClass>guidsl.GUITool</mainClass>
               <arguments>
-                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui/pages</argument>
+                <argument>${monticonnect.src.dir}/de/montigem/gui/pages</argument>
                 <argument>-hcp</argument>
                 <argument>${basedir}/src/app/dashboard</argument>
                 <argument>${basedir}/src/app/einstellungen</argument>
                 <argument>${basedir}/src/app/beispiele</argument>
                 <argument>${basedir}/src/app/guidsl</argument>
+                <argument>${basedir}/src/app/info</argument>
                 <argument>-out</argument>
                 <argument>${basedir}/target/generated-sources/gui</argument>
               </arguments>
@@ -579,7 +583,7 @@
               <includePluginDependencies>true</includePluginDependencies>
               <mainClass>guidsl.GUITool</mainClass>
               <arguments>
-                <argument>${project.custom.basedir}/00.Models/src/main/models/de/montigem/gui/navigation</argument>
+                <argument>${monticonnect.src.dir}/de/montigem/gui/navigation</argument>
                 <argument>-out</argument>
                 <argument>${basedir}/target/generated-sources/navigation</argument>
               </arguments>

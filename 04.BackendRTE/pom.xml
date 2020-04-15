@@ -29,6 +29,7 @@
     <javax.mail.version>1.9.0-alpha-2</javax.mail.version>
     <mysql.version>8.0.11</mysql.version>
     <org.javamoney.version>1.1</org.javamoney.version>
+    <multiproject.basedir>${basedir}/..</multiproject.basedir>
     <!-- JSON -->
     <io.jsonwebtoken.version>0.7.0</io.jsonwebtoken.version>
     <org.apache.commons.version>1.3.2</org.apache.commons.version>
@@ -514,7 +515,7 @@
     <defaultGoal>package</defaultGoal>
     <finalName>montigem-be</finalName>
     <plugins>
-      <plugin>
+      <!--<plugin>
         <groupId>pl.project13.maven</groupId>
         <artifactId>git-commit-id-plugin</artifactId>
         <version>2.2.4</version>
@@ -541,7 +542,7 @@
             <dirty>-dirty</dirty>
           </gitDescribe>
         </configuration>
-      </plugin>
+      </plugin>-->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -556,6 +557,7 @@
             <configuration>
               <sources>
                 <source>${project.build.directory}/generated-sources/</source>
+                <source>${monticonnect.src.dir}</source>
               </sources>
             </configuration>
           </execution>
@@ -568,6 +570,8 @@
             <configuration>
               <sources>
                 <source>${project.build.directory}/generated-test-sources/</source>
+                <source>${project.build.directory}/generated-sources/</source>
+                <source>${monticonnect.src.dir}</source>
               </sources>
             </configuration>
           </execution>
@@ -583,12 +587,12 @@
           <baseClass>configure.DexScript</baseClass>
           <arguments>
             <model>
-              ${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd
+            	${monticonnect.src.dir}/de/montigem/be/domain/Domain.cd
             </model>
             <out>${project.build.directory}/generated-sources/</out>
             <testOut>${project.build.directory}/generated-test-sources/</testOut>
-            <modelPath>${project.parent.basedir}/00.Models/src/main/models</modelPath>
-            <handcodedPath>${basedir}/src/main/java;${basedir}/src/test/java
+            <modelPath>${monticonnect.src.dir}</modelPath>
+            <handcodedPath>${monticonnect.src.dir};${basedir}/src/main/java;${basedir}/src/test/java
             </handcodedPath>
           </arguments>
         </configuration>
@@ -601,15 +605,15 @@
               <baseClass>configure.DexScript</baseClass>
               <arguments>
                 <model>
-                  ${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd
+                  ${monticonnect.src.dir}/de/montigem/be/domain/Domain.cd
                 </model>
                 <ocl>de.montigem.be.domain.DomainConstraints</ocl>
                 <out>${project.build.directory}/generated-sources/</out>
                 <testOut>${project.build.directory}/generated-test-sources/
                 </testOut>
-                <modelPath>${project.parent.basedir}/00.Models/src/main/models
+                <modelPath>${monticonnect.src.dir}
                 </modelPath>
-                <handcodedPath>${basedir}/src/main/java;${basedir}/src/test/java
+                <handcodedPath>${monticonnect.src.dir};${basedir}/src/main/java;${basedir}/src/test/java
                 </handcodedPath>
               </arguments>
             </configuration>
@@ -626,16 +630,16 @@
               <baseClass>configure.DexScript</baseClass>
               <arguments>
                 <models>
-                  ${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/system
+                  ${monticonnect.src.dir}/de/montigem/be/system
                 </models>
-                <cmdmodel>${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/command/Commands.cd</cmdmodel>
+                <cmdmodel>${monticonnect.src.dir}/de/montigem/be/command/Commands.cd</cmdmodel>
                 <model>
-                  ${project.parent.basedir}/00.Models/src/main/models/de/montigem/be/domain/Domain.cd
+                ${monticonnect.src.dir}/de/montigem/be/domain/Domain.cd
                 </model>
                 <out>${project.build.directory}/generated-sources/</out>
-                <modelPath>${project.parent.basedir}/00.Models/src/main/models
+                <modelPath>${monticonnect.src.dir}
                 </modelPath>
-                <handcodedPath>${basedir}/src/main/java</handcodedPath>
+                <handcodedPath>${monticonnect.src.dir};${basedir}/src/main/java</handcodedPath>
               </arguments>
             </configuration>
             <phase>generate-sources</phase>
@@ -706,6 +710,7 @@
         <artifactId>tomee-maven-plugin</artifactId>
         <version>${tomee.version}</version>
         <configuration>
+          <tomeeHost>localhost</tomeeHost>
           <tomeeHttpPort>8080</tomeeHttpPort>
           <simpleLog>true</simpleLog>
           <tomeeVersion>${tomee.version}</tomeeVersion>
@@ -779,9 +784,17 @@
           <dockerHost>tcp://localhost:2375</dockerHost>
         </configuration>
         <executions>
-          <execution>
+          <!--<execution>
             <id>start</id>
             <phase>integration-test</phase>
+            <goals>
+              <goal>build</goal>
+              <goal>start</goal>
+            </goals>
+          </execution>-->
+          <execution>
+            <id>start</id>
+            <phase>pre-integration-test</phase>
             <goals>
               <!-- "build" should be used to create the images with the artifact -->
               <goal>build</goal>
