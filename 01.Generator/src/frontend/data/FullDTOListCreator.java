@@ -106,13 +106,7 @@ public class FullDTOListCreator extends CreateTrafo {
       CDTypeSymbol typeSymbol) {
     String typeName = typeSymbol.getName();
 
-    String superClassName;
-    if (domainClass.getSuperclassOpt().isPresent()) {
-      superClassName = TypesPrinter.printType(domainClass.getSuperclass()) + FULLDTOLIST;
-    }
-    else {
-      superClassName = "DTO" + "<" + typeName + FULLDTOLIST + ">";
-    }
+    String superClassName = "DTO" + "<" + typeName + FULLDTOLIST + ">";
 
     ASTCDClass addedClass = new CDClassBuilder().superclass(superClassName)
         .setName(typeName + FULLDTOLIST).build();
