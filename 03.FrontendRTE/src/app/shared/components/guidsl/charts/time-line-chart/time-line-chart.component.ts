@@ -54,7 +54,7 @@ export class TimeLineChartComponent implements OnInit {
   public _dataRange: ILineChartDataRange;
   public _shownDataRange: ILineChartDataRange;
 
-  private set dataRange(range: ILineChartDataRange) {
+  public set dataRange(range: ILineChartDataRange) {
     this._dataRange = range;
 
     this.sliderOptions.ceil = TimeLineChartComponent.monthDiff(range.min, range.max);
@@ -73,7 +73,7 @@ export class TimeLineChartComponent implements OnInit {
     }
   }
 
-  private get dataRange(): ILineChartDataRange {
+  public get dataRange(): ILineChartDataRange {
     return this._dataRange;
   }
 
