@@ -209,6 +209,10 @@ export class LineChartComponent implements OnInit {
 
   @Input()
   public set data(data: LineDataGroup[]) {
+    if (data === undefined) {
+      return;
+    }
+
     if (this.overwriteData) {
       this._data = data;
     } else {

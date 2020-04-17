@@ -29,11 +29,13 @@ export class BeispieleDatatablesGenComponent extends BeispieleDatatablesGenCompo
     this.form = form;
   }
 
+  //region Einfache Tabelle
   // you can override the table columns initialization
   public initeinfacheTabelleColumns(): void {
     super.initeinfacheTabelleColumns();
     this.einfacheTabelleColumns[0].name = "Benutzername (HWC)";
   }
+  //endregion
 
   //region Editierbare Tabelle
   protected init_et_entriesTable(): void {
@@ -65,6 +67,39 @@ export class BeispieleDatatablesGenComponent extends BeispieleDatatablesGenCompo
 
   public isSomething() {
     return true; // hwc logic belongs here...
+  }
+  //endregion
+
+  //region Tabelle mit Methoden
+  onView($event: any): void {
+    console.log("Called onView method", $event);
+  }
+
+  inittabelleMitMethodenColumns(): void {
+    super.inittabelleMitMethodenColumns();
+    this.tabelleMitMethodenColumns.forEach(value => {
+      value.onClick = this.onClickRow.bind(this);
+    });
+  }
+
+  private onClickRow($event: any) {
+    console.log("Called onClickRow method", $event);
+  }
+  //endregion
+
+  //region Tabelle mit Selektion
+  /**
+   * Logs all selected rows
+   */
+  onClickButton1(): void {
+    console.log("Called method onClickButton1");
+    console.log("Selected rows: ", this.mySelectedRows);
+  }
+  //endregion
+
+  //region Tabelle mit löschbaren Zeilen
+  onDelete($event: any): void {
+    console.log("Called method onDelete", $event);
   }
   //endregion
 

@@ -50,7 +50,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
       NavigationComponent,
       BigBreadcrumbsComponent,
       HeaderComponent,
-      BreadcrumbComponent
+      BreadcrumbComponent,
     ],
     exports: [
       LoadingModule,

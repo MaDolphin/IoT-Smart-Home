@@ -23,7 +23,7 @@ webpage beispieleHorizonalBarCharts(
               link: "../piecharts/1"
             }
             tab "LineCharts" {
-              link: "../../linecharts"
+              link: "../linecharts"
             }
         }
     }

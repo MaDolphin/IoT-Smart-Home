@@ -6,21 +6,40 @@ import de.montigem.be.system.common.PieChart.*;
 
 classdiagram Beispiele {
 
-  class BeispieleBarData {
-    String kategorie;
-    List<ZahlenWert> werte;
+  class Datumsbereich {
+    int startjahr;
+    int abschlussjahr;
   }
 
+  // -------- Line Chart Example --------
+  class BeispieleLineChart {
+    List<BeispieleLineChartEntry> entries;
+  }
+
+  class BeispieleLineChartEntry {
+    String label;
+    List<BeispieleLineChartEntryData> dataEntries;
+  }
+
+  class BeispieleLineChartEntryData {
+    int x;
+    int y;
+  }
+
+  // -------- Horizontal Bar Chart Example --------
   class BeispieleHorizontalBarChart {
     List<BeispieleBarData> daten;
     List<String> labels;
   }
 
-  class BeispielePieChart extends PieChart {
+  class BeispieleBarData {
+    String kategorie;
+    List<ZahlenWert> werte;
   }
 
+  // -------- Bar Chart Example --------
   class BeispieleBarChart {
-      List<BeispieleBarChartEntry> entries;
+    List<BeispieleBarChartEntry> entries;
   }
 
   class BeispieleBarChartEntry {
@@ -30,9 +49,8 @@ classdiagram Beispiele {
     ZahlenWert umfang;
   }
 
-  class Datumsbereich {
-    int startjahr;
-    int abschlussjahr;
+  // -------- Pie Chart Example --------
+  class BeispielePieChart extends PieChart {
   }
 
   // -------- Editable Table Example --------

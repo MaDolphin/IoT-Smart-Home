@@ -186,6 +186,14 @@ public class FrontendTransformationUtils {
     return !typeHelper.isGenericOptional(typeName);
   }
 
+  public static String getAttributeValue(String attributeValue) {
+    if (attributeValue.endsWith("f") || attributeValue.endsWith("F")) {
+      return attributeValue.substring(0, attributeValue.length() - 1);
+    }
+
+    return attributeValue;
+  }
+
   public static String getJsonMemberType(String frontendType, boolean isElementType) {
     if (isElementType) {
       return "elements: " + TransformationUtils.capitalize(frontendType);

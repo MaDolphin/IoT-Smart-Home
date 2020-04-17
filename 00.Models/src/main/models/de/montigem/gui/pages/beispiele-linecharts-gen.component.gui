@@ -1,4 +1,7 @@
-webpage LineChartSamplePage(socket LineGraph lineChartData) {  // webpage declaration with data init
+webpage LineChartSamplePage(
+    socket LineGraph lineChartData,
+    all BeispieleLineChart lineChartData2
+) {  // webpage declaration with data init
 
   column(nospace) {
       navigation "navigationBarLinks" {
@@ -85,6 +88,23 @@ webpage LineChartSamplePage(socket LineGraph lineChartData) {  // webpage declar
                   }
                   row if (!isImageVisible()) {
                       textoutput { "Receiving no sensor data" }
+                  }
+              }
+          }
+      }
+
+      // container for card 4
+      container(30%) {
+          card {
+              head {
+                  label "Linechart Without Realtime Data"
+              }
+              body {
+                  linechart "LineChartNoRealtime" {    // line chart declaration with name
+                      data : <transformedLineChartData // data reference
+                      stepSizeX : 3                    // X Axis step size
+                      stepSizeY : 2                    // Y Axis step size
+                      title: "LineChart"               // chart title
                   }
               }
           }

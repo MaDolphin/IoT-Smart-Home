@@ -24,10 +24,10 @@ webpage Info(all AlarmCtrlTable act,
             }
           rows <act.alarmCtrl {
             column "System"              , < serial               , 180;
-            column "RauchmelderMax"      , number(< smokeCtrlMax) , 100;
-            column "RauchmelderMin"      , number(< smokeCtrlMin) , 100;
-            column "TemperaturMax in °C" , number(< tempCtrlMax)  , 100;
-            column "TemperaturMin in °C" , number(< tempCtrlMin)  , 100;
+            column "RauchmelderMax"      , < smokeCtrlMax , 100;
+            column "RauchmelderMin"      , < smokeCtrlMin , 100;
+            column "TemperaturMax in °C" , < tempCtrlMax  , 100;
+            column "TemperaturMin in °C" , < tempCtrlMin  , 100;
             column "AlarmAuslösen"       , checkbox(< alarm)      , 80, disabled;
           }
         }
@@ -52,7 +52,7 @@ webpage Info(all AlarmCtrlTable act,
               nonExportable
             }
               rows <tst.tempSensor {
-                column "Temperatur" , number(< temp) , 100;
+                column "Temperatur" , < temp , 100;
                 column "Einheit"    , < unit         , 100;
               }
             }
@@ -77,7 +77,7 @@ webpage Info(all AlarmCtrlTable act,
               nonExportable
             }
               rows <sst.smokeSensor {
-                column "Luftqualität" , number(< smoke) , 100;
+                column "Luftqualität" , < smoke , 100;
               }
             }
           }

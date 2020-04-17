@@ -1,14 +1,13 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 webpage beispieleDatentabellen {
-
     column(nospace) {
         navigation "navigationBarLinks" {
             tab "Info" {
-              link: "./"
+                link: "./"
             }
             tab "BarCharts" {
-              link: "../barcharts/1"
+                link: "../barcharts/1"
             }
             tab "HorizontalBarCharts" {
                 link: "../horizontalbarcharts"
@@ -26,27 +25,27 @@ webpage beispieleDatentabellen {
     }
 
     row (space-evenly, spaceabove) {
-      container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
-        card {
-          head {
-            label "Information"
-          }
-          body{
-            row {
-              textoutput {
-                "Auf diesen Seiten finden Sie die verschiedenen Arten von Diagrammen, die derzeit in MontiGem unterstützt werden, und einige Beispiele, wie diese Diagramme konfiguriert werden können."
-              }
+        container(45%, minwidth : 500px, padding-right : 10px, padding-left : 10px) {
+            card {
+                head {
+                    label "Information"
+                }
+                body{
+                    row {
+                        textoutput {
+                            "Auf diesen Seiten finden Sie die verschiedenen Arten von Diagrammen, die derzeit in MontiGem unterstützt werden, und einige Beispiele, wie diese Diagramme konfiguriert werden können."
+                        }
+                    }
+                    row {
+                        textoutput { "-" }
+                    }
+                    row {
+                        textoutput {
+                            "On these pages you will find the different types of charts currently supported in MontiGem and some examples how these charts can be configured."
+                        }
+                    }
+                }
             }
-            row {
-              textoutput { "-" }
-            }
-            row {
-              textoutput {
-                "On these pages you will find the different types of charts currently supported in MontiGem and some examples how these charts can be configured."
-              }
-            }
-          }
         }
-      }
     }
 }

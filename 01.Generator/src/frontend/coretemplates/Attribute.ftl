@@ -5,4 +5,4 @@
 -->
 ${tc.signature("ast")}
 ${ast.printAnnotation()}
-  ${ast.printModifier()} ${ast.getName()}: ${ast.printType()} ${tc.include("backend.coretemplates.AttributeValue")}
+  ${ast.printModifier()} ${ast.getName()}: ${ast.printType()} ${tc.include("frontend.coretemplates.AttributeValue")}

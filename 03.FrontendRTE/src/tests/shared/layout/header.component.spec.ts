@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Component } from '@angular/core';
 import { TitleTranslationPipe } from '@shared/pipes/title-translation.pipe';
 import { DateToStringPipe } from '@shared/pipes/date-to-string.pipe';
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 // Mocks
 
@@ -28,7 +29,6 @@ class BreadcrumbStubComponent {}
 // Tests
 
 describe('HeaderComponent', () => {
-
   let headerComponent: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
 
@@ -36,7 +36,6 @@ describe('HeaderComponent', () => {
   let router: Router;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
       declarations: [
         HeaderComponent,
@@ -44,7 +43,10 @@ describe('HeaderComponent', () => {
         TitleTranslationPipe,
         DateToStringPipe
       ],
-      imports: [RouterTestingModule],
+      imports: [
+        RouterTestingModule,
+        MatTooltipModule
+      ],
       providers: [
         HeaderService,
         { provide: AuthService, useClass: AuthServiceMock },
@@ -62,7 +64,6 @@ describe('HeaderComponent', () => {
   });
 
   it('should be date, title and logout ok', () => {
-      // headerComponent = new HeaderComponent(headerService, authService, router, notificationService);
       expect(headerComponent.title).not.toBeNull();
       expect(headerComponent.curDate).not.toBeNull();
       expect(headerComponent.logout()).toBeTruthy();
