@@ -16,8 +16,12 @@ webpage Info(all AlarmCtrlTable act,
       }
       body {
         datatable "alarmSteuerungTable" {
-          rightClickMenu : alarmControlMenu
-          nonExportable
+            references {
+              rightClickMenu : alarmControlMenu
+            }
+            conditions {
+              nonExportable
+            }
           rows <act.alarmCtrl {
             column "System"              , < serial               , 180;
             column "RauchmelderMax"      , number(< smokeCtrlMax) , 100;
@@ -41,8 +45,12 @@ webpage Info(all AlarmCtrlTable act,
           }
           body {
             datatable "temperaturSensorenTable" {
+            references {
               rightClickMenu : tempSensorenMenu
+            }
+            conditions {
               nonExportable
+            }
               rows <tst.tempSensor {
                 column "Temperatur" , number(< temp) , 100;
                 column "Einheit"    , < unit         , 100;
@@ -62,8 +70,12 @@ webpage Info(all AlarmCtrlTable act,
           }
           body {
             datatable "rauchSensorenTable" {
+            references {
               rightClickMenu : rauchSensorenMenu
+            }
+            conditions {
               nonExportable
+            }
               rows <sst.smokeSensor {
                 column "Luftqualität" , number(< smoke) , 100;
               }
@@ -82,14 +94,21 @@ webpage Info(all AlarmCtrlTable act,
       }
       body {
         datatable "sirenenSteuerungTable" {
-          inlineNew
-          inlineEdit
-          editTemplates : inlineTemplates
-          editable
-          activeRow: activeSirenRow
-          rightClickMenu : sirenControlMenu
-          nonExportable
-          save -> onSaveSiren($event)
+            references {
+              editTemplates : inlineTemplates
+              activeRow: activeSirenRow
+              rightClickMenu : sirenControlMenu
+            }
+            methods {
+              save -> onSave($event)
+            }
+            conditions {
+              editable
+              inlineEdit
+              inlineNew
+              nonExportable
+              deletable
+            }
           rows <sct.sirenCtrl {
             column "Aktiviert"               , checkbox(< enabled)       , 100;
             column "Ausgelöst (Auto)"        , checkbox(< sirenActive)   , 100, disabled;
@@ -101,7 +120,7 @@ webpage Info(all AlarmCtrlTable act,
 
     contextmenu "sirenControlMenu" {
           entry "Log into browser console" -> log($event)
-          divider
+          //divider
           entry "Copy to clipboard" -> copy($event)
     }
   }

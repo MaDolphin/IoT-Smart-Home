@@ -6,7 +6,7 @@ import {CommandManager} from '@shared/architecture/command/rte/command.manager';
 import {ErrorDTO} from '@shared/architecture/command/aggregate/error.dto';
 import {PermissionFlags, Token} from "@shared/auth/token";
 import {DownloadFileService} from '@shared/utils/download-file.service';
-import {TableColumn} from '@shared/components/guidsl/data-table/data-table.component.ts';
+import {TableColumn} from '@shared/components/guidsl/data-table/data-table-types.ts';
 import {CopyToClipboardService, getDisplayedRow} from '@shared/utils/copy-to-clipboard.service';
 import {NotificationService} from '@shared/utils';
 import {TextFormControl} from '@shared/generic-form/controls';
@@ -31,15 +31,16 @@ import {SirenCtrlFullDTO} from "@targetdtos/sirenctrl.fulldto";
 })
 export class InfoComponent extends InfoComponentTOP {
 
+  form: AlarmCtrlForm;
   public constructor(
-    protected _notificationService: NotificationService,
-    protected _dfs: DownloadFileService,
-    protected _ctc: CopyToClipboardService,
-    protected _router: Router,
-    protected _route: ActivatedRoute,
-    protected _commandRestService: CommandRestService,
+      protected _commandRestService: CommandRestService,
+      protected _ctc: CopyToClipboardService,
+      protected _dfs: DownloadFileService,
+      protected _notificationService: NotificationService,
+      protected _route: ActivatedRoute,
+      protected _router: Router,
     form: AlarmCtrlForm) {
-    super(_notificationService, _dfs, _ctc, _router, _route, _commandRestService);
+    super(_commandRestService,_ctc,_dfs,_notificationService,_route,_router);
     this.form = form
   }
 
