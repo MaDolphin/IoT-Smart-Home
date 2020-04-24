@@ -15,10 +15,7 @@ variables:
 before_script:
     - export CHROME_BIN=/usr/bin/google-chrome
     
-Validate:
- only:
-   refs:
-     - master
+Build:
  stage: build
  tags:
    - shell
@@ -39,4 +36,14 @@ Validate:
    - mvn $MAVEN_CLI_OPTS -s ../settings.xml generate-sources -U
    - mvn $MAVEN_CLI_OPTS -s ../settings.xml install $FRONTENDPROPERTIES
    - cd ..
+
+DockerImages:
+ only:
+   refs:
+     - master
+ stage: build
+ tags:
+   - shell
+   - docker
+ script: 
    #- bash ./build.sh 0.0.1
