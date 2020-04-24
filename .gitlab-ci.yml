@@ -46,4 +46,5 @@ DockerImages:
    - shell
    - docker
  script: 
+   - echo "disabled for now"
    #- bash ./build.sh 0.0.1
