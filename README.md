@@ -16,17 +16,17 @@
 
 ## First-time build
 - in parent folder: 
-    - `mvn clean install -DskipTests -Pprod`
+    - `mvn clean install -DskipTests -Pprod -s settings.xml`
     - (in pom set monticonnect.src.dir absolute path to monticonnect generated montigem models directory.)
 - in 04.BackendRTE: 
     - (`cd 04.BackendRTE`)
-    - `mvn clean docker:stop install -DskipTests docker:start tomee:run`
+    - `mvn -s ../settings.xml clean docker:stop install -DskipTests docker:start tomee:run`
     - command will not terminate, instead open a new console
 - in 03.FrontendRTE (other console):
     - (`cd 03.FrontendRTE`)
     - `npm install`
     - (in pom set monticonnect.src.dir absolute path to monticonnect generated montigem models directory.)
-    - `mvn generate-sources -U`
+    - `mvn -s ../settings.xml generate-sources -U`
     - `npm run start:jit`
 - open Browser http://localhost:4200
     - first visit triggers build of the Angular-Frontend
@@ -34,14 +34,14 @@
     - username: "admin", pswd: "passwort"
 
 ## Backend build and start
-- in 04.BackendRTE: `mvn clean docker:stop install -DskipTests docker:start tomee:run`
+- in 04.BackendRTE: `mvn -s ../settings.xml clean docker:stop install -DskipTests docker:start tomee:run`
 
 ### production mode
 - in 04.BackendRTE pom set tomeeHost ip.
 
 ## Frontend
 ### regenerate
-- in 03.FrontendRTE: `mvn clean generate-sources -U`
+- in 03.FrontendRTE: `mvn -s ../settings.xml clean generate-sources -U`
 
 ### start
 - in 03.FrontendRTE: `npm run start:jit`
@@ -73,6 +73,9 @@
 - as soon as the backend tries to connect to the debugger (`Listening for transport dt_socket at address: 5005
 [] CONNECT ATTEMPT -2147483585 on port: 8080
 `): debug with Intellij (with selected remote configuration)
+
+### Have a look at the logfiles
+- find them in `04.BackendRTE/target/apache-tomee/logs/`
 
 # Introduction
 

@@ -1,0 +1,43 @@
+version: '3.1'
+services:
+  db:
+    build: 06.MySQL/database/
+    ports:
+      - '3306:3306'
+  datasource:
+    build: 06.MySQL/datasource/
+    ports:
+      - '3305:3306'
+      - '12777:12777'
+  tomee:
+    build: .
+    depends_on:
+      - db
+    command: |
+      /bin/bash -c "
+        while ! nc -z db 3306;
+        do
+          echo sleeping;
+          sleep 5;
+        done;
+        echo database connected over port 3306!;
+        while ! nc -z datasource 3306;
+        do
+          echo sleeping;
+          sleep 5;
+        done;
+        echo datasource connected over port 3306!;
+        catalina.sh run;
+      "
+    links:
+      - 'db:db'
+      - 'datasource:datasource'
+    ports:
+      - '8080:8080'
+  ssl:
+    build: 03.FrontendRTE/
+    ports:
+      - '443:443'
+      - '80:80'
+    links:
+      - tomee

@@ -8,8 +8,8 @@
   <servers>
     <server>
       <id>se-nexus</id>
-      <username>cibuild</username>
-      <password>${env.cibuild}</password>
+      <username>iot-praktikum-mg</username>
+      <password>^c^\H=Z?L7^fn|_%o@4b</password>
     </server>
   </servers>
   
@@ -18,7 +18,7 @@
       <!-- this sends everything to the specified nexus repository -->
       <id>se-nexus</id>
       <mirrorOf>external:*</mirrorOf>
-      <url>https://nexus.se.rwth-aachen.de/content/groups/se</url>
+      <url>https://nexus.se.rwth-aachen.de/content/groups/monticore</url>
     </mirror>
   </mirrors>
   

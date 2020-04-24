@@ -14,18 +14,18 @@ RUN yum -y update \
     && yum -y clean all
 
 COPY httpd-foreground /usr/local/bin/
-COPY httpd.conf /etc/httpd/conf.d/httpd.conf
+#COPY httpd.conf /etc/httpd/conf.d/httpd.conf
+COPY httpd_no_ssl.conf /etc/httpd/conf.d/httpd.conf
 
-COPY certif.pem   /etc/httpd/ssl/cert.crt
-COPY private.pem   /etc/httpd/ssl/key.pem
+#COPY certif.pem   /etc/httpd/ssl/cert.crt
+#COPY private.pem   /etc/httpd/ssl/key.pem
 
-COPY var-www-html/ /var/www/html/protected/
-COPY MaCoCoLive/dist/macoco /var/www/html/
+COPY dist/app /var/www/html/
 
 RUN chmod +x /usr/local/bin/httpd-foreground
 
 #Shibbolet SP
-COPY etc-shibboleth /etc/shibboleth/
+# COPY etc-shibboleth /etc/shibboleth/
 
 
 EXPOSE 80 443
