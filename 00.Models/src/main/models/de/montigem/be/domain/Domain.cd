@@ -82,7 +82,10 @@ classdiagram Domain{
   enum SensorType{
     TEMPERATURE,
     ANGLE,
-    PERCENT;
+    PERCENT,
+    LIGHT,
+    CO2,
+    MOTION;
   }
 
   enum ZahlenTyp{
