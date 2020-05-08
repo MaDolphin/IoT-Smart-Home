@@ -25,6 +25,7 @@ import { HorizontalBarChartComponent } from '@shared/components/guidsl/charts/ho
 import { BudgetWidgetComponent } from '@shared/components/guidsl/budget-widget/budget-widget.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { RidgelineChartComponent } from './charts/ridgeline-chart/heroes.component';
 import { Ng5SliderModule } from 'ng5-slider';
 
 
@@ -41,6 +42,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     BalanceBoxComponent,
     HorizontalBarChartComponent,
     LineChartComponent,
+    RidgelineChartComponent,
     BudgetWidgetComponent,
   ],
   imports: [
@@ -77,6 +79,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     BalanceBoxComponent,
     HorizontalBarChartComponent,
     LineChartComponent,
+    RidgelineChartComponent,
     BudgetWidgetComponent
   ],
   providers: [

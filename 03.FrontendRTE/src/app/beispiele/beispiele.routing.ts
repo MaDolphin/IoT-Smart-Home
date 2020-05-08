@@ -9,6 +9,7 @@ import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-g
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
+import { BeispieleRidgelinechartsGenComponent } from "./beispiele-ridgelinecharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
 import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
@@ -48,6 +49,10 @@ export const routes: Routes = [
   {
     path: 'linecharts',
     component: BeispieleLinechartsGenComponent,
+  },
+  {
+    path: 'ridgelinecharts',
+    component: BeispieleRidgelinechartsGenComponent,
   },
   {
     path: 'horizontalbarcharts',

@@ -19,6 +19,7 @@ import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
+import { BeispieleRidgelinechartsGenComponent } from "./beispiele-ridgelinecharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
 import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
@@ -45,6 +46,7 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispieleTimelinechartsGenComponent,
     BeispieleBarchartsGenComponent,
     BeispieleLinechartsGenComponent,
+    BeispieleRidgelinechartsGenComponent,
     BeispieleRowdatatablesGenComponent,
     BeispieleDatatablesInfoGenComponent,
     BeispieleButtonsGenComponent,

@@ -11,6 +11,11 @@ classdiagram Beispiele {
     int abschlussjahr;
   }
 
+  // -------- RidgeLine Chart Example --------
+  class BeispieleRidgelineChart {
+    
+  }
+
   // -------- Line Chart Example --------
   class BeispieleLineChart {
     List<BeispieleLineChartEntry> entries;

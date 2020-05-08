@@ -21,6 +21,9 @@ webpage beispieleDatentabellen {
             tab "LineCharts" {
               link: "../linecharts"
             }
+            tab "Ridgeline" {
+              link: "../ridgelinecharts"
+            }
         }
     }
 
