@@ -4,10 +4,12 @@ package de.montigem.be.domain.cdmodelhwc.rest;
 
 import com.google.common.base.Throwables;
 import de.montigem.be.config.Config;
+import de.montigem.be.domain.cdmodelhwc.classes.sensor.Sensor;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
 import de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue;
 import de.montigem.be.domain.cdmodelhwc.daos.SensorDAO;
 import de.montigem.be.error.MontiGemErrorFactory;
+import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
 import de.montigem.be.util.Responses;
 import de.se_rwth.commons.logging.Log;
@@ -34,20 +36,39 @@ public class SensorService {
   @Inject
   private DAOLib daoLib;
 
+  /**
+  * @Description: retrieving Sensor-Values
+   * http://localhost:8080/montigem-be/api/general/sensor/querySensorValue?sensorId=000021
+  * @Param: [sensorId]
+  * @return: javax.ws.rs.core.Response
+  * @Author: Haikun
+  * @Date: 2020/5/10
+  */
   @GET
-  @Path("/{sensorId}")
-  public Response getSensorValue(@PathParam("sensorId") String sensorId){
-    String output = "SUCCESS INSERT : " + sensorId;
-    return Responses.okResponse(output);
+  @Path("/querySensorValue")
+  public Response getSensorValue(@QueryParam("sensorId") String sensorId){
+    SensorDAO dao = daoLib.getSensorDAO();
+    List<SensorValue> sensorList = dao.getListOfSensorValueById(sensorId);
+    String jsonResponse = JsonMarshal.getInstance().marshal(sensorList);
+    return Responses.okResponse(jsonResponse);
   }
 
-//  http://localhost:8080/montigem-be/api/general/sensor/000021/CO2/90
+
+  /**
+  * @Description: insert Sensor-Value
+   * http://localhost:8080/montigem-be/api/general/sensor/insertSensorValue?sensorId=000021&type=CO2&value=90
+  * @Param: [sensorId, type, value]
+  * @return: javax.ws.rs.core.Response
+  * @Author: Haikun
+  * @Date: 2020/5/10
+  */
   @GET
-  @Path("/{sensorId}/{type}/{value}")
+  @Path("/insertSensorValue")
+//  @Consumes(MediaType.MULTIPART_FORM_DATA)
   public Response setSensorValue(
-          @PathParam("sensorId") String sensorId,
-          @PathParam("type") String type,
-          @PathParam("value") int value){
+          @QueryParam("sensorId") String sensorId,
+          @QueryParam("type") String type,
+          @QueryParam("value") int value){
 
     type = type.toUpperCase();
 
@@ -68,5 +89,13 @@ public class SensorService {
 
     return Responses.okResponse(output);
   }
+
+//  @POST
+//  @Path("/testPost")
+//  @Consumes("application/json")
+//  public Response testPost(@FormParam("formData") String f){
+//    String output = "POST : " + f;
+//    return Responses.okResponse(output);
+//  }
 
 }
