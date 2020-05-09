@@ -140,6 +140,13 @@ public class SensorDAO extends SensorDAOTOP {
         em.persist(sensor);
     }
 
+    /**
+    * @Description: find all Sensor-Values by given SensorId
+    * @Param: [sensorId]
+    * @return: java.util.List<de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue>
+    * @Author: Haikun
+    * @Date: 2020/5/10
+    */
     @Transactional
     public List<SensorValue> getListOfSensorValueById(String sensorId) {
         Sensor sensor;
