@@ -5,7 +5,7 @@ import {BaseChartDirective} from 'ng2-charts';
 import 'chartjs-plugin-streaming';
 import {StringToDatePipe} from '@shared/pipes/string-to-date.pipe';
 
-export type LineDataGroup = {
+export type GaugeDataGroup = {
   label?: string,
   data: {
     x: number | string,
@@ -80,7 +80,7 @@ export class GaugeChartComponent implements OnInit {
   public dataSet: any[] = [];
   public displayValue: any;
 
-  private _data: LineDataGroup[] = [];
+  private _data: GaugeDataGroup[] = [];
   private _delay: number;
   private interval: number | null;
 
@@ -208,7 +208,7 @@ export class GaugeChartComponent implements OnInit {
   public widthInPoints: number;
 
   @Input()
-  public set data(data: LineDataGroup[]) {
+  public set data(data: GaugeDataGroup[]) {
     if (data === undefined) {
       return;
     }
@@ -267,7 +267,7 @@ export class GaugeChartComponent implements OnInit {
     }
   }
 
-  private calcXAxisBoundries(data: LineDataGroup[]) {
+  private calcXAxisBoundries(data: GaugeDataGroup[]) {
     let min = Number.MAX_SAFE_INTEGER;
     let max = Number.MIN_SAFE_INTEGER;
 
@@ -299,7 +299,7 @@ export class GaugeChartComponent implements OnInit {
   }
 
   // merging data with current
-  private update(updateSet: LineDataGroup[]) {
+  private update(updateSet: GaugeDataGroup[]) {
     if (this._data.length) {
       this._data.forEach(gr => {
         let match = updateSet.find(group => group.label === gr.label);
@@ -326,7 +326,7 @@ export class GaugeChartComponent implements OnInit {
     }
   }
 
-  private isEmptyGroup(updateGroup: LineDataGroup) {
+  private isEmptyGroup(updateGroup: GaugeDataGroup) {
     return updateGroup.label === null || updateGroup.label === undefined;
   }
 

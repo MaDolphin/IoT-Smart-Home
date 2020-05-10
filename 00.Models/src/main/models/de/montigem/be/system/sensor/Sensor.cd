@@ -17,6 +17,16 @@ classdiagram Sensor {
     List<LineGraphEntry> entries;
     ZonedDateTime timestamp;
   }
+
+  class GaugeGraphEntry {
+    String name;
+    int value;
+  }
+
+  class GaugeGraph {
+    List<GaugeGraphEntry> entries;
+    ZonedDateTime timestamp;
+  }
 }
 
 
