@@ -3,9 +3,9 @@ import {Component} from '@angular/core';
 import {WebSocketService} from '@shared/architecture/services/websocket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
-import { BeispieleLinechartsGenComponentTOP } from "@targetgui/beispiele-linecharts-gen.component/beispiele-linecharts-gen.component-top";
+import { BeispieleLinechartsGenComponentTOP } from '@targetgui/beispiele-linecharts-gen.component/beispiele-linecharts-gen.component-top';
 import { LineDataGroup } from "@components/charts/line-chart/line-chart.component";
-import { BeispieleLineChartDTO } from "@targetdtos/beispielelinechart.dto";
+import { BeispieleLineChartDTO } from '@targetdtos/beispielelinechart.dto';
 
 @Component({
   templateUrl: '../../../target/generated-sources/gui/beispiele-linecharts-gen.component/beispiele-linecharts-gen.component.html',

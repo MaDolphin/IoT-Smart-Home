@@ -26,6 +26,21 @@ classdiagram Beispiele {
     int y;
   }
 
+  // -------- Gauge Chart Example --------
+  class BeispieleGaugeChart {
+    List<BeispieleGaugeChartEntry> entries;
+  }
+
+  class BeispieleGaugeChartEntry {
+    String label;
+    List<BeispieleGaugeChartEntryData> dataEntries;
+  }
+
+  class BeispieleGaugeChartEntryData {
+    int x;
+    int y;
+  }
+
   // -------- Horizontal Bar Chart Example --------
   class BeispieleHorizontalBarChart {
     List<BeispieleBarData> daten;

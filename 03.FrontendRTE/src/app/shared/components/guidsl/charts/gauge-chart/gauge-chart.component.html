@@ -1,0 +1,18 @@
+<!-- (c) https://github.com/MontiCore/monticore -->
+<div style="position: relative; height: 100%; width:100%;">
+  <ngx-charts-gauge
+          *ngIf="hasData()"
+          [view]="view"
+          [scheme]="colorScheme"
+          [results]="single"
+          [legend]="legend"
+          [legendPosition]="legendPosition"
+          (select)="onSelect($event)"
+          (activate)="onActivate($event)"
+          (deactivate)="onDeactivate($event)">
+  </ngx-charts-gauge>
+
+  <div *ngIf="!hasData()">
+    Keine Daten vorhanden
+  </div>
+</div>

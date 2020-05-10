@@ -1,0 +1,149 @@
+webpage GaugeChartSamplePage(
+    socket GaugeGraph gaugeChartData,
+    all BeispieleGaugeChart gaugeChartData2
+) {  // webpage declaration with data init
+
+  column(nospace) {
+      navigation "navigationBarLinks" {
+          tab "Info" {
+            link: "../charts"
+          }
+          tab "BarCharts" {
+            link: "../barcharts/1"
+          }
+          tab "HorizontalBarCharts" {
+              link: "../horizontalbarcharts"
+          }
+          tab "TimeLineCharts" {
+              link: "../timelinecharts/1"
+          }
+          tab "PieCharts" {
+            link: "../piecharts/1"
+          }
+          tab "LineCharts" {
+            link: "../linechart"
+          }
+          tab "GaugeCharts" {
+            link: "./"
+          }
+      }
+  }
+
+  row (space-evenly, spaceabove) {
+      // container for card 1
+      container(30%) {
+          card {
+              head {
+                  row(stretch) {
+                      label "Information"
+                  }
+              }
+              body {
+                  row {
+                      textoutput {
+                          "Dies ist erstmal nur ein Beispiel, welches demnächst den Graphen anzeigen kann."
+                      }
+                  }
+                  row {
+                    textoutput { "-" }
+                  }
+                  row {
+                      textoutput {
+                          "Demnächst: Bitte legen Sie links unten in der Navigation Dummy-Daten an, damit der Graph für kurze Zeit Daten zur Anzeige erhält."
+                      }
+                  }
+                  row {
+                    textoutput { "-" }
+                  }
+                  row {
+                      textoutput {
+                          "TODO: Add desc in english"
+                      }
+                  }
+              }
+          }
+      }
+
+
+      // container for card 2
+      container(30%) {
+          card {
+              head {
+                  label "GaugeChart"
+              }
+              body {
+                  linechart "GaugeChart" {           // gauge chart declaration with name
+                      data : <gaugeChartData         // data reference (see first gauge)
+                      // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
+                      //stepSizeY : 2                 // Y Axis step size
+                      title: "GaugeChart"   // chart title
+                      // realtime                      // if chart shows realtime data (enables animation)
+                      // overwriteData              // incoming data overwrites current data for chart if set,
+                                                    // otherwise the data is appended to existing list
+                  }
+              }
+          }
+      }
+
+
+
+
+      // container for card 2
+//      container(30%) {
+//          card {
+//              head {
+//                  label "Real-Time GaugeChart"
+//              }
+//              body {
+//                  gaugechart "GaugeChart" {           // gauge chart declaration with name
+//                      data : <gaugeChartData         // data reference (see first gauge)
+//                      // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
+//                      stepSizeY : 2                 // Y Axis step size
+//                      title: "Realtime GaugeChart"   // chart title
+//                      realtime                      // if chart shows realtime data (enables animation)
+//                      // overwriteData              // incoming data overwrites current data for chart if set,
+//                                                    // otherwise the data is appended to existing list
+//                  }
+//              }
+//          }
+//      }
+//
+//      // container for card 3
+//      container(30%) {
+//          card {
+//              head {
+//                  label "Card That Shows Image When Sensor Data Is Received"
+//              }
+//              body {
+//                  row if (isImageVisible()) (c) {
+//                      image {                           // image declaration
+//                          width: 30%                    // width of image (retains aspect ratio; in '%' or 'px')
+//                          source: getImageSource()      // image source (could be a path written as string)
+//                      }
+//                  }
+//                  row if (!isImageVisible()) {
+//                      textoutput { "Receiving no sensor data" }
+//                  }
+//              }
+//          }
+//      }
+//
+//      // container for card 4
+//      container(30%) {
+//          card {
+//              head {
+//                  label "Gaugechart Without Realtime Data"
+//              }
+//              body {
+//                  gaugechart "GaugeChartNoRealtime" {    // gauge chart declaration with name
+//                      data : <transformedGaugeChartData // data reference
+//                      stepSizeX : 3                    // X Axis step size
+//                      stepSizeY : 2                    // Y Axis step size
+//                      title: "GaugeChart"               // chart title
+//                  }
+//              }
+//          }
+//      }
+  }
+
+}
