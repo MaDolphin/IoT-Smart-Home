@@ -64,6 +64,30 @@ webpage GaugeChartSamplePage(
           }
       }
 
+
+      // container for card 2
+      container(30%) {
+          card {
+              head {
+                  label "GaugeChart"
+              }
+              body {
+                  linechart "GaugeChart" {           // gauge chart declaration with name
+                      data : <gaugeChartData         // data reference (see first gauge)
+                      // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
+                      //stepSizeY : 2                 // Y Axis step size
+                      title: "GaugeChart"   // chart title
+                      // realtime                      // if chart shows realtime data (enables animation)
+                      // overwriteData              // incoming data overwrites current data for chart if set,
+                                                    // otherwise the data is appended to existing list
+                  }
+              }
+          }
+      }
+
+
+
+
       // container for card 2
 //      container(30%) {
 //          card {
