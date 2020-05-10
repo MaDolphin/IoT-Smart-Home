@@ -15,7 +15,7 @@ export class BeispieleGaugechartsGenComponent extends BeispieleGaugechartsGenCom
     protected _router: Router,
     protected _route: ActivatedRoute,
     protected _commandRestService: CommandRestService) {
-    super(_commandRestService, _route, _router, _webSocketService);
+    super(_commandRestService, _route, _router/*, _webSocketService*/);
     //Object.assign(this, { single });
   }
 

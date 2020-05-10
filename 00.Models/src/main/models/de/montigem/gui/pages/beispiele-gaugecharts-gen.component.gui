@@ -1,6 +1,6 @@
 webpage GaugeChartSamplePage(
-    socket GaugeGraph gaugeChartData,
-    all BeispieleGaugeChart gaugeChartData2
+    //socket GaugeGraph gaugeChartData,
+    //all BeispieleGaugeChart gaugeChartData2
 ) {  // webpage declaration with data init
 
   column(nospace) {
