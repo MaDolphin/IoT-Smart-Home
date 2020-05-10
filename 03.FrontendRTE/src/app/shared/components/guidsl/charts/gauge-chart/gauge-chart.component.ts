@@ -22,7 +22,7 @@ export type GaugeDataGroup = {
   templateUrl: './gauge-chart.component.html',
 })
 export class GaugeChartComponent {
-  
+
   single: any[];
   view: any[] = [500, 400];
   legend: boolean = true;
@@ -33,7 +33,7 @@ export class GaugeChartComponent {
   };
 
   constructor() {
-    var sampleData = [
+    this.single = [
       {
         "name": "Germany",
         "value": 8940000
@@ -60,7 +60,7 @@ export class GaugeChartComponent {
       }
     ];
 
-    Object.assign(this, { sampleData });
+    //Object.assign(this, { single });
   }
 
   onSelect(data): void {
