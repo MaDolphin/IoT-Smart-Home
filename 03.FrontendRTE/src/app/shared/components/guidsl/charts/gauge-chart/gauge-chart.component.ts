@@ -1,81 +1,39 @@
 /* (c) https://github.com/MontiCore/monticore */
-import {Component, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
-import {ColorsService} from '@shared/utils/colors.service';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {Component, ElementRef, HostBinding, Input, OnInit, ViewChild} from '@angular/core';
 import 'chartjs-plugin-streaming';
-import {StringToDatePipe} from '@shared/pipes/string-to-date.pipe';
-
-export type GaugeDataGroup = {
-  label?: string,
-  data: {
-    x: number | string,
-    y: number,
-  }[]
-  stack?: string
-  color?: string
-  interval?: number
-  intervalLag?: number
-}
 
 @Component({
-  selector: 'gauge-chart',
-  templateUrl: './gauge-chart.component.html',
+    selector: 'gauge-chart',
+    templateUrl: './gauge-chart.component.html',
 })
-export class GaugeChartComponent {
+export class GaugeChartComponent implements OnInit {
 
-  single: any[];
-  view: any[] = [500, 400];
-  legend: boolean = true;
-  legendPosition: string = 'below';
+    @Input() values: any[];
+    @Input() textValue: string;
+    @Input() showAxis: boolean = true;
+    @Input() min: number = 0;
+    @Input() max: number = 100;
 
-  colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  };
+    view: any[] = [400, 400]; // todo change dynamically with screen size
+    legend: boolean = true;
+    showText: boolean = true;
 
-  constructor() {
-    this.single = [
-      {
-        "name": "Germany",
-        "value": 8940000
-      },
-      {
-        "name": "USA",
-        "value": 5000000
-      },
-      {
-        "name": "France",
-        "value": 7200000
-      },
-      {
-        "name": "UK",
-        "value": 5200000
-      },
-      {
-        "name": "Italy",
-        "value": 7700000
-      },
-      {
-        "name": "Spain",
-        "value": 4300000
-      }
-    ];
+    legendPosition: string = 'below';
 
-    //Object.assign(this, { single });
-  }
+    @Input()
+    colorScheme = {
+        domain: ['#E44D25', '#7aa3e5', '#5AA454', '#CFC0BB', '#a8385d', '#aae3f5']
+    };
 
-  onSelect(data): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
+    ngOnInit(): void {
+        this.showText = !!this.textValue;
+    }
 
-  onActivate(data): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
+    constructor(private el: ElementRef) {
 
-  onDeactivate(data): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  }
+    }
 
-  hasData() {
-    return true;
-  }
+    hasData() {
+        return this.values.length > 0;
+    }
 }

@@ -73,14 +73,9 @@ webpage GaugeChartSamplePage(
                   label "Kitchen"
               }
               body {
-                  //html {"<p>hi</p>"}
                   // Values in % from 100% (air quality) and 30°C (Temperature)
-                  html {"<ngx-charts-gauge
-
-                           [scheme]=\"{
-                                         domain: ['#E44D25', '#7aa3e5']
-                                       }\"
-                           [results]=\"[
+                  html {"<gauge-chart
+                           [values]=\"[
                                         {
                                           'name': 'Temperature',
                                           'value': 73
@@ -93,11 +88,8 @@ webpage GaugeChartSamplePage(
                            [min]=\"0\"
                            [max]=\"100\"
                            [showAxis]=\"false\"
-                           [showText]=\"true\"
-                           [textValue]=\"'Kitchen'\"
-                           [legend]=\"true\"
-                           [legendPosition]=\"'below'\">
-                         </ngx-charts-gauge>
+                           [textValue]=\"'Kitchen'\">
+                         </gauge-chart>
                   "}
               }
           }
@@ -109,32 +101,22 @@ webpage GaugeChartSamplePage(
                   label "Bedroom"
               }
               body {
-                  //html {"<p>hi</p>"}
                   // Values in % from 100% (air quality) and 30°C (Temperature)
-                  html {"<ngx-charts-gauge
-
-                           [scheme]=\"{
-                                         domain: ['#E44D25', '#7aa3e5']
-                                       }\"
-                           [results]=\"[
-                                        {
-                                          'name': 'Temperature',
-                                          'value': 65
-                                        },
-                                        {
-                                          'name': 'Air quality',
-                                          'value': 90
-                                        }
-                                      ]\"
-                           [min]=\"0\"
-                           [max]=\"100\"
-                           [showAxis]=\"false\"
-                           [showText]=\"true\"
-                           [textValue]=\"'Bedroom'\"
-                           [legend]=\"true\"
-                           [legendPosition]=\"'below'\">
-                         </ngx-charts-gauge>
-                  "}
+                  html {"<gauge-chart
+                          [values]=\"[
+                                {
+                                  'name': 'Temperature',
+                                  'value': 65
+                                },
+                                {
+                                  'name': 'Air quality',
+                                  'value': 90
+                                }
+                              ]\"
+                          [showAxis]=\"false\"
+                          [textValue]=\"'Bedroom'\">
+                        </gauge-chart>
+                 "}
               }
           }
       }
@@ -145,14 +127,9 @@ webpage GaugeChartSamplePage(
                   label "Work"
               }
               body {
-                  //html {"<p>hi</p>"}
                   // Values in % from 100% (air quality) and 30°C (Temperature)
-                  html {"<ngx-charts-gauge
-
-                           [scheme]=\"{
-                                         domain: ['#E44D25', '#7aa3e5']
-                                       }\"
-                           [results]=\"[
+                  html {"<gauge-chart
+                           [values]=\"[
                                         {
                                           'name': 'Temperature',
                                           'value': 85
@@ -162,14 +139,9 @@ webpage GaugeChartSamplePage(
                                           'value': 70
                                         }
                                       ]\"
-                           [min]=\"0\"
-                           [max]=\"100\"
                            [showAxis]=\"false\"
-                           [showText]=\"true\"
-                           [textValue]=\"'Work'\"
-                           [legend]=\"true\"
-                           [legendPosition]=\"'below'\">
-                         </ngx-charts-gauge>
+                           [textValue]=\"'Office'\">
+                         </gauge-chart>
                   "}
               }
           }
@@ -181,14 +153,9 @@ webpage GaugeChartSamplePage(
                   label "Child"
               }
               body {
-                  //html {"<p>hi</p>"}
                   // Values in % from 100% (air quality) and 30°C (Temperature)
-                  html {"<ngx-charts-gauge
-
-                           [scheme]=\"{
-                                         domain: ['#E44D25', '#7aa3e5']
-                                       }\"
-                           [results]=\"[
+                  html {"<gauge-chart
+                           [values]=\"[
                                         {
                                           'name': 'Temperature',
                                           'value': 87
@@ -198,14 +165,9 @@ webpage GaugeChartSamplePage(
                                           'value': 65
                                         }
                                       ]\"
-                           [min]=\"0\"
-                           [max]=\"100\"
                            [showAxis]=\"false\"
-                           [showText]=\"true\"
-                           [textValue]=\"'Child'\"
-                           [legend]=\"true\"
-                           [legendPosition]=\"'below'\">
-                         </ngx-charts-gauge>
+                           [textValue]=\"'Bathroom'\">
+                         </gauge-chart>
                   "}
               }
           }
@@ -240,7 +202,6 @@ webpage GaugeChartSamplePage(
                   label "Temperature"
               }
               body {
-                  //html {"<p>hi</p>"}
                   // Values in ° from -40 to 50°C (Temperature)
                   html {"<ngx-charts-gauge
 				  
@@ -288,7 +249,6 @@ webpage GaugeChartSamplePage(
                   label "Air Quality"
               }
               body {
-                  //html {"<p>hi</p>"}
                   // Values in 0 to 500 (Air pollution)
                   html {"<ngx-charts-gauge
 				  
