@@ -72,15 +72,42 @@ webpage GaugeChartSamplePage(
                   label "GaugeChart"
               }
               body {
-                  linechart "GaugeChart" {           // gauge chart declaration with name
-                      data : <gaugeChartData         // data reference (see first gauge)
-                      // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
-                      //stepSizeY : 2                 // Y Axis step size
-                      title: "GaugeChart"   // chart title
-                      // realtime                      // if chart shows realtime data (enables animation)
-                      // overwriteData              // incoming data overwrites current data for chart if set,
-                                                    // otherwise the data is appended to existing list
-                  }
+                  //html {"<p>hi</p>"}
+                  html {"<ngx-charts-gauge
+                           [view]=\"[500, 400]\"
+                           [scheme]=\"{
+                                         domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+                                       }\"
+                           [results]=\"[
+                                        {
+                                          'name': 'Germany',
+                                          'value': 8940000
+                                        },
+                                        {
+                                          'name': 'USA',
+                                          'value': 5000000
+                                        },
+                                        {
+                                          'name': 'France',
+                                          'value': 7200000
+                                        },
+                                        {
+                                          'name': 'UK',
+                                          'value': 5200000
+                                        },
+                                        {
+                                          'name': 'Italy',
+                                          'value': 7700000
+                                        },
+                                        {
+                                          'name': 'Spain',
+                                          'value': 4300000
+                                        }
+                                      ]\"
+                           [legend]=\"true\"
+                           [legendPosition]=\"below\" >
+                         </ngx-charts-gauge>
+                  "}
               }
           }
       }
