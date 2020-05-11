@@ -40,6 +40,12 @@ classdiagram Domain{
     long wert;
   }
 
+  class CPPSError {
+    Optional<String> sensorId;
+    String errCode;
+    String errMsg;
+  }
+
   class AlarmCtrl{
     <<dbColumn="unique=true">>String serial = "0";
     int smokeCtrlMax = 0;
