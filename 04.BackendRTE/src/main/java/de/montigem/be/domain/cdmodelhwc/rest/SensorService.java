@@ -3,6 +3,9 @@
 package de.montigem.be.domain.cdmodelhwc.rest;
 
 import com.google.common.base.Throwables;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import de.montigem.be.config.Config;
 import de.montigem.be.domain.cdmodelhwc.classes.sensor.Sensor;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
@@ -22,6 +25,7 @@ import javax.ws.rs.core.Response;
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * An example of a REST class with a REST method. This class is the only REST class that does not
@@ -29,7 +33,7 @@ import java.util.List;
  *
  */
 @Stateless
-@Path("/general/sensor")
+@Path("/domain/receive-json")
 @Produces("application/json")
 public class SensorService {
 
@@ -37,65 +41,69 @@ public class SensorService {
   private DAOLib daoLib;
 
   /**
-  * @Description: retrieving Sensor-Values
-   * http://localhost:8080/montigem-be/api/general/sensor/querySensorValue?sensorId=000021
-  * @Param: [sensorId]
-  * @return: javax.ws.rs.core.Response
-  * @Author: Haikun
-  * @Date: 2020/5/10
-  */
+   * @Description: retrieving Sensor-Values
+   * GET http://localhost:8080/montigem-be/api/domain/receive-json/querySensorValue?sensorId=000021
+   * @Param: [sensorId]
+   * @return: javax.ws.rs.core.Response
+   * @Author: Haikun
+   * @Date: 2020/5/10
+   */
   @GET
   @Path("/querySensorValue")
   public Response getSensorValue(@QueryParam("sensorId") String sensorId){
     SensorDAO dao = daoLib.getSensorDAO();
-    List<SensorValue> sensorList = dao.getListOfSensorValueById(sensorId);
-    String jsonResponse = JsonMarshal.getInstance().marshal(sensorList);
-    return Responses.okResponse(jsonResponse);
+    if(dao.getListOfSensorValueById(sensorId) == null){
+      return Responses.okResponse("No Result");
+    }else {
+      List<SensorValue> sensorList = dao.getListOfSensorValueById(sensorId);
+      String jsonResponse = JsonMarshal.getInstance().marshal(sensorList);
+      return Responses.okResponse(jsonResponse);
+    }
+
   }
 
 
   /**
-  * @Description: insert Sensor-Value
-   * http://localhost:8080/montigem-be/api/general/sensor/insertSensorValue?sensorId=000021&type=CO2&value=90
-  * @Param: [sensorId, type, value]
-  * @return: javax.ws.rs.core.Response
-  * @Author: Haikun
-  * @Date: 2020/5/10
-  */
-  @GET
+   * @Description: insert Sensor-Value
+   * POST http://localhost:8080/montigem-be/api/domain/receive-json/insertSensorValue
+   * Body - raw - Json type : {"sensorId":"000021","type":"CO2","value":90}
+   * @Param: [sensorId, type, value]
+   * @return: javax.ws.rs.core.Response
+   * @Author: Haikun
+   * @Date: 2020/5/10
+   */
+  @POST
   @Path("/insertSensorValue")
-//  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Response setSensorValue(
-          @QueryParam("sensorId") String sensorId,
-          @QueryParam("type") String type,
-          @QueryParam("value") int value){
+  @Consumes(MediaType.APPLICATION_JSON)
+  public Response setSensorValue(String json){
+    try {
+      JsonElement element = new Gson().fromJson(json, JsonElement.class);
+      String sensorId = element.getAsJsonObject().get("sensorId").getAsString();
+      String type = element.getAsJsonObject().get("type").getAsString();
+      int value = element.getAsJsonObject().get("value").getAsInt();
 
-    type = type.toUpperCase();
+      type = type.toUpperCase();
 
-    SensorType sensorType;
-    SensorDAO dao = daoLib.getSensorDAO();
-    switch (type){
-      case "TEMPERATURE": sensorType = SensorType.TEMPERATURE; break;
-      case "ANGLE": sensorType = SensorType.ANGLE; break;
-      case "PERCENT": sensorType = SensorType.PERCENT; break;
-      case "LIGHT": sensorType = SensorType.LIGHT; break;
-      case "CO2": sensorType = SensorType.CO2; break;
-      case "MOTION": sensorType = SensorType.MOTION; break;
-      default:
-        return Responses.noContent();
+      SensorType sensorType;
+      SensorDAO dao = daoLib.getSensorDAO();
+      switch (type){
+        case "TEMPERATURE": sensorType = SensorType.TEMPERATURE; break;
+        case "ANGLE": sensorType = SensorType.ANGLE; break;
+        case "PERCENT": sensorType = SensorType.PERCENT; break;
+        case "LIGHT": sensorType = SensorType.LIGHT; break;
+        case "CO2": sensorType = SensorType.CO2; break;
+        case "MOTION": sensorType = SensorType.MOTION; break;
+        default:
+          return Responses.noContent();
+      }
+      dao.setSensorValue(sensorId,sensorType,value);
+      String output = "SUCCESS INSERT : " + sensorId + "-" + type + "-" + value;
+      return Responses.okResponse(output);
+    } catch (JsonParseException e) {
+      Log.warn("SensorService: incoming json is not parseable");
+      Log.trace(json, "SensorService");
     }
-    dao.setSensorValue(sensorId,sensorType,value);
-    String output = "SUCCESS INSERT : " + sensorId + "-" + type + "-" + value;
-
-    return Responses.okResponse(output);
+    return Responses.error(MontiGemErrorFactory.deserializeError(json), getClass());
   }
-
-//  @POST
-//  @Path("/testPost")
-//  @Consumes("application/json")
-//  public Response testPost(@FormParam("formData") String f){
-//    String output = "POST : " + f;
-//    return Responses.okResponse(output);
-//  }
 
 }
