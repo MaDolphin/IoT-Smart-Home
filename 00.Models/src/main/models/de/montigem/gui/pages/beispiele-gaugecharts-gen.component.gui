@@ -31,17 +31,17 @@ webpage GaugeChartSamplePage(
 
   row (space-evenly, spaceabove) {
       // container for card 1
-      container(30%) {
+      container(90%) {
           card {
               head {
                   row(stretch) {
-                      label "Information"
+                      label "Information zu GaugeCharts"
                   }
               }
               body {
                   row {
                       textoutput {
-                          "Dies ist erstmal nur ein Beispiel, welches demnächst den Graphen anzeigen kann."
+                          "Dies ist erstmal nur eine Beispiel-Seite, welche die Graphen anzeigen kann."
                       }
                   }
                   row {
@@ -63,114 +63,153 @@ webpage GaugeChartSamplePage(
               }
           }
       }
+  }
 
-
+  row (space-evenly, spaceabove) {
       // container for card 2
-      container(30%) {
+      container(15%) {
           card {
               head {
-                  label "GaugeChart"
+                  label "Kitchen"
               }
               body {
                   //html {"<p>hi</p>"}
+                  // Values in % from 100% (air quality) and 30°C (Temperature)
                   html {"<ngx-charts-gauge
-                           [view]=\"[500, 400]\"
+
                            [scheme]=\"{
-                                         domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
+                                         domain: ['#E44D25', '#7aa3e5']
                                        }\"
                            [results]=\"[
                                         {
-                                          'name': 'Germany',
-                                          'value': 8940000
+                                          'name': 'Temperature',
+                                          'value': 73
                                         },
                                         {
-                                          'name': 'USA',
-                                          'value': 5000000
-                                        },
-                                        {
-                                          'name': 'France',
-                                          'value': 7200000
-                                        },
-                                        {
-                                          'name': 'UK',
-                                          'value': 5200000
-                                        },
-                                        {
-                                          'name': 'Italy',
-                                          'value': 7700000
-                                        },
-                                        {
-                                          'name': 'Spain',
-                                          'value': 4300000
+                                          'name': 'Air quality',
+                                          'value': 80
                                         }
                                       ]\"
+                           [min]=\"0\"
+                           [max]=\"100\"
+                           [showAxis]=\"false\"
+                           [showText]=\"true\"
+                           [textValue]=\"'Kitchen'\"
                            [legend]=\"true\"
-                           [legendPosition]=\"below\" >
+                           [legendPosition]=\"'below'\">
                          </ngx-charts-gauge>
                   "}
               }
           }
       }
+      // container for card 3
+      container(15%) {
+          card {
+              head {
+                  label "Bedroom"
+              }
+              body {
+                  //html {"<p>hi</p>"}
+                  // Values in % from 100% (air quality) and 30°C (Temperature)
+                  html {"<ngx-charts-gauge
 
+                           [scheme]=\"{
+                                         domain: ['#E44D25', '#7aa3e5']
+                                       }\"
+                           [results]=\"[
+                                        {
+                                          'name': 'Temperature',
+                                          'value': 65
+                                        },
+                                        {
+                                          'name': 'Air quality',
+                                          'value': 90
+                                        }
+                                      ]\"
+                           [min]=\"0\"
+                           [max]=\"100\"
+                           [showAxis]=\"false\"
+                           [showText]=\"true\"
+                           [textValue]=\"'Bedroom'\"
+                           [legend]=\"true\"
+                           [legendPosition]=\"'below'\">
+                         </ngx-charts-gauge>
+                  "}
+              }
+          }
+      }
+      // container for card 4
+      container(15%) {
+          card {
+              head {
+                  label "Work"
+              }
+              body {
+                  //html {"<p>hi</p>"}
+                  // Values in % from 100% (air quality) and 30°C (Temperature)
+                  html {"<ngx-charts-gauge
 
+                           [scheme]=\"{
+                                         domain: ['#E44D25', '#7aa3e5']
+                                       }\"
+                           [results]=\"[
+                                        {
+                                          'name': 'Temperature',
+                                          'value': 85
+                                        },
+                                        {
+                                          'name': 'Air quality',
+                                          'value': 70
+                                        }
+                                      ]\"
+                           [min]=\"0\"
+                           [max]=\"100\"
+                           [showAxis]=\"false\"
+                           [showText]=\"true\"
+                           [textValue]=\"'Work'\"
+                           [legend]=\"true\"
+                           [legendPosition]=\"'below'\">
+                         </ngx-charts-gauge>
+                  "}
+              }
+          }
+      }
+      // container for card 5
+      container(15%) {
+          card {
+              head {
+                  label "Child"
+              }
+              body {
+                  //html {"<p>hi</p>"}
+                  // Values in % from 100% (air quality) and 30°C (Temperature)
+                  html {"<ngx-charts-gauge
 
-
-      // container for card 2
-//      container(30%) {
-//          card {
-//              head {
-//                  label "Real-Time GaugeChart"
-//              }
-//              body {
-//                  gaugechart "GaugeChart" {           // gauge chart declaration with name
-//                      data : <gaugeChartData         // data reference (see first gauge)
-//                      // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
-//                      stepSizeY : 2                 // Y Axis step size
-//                      title: "Realtime GaugeChart"   // chart title
-//                      realtime                      // if chart shows realtime data (enables animation)
-//                      // overwriteData              // incoming data overwrites current data for chart if set,
-//                                                    // otherwise the data is appended to existing list
-//                  }
-//              }
-//          }
-//      }
-//
-//      // container for card 3
-//      container(30%) {
-//          card {
-//              head {
-//                  label "Card That Shows Image When Sensor Data Is Received"
-//              }
-//              body {
-//                  row if (isImageVisible()) (c) {
-//                      image {                           // image declaration
-//                          width: 30%                    // width of image (retains aspect ratio; in '%' or 'px')
-//                          source: getImageSource()      // image source (could be a path written as string)
-//                      }
-//                  }
-//                  row if (!isImageVisible()) {
-//                      textoutput { "Receiving no sensor data" }
-//                  }
-//              }
-//          }
-//      }
-//
-//      // container for card 4
-//      container(30%) {
-//          card {
-//              head {
-//                  label "Gaugechart Without Realtime Data"
-//              }
-//              body {
-//                  gaugechart "GaugeChartNoRealtime" {    // gauge chart declaration with name
-//                      data : <transformedGaugeChartData // data reference
-//                      stepSizeX : 3                    // X Axis step size
-//                      stepSizeY : 2                    // Y Axis step size
-//                      title: "GaugeChart"               // chart title
-//                  }
-//              }
-//          }
-//      }
+                           [scheme]=\"{
+                                         domain: ['#E44D25', '#7aa3e5']
+                                       }\"
+                           [results]=\"[
+                                        {
+                                          'name': 'Temperature',
+                                          'value': 87
+                                        },
+                                        {
+                                          'name': 'Air quality',
+                                          'value': 65
+                                        }
+                                      ]\"
+                           [min]=\"0\"
+                           [max]=\"100\"
+                           [showAxis]=\"false\"
+                           [showText]=\"true\"
+                           [textValue]=\"'Child'\"
+                           [legend]=\"true\"
+                           [legendPosition]=\"'below'\">
+                         </ngx-charts-gauge>
+                  "}
+              }
+          }
+      }
   }
 
 }

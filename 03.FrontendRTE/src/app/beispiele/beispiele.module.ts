@@ -33,6 +33,7 @@ import { BeispieleLayout3GenComponent } from "@targetgui/beispiele-layout-3-gen.
 import { BeispieleLayout4GenComponent } from "@targetgui/beispiele-layout-4-gen.component/beispiele-layout-4-gen.component";
 import { BeispieleLayout5GenComponent } from "@targetgui/beispiele-layout-5-gen.component/beispiele-layout-5-gen.component";
 import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-other-gen.component/beispiele-input-other-gen.component";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     routing,
     PipesModule,
     ContextMenuModule,
+    NgxChartsModule
   ],
   providers: [
     ContextMenuService,
