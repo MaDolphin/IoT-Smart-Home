@@ -82,7 +82,7 @@ export class EinstellungenMeinbenutzerGenComponent extends EinstellungenMeinbenu
     this._usernameControl = new TextFormControl();
     this._usernameControl.setValidators(
       (control: AbstractControl): ValidationErrors | null => {
-        if (control.value !== null && control.value.toString().length > 1) {
+        if (control.value !== null && control.value.toString() !== null && control.value.toString().length > 1) {
           if (!control.value || this._uit_username === control.value) {
             return null;
           }
@@ -95,14 +95,14 @@ export class EinstellungenMeinbenutzerGenComponent extends EinstellungenMeinbenu
       });
 
     this._upwd_neuesPasswortControl.setValidators((control: AbstractControl): ValidationErrors | null => {
-      if (control.value.length < 5)
+      if (control.value && control.value.length < 5)
         return { 'error': 'Min. 5 Zeichen'};
 
       return null;
     });
 
     this._upwd_neuesPasswortZweiControl.setValidators((control: AbstractControl): ValidationErrors | null => {
-      if (control.value.length < 5)
+      if (control.value && control.value.length < 5)
         return { 'error': 'Min 5 Zeichen'};
 
       if (control.value !== this._upwd_neuesPasswortControl.value)
