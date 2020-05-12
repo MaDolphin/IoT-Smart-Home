@@ -10,7 +10,7 @@ import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
 import * as moment from "moment";
 import { beispielTransformation, transformDatumsbereichDTO } from "@components/charts/time-line-chart/time-line-chart.transformation";
 import { ILineChartDataRange, TimeLineChartComponent } from "@components/charts/time-line-chart/time-line-chart.component";
-import { RidgelineChartComponent } from "@components/charts/ridgeline-chart/heroes.component";
+import { RidgelineChartComponent } from "@components/charts/ridgeline-chart/ridgeline-chart.component";
 import { BeispieleRidgelinechartsGenComponentTOP } from "@targetgui/beispiele-ridgelinecharts-gen.component/beispiele-ridgelinecharts-gen.component-top";
 
 /**
