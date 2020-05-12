@@ -40,10 +40,13 @@ classdiagram Domain{
     long wert;
   }
 
-  class CPPSError {
-    Optional<String> sensorId;
-    String errCode;
-    String errMsg;
+  class CPPSError{
+      Optional<String> sensorId;
+      String errCode;
+      String errMsg;
+      String timeStamp;
+      String source;
+      List<String> recipients;
   }
 
   class AlarmCtrl{
