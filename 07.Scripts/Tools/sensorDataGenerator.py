@@ -65,8 +65,7 @@ for i in range(0,1000):
 		sensorId = '6'
 		type = 'ANGLE'
 		value = 90
-	#payload.append('{"'+ 'sensorId' + '"' + ':' + '"' + '123123' + '"' + ',' + '"' + 'type' + '"' + ':' + '"' + type + '"' + ',' + '"' + 'value' + '"' + ':' + '"' + str(value) + '"}')
-	#payload.append('{' + 'sensorId' + ':' + '123123' + ',' + 'type' + ':' + type + ',' + 'value' + ':' + str(value) + '}') 
+
 	payload.append({"sensorId":sensorId,"type":type,"value":value})
 
 print('payload created succesfull with' + str(len(payload)) + 'elements')
@@ -75,4 +74,3 @@ print('sending payload to backend')
 for i in payload: 
 	r = requests.post('http://localhost:8080/montigem-be/api/domain/receive-json/insertSensorValue', json=i)
 	print(r.text)
-	#print(json.dumps(i))
