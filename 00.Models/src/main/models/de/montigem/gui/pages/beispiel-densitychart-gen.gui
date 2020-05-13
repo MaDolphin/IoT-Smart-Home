@@ -1,0 +1,61 @@
+webpage Densitychart(
+    //socket LineGraph lineChartData,
+    //socket DensityChart densityChartData,
+    //all BeispieleDensityChart lineChartData2
+    //all BeispieleLineChart lineChartData2
+) {  // webpage declaration with data init
+
+  column(nospace) {
+      navigation "navigationBarLinks" {
+          tab "Info" {
+            link: "../charts"
+          }
+          tab "BarCharts" {
+            link: "../barcharts/1"
+          }
+          tab "HorizontalBarCharts" {
+              link: "../horizontalbarcharts"
+          }
+          tab "TimeLineCharts" {
+              link: "../timelinecharts/1"
+          }
+          tab "PieCharts" {
+            link: "../piecharts/1"
+          }
+          tab "LineCharts" {
+              link: "../linecharts"
+            }
+          tab "Densitychart" {
+              link: "./"
+          }
+      }
+  }
+
+
+  row (space-evenly, spaceabove) {
+
+    // container for card 2
+    container(80%) {
+        card {
+            head {
+                label "Density Chart"
+            }
+            body {
+              html {"
+                <density-chart></density-chart>
+              "}
+                //densitychart "DensityChart" {           // line chart declaration with name
+                    //data : <lineChartData         // data reference (see first line)
+                    // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
+                    //stepSizeY : 2                 // Y Axis step size
+                    //title: "Realtime Densitychart"   // chart title
+                    //realtime                      // if chart shows realtime data (enables animation)
+                    // overwriteData              // incoming data overwrites current data for chart if set,
+                                                // otherwise the data is appended to existing list
+                //}
+            }
+        }
+    }
+  }
+
+}
