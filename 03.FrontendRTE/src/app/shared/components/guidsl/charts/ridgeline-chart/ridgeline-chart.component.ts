@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import * as paper from 'paper';
 
 
@@ -10,12 +10,18 @@ import * as paper from 'paper';
   templateUrl: './ridgeline-chart.component.html',
 })
 export class RidgelineChartComponent implements OnInit {
-
+  @Input() smooth: boolean;
 
   public ngOnInit(): void {
-    
+    console.log("Test");
+    console.log(this.smooth);
   }
 
+  /*
+  @Input() 
+  public set smooth(smooth: boolean){
+    console.log("Smoothed set to: "+smooth);
+  }*/
 
   //Canvas test
   private canvas_div: HTMLElement;
@@ -23,6 +29,7 @@ export class RidgelineChartComponent implements OnInit {
   private ctx: CanvasRenderingContext2D;
 
   ngAfterViewInit() {
+    console.log(this.smooth);
     this.canvas_div = document.getElementById('canvas');
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
