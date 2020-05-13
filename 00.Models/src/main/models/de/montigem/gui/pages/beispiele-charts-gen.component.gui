@@ -7,7 +7,7 @@ webpage beispieleDatentabellen {
                 link: "./"
             }
             tab "BarCharts" {
-                link: "../barcharts/1"
+                link: "../densitycharts"
             }
             tab "HorizontalBarCharts" {
                 link: "../horizontalbarcharts"
@@ -18,8 +18,8 @@ webpage beispieleDatentabellen {
             tab "PieCharts" {
               link: "../piecharts/1"
             }
-            tab "LineCharts" {
-              link: "../linecharts"
+            tab "DensityChart" {
+              link: "../densitycharts"
             }
         }
     }
