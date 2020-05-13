@@ -41,6 +41,9 @@ webpage RidgelineChartSamplePage(
                 label "Ridgeline Chart"
             }
             body {
+              html {"
+                <ridgeline-chart></ridgeline-chart>
+              "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name
                     //data : <lineChartData         // data reference (see first line)
                     // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
