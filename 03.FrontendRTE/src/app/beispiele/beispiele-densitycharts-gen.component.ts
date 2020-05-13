@@ -15,7 +15,7 @@ import { BeispieleDensitychartsGenComponentTOP } from "@targetgui/beispiele-dens
  * See BeispielePieChartDTO.java, BeispielePieChartDTOLoader.java for more details on how to use PieCharts
  */
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/beispiele-ridgelinecharts-gen.component/beispiele-ridgelinecharts-gen.component.html',
+  templateUrl: '../../../target/generated-sources/gui/beispiele-ridgelinecharts-gen.component/beispiele-densitycharts-gen.component.html',
 })
 export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartsGenComponentTOP implements OnInit {
 
