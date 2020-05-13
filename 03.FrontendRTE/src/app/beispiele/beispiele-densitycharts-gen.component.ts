@@ -8,14 +8,14 @@ import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
 import * as moment from "moment";
 import { beispielTransformation, transformDatumsbereichDTO } from "@components/charts/time-line-chart/time-line-chart.transformation";
 import { ILineChartDataRange, TimeLineChartComponent } from "@components/charts/time-line-chart/time-line-chart.component";
-import { RidgelineChartComponent } from "@components/charts/density-chart/density-chart.component";
+import { DensityChartComponent } from "@components/charts/density-chart/density-chart.component";
 import { BeispieleDensitychartsGenComponentTOP } from "@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component-top";
 
 /**
  * See BeispielePieChartDTO.java, BeispielePieChartDTOLoader.java for more details on how to use PieCharts
  */
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/beispiele-ridgelinecharts-gen.component/beispiele-densitycharts-gen.component.html',
+  templateUrl: '../../../target/generated-sources/gui/beispiele-densitycharts-gen.component/beispiele-densitycharts-gen.component.html',
 })
 export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartsGenComponentTOP implements OnInit {
 
