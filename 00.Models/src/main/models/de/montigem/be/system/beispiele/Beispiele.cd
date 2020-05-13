@@ -10,6 +10,10 @@ classdiagram Beispiele {
     int startjahr;
     int abschlussjahr;
   }
+// -------- Density Chart Example --------
+  class BeispieleDensityChart {
+    
+  }
 
   // -------- Line Chart Example --------
   class BeispieleLineChart {
