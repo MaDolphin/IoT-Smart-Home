@@ -24,6 +24,10 @@ webpage beispieleBarCharts(
             tab "LineCharts" {
               link: "../../linecharts"
             }
+            tab "DensityCharts"{
+              link: "../densitycharts"
+            }
+            }
         }
     }
 

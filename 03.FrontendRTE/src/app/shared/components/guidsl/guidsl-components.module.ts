@@ -7,7 +7,6 @@ import { LabelComponent } from '@shared/components/guidsl/label/label.component'
 import { TimeLineChartComponent } from '@shared/components/guidsl/charts/time-line-chart/time-line-chart.component';
 import { ButtonComponent } from '@shared/components/guidsl/button/button.component';
 import { BarChartComponent } from '@shared/components/guidsl/charts/bar-chart/bar-chart.component';
-import { DensityChartComponent } from '@shared/components/guidsl/charts/density-chart/density-chart.component';
 import { NavigationComponent } from '@shared/components/guidsl/navigation/navigation.component';
 import { PercentageChartComponent } from '@shared/components/guidsl/charts/percentage-chart/percentage-chart.component';
 import { MatAutocompleteModule, MatCardModule, MatDatepickerModule, MatFormFieldModule, MatSelectModule, MatTabsModule } from '@angular/material';
@@ -26,6 +25,7 @@ import { HorizontalBarChartComponent } from '@shared/components/guidsl/charts/ho
 import { BudgetWidgetComponent } from '@shared/components/guidsl/budget-widget/budget-widget.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { DensityChartComponent } from './charts/density-chart/density-chart.component';
 import { Ng5SliderModule } from 'ng5-slider';
 
 
@@ -79,6 +79,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     BalanceBoxComponent,
     HorizontalBarChartComponent,
     LineChartComponent,
+    DensityChartComponent,
     BudgetWidgetComponent
   ],
   providers: [
