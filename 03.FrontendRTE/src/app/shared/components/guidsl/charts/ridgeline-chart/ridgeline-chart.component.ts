@@ -2,6 +2,26 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import * as paper from 'paper';
 
 
+/**
+ * This class is a configuration class saving important configuration values
+ * needed to transform and plot the data of the Ridgelines.
+ */
+class Ridgeline_Config {
+  width: number;
+  height: number;
+  x_range: number;
+  y_range: number;
+  x_start_value : number;
+  translate_x: number;
+  translate_y: number;
+
+  setup(data){ // TODO: Define type of data
+    // TODO: content
+  }
+
+}
+
+
 
 
 
@@ -12,10 +32,11 @@ import * as paper from 'paper';
 export class RidgelineChartComponent implements OnInit {
   @Input() smooth: boolean;
 
-  public ngOnInit(): void {
-    console.log("Test");
-    console.log(this.smooth);
-  }
+  //private canvas_div: HTMLDivElement;
+  private canvas: HTMLCanvasElement;
+  private ctx: CanvasRenderingContext2D;
+  private path: paper.Path;
+
 
   /*
   @Input() 
@@ -23,11 +44,11 @@ export class RidgelineChartComponent implements OnInit {
     console.log("Smoothed set to: "+smooth);
   }*/
 
-  //Canvas test
-  //private canvas_div: HTMLDivElement;
-  private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
-  private path: paper.Path;
+
+
+  public ngOnInit(): void {
+  }
+
 
   ngAfterViewInit() {
     console.log(this.smooth);
@@ -55,17 +76,7 @@ export class RidgelineChartComponent implements OnInit {
     }, false);
 
     //Create test data
-    let test_data_1 = this.get_test_data(-15, 15, 0.25);
-    let test_data_2 = this.get_test_data(-10, 20, 0.25);
-    let test_data_3 = this.get_test_data(-5, 25, 0.25);
-    let test_data_4 = [[19,0.1], [-5, 0.1], [24, 0.05], [-7, -0.1]];
-    let test_data_5 : number[][] = [];
-
-    for (let i = -2; i < 18; i+=0.25)
-    {
-      test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
-    }
-    let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
+    let all_data = this.get_all_test_data();
 
     //Sort data by x for drawing
     this.sort_by_x(all_data);
@@ -198,26 +209,22 @@ export class RidgelineChartComponent implements OnInit {
     path_filler.fillColor = color;
   }
 
-  //Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
-  private get_test_data(x_1: number, x_2: number, step_size: number)
-  {
-    let test_data : number[][] = [];
 
-    let sigma = Math.random() * 5;
-    let mu = Math.random() * 5;
-    let frac_1 = 1 / Math.sqrt(2 * Math.PI * Math.pow(sigma, 2));
-    let frac_2 = - 1 / (2 * Math.pow(sigma, 2));
-    
-    for (let x = x_1; x < x_2; x += step_size)
-    {
-      test_data.push([x, frac_1 * Math.exp(frac_2 * Math.pow(x - mu, 2))]);
-    }
 
-    return test_data;
-  }
-
-  //Transform data to start at or after x_start value regarding the (same) coordinate system, scale the coordinate system to x_range/y_range over a given pixel width/height, start at some (x,y)-pixel using translate_x/_y
-  //Also invert y value for drawing
+  /**
+   * Transform data to start at or after x_start value regarding the (same) coordinate system,
+   * scale the coordinate system to x_range/y_range over a given pixel width/height, start at
+   * some (x,y)-pixel using translate_x/_y
+   * Also invert y value for drawing
+   * @param data 
+   * @param width 
+   * @param height 
+   * @param x_range 
+   * @param y_range 
+   * @param x_start_value 
+   * @param translate_x 
+   * @param translate_y 
+   */
   private transform_data(data: number[][], width: number, height: number, x_range: number, y_range: number, x_start_value : number, translate_x: number, translate_y: number)
   {
     //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
@@ -231,7 +238,12 @@ export class RidgelineChartComponent implements OnInit {
     );
   }
 
-  //Sort all given data by x coordinate (rising)
+
+  /**
+   * For all given ridge-lines this function sorts the points in each ridge-line
+   * by the x-coordinate (rising)
+   * @param data_array The data of all ridge-lines
+   */
   private sort_by_x(data_array : number[][][])
   {
     data_array.forEach(
@@ -258,11 +270,20 @@ export class RidgelineChartComponent implements OnInit {
     );
   }
 
-  //Returns [[min_x, min_y], [max_x, max_y]] of all points in all given data cells
+
+
+// ----------------------------------------------------- Min and Max computations -----------------------------------------------------
+
+
+  /**
+   * Returns the minimal an maximal values out of all points of all ridge-lines
+   * @param data_array  The data of all ridge-lines
+   * @returns           [[min_x, min_y], [max_x, max_y]]
+   */
   private get_xy_min_max(data_array : number[][][])
   {
     //Store as [[min_x, min_y],[max_x, max_y]]
-    let new_value : number[][] = [[0,0],[0,0]];
+    let result : number[][] = [[0,0],[0,0]];
 
     for (let data of data_array)
     {
@@ -270,16 +291,20 @@ export class RidgelineChartComponent implements OnInit {
       let max = this.get_max_x_y(data);
 
       //Store as [[min_x, min_y],[max_x, max_y]]
-      new_value[0][0] = Math.min(new_value[0][0], min[0]);
-      new_value[0][1] = Math.min(new_value[0][1], min[1]);
-      new_value[1][0] = Math.max(new_value[1][0], max[0]);
-      new_value[1][1] = Math.max(new_value[1][1], max[1]);
+      result[0][0] = Math.min(result[0][0], min[0]);
+      result[0][1] = Math.min(result[0][1], min[1]);
+      result[1][0] = Math.max(result[1][0], max[0]);
+      result[1][1] = Math.max(result[1][1], max[1]);
     }
 
-    return new_value;
+    return result;
   }
 
-  //Returns [min_x, min_y] over all x,y-data in the array
+
+  /**
+   * Returns the minimal values of x and y over all x- and y-values in data
+   * @returns [min_x, min_y]
+   */
   private get_min_x_y(data: number[][])
   {
     return data.reduce(
@@ -290,6 +315,10 @@ export class RidgelineChartComponent implements OnInit {
     );
   }
 
+  /**
+   * Returns the maximum values of x and y over all x- and y-values in data
+   * @returns [max_x, max_y]
+   */
   private get_max_x_y(data: number[][])
   {
     return data.reduce(
@@ -298,5 +327,50 @@ export class RidgelineChartComponent implements OnInit {
         return [Math.max(previous_value[0], current_value[0]), Math.max(previous_value[1], current_value[1])];
       }
     );
+  }
+
+
+
+
+
+
+// ----------------------------------------------------- Test Data -----------------------------------------------------
+
+  /**
+   * Creates the data for all ridgelines
+   * @returns number[][][]
+   */
+  private get_all_test_data(){
+    let test_data_1 = this.get_test_data(-15, 15, 0.25);
+    let test_data_2 = this.get_test_data(-10, 20, 0.25);
+    let test_data_3 = this.get_test_data(-5, 25, 0.25);
+    let test_data_4 = [[19,0.1], [-5, 0.1], [24, 0.05], [-7, -0.1]];
+    let test_data_5 : number[][] = [];
+
+    for (let i = -2; i < 18; i+=0.25)
+    {
+      test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
+    }
+    let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
+    return all_data;
+  }
+
+
+  //Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
+  private get_test_data(x_1: number, x_2: number, step_size: number)
+  {
+    let test_data : number[][] = [];
+
+    let sigma = Math.random() * 5;
+    let mu = Math.random() * 5;
+    let frac_1 = 1 / Math.sqrt(2 * Math.PI * Math.pow(sigma, 2));
+    let frac_2 = - 1 / (2 * Math.pow(sigma, 2));
+    
+    for (let x = x_1; x < x_2; x += step_size)
+    {
+      test_data.push([x, frac_1 * Math.exp(frac_2 * Math.pow(x - mu, 2))]);
+    }
+
+    return test_data;
   }
 }
