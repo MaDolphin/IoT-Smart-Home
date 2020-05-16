@@ -9,14 +9,40 @@ import * as paper from 'paper';
 class Ridgeline_Config {
   width: number;
   height: number;
-  x_range: number;
-  y_range: number;
-  x_start_value : number;
+
   translate_x: number;
   translate_y: number;
 
-  setup(data){ // TODO: Define type of data
-    // TODO: content
+  // values for grid
+  line_start_x: number;
+  line_end_x: number;
+
+  offset_ridges: number; // == offset horizontal // describes the size ot the empty space between two subsequent ridges
+
+
+  // values depending on data
+  x_range: number;
+  y_range: number;
+  xy_min_max: number[][];
+  x_start_value : number;
+  colors: paper.Color[];
+
+  /**
+   * This function sets up all variables of this class dependent on the data.
+   * @param data The data of all ridge-line charts.
+   */
+  public setup(data: number[][][]){
+    //Get relevant data information
+    this.xy_min_max = get_xy_min_max(data);
+    this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
+    this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
+    this.x_start_value = this.xy_min_max[0][0];
+
+    this.colors = [];
+    for (let i = 0; i < data.length; ++i)
+    {
+      this.colors.push(new paper.Color(Math.random(), Math.random(), Math.random(), 0.2));
+    }
   }
 
 }
@@ -36,6 +62,8 @@ export class RidgelineChartComponent implements OnInit {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private path: paper.Path;
+
+  private config: Ridgeline_Config;
 
 
   /*
@@ -76,22 +104,17 @@ export class RidgelineChartComponent implements OnInit {
     }, false);
 
     //Create test data
-    let all_data = this.get_all_test_data();
+    let all_data = get_all_test_data();
 
     //Sort data by x for drawing
     this.sort_by_x(all_data);
 
-    //Get relevant data information
-    let xy_min_max = this.get_xy_min_max(all_data);
-    let x_range = Math.abs(xy_min_max[0][0] - xy_min_max[1][0]);
-    let y_range = Math.abs(xy_min_max[0][1] - xy_min_max[1][1]);
-    let x_start_value = xy_min_max[0][0];
+    // Setup all necessary parameters for drawing
+    this.config = new Ridgeline_Config();
+    this.config.setup(all_data);
 
-    let colors : paper.Color[] = [];
-    for (let i = 0; i < all_data.length; ++i)
-    {
-      colors.push(new paper.Color(Math.random(), Math.random(), Math.random(), 0.2));
-    }
+
+    
 
     //Set up paperjs with the given canvas
     paper.setup(this.canvas);
@@ -113,14 +136,15 @@ export class RidgelineChartComponent implements OnInit {
       //Draw test data
       for (let i = 0; i < all_data.length; ++i)
       {
-        this.plot_ridge(all_data[i], x_from, y_from + offset * i, width, height, x_range, y_range, x_start_value, colors[i]); //TODO: Improve color (should be distinct, not white, ...)
+        // ToDo: further refinement of config object and function call to avoid so many parameters
+        this.plot_ridge(all_data[i], x_from, y_from + offset * i, width, height, this.config.x_range, this.config.y_range, this.config.x_start_value, this.config.colors[i]); //TODO: Improve color (should be distinct, not white, ...)
       }
 
       //TODO: Proper arguments for grid drawing
       //TODO: Draw grid for x values (vertical)
 
       //Draw grid for data
-      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus'], 100, 900, y_from, offset, xy_min_max, x_from, width, 5);
+      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus'], 100, 900, y_from, offset, this.config.xy_min_max, x_from, width, 5);
     }
   }
 
@@ -270,64 +294,67 @@ export class RidgelineChartComponent implements OnInit {
     );
   }
 
+}
+
+
 
 
 // ----------------------------------------------------- Min and Max computations -----------------------------------------------------
 
 
-  /**
-   * Returns the minimal an maximal values out of all points of all ridge-lines
-   * @param data_array  The data of all ridge-lines
-   * @returns           [[min_x, min_y], [max_x, max_y]]
-   */
-  private get_xy_min_max(data_array : number[][][])
+/**
+ * Returns the minimal an maximal values out of all points of all ridge-lines
+ * @param data_array  The data of all ridge-lines
+ * @returns           [[min_x, min_y], [max_x, max_y]]
+ */
+function get_xy_min_max(data_array : number[][][])
+{
+  //Store as [[min_x, min_y],[max_x, max_y]]
+  let result : number[][] = [[0,0],[0,0]];
+
+  for (let data of data_array)
   {
+    let min = get_min_x_y(data);
+    let max = get_max_x_y(data);
+
     //Store as [[min_x, min_y],[max_x, max_y]]
-    let result : number[][] = [[0,0],[0,0]];
+    result[0][0] = Math.min(result[0][0], min[0]);
+    result[0][1] = Math.min(result[0][1], min[1]);
+    result[1][0] = Math.max(result[1][0], max[0]);
+    result[1][1] = Math.max(result[1][1], max[1]);
+  }
 
-    for (let data of data_array)
+  return result;
+}
+
+
+/**
+ * Returns the minimal values of x and y over all x- and y-values in data
+ * @returns [min_x, min_y]
+ */
+function get_min_x_y(data: number[][])
+{
+  return data.reduce(
+    function(previous_value: number[], current_value: number[])
     {
-      let min = this.get_min_x_y(data);
-      let max = this.get_max_x_y(data);
-
-      //Store as [[min_x, min_y],[max_x, max_y]]
-      result[0][0] = Math.min(result[0][0], min[0]);
-      result[0][1] = Math.min(result[0][1], min[1]);
-      result[1][0] = Math.max(result[1][0], max[0]);
-      result[1][1] = Math.max(result[1][1], max[1]);
+      return [Math.min(previous_value[0], current_value[0]), Math.min(previous_value[1], current_value[1])];
     }
+  );
+}
 
-    return result;
-  }
-
-
-  /**
-   * Returns the minimal values of x and y over all x- and y-values in data
-   * @returns [min_x, min_y]
-   */
-  private get_min_x_y(data: number[][])
-  {
-    return data.reduce(
-      function(previous_value: number[], current_value: number[])
-      {
-        return [Math.min(previous_value[0], current_value[0]), Math.min(previous_value[1], current_value[1])];
-      }
-    );
-  }
-
-  /**
-   * Returns the maximum values of x and y over all x- and y-values in data
-   * @returns [max_x, max_y]
-   */
-  private get_max_x_y(data: number[][])
-  {
-    return data.reduce(
-      function(previous_value: number[], current_value: number[])
-      {
-        return [Math.max(previous_value[0], current_value[0]), Math.max(previous_value[1], current_value[1])];
-      }
-    );
-  }
+/**
+ * Returns the maximum values of x and y over all x- and y-values in data
+ * @returns [max_x, max_y]
+ */
+function get_max_x_y(data: number[][])
+{
+  return data.reduce(
+    function(previous_value: number[], current_value: number[])
+    {
+      return [Math.max(previous_value[0], current_value[0]), Math.max(previous_value[1], current_value[1])];
+    }
+  );
+}
 
 
 
@@ -336,41 +363,40 @@ export class RidgelineChartComponent implements OnInit {
 
 // ----------------------------------------------------- Test Data -----------------------------------------------------
 
-  /**
-   * Creates the data for all ridgelines
-   * @returns number[][][]
-   */
-  private get_all_test_data(){
-    let test_data_1 = this.get_test_data(-15, 15, 0.25);
-    let test_data_2 = this.get_test_data(-10, 20, 0.25);
-    let test_data_3 = this.get_test_data(-5, 25, 0.25);
-    let test_data_4 = [[19,0.1], [-5, 0.1], [24, 0.05], [-7, -0.1]];
-    let test_data_5 : number[][] = [];
+/**
+ * Creates the data for all ridgelines
+ * @returns number[][][]
+ */
+function get_all_test_data(){
+  let test_data_1 = get_test_data(-15, 15, 0.25);
+  let test_data_2 = get_test_data(-10, 20, 0.25);
+  let test_data_3 = get_test_data(-5, 25, 0.25);
+  let test_data_4 = [[19,0.1], [-5, 0.1], [24, 0.05], [-7, -0.1]];
+  let test_data_5 : number[][] = [];
 
-    for (let i = -2; i < 18; i+=0.25)
-    {
-      test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
-    }
-    let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
-    return all_data;
-  }
-
-
-  //Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
-  private get_test_data(x_1: number, x_2: number, step_size: number)
+  for (let i = -2; i < 18; i+=0.25)
   {
-    let test_data : number[][] = [];
-
-    let sigma = Math.random() * 5;
-    let mu = Math.random() * 5;
-    let frac_1 = 1 / Math.sqrt(2 * Math.PI * Math.pow(sigma, 2));
-    let frac_2 = - 1 / (2 * Math.pow(sigma, 2));
-    
-    for (let x = x_1; x < x_2; x += step_size)
-    {
-      test_data.push([x, frac_1 * Math.exp(frac_2 * Math.pow(x - mu, 2))]);
-    }
-
-    return test_data;
+    test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
   }
+  let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
+  return all_data;
+}
+
+
+//Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
+function get_test_data(x_1: number, x_2: number, step_size: number)
+{
+  let test_data : number[][] = [];
+
+  let sigma = Math.random() * 5;
+  let mu = Math.random() * 5;
+  let frac_1 = 1 / Math.sqrt(2 * Math.PI * Math.pow(sigma, 2));
+  let frac_2 = - 1 / (2 * Math.pow(sigma, 2));
+  
+  for (let x = x_1; x < x_2; x += step_size)
+  {
+    test_data.push([x, frac_1 * Math.exp(frac_2 * Math.pow(x - mu, 2))]);
+  }
+
+  return test_data;
 }
