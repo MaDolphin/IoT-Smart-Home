@@ -1,9 +1,6 @@
 webpage Densitychart(
-    //socket LineGraph lineChartData,
-    //socket DensityChart densityChartData,
-    //all BeispieleDensityChart lineChartData2
-    //all BeispieleLineChart lineChartData2
-) {  // webpage declaration with data init
+
+) {
 
   column(nospace) {
       navigation "navigationBarLinks" {
@@ -38,20 +35,13 @@ webpage Densitychart(
     container(80%) {
         card {
             head {
+            row(stretch){
                 label "Density Chart"
+                }
             }
             body {
-              html {"
-                <density-chart></density-chart>
+              html {"<density-chart><div #my_dataviz id="my_dataviz"></div></density-chart>
               "}
-                //densitychart "DensityChart" {           // line chart declaration with name
-                    //data : <lineChartData         // data reference (see first line)
-                    // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
-                    //stepSizeY : 2                 // Y Axis step size
-                    //title: "Realtime Densitychart"   // chart title
-                    //realtime                      // if chart shows realtime data (enables animation)
-                    // overwriteData              // incoming data overwrites current data for chart if set,
-                                                // otherwise the data is appended to existing list
                 //}
             }
         }
