@@ -12,8 +12,20 @@ classdiagram Beispiele {
   }
 // -------- Density Chart Example --------
   class BeispieleDensityChart {
-    
-  }
+      List<BeispieleDensityChartEntry> entries;
+    }
+
+    class BeispieleDensityChartEntry {
+      String label;
+      List<BeispieleDensityChartEntryData> dataEntries;
+    }
+
+    class BeispieleDensityChartEntryData {
+      int x;
+      int y;
+    }
+
+
 
   // -------- Line Chart Example --------
   class BeispieleLineChart {
