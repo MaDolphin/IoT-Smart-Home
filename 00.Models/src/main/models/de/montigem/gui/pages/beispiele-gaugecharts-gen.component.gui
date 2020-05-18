@@ -67,135 +67,6 @@ webpage GaugeChartSamplePage(
 
   row (space-evenly, spaceabove) {
       // container for card 2
-      container(15%) {
-          card {
-              head {
-                  label "Kitchen"
-              }
-              body {
-                  // Values in % from 100% (air quality) and 30°C (Temperature)
-                  html {"<gauge-chart
-                           [values]=\"[
-                                        {
-                                          'name': 'Temperature',
-                                          'value': 73
-                                        },
-                                        {
-                                          'name': 'Air quality',
-                                          'value': 80
-                                        }
-                                      ]\"
-                           [min]=\"0\"
-                           [max]=\"100\"
-                           [showAxis]=\"false\"
-                           [textValue]=\"'Kitchen'\">
-                         </gauge-chart>
-                  "}
-              }
-          }
-      }
-      // container for card 3
-      container(15%) {
-          card {
-              head {
-                  label "Bedroom"
-              }
-              body {
-                  // Values in % from 100% (air quality) and 30°C (Temperature)
-                  html {"<gauge-chart
-                          [values]=\"[
-                                {
-                                  'name': 'Temperature',
-                                  'value': 65
-                                },
-                                {
-                                  'name': 'Air quality',
-                                  'value': 90
-                                }
-                              ]\"
-                          [showAxis]=\"false\"
-                          [textValue]=\"'Bedroom'\">
-                        </gauge-chart>
-                 "}
-              }
-          }
-      }
-      // container for card 4
-      container(15%) {
-          card {
-              head {
-                  label "Work"
-              }
-              body {
-                  // Values in % from 100% (air quality) and 30°C (Temperature)
-                  html {"<gauge-chart
-                           [values]=\"[
-                                        {
-                                          'name': 'Temperature',
-                                          'value': 85
-                                        },
-                                        {
-                                          'name': 'Air quality',
-                                          'value': 70
-                                        }
-                                      ]\"
-                           [showAxis]=\"false\"
-                           [textValue]=\"'Office'\">
-                         </gauge-chart>
-                  "}
-              }
-          }
-      }
-      // container for card 5
-      container(15%) {
-          card {
-              head {
-                  label "Child"
-              }
-              body {
-                  // Values in % from 100% (air quality) and 30°C (Temperature)
-                  html {"<gauge-chart
-                           [values]=\"[
-                                        {
-                                          'name': 'Temperature',
-                                          'value': 87
-                                        },
-                                        {
-                                          'name': 'Air quality',
-                                          'value': 65
-                                        }
-                                      ]\"
-                           [showAxis]=\"false\"
-                           [textValue]=\"'Bathroom'\">
-                         </gauge-chart>
-                  "}
-              }
-          }
-      }
-  }
-  
-  row (space-evenly, spaceabove) {
-      // container for card 6
-      container(90%) {
-          card {
-              head {
-                  row(stretch) {
-                      label "Alternative Darstellung"
-                  }
-              }
-              body {
-                  row {
-                      textoutput {
-                          "Hier noch eine alternative Darstellung der Gauge-Charts (nach Daten statt Räumen)"
-                      }
-                  }
-              }
-          }
-      }
-  }
-
-  row (space-evenly, spaceabove) {
-      // container for card 7
       container(38%) {
           card {
               head {
@@ -203,14 +74,8 @@ webpage GaugeChartSamplePage(
               }
               body {
                   // Values in ° from -40 to 50°C (Temperature)
-                  html {"<ngx-charts-gauge
-				  
-						   [view]=\"[700,700]\"
-										
-                           [scheme]=\"{
-                                         domain: ['#e7e727', '#E44D25', '#e7e727', '#7aa3e5']
-                                       }\"
-                           [results]=\"[
+                  html {"<gauge-chart
+                           [values]=\"[
                                         {
                                           'name': 'Kitchen',
                                           'value': 23
@@ -230,19 +95,16 @@ webpage GaugeChartSamplePage(
                                       ]\"
                            [min]=\"-40\"
                            [max]=\"50\"
-						   [bigSegments]=\"9\"
-						   [smallSegments]=\"10\"
-                           [showAxis]=\"true\"
-                           [showText]=\"true\"
-                           [textValue]=\"'Temperature °C'\"
-                           [legend]=\"true\"
-                           [legendPosition]=\"'below'\">
-                         </ngx-charts-gauge>
+						   [bigTicks]=\"9\"
+						   [smallTicks]=\"10\"
+                           [unit]=\"'°C'\"
+                           [textValue]=\"'Temperature'\">
+                         </gauge-chart>
                   "}
               }
           }
       }
-      // container for card 8
+      // container for card 3
       container(38%) {
           card {
               head {
@@ -250,14 +112,8 @@ webpage GaugeChartSamplePage(
               }
               body {
                   // Values in 0 to 500 (Air pollution)
-                  html {"<ngx-charts-gauge
-				  
-						   [view]=\"[700,700]\"
-										
-                           [scheme]=\"{
-                                         domain: ['#E44D25', '#e7e727', '#7aa3e5', '#4eb03a']
-                                       }\"
-                           [results]=\"[
+                  html {"<gauge-chart
+                           [values]=\"[
                                         {
                                           'name': 'Kitchen',
                                           'value': 400
@@ -277,14 +133,10 @@ webpage GaugeChartSamplePage(
                                       ]\"
                            [min]=\"0\"
                            [max]=\"500\"
-						   [bigSegments]=\"10\"
-						   [smallSegments]=\"0\"
-                           [showAxis]=\"true\"
-                           [showText]=\"true\"
-                           [textValue]=\"'Air Pollution'\"
-                           [legend]=\"true\"
-                           [legendPosition]=\"'below'\">
-                         </ngx-charts-gauge>
+						   [bigTicks]=\"10\"
+						   [smallTicks]=\"0\"
+                           [textValue]=\"'Air Pollution'\">
+                         </gauge-chart>
                   "}
               }
           }

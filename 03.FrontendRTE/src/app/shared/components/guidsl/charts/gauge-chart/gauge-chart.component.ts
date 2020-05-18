@@ -10,11 +10,14 @@ export class GaugeChartComponent implements OnInit {
 
     @Input() values: any[];
     @Input() textValue: string;
-    @Input() showAxis: boolean = true;
+    @Input() bigTicks: number = 10;
+	@Input() smallTicks: number = 5;
+	@Input() unit: string;
     @Input() min: number = 0;
     @Input() max: number = 100;
 
     view: any[] = [400, 400]; // todo change dynamically with screen size
+	showAxis: boolean = true;
     legend: boolean = true;
     showText: boolean = true;
 
