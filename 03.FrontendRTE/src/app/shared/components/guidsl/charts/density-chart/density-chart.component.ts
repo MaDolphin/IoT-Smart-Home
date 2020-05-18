@@ -1,31 +1,19 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation, HostListener } from '@angular/core';
 import * as d3 from 'd3';
-import {WebSocketService} from '@shared/architecture/services/websocket.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
 
 import {Data2Model, DataModel} from 'src/app/data/data.model';
 @Component({
-  selector: 'app-density-chart',
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: '../../../target/generated-sources/gui/beispiele-density-chart-gen.component/density-chart.component.html'})
+  selector: 'density-chart',
+  templateUrl: './density-chart.component.html'})
 export class DensityChartComponent implements OnChanges {
   @ViewChild('my_dataviz')
   private chartContainer: ElementRef;
 
   @Input()
   data2: Data2Model[];
+  @Input() data;
 
   margin = {top: 40, right: 700, bottom: 30, left: 100};
-
-  public constructor(
-      protected _webSocketService: WebSocketService,
-      protected _router: Router,
-      protected _route: ActivatedRoute,
-      protected _commandRestService: CommandRestService) {
-      super(_commandRestService, _route, _router/*, _webSocketService*/);
-    //Object.assign(this, { single });
-  }
 
   ngOnChanges(): void {
     if (!this.data2) { return; }
@@ -75,8 +63,7 @@ export class DensityChartComponent implements OnChanges {
     const types = [];
     kde(data
       .filter((d) => {
-        if (types.indexOf(d.type) === -1)
-        {
+        if (types.indexOf(d.type) === -1) {
           types.push(d.type);
           color.push('#' + (0xd95d80 + (1 / types.length) * 0xfffff0).toString(16).substr(1, 6));
         }
