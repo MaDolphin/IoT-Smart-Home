@@ -11,14 +11,14 @@ class Ridgeline_Config {
   translate_y: number;
 
   /// values for grid
-  line_start_x: number;
-  line_end_x: number;
-  line_end_y: number;
+  grid_line_start_x: number = 100;
+  grid_line_end_x: number =   900;
+  grid_line_start_y: number;
 
   // values axis
   x_axis_start: number;
   x_axis_width: number;
-  x_value_offset: number; // The value offset between two x-axis descriptions (e.g. 5 --> 5,10,15,...)
+  x_axis_value_offset: number; // The value offset between two x-axis descriptions (e.g. 5 --> 5,10,15,...)
                           // TODO: set this value automatically dependent on data range
 
   // ridges
@@ -55,6 +55,12 @@ class Ridgeline_Config {
   }
 
 
+  /**
+   * TODO Rename this function with a better suited name
+   * @param all_data 
+   * @param canvas_width 
+   * @param canvas_height 
+   */
   public setup_param(all_data: number[][][], canvas_width: number, canvas_height: number){
     //Set ridge offset etc
     this.ridges_offset = canvas_height / all_data.length * 1/3;
@@ -62,6 +68,9 @@ class Ridgeline_Config {
     this.width = canvas_width;
     this.ridges_x_start = 150;
     this.ridges_y_start = this.ridges_height;
+
+    this.grid_line_start_y = this.ridges_y_start;
+    this.x_axis_value_offset = 5;                      // TODO set this value automatically dependent on canvas and data
   }
 }
 
@@ -145,18 +154,11 @@ export class RidgelineChartComponent implements OnInit {
       let canvas_height = this.canvas.height;
 
       this.config.setup_param(all_data, canvas_width, canvas_height);
-      // //Set ridge offset etc
-      // let offset = canvas_height / all_data.length * 1/3;
-      // let height = canvas_height / all_data.length;
-      // let width = canvas_width;
-      // let x_from = 150;
-      // let y_from = height;
 
       //Draw test data
       for (let i = 0; i < all_data.length; ++i)
       {
         // ToDo: further refinement of config object and function call to avoid so many parameters
-        //this.plot_ridge(all_data[i], x_from, y_from + offset * i, width, height, this.config.x_range, this.config.y_range, this.config.x_start_value, this.config.colors[i]); //TODO: Improve color (should be distinct, not white, ...)
         this.plot_ridge(all_data[i], this.config.ridges_y_start + this.config.ridges_offset * i, this.config.colors[i]); //TODO: Improve color (should be distinct, not white, ...)
       }
 
@@ -164,12 +166,24 @@ export class RidgelineChartComponent implements OnInit {
       //TODO: Draw grid for x values (vertical)
 
       //Draw grid for data
-      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus'], 100, 900, this.config.ridges_y_start, this.config.ridges_offset, this.config.xy_min_max, this.config.ridges_x_start, this.config.width, 5);
+      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus']);
     }
   }
 
-  private plot_grid(labels: string[], line_start_x : number, line_end_x : number, line_start_y : number, offset_horizontal : number, xy_min_max : number[][], x_axis_start: number, x_axis_width: number, x_value_offset: number)
+  private plot_grid(labels: string[])
   {
+    let config = this.config;
+
+    let line_start_x = config.grid_line_start_x;
+    let line_end_x = config.grid_line_end_x;
+    let line_start_y = config.grid_line_start_y;
+    let offset_horizontal = config.ridges_offset;
+    let xy_min_max = config.xy_min_max;
+    let x_axis_start = config.ridges_x_start;
+    let x_axis_width = config.width;
+    let x_value_offset = config.x_axis_value_offset;
+
+
     //Calculate width of longest label - allows to scale text s.t. it ends before the line begins
     let longest_label = labels.reduce(function(prev, current) { return (prev.length > current.length) ? prev : current; } );
     let temp_text = new paper.PointText(new paper.Point(0, 0));
@@ -270,14 +284,8 @@ export class RidgelineChartComponent implements OnInit {
    * scale the coordinate system to x_range/y_range over a given pixel width/height, start at
    * some (x,y)-pixel using translate_x/_y
    * Also invert y value for drawing
-   * @param data 
-   * @param width 
-   * @param height 
-   * @param x_range 
-   * @param y_range 
-   * @param x_start_value 
-   * @param translate_x 
-   * @param translate_y 
+   * 
+   * TODO: Also use config here!!!
    */
   private transform_data(data: number[][], width: number, height: number, x_range: number, y_range: number, x_start_value : number, translate_x: number, translate_y: number)
   {
