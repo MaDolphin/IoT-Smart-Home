@@ -68,7 +68,6 @@ class Data
   public x_start_value : number; //Smallest x value in data
 
   //Value for color gradient - can be accessed by getter for each data row index
-  private gradient_max_y_value : number;
   private transformed_gradient_max_y_values : number[];
 
   //Convenience values
@@ -180,7 +179,7 @@ class Data
    * This function sets up all variables of this class dependent on the data.
    * @param data The data of all ridge-line charts.
    */
-  public setup(data: number[][][], gradient_max_y_value: number){
+  public setup(data: number[][][]){
     //Store data
     this.values = data;
     this.length = this.values.length;
@@ -193,15 +192,13 @@ class Data
     this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
     this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
     this.x_start_value = this.xy_min_max[0][0];
-
-    this.gradient_max_y_value = gradient_max_y_value;
   }
 
   /**
    * Creates the data for all ridgelines
    * @returns number[][][]
    */
-  public setup_with_dummy_data(gradient_max_y_value: number){
+  public setup_with_dummy_data(){
     let test_data_1 = this.get_test_data(-15, 15, 0.25);
     let test_data_2 = this.get_test_data(-10, 20, 0.25);
     let test_data_3 = this.get_test_data(-5, 25, 0.25);
@@ -214,7 +211,7 @@ class Data
     }
     let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
     
-    this.setup(all_data, gradient_max_y_value);
+    this.setup(all_data);
   }
 
   public get_transformed_data_row(index : number)
@@ -249,7 +246,7 @@ class Data
    * some (x,y)-pixel using translate_x/_y
    * Also invert y value for drawing
    */
-  public transform_data(config : Ridgeline_Config)
+  public transform_data(config : Ridgeline_Config, gradient_max_y_value: number)
   {
     //Make a copy of values before transformation, to keep values unchanged
     this.transformed_values = [];
@@ -270,7 +267,7 @@ class Data
         }
       );
 
-      this.transformed_gradient_max_y_values[i] = -(this.gradient_max_y_value * height_scale) + y_from;
+      this.transformed_gradient_max_y_values[i] = -(gradient_max_y_value * height_scale) + y_from;
     }
   }
 }
@@ -284,6 +281,13 @@ class Data
 })
 export class RidgelineChartComponent implements OnInit {
   @Input() smooth: boolean;
+  
+  //Input function and value for max y value of ridgeline color gradient
+  private color_gradient_max_y : number = 0.3; //Should match default value in HTML
+  enter_gradient_max_y(value: string)
+  {
+    this.color_gradient_max_y = parseFloat(value);
+  }
 
   //private canvas_div: HTMLDivElement;
   private canvas: HTMLCanvasElement;
@@ -307,8 +311,7 @@ export class RidgelineChartComponent implements OnInit {
   }
 
 
-  ngAfterViewInit() {
-    console.log(this.smooth);
+  ngAfterViewInit() {    
     this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
     this.canvas.setAttribute("resize", "true");
     this.canvas.setAttribute("width", "100%");
@@ -334,7 +337,7 @@ export class RidgelineChartComponent implements OnInit {
 
     //Create test data
     this.data = new Data();
-    this.data.setup_with_dummy_data(0.5);
+    this.data.setup_with_dummy_data();
 
     // Setup all necessary parameters for drawing
     this.config = new Ridgeline_Config();
@@ -352,7 +355,7 @@ export class RidgelineChartComponent implements OnInit {
       paper.project.clear();
 
       this.config.set_params(this.data.length, this.canvas.width, this.canvas.height, 150, this.canvas.width, 150, "1em");
-      this.data.transform_data(this.config);
+      this.data.transform_data(this.config, this.color_gradient_max_y);
 
       //Draw test data
       for (let i = 0; i < this.data.length; ++i)
