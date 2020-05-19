@@ -40,12 +40,9 @@ webpage Densitychart(
                 }
             }
             body {
-              html {"<density-chart><div #my_dataviz id="my_dataviz"></div></density-chart>
-              "}
-                //}
+              html {"<density-chart><div #my_dataviz id=\"my_dataviz\"></div></density-chart>"}
+             }
             }
         }
     }
-  }
-
 }

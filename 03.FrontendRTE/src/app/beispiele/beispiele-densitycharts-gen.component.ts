@@ -3,11 +3,11 @@ import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from '@shared/architecture/services/websocket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
-import {BeispielDensitychartGenComponentTop} from '@targetgui/beispiel-densitychart-gen.component/beispiel-densitychart-gen.component-top';
+import {BeispieleDensitychartGenComponentTop} from '@targetgui/beispiel-densitychart-gen.component/beispiel-densitychart-gen.component-top';
 @Component({
   templateUrl: '../../../target/generated-sources/gui/beispiel-densitychart-gen.component/beispiel-densitychart-gen.component.html',
 })
-export class BeispieleDensitychartsGenComponent extends BeispielDensitychartGenComponentTop implements OnInit{
+export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGenComponentTop implements OnInit{
 
   constructor(
       _router: Router,
@@ -18,7 +18,7 @@ export class BeispieleDensitychartsGenComponent extends BeispielDensitychartGenC
   }
   ngOnInit(): void {
     super.ngOnInit();
-    this.setNavigationBarLinks();
+    /*this.setNavigationBarLinks();*/
   }
   title = 'Densitychart';
 
