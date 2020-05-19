@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import * as paper from 'paper';
+import { Config } from 'protractor';
 
 
 /**
@@ -7,53 +8,23 @@ import * as paper from 'paper';
  * needed to transform and plot the data of the Ridgelines.
  */
 class Ridgeline_Config {
-  translate_x: number;
-  translate_y: number;
+  // ridges
+  ridges_offset: number; // == offset horizontal // describes the size ot the space between two subsequent ridges
+  ridges_height: number; // describes the maximum height, which one ridge can use. This space can overlap with subsequent ones
 
   /// values for grid
-  grid_line_start_x: number = 100;
-  grid_line_end_x: number =   900;
+  grid_line_start_x: number;
+  grid_line_end_x: number;
   grid_line_start_y: number;
+  
+  font_size: string;
 
-  // values axis
+  // values for x axis of data plots
   x_axis_start: number;
   x_axis_width: number;
   x_axis_value_offset: number; // The value offset between two x-axis descriptions (e.g. 5 --> 5,10,15,...)
                           // TODO: set this value automatically dependent on data range
-
-  // ridges
-  ridges_offset: number; // == offset horizontal // describes the size ot the space between two subsequent ridges
-  ridges_height: number; // describes the maximum height, which one ridge can use. This space can overlap with subsequent ones
-  width: number;  // the width of all ridges // TODO BETTER NAME
-  ridges_x_start: number; // replaces x_from
-  ridges_y_start: number;
-
-
-  /// values depending on data
-  x_range: number;
-  y_range: number;
-  xy_min_max: number[][];
-  x_start_value : number;
-  colors: paper.Color[];
-
-  /**
-   * This function sets up all variables of this class dependent on the data.
-   * @param data The data of all ridge-line charts.
-   */
-  public setup_param_data(data: number[][][]){
-    //Get relevant data information
-    this.xy_min_max = get_xy_min_max(data);
-    this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
-    this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
-    this.x_start_value = this.xy_min_max[0][0];
-
-    this.colors = [];
-    for (let i = 0; i < data.length; ++i)
-    {
-      this.colors.push(new paper.Color(Math.random(), Math.random(), Math.random(), 0.2));
-    }
-  }
-
+  y_axis_start: number;
 
   /**
    * TODO Rename this function with a better suited name
@@ -61,19 +32,248 @@ class Ridgeline_Config {
    * @param canvas_width 
    * @param canvas_height 
    */
-  public setup_param(all_data: number[][][], canvas_width: number, canvas_height: number){
-    //Set ridge offset etc
-    this.ridges_offset = canvas_height / all_data.length * 1/3;
-    this.ridges_height = canvas_height / all_data.length;
-    this.width = canvas_width;
-    this.ridges_x_start = 150;
-    this.ridges_y_start = this.ridges_height;
+  public set_params(data_rows : number, 
+    canvas_width: number, 
+    canvas_height: number, 
+    grid_line_start_x: number, 
+    grid_line_end_x: number, 
+    x_axis_start: number, 
+    font_size: string)
+  {
+    this.ridges_offset = canvas_height / data_rows * 1/3;
+    this.ridges_height = canvas_height / data_rows;
 
-    this.grid_line_start_y = this.ridges_y_start;
+    this.grid_line_start_x = grid_line_start_x;
+    this.grid_line_end_x = grid_line_end_x;
+    this.grid_line_start_y = this.ridges_height;
+
+    this.font_size = font_size;
+
+    this.x_axis_start = x_axis_start;
+    this.x_axis_width = canvas_width;
     this.x_axis_value_offset = 5;                      // TODO set this value automatically dependent on canvas and data
+
+    this.y_axis_start = this.ridges_height;
   }
 }
 
+class Data
+{
+  private values : number[][][]; //Underlying data (list of 2D data)
+  private transformed_values : number[][][]; //Transformed data (for drawing)
+
+  public x_range: number; //Range in x of data
+  public y_range: number; //Range in y of data
+  public xy_min_max: number[][]; //min and max value in x and y dimension of data values
+  public x_start_value : number; //Smallest x value in data
+
+  //Value for color gradient - can be accessed by getter for each data row index
+  private gradient_max_y_value : number;
+  private transformed_gradient_max_y_values : number[];
+
+  //Convenience values
+  public length: number;
+
+  /**
+   * For all given ridge-lines this function sorts the points in each ridge-line
+   * by the x-coordinate (rising)
+   * @param data_array The data of all ridge-lines
+   */
+  private sort_by_x(data_array : number[][][])
+  {
+    data_array.forEach(
+      (data) =>
+      {
+        data.sort(
+          (point_1 : number[], point_2 : number[]) =>
+          {
+            if (point_1[0] === point_2[0])
+            {
+              return 0;
+            }
+            else if (point_1[0] < point_2[0])
+            {
+              return -1;
+            }
+            else
+            {
+              return 1;
+            }
+          }
+        );
+      }
+    );
+  }
+
+/**
+ * Returns the minimal an maximal values out of all points of all ridge-lines
+ * @param data_array  The data of all ridge-lines
+ * @returns           [[min_x, min_y], [max_x, max_y]]
+ */
+  private get_xy_min_max(data_array : number[][][])
+  {
+    //Store as [[min_x, min_y],[max_x, max_y]]
+    let result : number[][] = [[0,0],[0,0]];
+
+    for (let data of data_array)
+    {
+      let min = this.get_min_x_y(data);
+      let max = this.get_max_x_y(data);
+
+      //Store as [[min_x, min_y],[max_x, max_y]]
+      result[0][0] = Math.min(result[0][0], min[0]);
+      result[0][1] = Math.min(result[0][1], min[1]);
+      result[1][0] = Math.max(result[1][0], max[0]);
+      result[1][1] = Math.max(result[1][1], max[1]);
+    }
+
+    return result;
+  }
+
+  /**
+   * Returns the minimal values of x and y over all x- and y-values in data
+   * @returns [min_x, min_y]
+   */
+  private get_min_x_y(data: number[][])
+  {
+    return data.reduce(
+      function(previous_value: number[], current_value: number[])
+      {
+        return [Math.min(previous_value[0], current_value[0]), Math.min(previous_value[1], current_value[1])];
+      }
+    );
+  }
+
+  /**
+   * Returns the maximum values of x and y over all x- and y-values in data
+   * @returns [max_x, max_y]
+   */
+  private get_max_x_y(data: number[][])
+  {
+    return data.reduce(
+      function(previous_value: number[], current_value: number[])
+      {
+        return [Math.max(previous_value[0], current_value[0]), Math.max(previous_value[1], current_value[1])];
+      }
+    );
+  }
+
+  //Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
+  private get_test_data(x_1: number, x_2: number, step_size: number)
+  {
+    let test_data : number[][] = [];
+
+    let sigma = Math.random() * 5;
+    let mu = Math.random() * 5;
+    let frac_1 = 1 / Math.sqrt(2 * Math.PI * Math.pow(sigma, 2));
+    let frac_2 = - 1 / (2 * Math.pow(sigma, 2));
+    
+    for (let x = x_1; x < x_2; x += step_size)
+    {
+      test_data.push([x, frac_1 * Math.exp(frac_2 * Math.pow(x - mu, 2))]);
+    }
+
+    return test_data;
+  }
+
+  /**
+   * This function sets up all variables of this class dependent on the data.
+   * @param data The data of all ridge-line charts.
+   */
+  public setup(data: number[][][], gradient_max_y_value: number){
+    //Store data
+    this.values = data;
+    this.length = this.values.length;
+
+    //Sort data by x for drawing
+    this.sort_by_x(this.values);
+
+    //Get relevant data information
+    this.xy_min_max = this.get_xy_min_max(this.values);
+    this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
+    this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
+    this.x_start_value = this.xy_min_max[0][0];
+
+    this.gradient_max_y_value = gradient_max_y_value;
+  }
+
+  /**
+   * Creates the data for all ridgelines
+   * @returns number[][][]
+   */
+  public setup_with_dummy_data(gradient_max_y_value: number){
+    let test_data_1 = this.get_test_data(-15, 15, 0.25);
+    let test_data_2 = this.get_test_data(-10, 20, 0.25);
+    let test_data_3 = this.get_test_data(-5, 25, 0.25);
+    let test_data_4 = [[19,0.1], [-5, 0.1], [24, 0.05], [-7, -0.1]];
+    let test_data_5 : number[][] = [];
+
+    for (let i = -2; i < 18; i+=0.25)
+    {
+      test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
+    }
+    let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
+    
+    this.setup(all_data, gradient_max_y_value);
+  }
+
+  public get_transformed_data_row(index : number)
+  {
+    if (this.transformed_values.length > index && index >= 0)
+    {
+      return this.transformed_values[index];
+    }
+    else
+    {
+      //TODO: Show error
+      return [];
+    }
+  }
+
+  public get_transformed_max_gradient_y(index : number)
+  {
+    if (this.transformed_gradient_max_y_values.length > index && index >= 0)
+    {
+      return this.transformed_gradient_max_y_values[index];
+    }
+    else
+    {
+      //TODO: Show error
+      return 0;
+    }
+  }
+
+  /**
+   * Transform data to start at or after x_start value regarding the (same) coordinate system,
+   * scale the coordinate system to x_range/y_range over a given pixel width/height, start at
+   * some (x,y)-pixel using translate_x/_y
+   * Also invert y value for drawing
+   */
+  public transform_data(config : Ridgeline_Config)
+  {
+    //Make a copy of values before transformation, to keep values unchanged
+    this.transformed_values = [];
+    this.transformed_gradient_max_y_values = [];
+
+    //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
+    //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
+    //Range in context with width/height gives a scale factor for the data, so all data have a uniform x and y scale in the end
+    let width_scale = config.x_axis_width / this.x_range;
+    let height_scale = config.ridges_height / this.y_range;
+    for (let i = 0; i < this.values.length; ++i)
+    {
+      let y_from = config.y_axis_start + config.ridges_offset * i;
+      this.transformed_values[i] = this.values[i].map(
+        (item: number[]) =>
+        {
+          return [(item[0] - this.x_start_value) * width_scale + config.x_axis_start, -(item[1] * height_scale) + y_from];
+        }
+      );
+
+      this.transformed_gradient_max_y_values[i] = -(this.gradient_max_y_value * height_scale) + y_from;
+    }
+  }
+}
 
 
 
@@ -90,6 +290,8 @@ export class RidgelineChartComponent implements OnInit {
   private ctx: CanvasRenderingContext2D;
   private path: paper.Path;
 
+  //Ridgeline data and configuration
+  private data : Data;
   private config: Ridgeline_Config;
 
 
@@ -131,70 +333,75 @@ export class RidgelineChartComponent implements OnInit {
     }, false);
 
     //Create test data
-    let all_data = get_all_test_data();
-
-    //Sort data by x for drawing
-    this.sort_by_x(all_data);
+    this.data = new Data();
+    this.data.setup_with_dummy_data(0.5);
 
     // Setup all necessary parameters for drawing
     this.config = new Ridgeline_Config();
-    this.config.setup_param_data(all_data);
-
-
-    
 
     //Set up paperjs with the given canvas
     paper.setup(this.canvas);
+
+    this.canvas.width = 900;
+    this.canvas.height = 900;
+    paper.view.viewSize.width = 900;
+    paper.view.viewSize.height = 900;
 
     paper.view.onFrame = (event) => {
       //Sollte nicht zu oft aufgerufen werden
       paper.project.clear();
 
-      let canvas_width = this.canvas.width;
-      let canvas_height = this.canvas.height;
-
-      this.config.setup_param(all_data, canvas_width, canvas_height);
+      this.config.set_params(this.data.length, this.canvas.width, this.canvas.height, 150, this.canvas.width, 150, "1em");
+      this.data.transform_data(this.config);
 
       //Draw test data
-      for (let i = 0; i < all_data.length; ++i)
+      for (let i = 0; i < this.data.length; ++i)
       {
         // ToDo: further refinement of config object and function call to avoid so many parameters
-        this.plot_ridge(all_data[i], this.config.ridges_y_start + this.config.ridges_offset * i, this.config.colors[i]); //TODO: Improve color (should be distinct, not white, ...)
+        this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_max_gradient_y(i), this.config, i); //TODO: Improve color (should be distinct, not white, ...) -> New: Should be the same, use color gradient
       }
 
       //TODO: Proper arguments for grid drawing
       //TODO: Draw grid for x values (vertical)
 
       //Draw grid for data
-      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus']);
+      //TODO: Labels should be part of data, text size should determine starting point for drawing lines of grid / plots
+      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus'], this.data, this.config);
     }
   }
 
-  private plot_grid(labels: string[])
+  private plot_grid(labels: string[], data: Data, config: Ridgeline_Config)
   {
-    let config = this.config;
-
+    //Values for later
     let line_start_x = config.grid_line_start_x;
     let line_end_x = config.grid_line_end_x;
     let line_start_y = config.grid_line_start_y;
+
     let offset_horizontal = config.ridges_offset;
-    let xy_min_max = config.xy_min_max;
-    let x_axis_start = config.ridges_x_start;
-    let x_axis_width = config.width;
+
+    let xy_min_max = data.xy_min_max;
+
+    let x_axis_start = config.x_axis_start;
+    let x_axis_width = config.x_axis_width;
     let x_value_offset = config.x_axis_value_offset;
 
+    let font_size = config.font_size;
 
+    //Text scale calculation -------------------------------------------------
     //Calculate width of longest label - allows to scale text s.t. it ends before the line begins
-    let longest_label = labels.reduce(function(prev, current) { return (prev.length > current.length) ? prev : current; } );
-    let temp_text = new paper.PointText(new paper.Point(0, 0));
-    temp_text.justification = 'left';
-    temp_text.fillColor = new paper.Color(0.0, 0.0, 0.0);
-    temp_text.content = longest_label;
-    let longest_width = temp_text.strokeBounds.width;
-    temp_text.remove();
+    // let longest_label = labels.reduce(function(prev, current) { return (prev.length > current.length) ? prev : current; } );
+    // let temp_text = new paper.PointText(new paper.Point(0, 0));
+    // temp_text.justification = 'left';
+    // temp_text.fillColor = new paper.Color(0.0, 0.0, 0.0);
+    // temp_text.content = longest_label;
+    // let longest_width = temp_text.strokeBounds.width;
+    // temp_text.remove();
 
-    //Calculate text scale
-    let text_scale = (line_start_x - 5) / longest_width;
+    // //Calculate text scale
+    // let text_scale = (line_start_x - 5) / longest_width;
+
+    //Make sure that small texts are not too small
+    //Text scale calculation end -------------------------------------------------
 
     //TODO: Not that clean, text should have a min. width / lines might need to be moved according to that width
 
@@ -209,7 +416,8 @@ export class RidgelineChartComponent implements OnInit {
       text.justification = 'left';
       text.fillColor = new paper.Color(0.0, 0.0, 0.0);
       text.content = labels[i];
-      text.scale(text_scale, new paper.Point(0, line_start_y + offset_horizontal*i));
+      text.fontSize = font_size;
+      //text.scale(text_scale, new paper.Point(0, line_start_y + offset_horizontal*i));
     }
 
     //Vertical lines and labels (TODO)
@@ -224,217 +432,55 @@ export class RidgelineChartComponent implements OnInit {
       text.justification = 'center';
       text.fillColor = new paper.Color(0.0, 0.0, 0.0);
       text.content = '' + x;
-      text.scale(text_scale);
+      text.fontSize = font_size;
+      //text.scale(text_scale);
     }
   }
 
-  private plot_ridge(data: number[][], y_from: number, color: paper.Color)
+  private plot_ridge(data_row: number[][], gradient_max_y_value: number, config: Ridgeline_Config, index: number)
   {
-    let config = this.config;
+    let y_from = this.config.y_axis_start + this.config.ridges_offset * index;
 
-    let x_from = config.ridges_x_start;
-    let width = config.width;
-    let height = config.ridges_height;
-    let x_range = config.x_range;
-    let y_range = config.y_range;
-    let x_start_value = config.x_start_value;
-
-
-    data = this.transform_data(data, width, height, x_range, y_range, x_start_value, x_from, y_from);
+    console.log(data_row);
 
     //Only draw a plot if there's actually any data
-    if (data.length == 0)
+    if (data_row.length == 0)
     {
       return;
     }
 
     let path = new paper.Path({
-      segments: [new paper.Point(data[0][0], data[0][1])],
+      segments: [new paper.Point(data_row[0][0], data_row[0][1])],
       strokeColor: 'black',
       strokeWidth: '1',
     });
 
-    for (let i = 1; i < data.length; ++i)
+    for (let i = 1; i < data_row.length; ++i)
     {
-      path.lineTo(new paper.Point(data[i][0], data[i][1]));
+      path.lineTo(new paper.Point(data_row[i][0], data_row[i][1]));
     }
 
     //path.smooth(); -> Leads to problems if we have straight lines in between (line might not stay straight then)
 
     let path_filler = new paper.Path({
-      segments: [new paper.Point(data[0][0], data[0][1])],
+      segments: [new paper.Point(data_row[0][0], data_row[0][1])],
       strokeColor: new paper.Color(0.0, 0.0, 0.0, 0.0),
       strokeWidth: '2',
     });
 
-    for (let i = 1; i < data.length; ++i)
+    for (let i = 1; i < data_row.length; ++i)
     {
-      path_filler.lineTo(new paper.Point(data[i][0], data[i][1]));
+      path_filler.lineTo(new paper.Point(data_row[i][0], data_row[i][1]));
     }
     //path_filler.smooth();
-    path_filler.lineTo(new paper.Point(data[data.length - 1][0], y_from));
-    path_filler.lineTo(new paper.Point(data[0][0], y_from));
-    path_filler.fillColor = color;
+    path_filler.lineTo(new paper.Point(data_row[data_row.length - 1][0], y_from));
+    path_filler.lineTo(new paper.Point(data_row[0][0], y_from));
+    path_filler.fillColor = new paper.Color({
+      gradient: {
+        stops: ['red', 'blue']
+      },
+      origin: [data_row[0][0], gradient_max_y_value],
+      destination: [data_row[0][0], y_from]
+    });
   }
-
-
-
-  /**
-   * Transform data to start at or after x_start value regarding the (same) coordinate system,
-   * scale the coordinate system to x_range/y_range over a given pixel width/height, start at
-   * some (x,y)-pixel using translate_x/_y
-   * Also invert y value for drawing
-   * 
-   * TODO: Also use config here!!!
-   */
-  private transform_data(data: number[][], width: number, height: number, x_range: number, y_range: number, x_start_value : number, translate_x: number, translate_y: number)
-  {
-    //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
-    let width_scale = width / x_range;
-    let height_scale = height / y_range;
-    return data.map(
-      function(item: number[])
-      {
-        return [(item[0] - x_start_value) * width_scale + translate_x, -(item[1] * height_scale) + translate_y];
-      }
-    );
-  }
-
-
-  /**
-   * For all given ridge-lines this function sorts the points in each ridge-line
-   * by the x-coordinate (rising)
-   * @param data_array The data of all ridge-lines
-   */
-  private sort_by_x(data_array : number[][][])
-  {
-    data_array.forEach(
-      (data) =>
-      {
-        data.sort(
-          (point_1 : number[], point_2 : number[]) =>
-          {
-            if (point_1[0] === point_2[0])
-            {
-              return 0;
-            }
-            else if (point_1[0] < point_2[0])
-            {
-              return -1;
-            }
-            else
-            {
-              return 1;
-            }
-          }
-        );
-      }
-    );
-  }
-
-}
-
-
-
-
-// ----------------------------------------------------- Min and Max computations -----------------------------------------------------
-
-
-/**
- * Returns the minimal an maximal values out of all points of all ridge-lines
- * @param data_array  The data of all ridge-lines
- * @returns           [[min_x, min_y], [max_x, max_y]]
- */
-function get_xy_min_max(data_array : number[][][])
-{
-  //Store as [[min_x, min_y],[max_x, max_y]]
-  let result : number[][] = [[0,0],[0,0]];
-
-  for (let data of data_array)
-  {
-    let min = get_min_x_y(data);
-    let max = get_max_x_y(data);
-
-    //Store as [[min_x, min_y],[max_x, max_y]]
-    result[0][0] = Math.min(result[0][0], min[0]);
-    result[0][1] = Math.min(result[0][1], min[1]);
-    result[1][0] = Math.max(result[1][0], max[0]);
-    result[1][1] = Math.max(result[1][1], max[1]);
-  }
-
-  return result;
-}
-
-
-/**
- * Returns the minimal values of x and y over all x- and y-values in data
- * @returns [min_x, min_y]
- */
-function get_min_x_y(data: number[][])
-{
-  return data.reduce(
-    function(previous_value: number[], current_value: number[])
-    {
-      return [Math.min(previous_value[0], current_value[0]), Math.min(previous_value[1], current_value[1])];
-    }
-  );
-}
-
-/**
- * Returns the maximum values of x and y over all x- and y-values in data
- * @returns [max_x, max_y]
- */
-function get_max_x_y(data: number[][])
-{
-  return data.reduce(
-    function(previous_value: number[], current_value: number[])
-    {
-      return [Math.max(previous_value[0], current_value[0]), Math.max(previous_value[1], current_value[1])];
-    }
-  );
-}
-
-
-
-
-
-
-// ----------------------------------------------------- Test Data -----------------------------------------------------
-
-/**
- * Creates the data for all ridgelines
- * @returns number[][][]
- */
-function get_all_test_data(){
-  let test_data_1 = get_test_data(-15, 15, 0.25);
-  let test_data_2 = get_test_data(-10, 20, 0.25);
-  let test_data_3 = get_test_data(-5, 25, 0.25);
-  let test_data_4 = [[19,0.1], [-5, 0.1], [24, 0.05], [-7, -0.1]];
-  let test_data_5 : number[][] = [];
-
-  for (let i = -2; i < 18; i+=0.25)
-  {
-    test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
-  }
-  let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
-  return all_data;
-}
-
-
-//Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
-function get_test_data(x_1: number, x_2: number, step_size: number)
-{
-  let test_data : number[][] = [];
-
-  let sigma = Math.random() * 5;
-  let mu = Math.random() * 5;
-  let frac_1 = 1 / Math.sqrt(2 * Math.PI * Math.pow(sigma, 2));
-  let frac_2 = - 1 / (2 * Math.pow(sigma, 2));
-  
-  for (let x = x_1; x < x_2; x += step_size)
-  {
-    test_data.push([x, frac_1 * Math.exp(frac_2 * Math.pow(x - mu, 2))]);
-  }
-
-  return test_data;
 }
