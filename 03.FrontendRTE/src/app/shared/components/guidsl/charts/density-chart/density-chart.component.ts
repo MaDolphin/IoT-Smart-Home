@@ -120,7 +120,7 @@ export class DensityChartComponent implements OnChanges {
     g.append('g')
       .call(d3.axisLeft(y))
       .call(makeYLines()
-        .tickSize(-width, 0, 0)
+        .tickSize(-width)
       );
     for (let index = 0; index < types.length; index++) {
       /**

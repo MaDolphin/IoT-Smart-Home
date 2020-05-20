@@ -3,9 +3,9 @@ import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from '@shared/architecture/services/websocket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
-import {BeispieleDensitychartGenComponentTop} from '@targetgui/beispiel-densitychart-gen.component/beispiel-densitychart-gen.component-top';
+import {BeispieleDensitychartGenComponentTop} from "@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component-top";
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/beispiel-densitychart-gen.component/beispiel-densitychart-gen.component.html',
+  templateUrl: '../../../target/generated-sources/gui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component.html',
 })
 export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGenComponentTop implements OnInit{
 
