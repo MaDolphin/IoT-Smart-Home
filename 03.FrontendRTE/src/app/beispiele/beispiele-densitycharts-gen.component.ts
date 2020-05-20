@@ -7,7 +7,7 @@ import {BeispieleDensitychartGenComponentTop} from "@targetgui/beispiele-density
 @Component({
   templateUrl: '../../../target/generated-sources/gui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component.html',
 })
-export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGenComponentTop implements OnInit{
+export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGenComponentTOP implements OnInit{
 
   constructor(
       _router: Router,
