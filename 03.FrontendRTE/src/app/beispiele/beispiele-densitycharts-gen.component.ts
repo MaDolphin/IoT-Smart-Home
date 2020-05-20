@@ -3,11 +3,11 @@ import {Component, OnInit} from '@angular/core';
 import {WebSocketService} from '@shared/architecture/services/websocket.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
-import {BeispieleDensitychartGenComponentTop} from "@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component-top";
+import {BeispieleDensitychartsGenComponentTop} from "@targetgui/beispiele-densitycharts-gen.component/beispiele-densitycharts-gen.component-top";
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component.html',
+  templateUrl: '../../../target/generated-sources/gui/beispiele-densitycharts-gen.component/beispiele-densitycharts-gen.component.html',
 })
-export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGenComponentTOP implements OnInit{
+export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartsGenComponentTop implements OnInit{
 
   constructor(
       _router: Router,
