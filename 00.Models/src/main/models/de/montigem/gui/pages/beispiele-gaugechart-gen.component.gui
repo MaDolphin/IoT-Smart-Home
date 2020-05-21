@@ -1,0 +1,10 @@
+webpage GaugeChart {
+  card {
+    head {
+      label "Gauge Chart"
+    }
+    body {
+      html {" <div>Your component as HTML</div> "}
+    }
+  }
+}

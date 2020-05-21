@@ -16,6 +16,7 @@ import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component"
 import { BeispieleTextinputsGenComponent } from "./beispiele-textinputs-gen.component";
 import { BeispieleAutocompletesAndDropdownsGenComponent } from "./beispiele-autocompletes-and-dropdowns-gen.component";
 import { BeispieleLabelsGenComponent } from "./beispiele-labels-gen.component";
+import { BeispieleGaugechartGenComponent } from "./beispiele-gaugechart-gen.component";
 import { BeispieleLayout1GenComponent } from "@targetgui/beispiele-layout-1-gen.component/beispiele-layout-1-gen.component";
 import { BeispieleLayout2GenComponent } from "@targetgui/beispiele-layout-2-gen.component/beispiele-layout-2-gen.component";
 import { BeispieleLayout3GenComponent } from "@targetgui/beispiele-layout-3-gen.component/beispiele-layout-3-gen.component";
@@ -64,6 +65,10 @@ export const routes: Routes = [
   {
     path: 'timelinecharts/:id',
     component: BeispieleTimelinechartsGenComponent
+  },
+  {
+    path: 'gaugecharts',
+    component: BeispieleGaugechartGenComponent
   },
   {
     path: 'input',
