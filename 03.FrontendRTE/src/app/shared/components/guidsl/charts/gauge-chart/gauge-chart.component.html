@@ -1,3 +1,17 @@
-<p>
-  gauge-chart works!
+<p *ngIf="!hasData()">
+    gauge-chart has no data!
 </p>
+<div *ngIf="hasData()" style="height: 500px">
+    <ngx-charts-gauge [results]="dataSet"
+                      [view]="view"
+                      [min]="-40"
+                      [max]="50"
+                      [bigSegments]="9"
+                      [smallSegments]="10"
+                      [showAxis]="true"
+                      [showText]="true"
+                      [textValue]="textValue"
+                      [legend]="true"
+                      [legendPosition]="'right'">
+    </ngx-charts-gauge>
+</div>

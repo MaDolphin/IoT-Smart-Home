@@ -8,11 +8,39 @@ import {LineDataGroup} from "@components/charts/line-chart/line-chart.component"
 })
 export class GaugeChartComponent implements OnInit {
 
-
     public options: any = {};
-    public dataSet: any[] = [];
+    public dataSet: any[] = [{
+        'name': 'Kitchen',
+        'value': 23
+    },
+        {
+            'name': 'Bathroom',
+            'value': 30
+        },
+        {
+            'name': 'Bedroom',
+            'value': 21
+        },
+        {
+            'name': 'Office',
+            'value': 15
+        }];
+    view: [400, 500];
+    textValue = 'Temperature °C';
 
     constructor() {
+        /*let t = this;
+        setTimeout(function () {
+            // demo change
+            t.dataSet = [{
+                'name': 'Kitchen',
+                'value': -23
+            },
+                {
+                    'name': 'Bathroom',
+                    'value': -30
+                }];
+        }, 5 * 1000);*/
     }
 
     ngOnInit() {
@@ -20,14 +48,21 @@ export class GaugeChartComponent implements OnInit {
 
     @Input()
     public set data(lineData: LineDataGroup[]) {
-        // merge data
+        // todo merge data
+        let t = this;
 
         lineData.forEach(function (lineD: LineDataGroup, i: number) {
             if (lineD.label != null && lineD.data.length > 0) {
                 console.log(lineD.label + ": " + lineD.data[0].y);
+                t.dataSet = [];
+                t.dataSet.push({"name": lineD.label, "value": lineD.data[0].y + 15}); // +15 für realistischere Werte
             }
-        })
-        console.log("--------------");
+        });
+
+        /*console.log(this.dataSet);
+        if (this.dataSet.length > 0 && this.dataSet[0])
+            console.log(this.dataSet[0].value);
+        console.log("--------------");*/
     }
 
     public hasData(): boolean {
