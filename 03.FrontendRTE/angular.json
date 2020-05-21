@@ -53,9 +53,9 @@
           },
           "configurations": {
             "production": {
-              "host": "TODO set IP",
+              "host": "172.17.0.1",
               "browserTarget": "app:build:production",
-              "publicHost": "TODO set Domain"
+              "publicHost": "http://localhost:4200/"
             }
           }
         },
