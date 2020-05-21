@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation, HostListener, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
 
 import {Data2Model} from 'src/app/data/data.model';
@@ -13,19 +13,25 @@ export class DensityChartComponent implements OnChanges {
 
   @Input()
   data2: Data2Model[];
-
-  margin = {top: 30, right: 800, bottom: 30, left: 100};
+  @Input()
+  transitionTime = 1000;
 
   constructor() { }
+  
+  margin = {top: 30, right: 800, bottom: 30, left: 100};
+  firstCall = 1;
 
-  ngOnChanges(): void {
+  x;
+  y;
+
+  ngOnChanges(changes: SimpleChanges): void {
     if (!this.data2) { return; }
 
-    this.createDensityChart();
+    this.updateChart(changes.data2.currentValue);
   }
 
-  onResize() {
-    this.createDensityChart();
+  onResize(changes: SimpleChanges) {
+    this.updateChart(changes.data2.currentValue);
   }
   private createDensityChart(): void {
 
@@ -186,5 +192,41 @@ export class DensityChartComponent implements OnChanges {
       return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
     };
   }
+  private updateChart(data2: Data2Model[]) {
+    if ( this.firstCall ) {
+      this.createDensityChart();
+      this.firstCall = 0;
+    }else{
+      const densityElement = this.chartContainer.nativeElement;
 
+      const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7), this.x.ticks(60));
+      const types = [];
+      kde(data2
+        .filter((d) => {
+          if (types.indexOf(d.type) === -1) {
+            types.push(d.type);
+          }
+        }));
+      // compute density
+      const density = [];
+      for (let index = 0; index < types.length; index++) {
+        density[index] = kde(data2.filter((d) => {
+          return d.type === types[index];
+        })
+          .map((d) => {
+            return d.value;
+          }));
+      }
+      // update the chart
+      densityElement.paths.forEach((path, index) => {
+        path.datum(densityElement.density[index])
+          .transition()
+          .duration(1000)
+          .attr('d', d3.line()
+            .curve(d3.curveBasis)
+            .x((d) => this.x(d[0]))
+            .y((d) => this.y(d[1])));
+      });
+    }
+  }
 }
