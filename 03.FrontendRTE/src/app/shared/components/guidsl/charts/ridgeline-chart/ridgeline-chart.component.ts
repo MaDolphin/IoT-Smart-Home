@@ -292,6 +292,7 @@ class Data
 @Component({
   selector: 'ridgeline-chart',
   templateUrl: './ridgeline-chart.component.html',
+  styleUrls: ['./ridgeline-chart.component.scss'],
 })
 export class RidgelineChartComponent implements OnInit {
   @Input() smooth: boolean;
