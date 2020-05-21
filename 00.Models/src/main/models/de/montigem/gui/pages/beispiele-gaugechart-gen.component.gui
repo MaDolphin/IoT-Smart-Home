@@ -1,4 +1,30 @@
 webpage GaugeChart (socket LineGraph data) {
+  column(nospace) {
+    navigation "navigationBarLinks" {
+      tab "Info" {
+        link: "../charts"
+      }
+      tab "BarCharts" {
+        link: "../barcharts/1"
+      }
+      tab "HorizontalBarCharts" {
+        link: "../horizontalbarcharts"
+      }
+      tab "TimeLineCharts" {
+        link: "../timelinecharts/1"
+      }
+      tab "PieCharts" {
+       link: "../piecharts/1"
+      }
+      tab "LineCharts" {
+       link: "../linecharts"
+      }
+      tab "GaugeCharts" {
+        link: "./"
+      }
+    }
+  }
+    
   card {
     head {
       label "Gauge Chart"
