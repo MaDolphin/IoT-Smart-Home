@@ -42,8 +42,13 @@ class Ridgeline_Config {
     font_size: string,
     overshoot: number)
   {
-    this.ridges_offset = canvas_height / data_rows * 1/3; // Space after which the next ridge begins
-    this.ridges_height = canvas_height / data_rows * 1/3 * (1 + overshoot/100); 
+                                    // divide by everything which has to fit into the canvas space
+                                    // i.e. the number of ridges (dat_rows), the space which might be needed for the overshoot
+                                    // at the top and the bottom (2*overshoot/100), and the additional space for negative values
+                                    // needed at the bottom (+1)
+                                    // At the moment this covers the axis-description implicitly
+    this.ridges_offset = canvas_height / (data_rows + 2 * overshoot/100 + 1); // Space after which the next ridge begins
+    this.ridges_height = canvas_height / (data_rows + 2 * overshoot/100 + 1) * (1 + overshoot/100); 
 
     this.grid_line_start_x = grid_line_start_x;
     this.grid_line_end_x = grid_line_end_x;
@@ -264,7 +269,7 @@ class Data
     //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
     //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
     //Range in context with width/height gives a scale factor for the data, so all data have a uniform x and y scale in the end
-    let width_scale = config.x_axis_width / this.x_range;
+    let width_scale = (config.x_axis_width - config.x_axis_start) / this.x_range;
     let height_scale = config.ridges_height / this.y_range;
     for (let i = 0; i < this.values.length; ++i)
     {
@@ -337,7 +342,8 @@ export class RidgelineChartComponent implements OnInit {
       // paper.view.viewSize.height = this.canvas.parentElement.parentElement.clientHeight;
 
       let width = Math.random() * 300 + 600;
-      let height = Math.random() * 300 + 600;
+      //let height = Math.random() * 300 + 600;
+      let height = this.data.length * 100; // Choose an arbitrary value which might fit to the number of ridges
 
       this.canvas.width = width;
       this.canvas.height = height;
@@ -348,10 +354,10 @@ export class RidgelineChartComponent implements OnInit {
     // Create test data
     this.data = new Data();
     this.data.setup_with_dummy_data();
-    console.log(this.data.xy_min_max);
-    console.log(this.data.x_range);
-    console.log(this.data.y_range);
-    console.log(this.data.x_start_value);
+    // console.log(this.data.xy_min_max);
+    // console.log(this.data.x_range);
+    // console.log(this.data.y_range);
+    // console.log(this.data.x_start_value);
 
     // Setup all necessary parameters for drawing
     this.config = new Ridgeline_Config();
@@ -359,10 +365,12 @@ export class RidgelineChartComponent implements OnInit {
     // Set up paperjs with the given canvas
     paper.setup(this.canvas);
 
+    let height = this.data.length * 100; // Choose an arbitrary value which might fit to the number of ridges
+
     this.canvas.width = 900;
-    this.canvas.height = 900;
+    this.canvas.height = height;
     paper.view.viewSize.width = 900;
-    paper.view.viewSize.height = 900;
+    paper.view.viewSize.height = height;
 
     paper.view.onFrame = (event) => {
       // Should not be called too often
@@ -375,6 +383,9 @@ export class RidgelineChartComponent implements OnInit {
       //TODO: Labels should be part of data, text size should determine starting point for drawing lines of grid / plots
       this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus'], this.data, this.config);
 
+      //TODO: Proper arguments for grid drawing
+      //TODO: Draw grid for x values (vertical)
+
       //Draw test data
       for (let i = 0; i < this.data.length; ++i)
       {
@@ -382,8 +393,13 @@ export class RidgelineChartComponent implements OnInit {
         this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_max_gradient_y(i), this.config, i); //TODO: Improve color (should be distinct, not white, ...) -> New: Should be the same, use color gradient
       }
 
-      //TODO: Proper arguments for grid drawing
-      //TODO: Draw grid for x values (vertical)
+      /* // Lines to see some parameters in real life
+      let line = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(this.canvas.width, this.canvas.height));
+      line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
+      let line2 = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(0, this.config.y_axis_start));
+      line2.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
+      */
+
     }
   }
 
@@ -440,7 +456,7 @@ export class RidgelineChartComponent implements OnInit {
     //Vertical lines and labels (TODO)
     for (let x = xy_min_max[0][0]; x < xy_min_max[1][0]; x += x_value_offset)
     {
-      let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * x_axis_width + x_axis_start;
+      let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * (x_axis_width - config.x_axis_start) + x_axis_start;
       let line = new paper.Path.Line(new paper.Point(x_point, line_start_y - offset_horizontal), new paper.Point(x_point, line_start_y + offset_horizontal * labels.length));
       line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
 
