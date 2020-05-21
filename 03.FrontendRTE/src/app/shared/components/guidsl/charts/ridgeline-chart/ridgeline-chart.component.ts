@@ -31,6 +31,7 @@ class Ridgeline_Config {
    * @param all_data 
    * @param canvas_width 
    * @param canvas_height 
+   * @param overshoot     how far do one ridge overlaps into another one (in percentage)
    */
   public set_params(data_rows : number, 
     canvas_width: number, 
@@ -38,10 +39,11 @@ class Ridgeline_Config {
     grid_line_start_x: number, 
     grid_line_end_x: number, 
     x_axis_start: number, 
-    font_size: string)
+    font_size: string,
+    overshoot: number)
   {
-    this.ridges_offset = canvas_height / data_rows * 1/3;
-    this.ridges_height = canvas_height / data_rows;
+    this.ridges_offset = canvas_height / data_rows * 1/3; // Space after which the next ridge begins
+    this.ridges_height = canvas_height / data_rows * 1/3 * (1 + overshoot/100); 
 
     this.grid_line_start_x = grid_line_start_x;
     this.grid_line_end_x = grid_line_end_x;
@@ -57,13 +59,19 @@ class Ridgeline_Config {
   }
 }
 
+
+
+
+
+
 class Data
 {
   private values : number[][][]; //Underlying data (list of 2D data)
   private transformed_values : number[][][]; //Transformed data (for drawing)
 
-  public x_range: number; //Range in x of data
-  public y_range: number; //Range in y of data
+  public x_range: number; //Range in x of data (range of min to max value)
+  public y_range: number; //Range in y of data (range of 0 to absolute maximum of min and max)
+                          // so it equals either y_max or -y_min
   public xy_min_max: number[][]; //min and max value in x and y dimension of data values
   public x_start_value : number; //Smallest x value in data
 
@@ -190,7 +198,8 @@ class Data
     //Get relevant data information
     this.xy_min_max = this.get_xy_min_max(this.values);
     this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
-    this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
+    //this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
+    this.y_range = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
     this.x_start_value = this.xy_min_max[0][0];
   }
 
@@ -201,11 +210,11 @@ class Data
   public setup_with_dummy_data(){
     let test_data_1 = this.get_test_data(-15, 15, 0.25);
     let test_data_2 = this.get_test_data(-10, 20, 0.25);
-    let test_data_3 = this.get_test_data(-5, 25, 0.25);
+    let test_data_3 = this.get_test_data(-5, 20, 0.25);
     let test_data_4 = [[19,0.1], [-5, 0.1], [24, 0.05], [-7, -0.1]];
     let test_data_5 : number[][] = [];
 
-    for (let i = -2; i < 18; i+=0.25)
+    for (let i = -2; i < 15; i+=0.25)
     {
       test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
     }
@@ -281,6 +290,7 @@ class Data
 })
 export class RidgelineChartComponent implements OnInit {
   @Input() smooth: boolean;
+  @Input() overshoot: number;
   
   //Input function and value for max y value of ridgeline color gradient
   private color_gradient_max_y : number = 0.3; //Should match default value in HTML
@@ -335,14 +345,18 @@ export class RidgelineChartComponent implements OnInit {
       paper.view.viewSize.height = height;
     }, false);
 
-    //Create test data
+    // Create test data
     this.data = new Data();
     this.data.setup_with_dummy_data();
+    console.log(this.data.xy_min_max);
+    console.log(this.data.x_range);
+    console.log(this.data.y_range);
+    console.log(this.data.x_start_value);
 
     // Setup all necessary parameters for drawing
     this.config = new Ridgeline_Config();
 
-    //Set up paperjs with the given canvas
+    // Set up paperjs with the given canvas
     paper.setup(this.canvas);
 
     this.canvas.width = 900;
@@ -351,11 +365,15 @@ export class RidgelineChartComponent implements OnInit {
     paper.view.viewSize.height = 900;
 
     paper.view.onFrame = (event) => {
-      //Sollte nicht zu oft aufgerufen werden
+      // Should not be called too often
       paper.project.clear();
 
-      this.config.set_params(this.data.length, this.canvas.width, this.canvas.height, 150, this.canvas.width, 150, "1em");
+      this.config.set_params(this.data.length, this.canvas.width, this.canvas.height, 150, this.canvas.width, 150, "1em", this.overshoot);
       this.data.transform_data(this.config, this.color_gradient_max_y);
+
+      //Draw grid for data
+      //TODO: Labels should be part of data, text size should determine starting point for drawing lines of grid / plots
+      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus'], this.data, this.config);
 
       //Draw test data
       for (let i = 0; i < this.data.length; ++i)
@@ -366,10 +384,6 @@ export class RidgelineChartComponent implements OnInit {
 
       //TODO: Proper arguments for grid drawing
       //TODO: Draw grid for x values (vertical)
-
-      //Draw grid for data
-      //TODO: Labels should be part of data, text size should determine starting point for drawing lines of grid / plots
-      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus'], this.data, this.config);
     }
   }
 
@@ -444,7 +458,7 @@ export class RidgelineChartComponent implements OnInit {
   {
     let y_from = this.config.y_axis_start + this.config.ridges_offset * index;
 
-    console.log(data_row);
+    //console.log(data_row);
 
     //Only draw a plot if there's actually any data
     if (data_row.length == 0)

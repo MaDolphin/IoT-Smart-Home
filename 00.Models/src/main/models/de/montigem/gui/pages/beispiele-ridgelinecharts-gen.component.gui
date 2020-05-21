@@ -43,7 +43,8 @@ webpage RidgelineChartSamplePage(
             body {
               html {"
                 <ridgeline-chart
-                  [smooth]=\"false\">
+                  [smooth]=\"false\"
+                  [overshoot]=30>
                 </ridgeline-chart>
               "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name
