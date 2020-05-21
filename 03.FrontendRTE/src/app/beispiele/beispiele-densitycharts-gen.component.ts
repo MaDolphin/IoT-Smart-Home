@@ -1,26 +1,24 @@
  /*(c) https://github.com/MontiCore/monticore */
-import {Component, OnInit} from '@angular/core';
-import {WebSocketService} from '@shared/architecture/services/websocket.service';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import { DensityChartComponent } from "@components/charts/density-chart/density-chart.component";
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
-import {BeispielDensitychartGenComponentTop} from '@targetgui/beispiel-densitychart-gen.component/beispiel-densitychart-gen.component-top';
+import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component-top';
+ import {WebSocketService} from "@services/websocket.service";
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/beispiel-densitychart-gen.component/beispiel-densitychart-gen.component.html',
+  templateUrl: '../../../target/generated-sources/gui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component.html',
 })
-export class BeispieleDensitychartsGenComponent extends BeispielDensitychartGenComponentTop implements OnInit{
+export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGenComponent {
 
-  constructor(
-      _router: Router,
-      _route: ActivatedRoute,
-      _commandRestService: CommandRestService,
-  ) {
-    super(_commandRestService, _route, _router);
-  }
-  ngOnInit(): void {
-    super.ngOnInit();
-    this.setNavigationBarLinks();
-  }
-  title = 'Densitychart';
+    public constructor(
+        protected _webSocketService: WebSocketService,
+        protected _router: Router,
+        protected _route: ActivatedRoute,
+        protected _commandRestService: CommandRestService) {
+        super(_commandRestService, _route, _router/*, _webSocketService*/);
+    }
+
+    title = 'Densitychart';
 
   public data =
     [
@@ -100,6 +98,4 @@ export class BeispieleDensitychartsGenComponent extends BeispielDensitychartGenC
      "day": 5
  }
  ]
-
- 
 }

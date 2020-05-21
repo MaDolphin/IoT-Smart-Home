@@ -10,13 +10,12 @@ export class DensityChartComponent implements OnChanges {
   private chartContainer: ElementRef;
 
   @Input()
-  data2: Data2Model[];
-  @Input() data;
+  data: Data2Model[];
 
   margin = {top: 40, right: 700, bottom: 30, left: 100};
 
   ngOnChanges(): void {
-    if (!this.data2) { return; }
+    if (!this.data) { return; }
 
     this.createDensityChart();
   }
@@ -27,7 +26,7 @@ export class DensityChartComponent implements OnChanges {
   private createDensityChart(): void {
     d3.select('svg').remove();
     const densityElement = this.chartContainer.nativeElement;
-    const data = this.data2;
+    const data = this.data;
 
    // select chart from html and append an svg
     const svg = d3.select(densityElement).append('svg')
@@ -115,7 +114,6 @@ export class DensityChartComponent implements OnChanges {
       });
     };
   }
-
   private kernelEpanechnikov(k) {
     return (v) => {
       return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
