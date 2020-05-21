@@ -57,7 +57,7 @@ class Ridgeline_Config {
     this.font_size = font_size;
 
     this.x_axis_start = x_axis_start;
-    this.x_axis_width = canvas_width;
+    this.x_axis_width = canvas_width - this.x_axis_start;
     this.x_axis_value_offset = 5;                      // TODO set this value automatically dependent on canvas and data
 
     this.y_axis_start = this.ridges_height;
@@ -269,7 +269,7 @@ class Data
     //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
     //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
     //Range in context with width/height gives a scale factor for the data, so all data have a uniform x and y scale in the end
-    let width_scale = (config.x_axis_width - config.x_axis_start) / this.x_range;
+    let width_scale = config.x_axis_width / this.x_range;
     let height_scale = config.ridges_height / this.y_range;
     for (let i = 0; i < this.values.length; ++i)
     {
@@ -457,7 +457,7 @@ export class RidgelineChartComponent implements OnInit {
     //Vertical lines and labels (TODO)
     for (let x = xy_min_max[0][0]; x < xy_min_max[1][0]; x += x_value_offset)
     {
-      let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * (x_axis_width - config.x_axis_start) + x_axis_start;
+      let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * x_axis_width + x_axis_start;
       let line = new paper.Path.Line(new paper.Point(x_point, line_start_y - offset_horizontal), new paper.Point(x_point, line_start_y + offset_horizontal * labels.length));
       line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
 
