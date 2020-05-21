@@ -17,7 +17,6 @@ export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGen
         protected _commandRestService: CommandRestService) {
         super(_commandRestService, _route, _router/*, _webSocketService*/);
     }
-
     title = 'Densitychart';
 
   public data =

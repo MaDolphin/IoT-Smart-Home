@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation, HostListener } from '@angular/core';
 import * as d3 from 'd3';
-
 import {Data2Model, DataModel} from 'src/app/data/data.model';
 @Component({
   selector: 'density-chart',
