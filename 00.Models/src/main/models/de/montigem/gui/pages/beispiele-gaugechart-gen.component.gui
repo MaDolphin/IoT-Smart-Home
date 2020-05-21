@@ -1,4 +1,4 @@
-webpage GaugeChart {
+webpage GaugeChart (socket LineGraph data) {
   card {
     head {
       label "Gauge Chart"
