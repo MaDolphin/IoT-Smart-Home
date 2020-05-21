@@ -4,6 +4,7 @@ import * as d3 from 'd3';
 import {Data2Model} from 'src/app/data/data.model';
 @Component({
   selector: 'density-chart',
+  encapsulation: ViewEncapsulation.None,
   templateUrl: './density-chart.component.html'
 })
 export class DensityChartComponent implements OnChanges {
