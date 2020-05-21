@@ -30,7 +30,9 @@ webpage GaugeChart (socket LineGraph data) {
       label "Gauge Chart"
     }
     body {
-      html {" <div>Your component as HTML</div> "}
+      html {" <gauge-chart
+        [data]=\"transformedRealtimeData\"
+      ></gauge-chart> "}
     }
   }
 }

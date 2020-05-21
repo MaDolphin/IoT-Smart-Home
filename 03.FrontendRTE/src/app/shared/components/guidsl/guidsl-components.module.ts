@@ -26,6 +26,7 @@ import { BudgetWidgetComponent } from '@shared/components/guidsl/budget-widget/b
 import { TextMaskModule } from 'angular2-text-mask';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { GaugeChartComponent } from './charts/gauge-chart/gauge-chart.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     HorizontalBarChartComponent,
     LineChartComponent,
     BudgetWidgetComponent,
+    GaugeChartComponent,
   ],
   imports: [
     DataTableModule,
@@ -77,7 +79,8 @@ import { Ng5SliderModule } from 'ng5-slider';
     BalanceBoxComponent,
     HorizontalBarChartComponent,
     LineChartComponent,
-    BudgetWidgetComponent
+    BudgetWidgetComponent,
+    GaugeChartComponent
   ],
   providers: [
   ],

@@ -5,6 +5,7 @@ import {BeispieleGaugechartGenComponentTOP} from '@targetgui/beispiele-gaugechar
 import {WebSocketService} from '@shared/architecture/services/websocket.service';
 import {LineGraphDTO} from "@targetdtos/linegraph.dto";
 import {TypedJSON} from "@upe/typedjson";
+import {LineDataGroup} from "@components/charts/line-chart/line-chart.component";
 
 @Component({
     templateUrl: '../../../target/generated-sources/gui/beispiele-gaugechart-gen.component/beispiele-gaugechart-gen.component.html',
@@ -19,12 +20,14 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
         super(_commandRestService, _route, _router, _webSocketService);
     }
 
+    public transformedRealtimeData: LineDataGroup[] = [];
+
     public subscribedataSocket(): void {
         if (this.dataSocket) {
             this.subscriptions.push(this.dataSocket.subscribe(message => {
                     let receivedData: LineGraphDTO = TypedJSON.parse(message.data, LineGraphDTO);
                     this.data = this.transformSocketData(receivedData);
-                    console.log(message)
+                    this.transformedRealtimeData = this.data;
                 }, err =>
                     console.error(err)
             ));
