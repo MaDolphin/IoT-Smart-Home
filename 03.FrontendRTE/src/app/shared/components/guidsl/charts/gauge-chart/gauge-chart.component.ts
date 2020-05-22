@@ -8,6 +8,17 @@ import {GaugeDummyData} from "@components/charts/gauge-chart/gauge-dummy-data";
     styleUrls: ['./gauge-chart.component.css']
 })
 export class GaugeChartComponent implements OnInit {
+    @Input() textValue: string;
+    @Input() bigTicks: number = 10;
+	@Input() smallTicks: number = 5;
+	@Input() unit: string;
+    @Input() min: number = 0;
+    @Input() max: number = 100;
+
+    view: any[] = [400, 400]; // todo change dynamically with screen size
+	showAxis: boolean = true;
+    legend: boolean = true;
+    showText: boolean = true;
 
     public options: any = {};
     public dataSet: any[] = [{
@@ -26,17 +37,22 @@ export class GaugeChartComponent implements OnInit {
             'name': 'Office',
             'value': 15
         }];
-    view: [400, 500];
     textValue = 'Temperature °C';
+    legendPosition: string = 'below';
+
+    @Input()
+    colorScheme = {
+        domain: ['#E44D25', '#7aa3e5', '#5AA454', '#CFC0BB', '#a8385d', '#aae3f5']
+    };
+
+    ngOnInit(): void {
+        this.showText = !!this.textValue;
+    }
 
     constructor() {
     }
 
-    ngOnInit() {
-    }
-
     counter: number = 0;
-
     @Input()
     public set data(lineData: LineDataGroup[]) {
         // todo only replace changed data

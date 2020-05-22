@@ -19,6 +19,7 @@ import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
 import { BeispieleGaugechartGenComponent } from "./beispiele-gaugechart-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
+import { BeispieleGaugechartsGenComponent } from "./beispiele-gaugecharts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
@@ -33,6 +34,7 @@ import { BeispieleLayout3GenComponent } from "@targetgui/beispiele-layout-3-gen.
 import { BeispieleLayout4GenComponent } from "@targetgui/beispiele-layout-4-gen.component/beispiele-layout-4-gen.component";
 import { BeispieleLayout5GenComponent } from "@targetgui/beispiele-layout-5-gen.component/beispiele-layout-5-gen.component";
 import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-other-gen.component/beispiele-input-other-gen.component";
+import {NgxChartsModule} from "@swimlane/ngx-charts";
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispielePiechartsGenComponent,
     BeispieleTimelinechartsGenComponent,
     BeispieleBarchartsGenComponent,
+    BeispieleGaugechartsGenComponent,
     BeispieleLinechartsGenComponent,
     BeispieleRowdatatablesGenComponent,
     BeispieleDatatablesInfoGenComponent,
@@ -73,6 +76,7 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     routing,
     PipesModule,
     ContextMenuModule,
+    NgxChartsModule
   ],
   providers: [
     ContextMenuService,
