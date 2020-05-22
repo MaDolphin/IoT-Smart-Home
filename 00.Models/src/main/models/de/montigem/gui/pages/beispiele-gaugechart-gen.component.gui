@@ -24,15 +24,42 @@ webpage GaugeChart (socket LineGraph data) {
       }
     }
   }
-    
-  card {
-    head {
-      label "Gauge Chart"
+
+row (space-evenly, spaceabove) {
+  container(40%) {
+    card {
+      head {
+        label "Gauge Chart"
+      }
+      body {
+        html {" <gauge-chart
+                  [data]=\"transformedRealtimeData\"
+                  [min]=\"-40\"
+                  [max]=\"50\"
+                  [bigTicks]=\"9\"
+                  [smallTicks]=\"10\"
+                  [unit]=\"'°C'\"
+                  [textValue]=\"'Temperature'\"
+        ></gauge-chart> "}
+      }
     }
-    body {
-      html {" <gauge-chart
-        [data]=\"transformedRealtimeData\"
-      ></gauge-chart> "}
+  }
+  container(40%){
+    card {
+      head {
+        label "Gauge Chart"
+      }
+      body {
+        html {" <gauge-chart
+                  [data]=\"transformedRealtimeData\"
+                  [min]=\"0\"
+                  [max]=\"500\"
+                  [bigTicks]=\"10\"
+                  [smallTicks]=\"0\"
+                  [textValue]=\"'Air Pollution'\"
+        ></gauge-chart> "}
+      }
     }
+  }
   }
 }

@@ -19,7 +19,6 @@ import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
 import { BeispieleGaugechartGenComponent } from "./beispiele-gaugechart-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
-import { BeispieleGaugechartsGenComponent } from "./beispiele-gaugecharts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
@@ -47,7 +46,6 @@ import {NgxChartsModule} from "@swimlane/ngx-charts";
     BeispielePiechartsGenComponent,
     BeispieleTimelinechartsGenComponent,
     BeispieleBarchartsGenComponent,
-    BeispieleGaugechartsGenComponent,
     BeispieleLinechartsGenComponent,
     BeispieleRowdatatablesGenComponent,
     BeispieleDatatablesInfoGenComponent,

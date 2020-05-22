@@ -22,9 +22,9 @@ export class GaugeChartComponent implements OnInit {
 
     public options: any = {};
     public dataSet: any[] = [{
-        'name': 'Kitchen',
-        'value': 23
-    },
+            'name': 'Kitchen',
+            'value': 23
+        },
         {
             'name': 'Bathroom',
             'value': 30
@@ -37,7 +37,6 @@ export class GaugeChartComponent implements OnInit {
             'name': 'Office',
             'value': 15
         }];
-    textValue = 'Temperature °C';
     legendPosition: string = 'below';
 
     @Input()
@@ -73,8 +72,7 @@ export class GaugeChartComponent implements OnInit {
             this.counter %= 2; // reduce refresh rate
             if (this.counter == 0) {
                 //console.log(GaugeDummyData.getNewData());
-                t.dataSet = GaugeDummyData.getNewData();
-                //this.dataSet.push(GaugeDummyData.getNewData())
+                t.dataSet = GaugeDummyData.getNewData(this.min, this.max);
             }
         }
     }

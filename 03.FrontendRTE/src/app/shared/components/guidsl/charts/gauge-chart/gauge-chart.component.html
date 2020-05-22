@@ -1,10 +1,8 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
-<div style="position: relative; height: 100%; width:100%;">
+<div *ngIf="hasData()" style="height: 500px">
     <ngx-charts-gauge
-            *ngIf="hasData()"
             [scheme]="colorScheme"
             [results]="dataSet"
-            [results]="values"
             [legend]="legend"
             [legendPosition]="legendPosition"
             [min]="min"
@@ -16,8 +14,7 @@
             [textValue]="textValue"
             [showAxis]="showAxis">
     </ngx-charts-gauge>
-
+</div>
     <div *ngIf="!hasData()">
         Keine Daten vorhanden
     </div>
-</div>
