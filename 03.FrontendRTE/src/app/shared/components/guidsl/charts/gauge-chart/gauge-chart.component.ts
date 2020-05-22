@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LineDataGroup} from "@components/charts/line-chart/line-chart.component";
+import {GaugeDummyData} from "@components/charts/gauge-chart/gauge-dummy-data";
 
 @Component({
     selector: 'gauge-chart',
@@ -29,40 +30,37 @@ export class GaugeChartComponent implements OnInit {
     textValue = 'Temperature °C';
 
     constructor() {
-        /*let t = this;
-        setTimeout(function () {
-            // demo change
-            t.dataSet = [{
-                'name': 'Kitchen',
-                'value': -23
-            },
-                {
-                    'name': 'Bathroom',
-                    'value': -30
-                }];
-        }, 5 * 1000);*/
     }
 
     ngOnInit() {
     }
 
+    counter: number = 0;
+
     @Input()
     public set data(lineData: LineDataGroup[]) {
-        // todo merge data
+        // todo only replace changed data
         let t = this;
 
-        lineData.forEach(function (lineD: LineDataGroup, i: number) {
-            if (lineD.label != null && lineD.data.length > 0) {
-                console.log(lineD.label + ": " + lineD.data[0].y);
-                t.dataSet = [];
-                t.dataSet.push({"name": lineD.label, "value": lineD.data[0].y + 15}); // +15 für realistischere Werte
-            }
-        });
+        let useDummyData = false;
 
-        /*console.log(this.dataSet);
-        if (this.dataSet.length > 0 && this.dataSet[0])
-            console.log(this.dataSet[0].value);
-        console.log("--------------");*/
+        if (useDummyData) {
+            lineData.forEach(function (lineD: LineDataGroup, i: number) {
+                if (lineD.label != null && lineD.data.length > 0) {
+                    console.log(lineD.label + ": " + lineD.data[0].y);
+                    t.dataSet = [];
+                    t.dataSet.push({"name": lineD.label, "value": lineD.data[0].y + 15}); // +15 für realistischere Werte
+                }
+            });
+        } else {
+            this.counter++;
+            this.counter %= 2; // reduce refresh rate
+            if (this.counter == 0) {
+                //console.log(GaugeDummyData.getNewData());
+                t.dataSet = GaugeDummyData.getNewData();
+                //this.dataSet.push(GaugeDummyData.getNewData())
+            }
+        }
     }
 
     public hasData(): boolean {
