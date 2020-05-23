@@ -1,5 +1,5 @@
 webpage RidgelineChartSamplePage(
-    //socket LineGraph lineChartData,
+    socket LineGraph lineChartData
     //socket RidgelineGraph ridgeLineData,
     //all BeispieleRidgelineChart lineChartData2
     //all BeispieleLineChart lineChartData2
@@ -44,7 +44,8 @@ webpage RidgelineChartSamplePage(
               html {"
                 <ridgeline-chart
                   [smooth]=\"false\"
-                  [overshoot]=30>
+                  [overshoot]=30
+                  [rawData]=data>
                 </ridgeline-chart>
               "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name

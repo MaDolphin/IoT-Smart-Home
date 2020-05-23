@@ -4,14 +4,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
-import { BeispieleBarChart_getById } from "@commands/beispielebarchart.getbyid";
-import { IDTO } from "@shared/architecture";
-import { BeispieleBarChartDTO } from "@targetdtos/beispielebarchart.dto";
-import * as moment from "moment";
-import { beispielTransformation, transformDatumsbereichDTO } from "@components/charts/time-line-chart/time-line-chart.transformation";
 import { ILineChartDataRange, TimeLineChartComponent } from "@components/charts/time-line-chart/time-line-chart.component";
 import { RidgelineChartComponent } from "@components/charts/ridgeline-chart/ridgeline-chart.component";
 import { BeispieleRidgelinechartsGenComponentTOP } from "@targetgui/beispiele-ridgelinecharts-gen.component/beispiele-ridgelinecharts-gen.component-top";
+import { WebSocketService } from '@shared/architecture/services/websocket.service';
 
 /**
  * See BeispielePieChartDTO.java, BeispielePieChartDTOLoader.java for more details on how to use PieCharts
@@ -22,43 +18,79 @@ import { BeispieleRidgelinechartsGenComponentTOP } from "@targetgui/beispiele-ri
 export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechartsGenComponentTOP implements OnInit {
 
   constructor(
-    _router: Router,
-    _route: ActivatedRoute,
-    _commandRestService: CommandRestService,
+    protected _router: Router,
+    protected _route: ActivatedRoute,
+    protected _commandRestService: CommandRestService,
+    protected _webSocketService: WebSocketService,
   ) {
-    super(_commandRestService, _route, _router);
+    super(_commandRestService, _route, _router, _webSocketService);
   }
 
-/*
-  //region TimeLine Chart
-  transformFnTimeLineChart_fz3 = beispielTransformation;
-  rangeTransformFnTimeLineChart_fz3 = transformDatumsbereichDTO;
-  shownRangeTimeLineChart_fz3 = {
-    "min": moment(new Date()).startOf('year').toDate(),
-    "max": moment(new Date()).endOf('year').toDate()
-  };
-*/
-  @ViewChild(RidgelineChartComponent) timeLine: TimeLineChartComponent;
+  public data; // The data which is actually given to the diagram
+  private dummyData; // helping variable
+
+
 
   ngOnInit(): void {
     super.ngOnInit();
-/*
-    this.timeLine.updateEvent.subscribe((range: ILineChartDataRange) => {
-      // const dateRange: string[] = ['' + range.min.getFullYear(), '' + range.max.getFullYear()];
-
-      this.commandManager.addCommand(new BeispieleBarChart_getById(this.id),
-        (dto: IDTO) => {
-          if (dto instanceof BeispieleBarChartDTO) {
-            this.fz3 = dto;
-          } else {
-            console.error("Received something wrong");
-          }
-        });
-
-      this.commandManager.sendCommands();
-    });*/
+    this.data = this.createDummyData(); // To avoid that this is done every time again
   }
 
-  //endregion
+  public subscribelineChartDataSocket(): void {
+    if (this.lineChartDataSocket) {
+      this.subscriptions.push(this.lineChartDataSocket.subscribe(message => {
+        this.data = this.getData();
+      }, err =>
+        console.log(err)
+      ));
+    } else {
+      console.error('Socket is not initialized. Initialize socket in the component constructor');
+    }
+  }
 
+
+  public getData(){
+    return this.dummyData;
+  }
+
+
+  /**
+   * Creates the data for all ridgelines
+   * @returns number[][][]
+   */
+  public createDummyData(){
+    let test_data_1 = this.get_test_data(-15, 15, 0.25);
+    let test_data_2 = this.get_test_data(-10, 20, 0.25);
+    let test_data_3 = this.get_test_data(-5, 20, 0.25);
+    let test_data_4 = [[19,0.1], [-5, 0.1], [24, 0.05], [-7, -0.1]];
+    let test_data_5 : number[][] = [];
+
+    for (let i = -2; i < 15; i+=0.25)
+    {
+      test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
+    }
+    let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
+    
+    return all_data;
+  }
+  
+
+
+  //Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
+  private get_test_data(x_1: number, x_2: number, step_size: number)
+  {
+    let test_data : number[][] = [];
+
+    let sigma = Math.random() * 5;
+    let mu = Math.random() * 5;
+    let frac_1 = 1 / Math.sqrt(2 * Math.PI * Math.pow(sigma, 2));
+    let frac_2 = - 1 / (2 * Math.pow(sigma, 2));
+    
+    for (let x = x_1; x < x_2; x += step_size)
+    {
+      test_data.push([x, frac_1 * Math.exp(frac_2 * Math.pow(x - mu, 2))]);
+    }
+
+    return test_data;
+  }
 }
