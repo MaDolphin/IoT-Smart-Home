@@ -47,8 +47,9 @@ class Ridgeline_Config {
                                     // at the top and the bottom (2*overshoot/100), and the additional space for negative values
                                     // needed at the bottom (+1)
                                     // At the moment this covers the axis-description implicitly
-    this.ridges_offset = canvas_height / (data_rows + 2 * overshoot/100 + 1); // Space after which the next ridge begins
-    this.ridges_height = canvas_height / (data_rows + 2 * overshoot/100 + 1) * (1 + overshoot/100); 
+                          // Substract some space which is used by y-axis-legend
+    this.ridges_offset = (canvas_height - 10) / (data_rows + 2 * overshoot/100 + 1); // Space after which the next ridge begins
+    this.ridges_height = (canvas_height - 10) / (data_rows + 2 * overshoot/100 + 1) * (1 + overshoot/100); 
 
     this.grid_line_start_x = grid_line_start_x;
     this.grid_line_end_x = grid_line_end_x;
@@ -455,14 +456,18 @@ export class RidgelineChartComponent implements OnInit {
     }
 
     //Vertical lines and labels (TODO)
+    let y_bottom_line_end = line_start_y + offset_horizontal * (labels.length - 1) + config.ridges_height;
+                            // Consider only length-1 offsets and instead for the last ridge the whole height (offset+overshoot)
+
     for (let x = xy_min_max[0][0]; x < xy_min_max[1][0]; x += x_value_offset)
     {
       let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * x_axis_width + x_axis_start;
-      let line = new paper.Path.Line(new paper.Point(x_point, line_start_y - offset_horizontal), new paper.Point(x_point, line_start_y + offset_horizontal * labels.length));
+      let line = new paper.Path.Line(new paper.Point(x_point, line_start_y - config.ridges_height),
+                                     new paper.Point(x_point, y_bottom_line_end));
       line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
 
       //Put text below line
-      let text = new paper.PointText(new paper.Point(x_point, line_start_y + offset_horizontal * labels.length + 10));
+      let text = new paper.PointText(new paper.Point(x_point, y_bottom_line_end + 10));
       text.justification = 'center';
       text.fillColor = new paper.Color(0.0, 0.0, 0.0);
       text.content = '' + x;
