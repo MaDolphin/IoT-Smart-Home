@@ -262,7 +262,8 @@ class Data
 export class RidgelineChartComponent implements OnInit {
   @Input() smooth: boolean;
   @Input() overshoot: number;
-  @Input() rawData: any;
+  @Input() labels: string[]; // The labels of the ridges
+  _rawData: number[][][] = [];
   
   //Input function and value for max y value of ridgeline color gradient
   private color_gradient_max_y : number = 0.3; //Should match default value in HTML
@@ -277,7 +278,7 @@ export class RidgelineChartComponent implements OnInit {
   private path: paper.Path;
 
   //Ridgeline data and configuration
-  private data : Data;
+  private data : Data = new Data();
   private config: Ridgeline_Config;
 
 
@@ -287,6 +288,16 @@ export class RidgelineChartComponent implements OnInit {
     console.log("Smoothed set to: "+smooth);
   }*/
 
+  @Input()
+  public set rawData(rawData: number[][][]){
+    this._rawData = rawData;
+    this.data.setup(rawData);
+  }
+
+
+  public hasData(): boolean{
+    return this._rawData.length > 0;
+  }
 
 
   public ngOnInit(): void {
@@ -318,9 +329,7 @@ export class RidgelineChartComponent implements OnInit {
       paper.view.viewSize.height = height;
     }, false);
 
-    // Create test data
-    this.data = new Data();
-    this.data.setup(this.rawData);
+
     // console.log(this.data.xy_min_max);
     // console.log(this.data.x_range);
     // console.log(this.data.y_range);
@@ -332,7 +341,7 @@ export class RidgelineChartComponent implements OnInit {
     // Set up paperjs with the given canvas
     paper.setup(this.canvas);
 
-    let height = this.data.length * 100; // Choose an arbitrary value which might fit to the number of ridges
+    let height = 5 * 100; // Choose an arbitrary value which might fit to the number of ridges
 
     this.canvas.width = 900;
     this.canvas.height = height;
@@ -341,31 +350,35 @@ export class RidgelineChartComponent implements OnInit {
 
     paper.view.onFrame = (event) => {
       // Should not be called too often
-      paper.project.clear();
+      if (this.hasData()){
+        //this.data.setup(this.rawData);
 
-      this.config.set_params(this.data.length, this.canvas.width, this.canvas.height, 150, this.canvas.width, 150, "1em", this.overshoot);
-      this.data.transform_data(this.config, this.color_gradient_max_y);
+        paper.project.clear();
 
-      //Draw grid for data
-      //TODO: Labels should be part of data, text size should determine starting point for drawing lines of grid / plots
-      this.plot_grid(['test1', 'test2', 'test3', 'custom', 'random sinus'], this.data, this.config);
+        this.config.set_params(this.data.length, this.canvas.width, this.canvas.height, 150, this.canvas.width, 150, "1em", this.overshoot);
+        this.data.transform_data(this.config, this.color_gradient_max_y);
 
-      //TODO: Proper arguments for grid drawing
-      //TODO: Draw grid for x values (vertical)
+        //Draw grid for data
+        //TODO: Labels should be part of data, text size should determine starting point for drawing lines of grid / plots
+        this.plot_grid(this.labels, this.data, this.config);
 
-      //Draw test data
-      for (let i = 0; i < this.data.length; ++i)
-      {
-        // ToDo: further refinement of config object and function call to avoid so many parameters
-        this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_max_gradient_y(i), this.config, i); //TODO: Improve color (should be distinct, not white, ...) -> New: Should be the same, use color gradient
+        //TODO: Proper arguments for grid drawing
+        //TODO: Draw grid for x values (vertical)
+
+        //Draw test data
+        for (let i = 0; i < this.data.length; ++i)
+        {
+          // ToDo: further refinement of config object and function call to avoid so many parameters
+          this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_max_gradient_y(i), this.config, i); //TODO: Improve color (should be distinct, not white, ...) -> New: Should be the same, use color gradient
+        }
       }
 
-      /* // Lines to see some parameters in real life
-      let line = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(this.canvas.width, this.canvas.height));
-      line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
-      let line2 = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(0, this.config.y_axis_start));
-      line2.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
-      */
+      // Lines to see some parameters in real life
+      // let line = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(this.canvas.width, this.canvas.height));
+      // line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
+      // let line2 = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(0, this.config.y_axis_start));
+      // line2.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
+      
 
     }
   }

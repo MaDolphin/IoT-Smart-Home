@@ -45,7 +45,8 @@ webpage RidgelineChartSamplePage(
                 <ridgeline-chart
                   [smooth]=\"false\"
                   [overshoot]=30
-                  [rawData]=data>
+                  [rawData]=data
+                  [labels]=labels>
                 </ridgeline-chart>
               "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name

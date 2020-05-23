@@ -26,14 +26,20 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     super(_commandRestService, _route, _router, _webSocketService);
   }
 
-  public data; // The data which is actually given to the diagram
+  public data = []; // The data which is actually given to the diagram
+  public labels = ['test1', 'test2', 'test3', 'custom', 'random sinus'];
+  
   private dummyData; // helping variable
+  private lastSeconds = 0;
+  private dummyDataIndex = 0;
+
+  private realtimeTest : boolean = true;
 
 
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.data = this.createDummyData(); // To avoid that this is done every time again
+    this.dummyData = this.createDummyData(); // To avoid that this is done every time again
   }
 
   public subscribelineChartDataSocket(): void {
@@ -49,8 +55,29 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   }
 
 
+  // NOTE: ONLY FOR TESTING (QUICK AND DIRTY)
   public getData(){
-    return this.dummyData;
+    if (!this.realtimeTest){
+      return this.dummyData;
+    }
+
+    // Realtime test
+    const currentSeconds = Date.now() / 1000; // seconds since epoch
+    if (currentSeconds > this.lastSeconds + 0.1){
+      this.dummyDataIndex += 1;
+      this.lastSeconds = currentSeconds;
+    }
+    var res = [];
+    for (var i=0; i<this.dummyData.length; i++){
+      if (i==3){ // For live testing leave the fourth component out
+        continue;
+      }
+      res.push(this.dummyData[i].slice(0,Math.min(this.dummyData[i].length, this.dummyDataIndex)));
+    }
+    
+    this.labels = ['test1', 'test2', 'test3', 'random sinus'];
+
+    return res;
   }
 
 
