@@ -40,13 +40,17 @@ classdiagram Domain{
     long wert;
   }
 
-  class CPPSError{
+  class CPSError{
       Optional<String> sensorId;
       String errCode;
       String errMsg;
       String timeStamp;
       String source;
       List<String> recipients;
+  }
+
+  class EmailRecipients{
+    List<String> recipients;
   }
 
   class AlarmCtrl{
