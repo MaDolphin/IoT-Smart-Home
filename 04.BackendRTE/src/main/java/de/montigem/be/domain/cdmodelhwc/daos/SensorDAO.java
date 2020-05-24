@@ -13,7 +13,6 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,9 +93,8 @@ public class SensorDAO extends SensorDAOTOP {
             sensor = query.getSingleResult();
         } catch (NoResultException nre) {
 
-        } finally {
-            return sensor;
         }
+        return sensor;
     }
 
     /**
@@ -107,21 +105,16 @@ public class SensorDAO extends SensorDAOTOP {
      * @Date: 2020/5/8
      */
     @Transactional
-    public void setSensorValue(String sensorId, SensorType type, int value) {
+    public void setSensorValue(String sensorId, SensorType type, SensorValue sensorValue) {
 
         EntityManager em = getEntityManager();
-//    this.setSensor("000001",SensorType.LIGHT);
-        SensorValue sensorValue = new SensorValue();
-        sensorValue.setValue(value);
-        sensorValue.setTimestamp(ZonedDateTime.now());
 
         Sensor sensor;
+
         if (this.getSensorById(sensorId) == null) {  // if the Sensor is not in the DB, then create a new Sensor.
             this.setSensor(sensorId, type);
-            sensor = this.getSensorById(sensorId);
-        } else {
-            sensor = this.getSensorById(sensorId);
         }
+        sensor = this.getSensorById(sensorId);
 
         List<SensorValue> sensorValueList = null;
         try {

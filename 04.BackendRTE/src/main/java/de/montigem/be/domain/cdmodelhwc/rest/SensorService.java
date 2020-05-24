@@ -2,12 +2,9 @@
 
 package de.montigem.be.domain.cdmodelhwc.rest;
 
-import com.google.common.base.Throwables;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import de.montigem.be.config.Config;
-import de.montigem.be.domain.cdmodelhwc.classes.sensor.Sensor;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
 import de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue;
 import de.montigem.be.domain.cdmodelhwc.daos.SensorDAO;
@@ -16,16 +13,14 @@ import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
 import de.montigem.be.util.Responses;
 import de.se_rwth.commons.logging.Log;
-
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.ZonedDateTime;
-import java.util.LinkedList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * An example of a REST class with a REST method. This class is the only REST class that does not
@@ -66,7 +61,7 @@ public class SensorService {
   /**
    * @Description: insert Sensor-Value
    * POST http://localhost:8080/montigem-be/api/domain/receive-json/insertSensorValue
-   * Body - raw - Json type : {"sensorId":"000021","type":"CO2","value":90}
+   * Body - raw - Json type : {"sensorId":"000021","type":"CO2","value":90,"timeStamp":"2020-01-01 08:00:00"}
    * @Param: [sensorId, type, value]
    * @return: javax.ws.rs.core.Response
    * @Author: Haikun
@@ -78,14 +73,17 @@ public class SensorService {
   public Response setSensorValue(String json){
     try {
       JsonElement element = new Gson().fromJson(json, JsonElement.class);
+
       String sensorId = element.getAsJsonObject().get("sensorId").getAsString();
       String type = element.getAsJsonObject().get("type").getAsString();
       int value = element.getAsJsonObject().get("value").getAsInt();
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+      ZonedDateTime timeStamp = ZonedDateTime.parse(element.getAsJsonObject().get("timeStamp").getAsString() + " UTC", formatter);
 
       type = type.toUpperCase();
 
       SensorType sensorType;
-      SensorDAO dao = daoLib.getSensorDAO();
+
       switch (type){
         case "TEMPERATURE": sensorType = SensorType.TEMPERATURE; break;
         case "ANGLE": sensorType = SensorType.ANGLE; break;
@@ -96,7 +94,12 @@ public class SensorService {
         default:
           return Responses.noContent();
       }
-      dao.setSensorValue(sensorId,sensorType,value);
+
+      SensorValue sensorValue = new SensorValue();
+      sensorValue.rawInitAttrs(null, timeStamp, value);
+      SensorDAO dao = daoLib.getSensorDAO();
+      dao.setSensorValue(sensorId, sensorType, sensorValue);
+
       String output = "SUCCESS INSERT : " + sensorId + "-" + type + "-" + value;
       return Responses.okResponse(output);
     } catch (JsonParseException e) {
