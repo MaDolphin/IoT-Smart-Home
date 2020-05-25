@@ -1,8 +1,8 @@
-<div style="position:relative;width:800px;height:800px">
-    <canvas id="canvas" resize></canvas>
-    <form style="position:absolute;left:0px;top:0px;">
+<div id="canvas_container">
+    <form style="position:relative;left:0px;top:0px;">
         <label for="y_gradient_input">Max tolerated y value: </label>
         <input #box [value]="0.3" (keyup.enter)="enter_gradient_max_y(box.value)" id="y_gradient_input">
     </form>
+    <canvas id="canvas" resize></canvas>
 </div>
-<h1>{{smooth}}</h1>
+<h1 style="width: 20px;">{{smooth}}</h1>

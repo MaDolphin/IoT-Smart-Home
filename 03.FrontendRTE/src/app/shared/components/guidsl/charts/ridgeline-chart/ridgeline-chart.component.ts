@@ -273,6 +273,7 @@ export class RidgelineChartComponent implements OnInit {
   }
 
   //private canvas_div: HTMLDivElement;
+  private canvas_container: HTMLDivElement;
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private path: paper.Path;
@@ -303,37 +304,34 @@ export class RidgelineChartComponent implements OnInit {
   public ngOnInit(): void {
   }
 
+  private adjust_size()
+  {
+    //Set div size to viewport width part depending on current window size
+    //With about 500px window width, we only have half of the screen left, at 2000px we have about 90 percent
+    let viewport_width_proportion = (0.2/1000 * window.innerWidth + 0.36) * 100;
+    if (viewport_width_proportion > 90)
+    {
+      viewport_width_proportion = 90;
+    }
+    let canvas_container_width = "width: " + viewport_width_proportion + "vw";
+    this.canvas_container.setAttribute("style", canvas_container_width);
+
+    //Width is set through CSS property / HTML "resize" property because we cannot always use window.innerWidth as orientation
+    //paper.view.viewSize.width = this.canvas.width;
+    this.canvas.width = this.canvas_container.clientWidth - 10;
+    this.canvas.height = this.canvas_container.clientHeight - 10;
+    paper.view.viewSize.width = this.canvas_container.clientWidth - 10;
+    paper.view.viewSize.height = this.canvas_container.clientHeight - 10;
+  }
+
 
   ngAfterViewInit() {    
+    this.canvas_container = document.getElementById('canvas_container') as HTMLDivElement;
     this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
     this.canvas.setAttribute("resize", "true");
     this.canvas.setAttribute("width", "100%");
     this.canvas.setAttribute("height", "100%");
     this.ctx = this.canvas.getContext('2d');
-
-    window.addEventListener('resize', () => {
-      //Width is set through CSS property / HTML "resize" property because we cannot always use window.innerWidth as orientation
-      //paper.view.viewSize.width = this.canvas.width;
-      // this.canvas.width = this.canvas.parentElement.parentElement.clientWidth;
-      // this.canvas.height = this.canvas.parentElement.parentElement.clientHeight;
-      // paper.view.viewSize.width = this.canvas.parentElement.parentElement.clientWidth;
-      // paper.view.viewSize.height = this.canvas.parentElement.parentElement.clientHeight;
-
-      let width = Math.random() * 300 + 600;
-      //let height = Math.random() * 300 + 600;
-      let height = this.data.length * 100; // Choose an arbitrary value which might fit to the number of ridges
-
-      this.canvas.width = width;
-      this.canvas.height = height;
-      paper.view.viewSize.width = width;
-      paper.view.viewSize.height = height;
-    }, false);
-
-
-    // console.log(this.data.xy_min_max);
-    // console.log(this.data.x_range);
-    // console.log(this.data.y_range);
-    // console.log(this.data.x_start_value);
 
     // Setup all necessary parameters for drawing
     this.config = new Ridgeline_Config();
@@ -343,10 +341,9 @@ export class RidgelineChartComponent implements OnInit {
 
     let height = 5 * 100; // Choose an arbitrary value which might fit to the number of ridges
 
-    this.canvas.width = 900;
-    this.canvas.height = height;
-    paper.view.viewSize.width = 900;
-    paper.view.viewSize.height = height;
+    this.adjust_size();
+
+    window.addEventListener('resize', this.adjust_size, false);
 
     paper.view.onFrame = (event) => {
       // Should not be called too often
