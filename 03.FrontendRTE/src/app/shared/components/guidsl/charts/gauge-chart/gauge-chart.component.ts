@@ -9,32 +9,35 @@ import {GaugeDummyData} from "@components/charts/gauge-chart/gauge-dummy-data";
 })
 export class GaugeChartComponent implements OnInit {
     @Input() textValue: string;
-    @Input() bigTicks: number = 10;
-    @Input() smallTicks: number = 5;
+    @Input() bigTicks: number = 10; // todo calculate ticks from selectedRange
+    @Input() smallTicks: number = 5; // todo calculate ticks from selectedRange
     @Input() unit: string;
-    @Input() min: number = 0;
-    @Input() max: number = 100;
-
-    view: any[] = [400, 400];
-    legend: boolean = true;
-    showText: boolean = true;
-
-    // realData(Min|Max) is used to set the end of the slider
-    realDataMin: number;
-    realDataMax: number;
-    selectedMin: number;
-    selectedMax: number;
-
-    public dataSet: any[] = [];
-    legendPosition: string = 'below';
-
+    @Input() min: number;
+    @Input() max: number;
     @Input()
     colorScheme = {
         domain: ['#E44D25', '#7aa3e5', '#5AA454', '#CFC0BB', '#a8385d', '#aae3f5']
     };
 
+    // default settings
+    view: any[] = [400, 400];
+    legend: boolean = true;
+    legendPosition: string = 'below';
+    private _showAxis: boolean = true;
+
+    private _refreshRateCounter: number = 0;
+
+    // realData(Min|Max) is used to set the end of the slider
+    realDataMin: number;
+    realDataMax: number;
+    // this is the value of the slider
+    selectedMin: number;
+    selectedMax: number;
+
+    // data (changed by the data-field with the realtime data)
+    public dataSet: any[] = [];
+
     ngOnInit(): void {
-        this.showText = !!this.textValue;
         // to force resetting when first data is load
         this.realDataMin = this.max;
         this.realDataMax = this.min;
@@ -42,14 +45,10 @@ export class GaugeChartComponent implements OnInit {
         // select biggest span
         this.selectedMin = this.min;
         this.selectedMax = this.max;
-
-        this.showAxis = true;
     }
 
     constructor() {
     }
-
-    counter: number = 0;
 
     @Input()
     public set data(lineData: LineDataGroup[]) {
@@ -68,32 +67,34 @@ export class GaugeChartComponent implements OnInit {
                 }
             });
         } else {
-            this.counter++;
-            this.counter %= 2; // reduces refresh rate
-            if (this.counter == 0) {
+            this._refreshRateCounter++;
+            this._refreshRateCounter %= 2; // reduces refresh rate
+            if (this._refreshRateCounter == 0) {
                 //console.log(GaugeDummyData.getNewData(this.min, this.max));
                 t.dataSet = GaugeDummyData.getNewData(this.min, this.max);
             }
         }
 
-        // Reset realDataMin and realDataMax
+        // (Re)set realDataMin and realDataMax
         t.dataSet.forEach(function (entry: any, i: number) {
-            if (entry.value < t.realDataMin) t.realDataMin = Math.round(entry.value);
-            if (entry.value > t.realDataMax) t.realDataMax = Math.round(entry.value);
+            if (entry.value < t.realDataMin) t.realDataMin = Math.floor(entry.value); // Abrunden
+            if (entry.value > t.realDataMax) t.realDataMax = Math.ceil(entry.value); // Aufrunden
         })
     }
 
+    public get showText(): boolean {
+        return !!this.textValue;
+    }
 
-    private _showAxis: boolean;
-    public set showAxis(checked: boolean){
-        if(!checked){
+    public set showAxis(checked: boolean) {
+        if (!checked) {
             this.selectedMin = this.min; // select biggest span
             this.selectedMax = this.max; // select biggest span
         }
         this._showAxis = checked;
     }
 
-    public get showAxis() : boolean{
+    public get showAxis(): boolean {
         return this._showAxis;
     }
 
