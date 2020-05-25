@@ -111,3 +111,14 @@ datatable-header-cell > div > span.sort-btn {
   justify-content: flex-end;
   flex-direction: column;
 }
+
+.anti-resize-gauge-chart-container{
+  height: 400px;
+  position: relative;
+}
+
+.anti-resize-gauge-chart-container .chart-legend {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
