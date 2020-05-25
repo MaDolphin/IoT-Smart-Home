@@ -1,0 +1,6 @@
+# Zu tun
+- Farbverlauf-Werte/-Bereich angeben, auch nicht nur von 0, und Farben angeben; mehrere Stops ermöglich; Color Wheel?
+- x-Achse "dynamisch beschriften" basierend auf Pixeln und Weite, Input: x-Abstand zwischen Linien; Inspiration: Realtime Linechart (also doch auch auf Breite der Anzeige basierend)
+- Alle Inputs in Beispiel verschieben und aus dem aktuellen component entfernen; Inputs von Montigem nutzen
+- Feld zur Auswahl aus welchem Bereich die Daten angezeigt werden sollen
+- Input-Umwandlungsfunktion für x-Beschriftung
