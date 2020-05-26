@@ -40,7 +40,7 @@ webpage Densitychart(socket LineGraph data
                 }
             }
             body {
-              html {"<density-chart [data2]=\"data2 | async\"></density-chart>"}
+              html {"<density-chart [data2]=\"data2\"></density-chart>"}
                 //}
             }
         }

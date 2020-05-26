@@ -18,7 +18,7 @@ export class DensityChartComponent implements OnChanges {
 
   constructor() { }
   
-  margin = {top: 30, right: 800, bottom: 30, left: 100};
+  margin = {top: 30, right: 600, bottom: 30, left: 100};
   firstCall = 1;
 
   x; // x achses
@@ -28,7 +28,6 @@ export class DensityChartComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.data2) { return; }
-
     this.updateChart(changes.data2.currentValue);
   }
 
@@ -65,7 +64,7 @@ export class DensityChartComponent implements OnChanges {
      */
     this.x = d3
       .scaleLinear()
-      .domain([minX - 8, maxX + 8])
+      .domain([-25,45]) // fixed scale is better for changing data // [minX - 8, maxX + 8])
       .range([0, width]);
 
     /**
@@ -108,8 +107,9 @@ export class DensityChartComponent implements OnChanges {
           return d.value;
         }));
     }
+
     let maxY = - Number.MAX_SAFE_INTEGER;
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < density.length; i++) {
       // tslint:disable-next-line:prefer-for-of
       for (let j = 0; j < density[i].length; j++) {
         if (density[i][j][1] > maxY) {

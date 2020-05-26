@@ -12,7 +12,7 @@ import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitycha
   templateUrl: '../../../target/generated-sources/gui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component.html',
 })
 export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGenComponent {
-  data2: Observable<Data2Model>;
+  public data2: Data2Model [];
 
   constructor(private http: HttpClient,
         protected _webSocketService: WebSocketService,
@@ -27,11 +27,15 @@ export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGen
   public subscribedataSocket(): void {
 	if(this.dataSocket) {
 		this.subscriptions.push(this.dataSocket.subscribe(message => {
-			this.data2 = this.http.get<Data2Model>('./assets/data2.json');
+			this.data2 = this.mockData();
 		},err => console.error(err))); 
 	}else{
 		console.error('Socket is not initialied. initialize socket in component constructor');
 	}
+  }
+
+  public mockData(): any[]{
+	return [{"type": "Temperatur A", "value": 10+ Math.random() * 10},{"type": "Temperatur B", "value": 15 + Math.random() * 10}];
   }
 
 }
