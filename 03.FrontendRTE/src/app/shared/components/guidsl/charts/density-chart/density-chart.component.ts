@@ -21,8 +21,10 @@ export class DensityChartComponent implements OnChanges {
   margin = {top: 30, right: 800, bottom: 30, left: 100};
   firstCall = 1;
 
-  x;
-  y;
+  x; // x achses
+  y; // y achses
+  svg; // top level svg element
+  paths; // path element for each density curve
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.data2) { return; }
@@ -42,7 +44,7 @@ export class DensityChartComponent implements OnChanges {
     /**
      * select chart from html and append an svg
      */
-    const svg = d3.select(densityElement).append('svg')
+    this.svg = d3.select(densityElement).append('svg')
       .attr('width', densityElement.offsetWidth)
       .attr('height',  densityElement.offsetHeight);
     /**
@@ -50,7 +52,7 @@ export class DensityChartComponent implements OnChanges {
      */
     const width = densityElement.offsetWidth - this.margin.left - this.margin.right;
     const height = densityElement.offsetHeight - this.margin.top - this.margin.bottom;
-    const g = svg.append('g')
+    const g = this.svg.append('g')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
     /**
      * @ignore
@@ -61,7 +63,7 @@ export class DensityChartComponent implements OnChanges {
     /**
      * Add the x Axis
      */
-    const x = d3
+    this.x = d3
       .scaleLinear()
       .domain([minX - 8, maxX + 8])
       .range([0, width]);
@@ -69,16 +71,16 @@ export class DensityChartComponent implements OnChanges {
     /**
      * Create the horizontal lines
      */
-    const makeYLines = () => d3.axisLeft(x)
-      .scale(y);
+    const makeYLines = () => d3.axisLeft(this.x)
+      .scale(this.y);
     g.append('g')
       .attr('class', 'grid')
       .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(this.x));
     /**
      * Compute kernel density estimation
      */
-    const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7 as number), x.ticks(60));
+    const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7 as number), this.x.ticks(60));
 
     /**
      * Gets the city names and gives each one a color
@@ -119,21 +121,22 @@ export class DensityChartComponent implements OnChanges {
     /**
      * Adds the y Axis
      */
-    const y = d3
+    this.y = d3
       .scaleLinear()
       .range([height, 0])
       .domain([0, maxY + 0.02]);
 
     g.append('g')
-      .call(d3.axisLeft(y))
+      .call(d3.axisLeft(this.y))
       .call(makeYLines()
         .tickSize(-width)
       );
+    this.paths = [];
     for (let index = 0; index < types.length; index++) {
       /**
        * Plot the area
        */
-      svg.append('path')
+      this.paths.push( this.svg.append('path')
         .datum(density[index])
         .attr('fill', color[index])
         .attr('opacity', '.8')
@@ -142,19 +145,19 @@ export class DensityChartComponent implements OnChanges {
         .attr('stroke-linejoin', 'round')
         .attr('d', d3.line()
           .curve(d3.curveNatural)
-          .x((d) => x(d[0]) + this.margin.left)
-          .y((d) => y(d[1]) + this.margin.top)
-        );
-
+          .x((d) => this.x(d[0]) + this.margin.left)
+          .y((d) => this.y(d[1]) + this.margin.top)
+        )
+      );
       /**
        * Adds the text to both axis
        */
-      svg.append('text')
+      this.svg.append('text')
         .attr('text-anchor', 'end')
         .attr('x', width / 2 + this.margin.left)
         .attr('y', height + 1.9 * this.margin.top )
         .text('Temperatur');
-      svg.append('text')
+      this.svg.append('text')
         .attr('text-anchor', 'end')
         .attr('transform', 'rotate(-90)')
         .attr('y', this.margin.left / 2.4)
@@ -164,8 +167,8 @@ export class DensityChartComponent implements OnChanges {
       /**
        * Creates the legend
        */
-      svg.append('circle').attr('cx', 750).attr('cy', 30 * index + 40).attr('r', 6).style('fill', color[index]);
-      svg.append('text').attr('x', 770).attr('y', 30 * index + 40).text(types[index])
+      this.svg.append('circle').attr('cx', 750).attr('cy', 30 * index + 40).attr('r', 6).style('fill', color[index]);
+      this.svg.append('text').attr('x', 770).attr('y', 30 * index + 40).text(types[index])
         .style('font-size', '14px').attr('alignment-baseline', 'middle');
     }
   }
@@ -192,13 +195,14 @@ export class DensityChartComponent implements OnChanges {
       return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
     };
   }
+  /**
+  * Update chart with new values
+  */
   private updateChart(data2: Data2Model[]) {
-    if ( this.firstCall ) {
+    if ( this.firstCall == 1 ) {
       this.createDensityChart();
       this.firstCall = 0;
     }else{
-      const densityElement = this.chartContainer.nativeElement;
-
       const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7), this.x.ticks(60));
       const types = [];
       kde(data2
@@ -218,14 +222,14 @@ export class DensityChartComponent implements OnChanges {
           }));
       }
       // update the chart
-      densityElement.paths.forEach((path, index) => {
-        path.datum(densityElement.density[index])
+      this.paths.forEach((path, index) => {
+        path.datum(density[index])
           .transition()
           .duration(1000)
           .attr('d', d3.line()
             .curve(d3.curveBasis)
-            .x((d) => this.x(d[0]))
-            .y((d) => this.y(d[1])));
+            .x((d) => this.x(d[0]) + this.margin.left)
+            .y((d) => this.y(d[1]) + this.margin.top));
       });
     }
   }
