@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommandRestService } from '@shared/architecture/command/rte/command.rest.service';
@@ -30,7 +31,23 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   public labels = ['test1', 'test2', 'test3', 'custom', 'random sinus'];
 
   //Color gradient data structure which can be used to set gradients / color stops to color specific y values of the visualization
-  public color_gradients : [number, string][] = [[0.1, "green"]];
+  public color_gradients : [number, string][] = [];
+  //Callback function for button to enter color stop
+  public enter_color_stop(event, value: string)
+  {
+    //Don't refresh the page
+    event.preventDefault();
+
+    let stop = parseFloat(value);
+    let color_string = "0x";
+    color_string += Math.floor(Math.random() * 10);
+    color_string += Math.floor(Math.random() * 10);
+    color_string += Math.floor(Math.random() * 10);
+    color_string += Math.floor(Math.random() * 10);
+    color_string += Math.floor(Math.random() * 10);
+    color_string += Math.floor(Math.random() * 10);
+    this.color_gradients.push([ stop, color_string ]);
+  }
   
   private dummyData; // helping variable
   private lastSeconds = 0;
