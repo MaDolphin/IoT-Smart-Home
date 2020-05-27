@@ -42,11 +42,16 @@ webpage RidgelineChartSamplePage(
             }
             body {
               html {"
+                <form [formGroup]='' style='position:relative;left:0px;top:0px;'>
+                  <label for='gradient_test'>Max tolerated y value: </label>
+                  <input #box [value]='0.3' id='gradient_test'>
+                </form>
                 <ridgeline-chart
                   [smooth]=\"false\"
                   [overshoot]=30
                   [rawData]=data
-                  [labels]=labels>
+                  [labels]=labels
+                  [color_gradients]=color_gradients>
                 </ridgeline-chart>
               "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name

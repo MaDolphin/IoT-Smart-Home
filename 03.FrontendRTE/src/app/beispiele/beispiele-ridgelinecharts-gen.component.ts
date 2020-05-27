@@ -28,6 +28,9 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   public data = []; // The data which is actually given to the diagram
   public labels = ['test1', 'test2', 'test3', 'custom', 'random sinus'];
+
+  //Color gradient data structure which can be used to set gradients / color stops to color specific y values of the visualization
+  public color_gradients : [number, string][] = [[0.1, "green"]];
   
   private dummyData; // helping variable
   private lastSeconds = 0;
