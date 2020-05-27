@@ -31,7 +31,9 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   public labels = ['test1', 'test2', 'test3', 'custom', 'random sinus'];
 
   //Color gradient data structure which can be used to set gradients / color stops to color specific y values of the visualization
-  public color_gradients : [number, string][] = [];
+  public color_gradients : [string, number][] = [];
+  private test_colors = ["green", "blue", "red", "orange", "yellow"];
+  private test_index = 0;
   //Callback function for button to enter color stop
   public enter_color_stop(event, value: string)
   {
@@ -39,14 +41,13 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     event.preventDefault();
 
     let stop = parseFloat(value);
-    let color_string = "0x";
-    color_string += Math.floor(Math.random() * 10);
-    color_string += Math.floor(Math.random() * 10);
-    color_string += Math.floor(Math.random() * 10);
-    color_string += Math.floor(Math.random() * 10);
-    color_string += Math.floor(Math.random() * 10);
-    color_string += Math.floor(Math.random() * 10);
-    this.color_gradients.push([ stop, color_string ]);
+    if (this.test_index >= this.test_colors.length)
+    {
+      this.test_index = 0;
+    }
+    this.color_gradients.push([ this.test_colors[this.test_index], stop ]);
+
+    ++this.test_index;
   }
   
   private dummyData; // helping variable

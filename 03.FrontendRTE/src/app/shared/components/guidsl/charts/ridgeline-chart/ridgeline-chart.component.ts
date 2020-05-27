@@ -82,7 +82,7 @@ class Data
   public x_start_value : number; //Smallest x value in data
 
   //Value for color gradient - can be accessed by getter for each data row index
-  private transformed_color_gradients : [number, string][][] = [];
+  private transformed_color_gradients : [string, number][][] = [];
 
   //Convenience values
   public length: number;
@@ -225,10 +225,11 @@ class Data
    * some (x,y)-pixel using translate_x/_y
    * Also invert y value for drawing
    */
-  public transform_data(config : Ridgeline_Config, color_gradients : [number, string][])
+  public transform_data(config : Ridgeline_Config, color_gradients : [string, number][])
   {
     //Make a copy of values before transformation, to keep values unchanged
     this.transformed_values = [];
+    this.transformed_color_gradients = [];
 
     //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
     //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
@@ -249,7 +250,7 @@ class Data
       this.transformed_color_gradients.push([]);
       for (let j = 0; j < color_gradients.length; ++j)
       {
-        this.transformed_color_gradients[i].push([(color_gradients[j][0] * height_scale) + y_from, color_gradients[j][1]]);
+        this.transformed_color_gradients[i].push([color_gradients[j][0], color_gradients[j][1] /* * height_scale) + y_from */]);
       }
     }
   }
@@ -265,7 +266,7 @@ export class RidgelineChartComponent implements OnInit {
   @Input() smooth: boolean;
   @Input() overshoot: number;
   @Input() labels: string[]; // The labels of the ridges
-  @Input() color_gradients: [number, string][]; //Color gradients: [y_value, color_string]
+  @Input() color_gradients: [string, number][]; //Color gradients: [y_value, color_string]
   _rawData: number[][][] = [];
   
   //Input function and value for max y value of ridgeline color gradient
@@ -454,7 +455,7 @@ export class RidgelineChartComponent implements OnInit {
     }
   }
 
-  private plot_ridge(data_row: number[][], gradient_max_y_values: [number, string][], config: Ridgeline_Config, index: number)
+  private plot_ridge(data_row: number[][], gradient_max_y_values: [string, number][], config: Ridgeline_Config, index: number)
   {
     let y_from = this.config.y_axis_start + this.config.ridges_offset * index;
 
@@ -493,26 +494,27 @@ export class RidgelineChartComponent implements OnInit {
     path_filler.lineTo(new paper.Point(data_row[data_row.length - 1][0], y_from));
     path_filler.lineTo(new paper.Point(data_row[0][0], y_from));
 
-    if (gradient_max_y_values.length == 0)
+    if (gradient_max_y_values.length < 2)
     {
       //TODO: Set no gradient here
       path_filler.fillColor = new paper.Color({
         gradient: {
           stops: ['red', 'blue']
         },
-        origin: [data_row[0][0], y_from + 10],
+        origin: [data_row[0][0], y_from - 30],
         destination: [data_row[0][0], y_from]
       });
     }
     else
     {
-      //TODO: Adapt this part
+      //TODO: Adapt this part - need to change gradient values, because we use percentages of the overall height it seems
+      //TODO: Draw less often!
       path_filler.fillColor = new paper.Color({
         gradient: {
-          stops: ['orange', 'yellow']
+          stops: gradient_max_y_values
         },
-        origin: [data_row[0][0], y_from + 10],
-        destination: [data_row[0][0], y_from]
+        origin: [data_row[0][0], y_from],
+        destination: [data_row[0][0], y_from - 30]
       });
     }
   }
