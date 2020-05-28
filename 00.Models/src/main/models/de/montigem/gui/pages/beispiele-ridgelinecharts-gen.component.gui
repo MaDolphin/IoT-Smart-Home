@@ -1,7 +1,7 @@
 webpage RidgelineChartSamplePage(
-    socket LineGraph lineChartData
+    socket LineGraph lineChartData,
     //socket RidgelineGraph ridgeLineData,
-    //all BeispieleRidgelineChart lineChartData2
+    all RidgelineChartData chartData
     //all BeispieleLineChart lineChartData2
 ) {  // webpage declaration with data init
 

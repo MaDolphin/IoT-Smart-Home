@@ -56,6 +56,8 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   private realtimeTest : boolean = true;
 
+  private useBackendData: boolean = false;
+
 
 
   ngOnInit(): void {
@@ -66,7 +68,8 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   public subscribelineChartDataSocket(): void {
     if (this.lineChartDataSocket) {
       this.subscriptions.push(this.lineChartDataSocket.subscribe(message => {
-        this.data = this.getData();
+        this.data = this.getData(message);
+        
       }, err =>
         console.log(err)
       ));
@@ -76,29 +79,37 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   }
 
 
-  // NOTE: ONLY FOR TESTING (QUICK AND DIRTY)
-  public getData(){
-    if (!this.realtimeTest){
-      return this.dummyData;
-    }
+  
+  public getData(message){
+    if (this.useBackendData){
+      console.log(message.data);
+      // Transforme Data to that which is necessary here
+      return [];
 
-    // Realtime test
-    const currentSeconds = Date.now() / 1000; // seconds since epoch
-    if (currentSeconds > this.lastSeconds + 0.1){
-      this.dummyDataIndex += 1;
-      this.lastSeconds = currentSeconds;
-    }
-    var res = [];
-    for (var i=0; i<this.dummyData.length; i++){
-      if (i==3){ // For live testing leave the fourth component out
-        continue;
+    } else {
+      // NOTE: ONLY FOR TESTING (QUICK AND DIRTY)
+      if (!this.realtimeTest){
+        return this.dummyData;
       }
-      res.push(this.dummyData[i].slice(0,Math.min(this.dummyData[i].length, this.dummyDataIndex)));
-    }
-    
-    this.labels = ['test1', 'test2', 'test3', 'random sinus'];
 
-    return res;
+      // Realtime test
+      const currentSeconds = Date.now() / 1000; // seconds since epoch
+      if (currentSeconds > this.lastSeconds + 0.1){
+        this.dummyDataIndex += 1;
+        this.lastSeconds = currentSeconds;
+      }
+      var res = [];
+      for (var i=0; i<this.dummyData.length; i++){
+        if (i==3){ // For live testing leave the fourth component out
+          continue;
+        }
+        res.push(this.dummyData[i].slice(0,Math.min(this.dummyData[i].length, this.dummyDataIndex)));
+      }
+      
+      this.labels = ['test1', 'test2', 'test3', 'random sinus'];
+
+      return res;
+    }
   }
 
 

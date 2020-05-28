@@ -17,6 +17,22 @@ classdiagram Sensor {
     List<LineGraphEntry> entries;
     ZonedDateTime timestamp;
   }
+
+
+  class RidgelineDataEntry {
+    int x;
+    int y;
+  }
+
+  class RidgelineData {
+    String label;
+    List<RidgelineDataEntry> entries;
+  }
+
+  class RidgelineChartData {
+    List<RidgelineData> ridgelines;
+  }
+
 }
 
 
