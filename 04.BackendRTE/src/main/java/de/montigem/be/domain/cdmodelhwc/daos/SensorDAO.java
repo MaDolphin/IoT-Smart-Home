@@ -2,21 +2,41 @@
 
 package de.montigem.be.domain.cdmodelhwc.daos;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import de.montigem.be.domain.cdmodelhwc.classes.sensor.Sensor;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
 import de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue;
+import de.montigem.be.domain.cdmodelhwc.rest.SensorService;
+import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.system.sensor.dtos.LineGraphEntryDTO;
+import de.montigem.be.util.DAOLib;
+import de.montigem.be.util.Responses;
+import de.se_rwth.commons.logging.Log;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.openejb.SystemException;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class SensorDAO extends SensorDAOTOP {
+
+    @Inject
+    private DAOLib daoLib;
 
     @Transactional
     public List<Sensor> getListOfSensorsForType(String resource, SensorType type) {
@@ -150,5 +170,45 @@ public class SensorDAO extends SensorDAOTOP {
         }
         return sensor.getValues();
     }
+    @Transactional
+    public String parseSensorValue(String json){
+        try {
+            JsonElement element = new Gson().fromJson(json, JsonElement.class);
+            JsonArray dataArray = element.getAsJsonObject().get("data").getAsJsonArray();
+            ArrayList<ImmutableTriple<String, SensorType, SensorValue>> sensorData = new ArrayList<>();
+            for(JsonElement d : dataArray){
+                String sensorId = d.getAsJsonObject().get("sensorId").getAsString();
+                String type = d.getAsJsonObject().get("type").getAsString();
+                int value = d.getAsJsonObject().get("value").getAsInt();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+                ZonedDateTime timeStamp = ZonedDateTime.parse(d.getAsJsonObject().get("timeStamp").getAsString() + " UTC", formatter);
+                SensorType sensorType;
+                switch (type){
+                    case "TEMPERATURE": sensorType = SensorType.TEMPERATURE; break;
+                    case "ANGLE": sensorType = SensorType.ANGLE; break;
+                    case "PERCENT": sensorType = SensorType.PERCENT; break;
+                    case "LIGHT": sensorType = SensorType.LIGHT; break;
+                    case "CO2": sensorType = SensorType.CO2; break;
+                    case "MOTION": sensorType = SensorType.MOTION; break;
+                    default:
+                        return "No SensorType";
+                }
+                SensorValue sensorValue = new SensorValue();
+                sensorValue.rawInitAttrs(null, timeStamp, value);
 
+                sensorData.add(ImmutableTriple.of(sensorId, sensorType,sensorValue));
+            }
+            StringBuilder output = new StringBuilder();
+            output.append("Successfully inserted following values into the database: ");
+            for(ImmutableTriple<String, SensorType, SensorValue> d : sensorData){
+                setSensorValue(d.getLeft(), d.getMiddle(), d.getRight());
+                output.append(d.getLeft()).append("-").append(d.getMiddle()).append("-").append(d.getRight().getValue()).append("-").append(d.getRight().getTimestamp()).append(";");
+            }
+            return output.toString();
+        } catch (Exception e) {
+            Log.warn("SensorService: incoming json is not parseable");
+            Log.trace(json, "SensorService");
+        }
+        return MontiGemErrorFactory.deserializeError(json).toString();
+    }
 }
