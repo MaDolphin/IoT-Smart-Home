@@ -70,6 +70,12 @@ public class SensorHandler {
 
   public static int getSecondsForSensorType(SensorType type) {
     switch (type) {
+      case LIGHT:
+        return 6;
+      case CO2:
+        return 7;
+      case MOTION:
+        return 8;
       case TEMPERATURE:
         return 5;
       case PERCENT:
