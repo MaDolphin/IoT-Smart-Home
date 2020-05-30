@@ -1,4 +1,4 @@
-webpage Densitychart(socket LineGraph data
+webpage Densitychart(socket LineGraph data, all DensitySensorData densitysensordata
 
 ) {
 
@@ -45,6 +45,22 @@ webpage Densitychart(socket LineGraph data
             }
         }
     }
+      row (space-evenly, spaceabove) {
+
+        // container for card 2
+        container(80%) {
+            card {
+                head {
+                row(stretch){
+                    label "Density Chart"
+                    }
+                }
+                body {
+                  html {"<density-chart [data2]=\"densitysensordata\"></density-chart>"}
+                    //}
+                }
+            }
+        }
   }
 
 }
