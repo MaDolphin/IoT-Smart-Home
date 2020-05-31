@@ -48,7 +48,7 @@ for i in range(0,1000):
 	elif(i <= 550):
 		sensorId = '3'
 		type = 'LIGHT'
-		value = 100;
+		value = 100
 	elif(i <= 640):
 		sensorId = '3'
 		type = 'LIGHT'

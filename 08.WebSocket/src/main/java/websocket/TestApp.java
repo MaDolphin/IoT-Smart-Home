@@ -30,49 +30,19 @@ public class TestApp {
     JSONObject obj = util.getToken(loginURL,bodyText);
     String jwt = obj.get("jwt").toString();
     MessageHandlerType messageHandlerType = MessageHandlerType.Sensor;
-    String usage = "ANGLE";
-    String websocketURL = "ws://localhost:8080/montigem-be/websocket/"+jwt+"/"+messageHandlerType.toString()+"/"+usage;
-
-    CountDownLatch latch = new CountDownLatch(2);
-    WebSocketClientEndpoint ws = WebSocketClientEndpoint.connect(new URI(websocketURL), session -> {
-
-    }, msg -> {
-      switch(messageHandlerType){
-        case Sensor:
-          if (msg.contains("\"entries\":[]")) {
-            System.out.print("No recent updates - Last checked: " + msg.substring(msg.indexOf("timestamp\":\"") + 12, msg.indexOf("\",\"typeName")) + "\r");
-          } else {
-            System.out.println(msg);
-          }
-          break;
-        case Add:
-        case None:
-
-        default:
-          System.out.println(msg);
-          break;
-      }
-      latch.countDown();
-      return msg;
-    });
-
-    if(messageHandlerType == MessageHandlerType.Add) {
-      System.out.println("Send client");
-      System.out.println("To send values to backend press any key");
-
-      while(true) {
-        System.out.println("Enter JSONArray of values as JSONObject in one line: \n");
-        Scanner in = new Scanner(System.in);
-        String input = in.nextLine();
-        ws.sendMessage(input);
-        Thread.sleep(1000);
-      }
-    }
-    System.out.println("Update client");
-    Thread.sleep(1000);
-    if (!latch.await(100, TimeUnit.SECONDS)) {
-      fail("should get message in time");
-    }
+//    String usage = "CO2";
+    WebSocketConnect webSocketConnect_1 = new WebSocketConnect();
+    WebSocketConnect webSocketConnect_2 = new WebSocketConnect();
+    WebSocketConnect webSocketConnect_3 = new WebSocketConnect();
+    WebSocketConnect webSocketConnect_4 = new WebSocketConnect();
+    WebSocketConnect webSocketConnect_5 = new WebSocketConnect();
+    WebSocketConnect webSocketConnect_6 = new WebSocketConnect();
+    webSocketConnect_1.connect(jwt,messageHandlerType,"LIGHT");
+    webSocketConnect_2.connect(jwt,messageHandlerType,"CO2");
+    webSocketConnect_3.connect(jwt,messageHandlerType,"MOTION");
+    webSocketConnect_4.connect(jwt,messageHandlerType,"TEMPERATURE");
+    webSocketConnect_5.connect(jwt,messageHandlerType,"PERCENT");
+    webSocketConnect_6.connect(jwt,messageHandlerType,"ANGLE");
 
   }
 }
