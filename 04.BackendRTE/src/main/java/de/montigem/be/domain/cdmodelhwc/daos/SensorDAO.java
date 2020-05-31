@@ -5,27 +5,31 @@ package de.montigem.be.domain.cdmodelhwc.daos;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import de.montigem.be.domain.cdmodelhwc.classes.sensor.Sensor;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
 import de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue;
+import de.montigem.be.domain.cdmodelhwc.rest.SensorService;
 import de.montigem.be.error.MontiGemErrorFactory;
 import de.montigem.be.system.sensor.dtos.LineGraphEntryDTO;
 import de.montigem.be.util.DAOLib;
+import de.montigem.be.util.Responses;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.openejb.SystemException;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -176,16 +180,8 @@ public class SensorDAO extends SensorDAOTOP {
                 String sensorId = d.getAsJsonObject().get("sensorId").getAsString();
                 String type = d.getAsJsonObject().get("type").getAsString();
                 int value = d.getAsJsonObject().get("value").getAsInt();
-                String localTime = d.getAsJsonObject().get("timeStamp").getAsString();
-
-                // change the Date without Zoned to Date with Zone["Europe/Berlin"]
-                // Then the Date in DB is UTC Date.
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                Date parsedDate = dateFormat.parse(localTime);
-                Timestamp timestamp = new Timestamp(parsedDate.getTime());
-                LocalDateTime localDateTimeNoTimeZone = timestamp.toLocalDateTime();
-                ZonedDateTime timeStamp = localDateTimeNoTimeZone.atZone(ZoneId.of("Europe/Berlin"));
-
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+                ZonedDateTime timeStamp = ZonedDateTime.parse(d.getAsJsonObject().get("timeStamp").getAsString() + " UTC", formatter);
                 SensorType sensorType;
                 switch (type){
                     case "TEMPERATURE": sensorType = SensorType.TEMPERATURE; break;
