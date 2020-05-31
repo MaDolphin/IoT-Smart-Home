@@ -12,6 +12,9 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.websocket.Session;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -62,7 +65,10 @@ public class SensorHandler {
         .filter(Optional::isPresent).map(Optional::get)
         .collect(Collectors.toList());
 
-    String dto = JsonMarshal.getInstance().marshal(new LineGraphDTO(0, values, currentTime));
+    LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.from(currentTime), ZoneId.of("Europe/Berlin"));
+    ZonedDateTime localTime = localDateTime.atZone(ZoneId.of("Europe/Berlin"));
+
+    String dto = JsonMarshal.getInstance().marshal(new LineGraphDTO(0, values, localTime));
     if (sensor.getRight().isOpen()) {
       sensor.getRight().getAsyncRemote().sendText(dto);
     }
@@ -73,7 +79,7 @@ public class SensorHandler {
       case LIGHT:
         return 6;
       case CO2:
-        return 7;
+        return 1;
       case MOTION:
         return 8;
       case TEMPERATURE:

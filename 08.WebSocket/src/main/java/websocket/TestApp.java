@@ -28,7 +28,7 @@ public class TestApp {
     JSONObject obj = util.getToken(loginURL,bodyText);
     String jwt = obj.get("jwt").toString();
     MessageHandlerType messageHandlerType = MessageHandlerType.Sensor;
-    String usage = "ANGLE";
+    String usage = "CO2";
     String websocketURL = "ws://localhost:8080/montigem-be/websocket/"+jwt+"/"+messageHandlerType.toString()+"/"+usage;
 
     CountDownLatch latch = new CountDownLatch(2);
@@ -38,7 +38,7 @@ public class TestApp {
       switch(messageHandlerType){
         case Sensor:
           if (msg.contains("\"entries\":[]")) {
-            System.out.print("No recent updates - Last checked: " + msg.substring(msg.indexOf("timestamp\":\"") + 12, msg.indexOf("\",\"typeName")) + "\r");
+//            System.out.println("No recent updates - Last checked: " + msg.substring(msg.indexOf("timestamp\":\"") + 12, msg.indexOf("\",\"typeName")) + "\r");
           } else {
             System.out.println(msg);
           }
@@ -46,7 +46,7 @@ public class TestApp {
         case None:
 
         default:
-          System.out.println(msg);
+//          System.out.println(msg);
           break;
       }
       latch.countDown();
