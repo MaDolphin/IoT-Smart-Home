@@ -20,7 +20,7 @@ for i in range(0,1000):
 	elif(i <= 190):
 		sensorId = '1'
 		type = 'CO2'
-		value = value+1;
+		value = value+1
 	elif(i <= 200):
 		sensorId = '1'
 		type = 'CO2'
@@ -36,7 +36,7 @@ for i in range(0,1000):
 	elif(i <= 400):
 		sensorId = '2'
 		type = 'TEMPERATURE'
-		value = value+0.5;
+		value = value+0.5
 	elif(i <= 401):
 		sensorId = '3'
 		type = 'LIGHT'

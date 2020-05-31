@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.fail;
 
 /*
+The timestamp of any sensor data posted to the backend has to be current time in UTC timeformat for this client to be udpated
+
 Webclient to get data updates from backend/send data to backend
 If messageHandler == Add then the client is registered to send data to the backend (usage is irrelevant)
 If messageHandler == Sensor then the client is registered to receive data updates from backend (usage specifies which type of sensor data the client will be updated about)
@@ -42,6 +44,7 @@ public class TestApp {
           } else {
             System.out.println(msg);
           }
+          break;
         case Add:
         case None:
 
