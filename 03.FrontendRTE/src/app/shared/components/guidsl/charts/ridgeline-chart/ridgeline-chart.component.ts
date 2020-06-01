@@ -70,7 +70,7 @@ class Ridgeline_Config {
 
 
 
-class Data
+export class Data
 {
   private values : number[][][]; //Underlying data (list of 2D data)
   private transformed_values : number[][][]; //Transformed data (for drawing)
