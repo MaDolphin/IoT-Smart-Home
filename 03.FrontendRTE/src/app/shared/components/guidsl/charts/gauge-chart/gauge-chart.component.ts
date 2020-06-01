@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LineDataGroup} from "@components/charts/line-chart/line-chart.component";
 import {GaugeDummyData} from "@components/charts/gauge-chart/gauge-dummy-data";
+import {GaugeChartDataDTO} from "@targetdtos/gaugechartdata.dto";
+import {GaugeChartDataEntryDTO} from "@targetdtos/gaugechartdataentry.dto";
 
 @Component({
     selector: 'gauge-chart',
@@ -24,8 +26,6 @@ export class GaugeChartComponent implements OnInit {
     legend: boolean = true;
     legendPosition: string = 'below';
     private _showAxis: boolean = true;
-
-    private _refreshRateCounter: number = 0;
 
     // realData(Min|Max) is used to set the end of the slider
     realDataMin: number;
@@ -51,35 +51,19 @@ export class GaugeChartComponent implements OnInit {
     }
 
     @Input()
-    public set data(lineData: LineDataGroup[]) {
+    public set data(gaugeData: GaugeChartDataEntryDTO[]) {
         // todo only replace changed data, don't replace all
         let t = this;
 
-        // use the dummyData from the LineGraph or generate new one for the gauge chart
-        let useGivenData = false;
+        if (gaugeData) {
+            t.dataSet = gaugeData;
 
-        if (useGivenData) {
-            lineData.forEach(function (lineD: LineDataGroup, i: number) {
-                if (lineD.label != null && lineD.data.length > 0) {
-                    console.log(lineD.label + ": " + lineD.data[0].y);
-                    t.dataSet = [];
-                    t.dataSet.push({"name": lineD.label, "value": lineD.data[0].y + 15}); // +15 für realistischere Werte
-                }
-            });
-        } else {
-            this._refreshRateCounter++;
-            this._refreshRateCounter %= 2; // reduces refresh rate
-            if (this._refreshRateCounter == 0) {
-                //console.log(GaugeDummyData.getNewData(this.min, this.max));
-                t.dataSet = GaugeDummyData.getNewData(this.min, this.max);
-            }
+            // (Re)set realDataMin and realDataMax
+            t.dataSet.forEach(function (entry: any, i: number) {
+                if (entry.value < t.realDataMin) t.realDataMin = Math.floor(entry.value); // Abrunden
+                if (entry.value > t.realDataMax) t.realDataMax = Math.ceil(entry.value); // Aufrunden
+            })
         }
-
-        // (Re)set realDataMin and realDataMax
-        t.dataSet.forEach(function (entry: any, i: number) {
-            if (entry.value < t.realDataMin) t.realDataMin = Math.floor(entry.value); // Abrunden
-            if (entry.value > t.realDataMax) t.realDataMax = Math.ceil(entry.value); // Aufrunden
-        })
     }
 
     public get showText(): boolean {

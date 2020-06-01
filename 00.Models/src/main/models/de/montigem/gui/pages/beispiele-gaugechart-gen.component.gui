@@ -33,7 +33,7 @@ row (space-evenly, spaceabove) {
       }
       body {
         html {" <gauge-chart
-                  [data]=\"transformedRealtimeData\"
+                  [data]=\"transformedRealtimeData1\"
                   [min]=\"-40\"
                   [max]=\"50\"
                   [bigTicks]=\"9\"
@@ -51,7 +51,7 @@ row (space-evenly, spaceabove) {
       }
       body {
         html {" <gauge-chart
-                  [data]=\"transformedRealtimeData\"
+                  [data]=\"transformedRealtimeData2\"
                   [min]=\"0\"
                   [max]=\"500\"
                   [bigTicks]=\"10\"
