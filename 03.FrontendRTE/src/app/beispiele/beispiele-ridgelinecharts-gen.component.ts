@@ -54,7 +54,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   private lastSeconds = 0;
   private dummyDataIndex = 0;
 
-  private realtimeTest : boolean = false;
+  private realtimeTest : boolean = true;
 
   private useBackendData: boolean = false;
 
