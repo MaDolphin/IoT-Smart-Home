@@ -190,6 +190,8 @@ export class Data
     //this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
     this.y_range = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
     this.x_start_value = this.xy_min_max[0][0];
+
+    console.log(this.xy_min_max[1][1]);
   }
 
 
@@ -231,6 +233,9 @@ export class Data
     this.transformed_values = [];
     this.transformed_color_gradients = [];
 
+    // sort color_gradients
+    color_gradients = this.sort_by_y_gradient(color_gradients);
+
     //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
     //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
     //Range in context with width/height gives a scale factor for the data, so all data have a uniform x and y scale in the end
@@ -250,9 +255,31 @@ export class Data
       this.transformed_color_gradients.push([]);
       for (let j = 0; j < color_gradients.length; ++j)
       {
-        this.transformed_color_gradients[i].push([color_gradients[j][0], color_gradients[j][1] /* * height_scale) + y_from */]);
+        this.transformed_color_gradients[i].push([color_gradients[j][0], -color_gradients[j][1] * height_scale + y_from ]);
       }
     }
+  }
+
+  private sort_by_y_gradient(gradients : [string, number][])
+  {
+    gradients.sort(
+      (gradient_1 : [string, number], gradient_2 : [string, number]) =>
+      {
+        if (gradient_1[1] === gradient_2[1])
+        {
+          return 0;
+        }
+        else if (gradient_1[1] < gradient_2[1])
+        {
+          return -1;
+        }
+        else
+        {
+          return 1;
+        }
+      }
+    );
+    return gradients;
   }
 }
 
@@ -494,6 +521,9 @@ export class RidgelineChartComponent implements OnInit {
     path_filler.lineTo(new paper.Point(data_row[data_row.length - 1][0], y_from));
     path_filler.lineTo(new paper.Point(data_row[0][0], y_from));
 
+
+
+
     if (gradient_max_y_values.length < 2)
     {
       //TODO: Set no gradient here
@@ -507,14 +537,28 @@ export class RidgelineChartComponent implements OnInit {
     }
     else
     {
-      //TODO: Adapt this part - need to change gradient values, because we use percentages of the overall height it seems
       //TODO: Draw less often!
+      //TODO: Remove for-loop from this section in another one, where it is not called each time again
+
+      // color_gradients are sorted (see transform_data) before they are converted to canvas-y-data. Thus, we find the
+      // max y at index 0 and the min y at the last index
+      let gradient_max = gradient_max_y_values[0][1];
+      let gradient_min = gradient_max_y_values[gradient_max_y_values.length-1][1];
+      let gradient_range = Math.abs(gradient_max-gradient_min);
+      let gradient_percent = [];
+
+      // Dependent on the gradient min and max data (in canvas units) compute the percentage (0-1) of all gradients
+      // where they are between these min and max values
+      for (let i=0; i<gradient_max_y_values.length; ++i){
+        gradient_percent.push([gradient_max_y_values[i][0], (gradient_max_y_values[i][1]-gradient_min)/gradient_range])
+      }
+
       path_filler.fillColor = new paper.Color({
         gradient: {
-          stops: gradient_max_y_values
+          stops: gradient_percent
         },
-        origin: [data_row[0][0], y_from],
-        destination: [data_row[0][0], y_from - 30]
+        origin: [data_row[0][0], gradient_min],
+        destination: [data_row[0][0], gradient_max]
       });
     }
   }

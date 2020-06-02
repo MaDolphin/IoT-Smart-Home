@@ -31,7 +31,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   public labels = ['test1', 'test2', 'test3', 'custom', 'random sinus'];
 
   //Color gradient data structure which can be used to set gradients / color stops to color specific y values of the visualization
-  public color_gradients : [string, number][] = [];
+  public color_gradients : [string, number][] = [["green",-0.5],["red",0.5],["orange",0]];
   private test_colors = ["green", "blue", "red", "orange", "yellow"];
   private test_index = 0;
   //Callback function for button to enter color stop
@@ -54,7 +54,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   private lastSeconds = 0;
   private dummyDataIndex = 0;
 
-  private realtimeTest : boolean = true;
+  private realtimeTest : boolean = false;
 
   private useBackendData: boolean = false;
 
