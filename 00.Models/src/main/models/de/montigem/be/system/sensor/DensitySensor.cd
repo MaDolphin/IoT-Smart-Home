@@ -6,7 +6,7 @@ package de.montigem.be.system.sensor;
 import de.montigem.be.domain.Domain.*;
 import java.time.ZonedDateTime;
 
-classdiagram MotionSensor {
+classdiagram DensitySensor {
 
   class DensityChartEntry {
       String name;

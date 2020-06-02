@@ -1,6 +1,6 @@
-webpage Densitychart(socket LineGraph data, all DensitySensorData densitysensordata
-
-) {
+webpage Densitychart(  socket LineGraph lineChartData,
+                         all DensitySensorData densitysensordata
+ ) {
 
   column(nospace) {
       navigation "navigationBarLinks" {
@@ -28,23 +28,6 @@ webpage Densitychart(socket LineGraph data, all DensitySensorData densitysensord
       }
   }
 
-
-  row (space-evenly, spaceabove) {
-
-    // container for card 2
-    container(80%) {
-        card {
-            head {
-            row(stretch){
-                label "Density Chart"
-                }
-            }
-            body {
-              html {"<density-chart [data2]=\"data2\"></density-chart>"}
-                //}
-            }
-        }
-    }
       row (space-evenly, spaceabove) {
 
         // container for card 2
@@ -62,5 +45,3 @@ webpage Densitychart(socket LineGraph data, all DensitySensorData densitysensord
             }
         }
   }
-
-}
