@@ -71,6 +71,7 @@
       "@tempsensortable-dto/*" : ["target/generated-sources/dtos/*"],
       "@alarmctrltable-dto/*" : ["target/generated-sources/dtos/*"],
       "@sirenctrltable-dto/*" : ["target/generated-sources/dtos/*"],
+      "@densitysensordata-dto/*": ["target/generated-sources/dtos/*"],
       "@smokesensortable-dto/*" : ["target/generated-sources/dtos/*"],
       "@sirenctrl-dto/*": ["target/generated-sources/dtos/*"]
     }

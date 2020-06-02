@@ -6,7 +6,7 @@ import {CommandRestService} from '@shared/architecture/command/rte/command.rest.
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Data2Model } from '../data/data.model';
-import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component-top';
+import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component';
 import {WebSocketService} from "@services/websocket.service";
 @Component({
     templateUrl: '../../../target/generated-sources/gui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component.html',
@@ -37,5 +37,7 @@ export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGen
     public mockData(): any[]{
         return [{"type": "Temperatur A", "value": 10+ Math.random() * 10},{"type": "Temperatur B", "value": 15 + Math.random() * 10}];
     }
+
+
 
 }
