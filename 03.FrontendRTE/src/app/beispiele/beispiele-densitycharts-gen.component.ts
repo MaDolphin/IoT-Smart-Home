@@ -13,7 +13,6 @@ import {WebSocketService} from "@services/websocket.service";
 })
 export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGenComponent {
     public data2: Data2Model [];
-
     constructor(private http: HttpClient,
                 protected _webSocketService: WebSocketService,
                 protected _router: Router,
@@ -24,17 +23,18 @@ export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGen
     }
     title = 'Densitychart';
 
+    public densitysensordata;
     public subscribedataSocket(): void {
         if(this.dataSocket) {
             this.subscriptions.push(this.dataSocket.subscribe(message => {
-                this.data2 = this.mockData();
-            },err => console.error(err)));
-        }else{
+                this.densitysensordata = this.mockData();
+            }, err => console.error(err)));
+        } else {
             console.error('Socket is not initialied. initialize socket in component constructor');
         }
     }
 
-    public mockData(): any[]{
+    public mockData(): any[] {
         return [{"type": "Temperatur A", "value": 10+ Math.random() * 10},{"type": "Temperatur B", "value": 15 + Math.random() * 10}];
     }
 

@@ -8,13 +8,11 @@ import java.time.ZonedDateTime;
 
 classdiagram DensitySensor {
 
-  class DensityChartEntry {
+  class DensitySensorEntry {
       String name;
-      int value;
+      float value;
     }
-    class DensityChart {
-      List<DensityChartEntry> entries;
+    class DensitySensorData {
+      List<DensitySensorEntry> entries;
     }
 }
-
-
