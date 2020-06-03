@@ -22,12 +22,11 @@ export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGen
         super(_commandRestService, _route, _router, _webSocketService);
     }
     title = 'Densitychart';
-
     public densitysensordata;
     public subscribedataSocket(): void {
         if(this.dataSocket) {
             this.subscriptions.push(this.dataSocket.subscribe(message => {
-                this.densitysensordata = this.mockData();
+                this.data2 = this.mockData();
             }, err => console.error(err)));
         } else {
             console.error('Socket is not initialied. initialize socket in component constructor');
