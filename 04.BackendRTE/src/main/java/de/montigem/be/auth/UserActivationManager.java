@@ -74,7 +74,7 @@ public class UserActivationManager {
   public void sendActivationEmail(String email, String username, String resource,
       String datenbankBezeichner)
       throws MessagingException {
-    if (MontiGemInitUtils.isOnServer() && Config.SEND_MAILS) {
+    if (Config.SEND_MAILS) {
 
       Optional<DomainUser> user = userDao.find(username, resource);
       if (!user.isPresent()) {

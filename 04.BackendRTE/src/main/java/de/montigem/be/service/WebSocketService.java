@@ -8,6 +8,7 @@ import de.montigem.be.authz.util.RolePermissionManager;
 import de.montigem.be.authz.util.SecurityHelper;
 import de.montigem.be.command.rte.general.CommandManager;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
+import de.montigem.be.domain.cdmodelhwc.daos.SensorDAO;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.util.DAOLib;
 import de.montigem.be.util.SensorHandler;
@@ -103,6 +104,9 @@ public class WebSocketService {
         SensorHandler.getInstance().add(session, SensorType.valueOf(usage));
         // + do the same as default
       case None:
+      case Add: //If client wants to add sensorData in JSON format - usage has no effect
+        callback = msg -> daoLib.getSensorDAO().parseSensorValue(msg);
+        break;
       default:
         callback = msg -> msg;
         break;

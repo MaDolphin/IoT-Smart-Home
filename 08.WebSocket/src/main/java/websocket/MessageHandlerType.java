@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.montigem.be.util.websocket;
+package websocket;
 
 public enum MessageHandlerType {
   CommandManager,
