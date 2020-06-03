@@ -1,0 +1,11 @@
+<!-- (c) https://github.com/MontiCore/monticore -->
+<form style="position:relative;left:0px;top:0px;">
+	<label for="num_seperations">Gebe hier die gewünschte Anzahl an Spalten (1-32) an:  </label>
+	<input #box [value]="6" (keyup.enter)="enter_num_seperations(box.value)" id="num_seperations" type="number" min="1" max="32">
+</form>
+
+<div>
+	<ngx-charts-heat-map [scheme]="colorScheme" [results]="computed_data" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="XLabel" [yAxisLabel]="YLabel" (select)="onSelect($event)">
+	</ngx-charts-heat-map>
+</div>
+<p>{{num_seperations}}</p>
