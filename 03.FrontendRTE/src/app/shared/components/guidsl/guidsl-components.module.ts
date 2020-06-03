@@ -25,7 +25,9 @@ import { HorizontalBarChartComponent } from '@shared/components/guidsl/charts/ho
 import { BudgetWidgetComponent } from '@shared/components/guidsl/budget-widget/budget-widget.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { HeatmapChartComponent } from './charts/heatmap-chart/heatmap-chart.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -41,6 +43,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     BalanceBoxComponent,
     HorizontalBarChartComponent,
     LineChartComponent,
+    HeatmapChartComponent,
     BudgetWidgetComponent,
   ],
   imports: [
@@ -62,7 +65,8 @@ import { Ng5SliderModule } from 'ng5-slider';
     MatSelectModule,
     MatTabsModule,
     TextMaskModule,
-    Ng5SliderModule
+    Ng5SliderModule,
+    NgxChartsModule,
   ],
   exports: [
     MCContainerComponent,
@@ -77,6 +81,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     BalanceBoxComponent,
     HorizontalBarChartComponent,
     LineChartComponent,
+    HeatmapChartComponent,
     BudgetWidgetComponent
   ],
   providers: [

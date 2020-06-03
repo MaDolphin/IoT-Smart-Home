@@ -9,6 +9,9 @@ webpage beispieleDatentabellen {
             tab "BarCharts" {
                 link: "../barcharts/1"
             }
+            tab "Heatmap" {
+                link: "../heatmapcharts"
+            }
             tab "HorizontalBarCharts" {
                 link: "../horizontalbarcharts"
             }
