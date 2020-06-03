@@ -31,23 +31,68 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   public labels = ['test1', 'test2', 'test3', 'custom', 'random sinus'];
 
   //Color gradient data structure which can be used to set gradients / color stops to color specific y values of the visualization
-  public color_gradients : [string, number][] = [["green",-0.5],["red",0.5],["orange",0]];
-  private test_colors = ["green", "blue", "red", "orange", "yellow"];
-  private test_index = 0;
-  //Callback function for button to enter color stop
-  public enter_color_stop(event, value: string)
+  public color_gradients : [string, number][] = [];
+
+  //Color picker functions
+  public show_color_picker = false;
+  public selected_color = '#ffffff';
+
+  //Input field to get input value
+  private color_stop_y_input: HTMLInputElement;
+
+  //Blend in / out color picker
+  public toggle_color_picker(event)
   {
     //Don't refresh the page
     event.preventDefault();
 
-    let stop = parseFloat(value);
-    if (this.test_index >= this.test_colors.length)
-    {
-      this.test_index = 0;
-    }
-    this.color_gradients.push([ this.test_colors[this.test_index], stop ]);
+    this.show_color_picker = !this.show_color_picker;
+  }
 
-    ++this.test_index;
+  //Callback function for input keydown
+  public ignore_keydown(event)
+  {
+    //Don't refresh the page
+    event.preventDefault();
+  }
+
+  //Callback function for input to change color
+  public change_color(event, value: string)
+  {
+    //Don't refresh the page
+    event.preventDefault();
+
+    let valid_hex = /^#[0-9A-F]{6}$/i.test(value);
+    if(valid_hex)
+    {
+      this.selected_color = value;
+    }
+  }
+
+  //Callback function for input to enter color stop
+  public add_color_stop(event)
+  {
+    //Don't refresh the page
+    event.preventDefault();
+
+    //Get color gradient y value
+    let value : string = this.color_stop_y_input.value;
+    let stop = parseFloat(value);
+
+    //Add new color gradient section only if the value does not yet exist
+    if (this.color_gradients.find(element => element[1] == stop) == undefined)
+    {
+      this.color_gradients.push([ this.selected_color, stop ]);
+    }
+  }
+
+  //Callback function for button to reset all previous color stop input
+  public reset_color_stop(event)
+  {
+    //Don't refresh the page
+    event.preventDefault();
+    
+    this.color_gradients.length = 0;
   }
   
   private dummyData; // helping variable
@@ -63,6 +108,11 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   ngOnInit(): void {
     super.ngOnInit();
     this.dummyData = this.createDummyData(); // To avoid that this is done every time again
+  }
+
+  ngAfterViewInit() {  
+    super.ngAfterViewInit();  
+    this.color_stop_y_input = document.getElementById('color_stop_y_input') as HTMLInputElement;
   }
 
   public subscribelineChartDataSocket(): void {

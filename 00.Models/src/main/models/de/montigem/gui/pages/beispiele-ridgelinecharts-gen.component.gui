@@ -43,8 +43,22 @@ webpage RidgelineChartSamplePage(
             body {
               html {"
                 <form [formGroup]='' style='position:relative;left:0px;top:0px;'>
-                  <label for='gradient_test'>Add random color stop: </label>
-                  <input #box [value]='0.3' (keydown.enter)='enter_color_stop($event, box.value)' id='gradient_test'>
+                  <label for='gradient_test'>Add color stop: </label>
+                  <!-- Color stop y-value -->
+                  <input #box [value]='0.3' (keydown.enter)='ignore_keydown($event)' id='color_stop_y_input'/>
+                  <!-- Selector for color stop color -->
+                  <div class='color-picker' height='10px' style='display:inline-block'>
+                    <button class='closed' [ngStyle]=\"{'background': selected_color}\" (click)='toggle_color_picker($event)'>Color</button>
+                    <div class='opened' style='position: absolute; box-shadow: 0px 7px 12px 0px rgba(53, 53, 53, 0.2); padding:1px' *ngIf='show_color_picker'>
+                      <p>Enter hex color:</p>
+                      <div class='hex-color-input'>
+                        <input #color_input type='text' maxlength='7' [value]='selected_color' (keydown.enter)='ignore_keydown($event)' (keyup.enter)='change_color($event, color_input.value)' />
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Add and reset buttons for gradient colors -->
+                  <button id='gradient_add' (click)='add_color_stop($event)'>Add</button>
+                  <button id='gradient_reset' (click)='reset_color_stop($event)'>Reset</button>
                 </form>
                 <ridgeline-chart
                   [smooth]=\"false\"

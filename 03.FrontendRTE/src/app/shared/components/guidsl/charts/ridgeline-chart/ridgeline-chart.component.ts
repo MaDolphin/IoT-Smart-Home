@@ -190,8 +190,6 @@ export class Data
     //this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
     this.y_range = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
     this.x_start_value = this.xy_min_max[0][0];
-
-    console.log(this.xy_min_max[1][1]);
   }
 
 
@@ -253,9 +251,37 @@ export class Data
 
       //Transform color gradient values
       this.transformed_color_gradients.push([]);
+      let max_height = window.innerHeight;
+      let min_height = 0;
       for (let j = 0; j < color_gradients.length; ++j)
       {
-        this.transformed_color_gradients[i].push([color_gradients[j][0], -color_gradients[j][1] * height_scale + y_from ]);
+        //Cap gradient y value s.t. we do not get an overflow
+        let color_y_value = 0.0;
+        if (color_gradients[j][1] > 300000000)
+        {
+          color_y_value = 300000000;
+        }
+        else if (color_gradients[j][1] < -300000000)
+        {
+          color_y_value = -300000000;
+        }
+        else
+        {
+          color_y_value = color_gradients[j][1];
+        }
+
+        //Also cap height values that do not make sense
+        let color_pixel_height_y = -color_y_value * height_scale + y_from;
+        if (color_pixel_height_y > max_height)
+        {
+          color_pixel_height_y = max_height;
+        }
+        if (color_pixel_height_y < min_height)
+        {
+          color_pixel_height_y = min_height;
+        }
+
+        this.transformed_color_gradients[i].push([color_gradients[j][0], color_pixel_height_y ]);
       }
     }
   }
@@ -376,7 +402,18 @@ export class RidgelineChartComponent implements OnInit {
 
     window.addEventListener('resize', this.adjust_size, false);
 
+    //Paperjs framerate: 60fps
+    //We do not need to update the view that often, 3fps should be enough to see real-time data
+    let frame_count = 0;
     paper.view.onFrame = (event) => {
+      //Only show every 10th frame
+      if (frame_count % 20 != 0)
+      {
+        ++frame_count;
+        return;
+      }
+      frame_count = 1;
+
       // Should not be called too often
       if (this.hasData()){
         //this.data.setup(this.rawData);
@@ -527,13 +564,7 @@ export class RidgelineChartComponent implements OnInit {
     if (gradient_max_y_values.length < 2)
     {
       //TODO: Set no gradient here
-      path_filler.fillColor = new paper.Color({
-        gradient: {
-          stops: ['red', 'blue']
-        },
-        origin: [data_row[0][0], y_from - 30],
-        destination: [data_row[0][0], y_from]
-      });
+      path_filler.fillColor = new paper.Color(0.1, 0.4, 1.0, 0.5);
     }
     else
     {
@@ -550,15 +581,22 @@ export class RidgelineChartComponent implements OnInit {
       // Dependent on the gradient min and max data (in canvas units) compute the percentage (0-1) of all gradients
       // where they are between these min and max values
       for (let i=0; i<gradient_max_y_values.length; ++i){
-        gradient_percent.push([gradient_max_y_values[i][0], (gradient_max_y_values[i][1]-gradient_min)/gradient_range])
+        //Cap percentage value (too low values do not make sense here)
+        let y_percentage = 1 - (gradient_max_y_values[i][1]-gradient_min)/gradient_range; // 1 - ... because lower pixel values correspond to higher parts
+        if (y_percentage < 0.0001)
+        {
+          y_percentage = 0.0001;
+        }
+
+        gradient_percent.push([gradient_max_y_values[i][0], y_percentage])
       }
 
       path_filler.fillColor = new paper.Color({
         gradient: {
           stops: gradient_percent
         },
-        origin: [data_row[0][0], gradient_min],
-        destination: [data_row[0][0], gradient_max]
+        origin: [data_row[0][0], gradient_max],
+        destination: [data_row[0][0], gradient_min]
       });
     }
   }
