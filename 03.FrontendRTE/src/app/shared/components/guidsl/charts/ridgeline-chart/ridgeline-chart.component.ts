@@ -33,12 +33,13 @@ class Ridgeline_Config {
    * @param canvas_height 
    * @param overshoot     how far do one ridge overlaps into another one (in percentage)
    */
-  public set_params(data_rows : number, 
+  public set_params(
+    labels : string[],
+    data_rows : number, 
+    data_x_range: number,
     canvas_width: number, 
     canvas_height: number, 
-    grid_line_start_x: number, 
     grid_line_end_x: number, 
-    x_axis_start: number, 
     font_size: string,
     overshoot: number)
   {
@@ -51,15 +52,31 @@ class Ridgeline_Config {
     this.ridges_offset = (canvas_height - 10) / (data_rows + 2 * overshoot/100 + 1); // Space after which the next ridge begins
     this.ridges_height = (canvas_height - 10) / (data_rows + 2 * overshoot/100 + 1) * (1 + overshoot/100); 
 
-    this.grid_line_start_x = grid_line_start_x;
+    //Compute line start from font size and biggest label
+    //Text scale calculation -------------------------------------------------
+    let longest_label = labels.reduce(function(prev, current) { return (prev.length > current.length) ? prev : current; } );
+    let temp_text = new paper.PointText(new paper.Point(0, 0));
+    temp_text.justification = 'left';
+    temp_text.fillColor = new paper.Color(0.0, 0.0, 0.0);
+    temp_text.content = longest_label;
+    temp_text.fontSize = font_size;
+    let longest_width = temp_text.strokeBounds.width;
+    temp_text.remove();
+    //Text scale calculation end -------------------------------------------------
+    this.grid_line_start_x = longest_width + 10;
+
     this.grid_line_end_x = grid_line_end_x;
     this.grid_line_start_y = this.ridges_height;
 
     this.font_size = font_size;
 
-    this.x_axis_start = x_axis_start;
+    this.x_axis_start = this.grid_line_start_x;
     this.x_axis_width = canvas_width - this.x_axis_start;
-    this.x_axis_value_offset = 5;                      // TODO set this value automatically dependent on canvas and data
+    
+    //Set x-axis value offset when drawing legend from min to max x value (vertical line every offset)
+    this.x_axis_value_offset = data_x_range / canvas_width * 80; //Every 80px    
+    //Round this value to at most two decimal places
+    this.x_axis_value_offset = Math.round((this.x_axis_value_offset + Number.EPSILON) * 100) / 100;
 
     this.y_axis_start = this.ridges_height;
   }
@@ -319,6 +336,7 @@ export class RidgelineChartComponent implements OnInit {
   @Input() smooth: boolean;
   @Input() overshoot: number;
   @Input() labels: string[]; // The labels of the ridges
+  @Input() font_size: string;
   @Input() color_gradients: [string, number][]; //Color gradients: [y_value, color_string]
   _rawData: number[][][] = [];
   
@@ -420,21 +438,19 @@ export class RidgelineChartComponent implements OnInit {
 
         paper.project.clear();
 
-        this.config.set_params(this.data.length, this.canvas.width, this.canvas.height, 150, this.canvas.width, 150, "1em", this.overshoot);
+        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot);
         this.data.transform_data(this.config, this.color_gradients);
 
         //Draw grid for data
-        //TODO: Labels should be part of data, text size should determine starting point for drawing lines of grid / plots
         this.plot_grid(this.labels, this.data, this.config);
 
         //TODO: Proper arguments for grid drawing
-        //TODO: Draw grid for x values (vertical)
 
         //Draw test data
         for (let i = 0; i < this.data.length; ++i)
         {
           // ToDo: further refinement of config object and function call to avoid so many parameters
-          this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_color_gradients(i), this.config, i); //TODO: Improve color (should be distinct, not white, ...) -> New: Should be the same, use color gradient
+          this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_color_gradients(i), this.config, i);
         }
       }
 
@@ -465,24 +481,6 @@ export class RidgelineChartComponent implements OnInit {
 
     let font_size = config.font_size;
 
-    //Text scale calculation -------------------------------------------------
-    //Calculate width of longest label - allows to scale text s.t. it ends before the line begins
-    // let longest_label = labels.reduce(function(prev, current) { return (prev.length > current.length) ? prev : current; } );
-    // let temp_text = new paper.PointText(new paper.Point(0, 0));
-    // temp_text.justification = 'left';
-    // temp_text.fillColor = new paper.Color(0.0, 0.0, 0.0);
-    // temp_text.content = longest_label;
-    // let longest_width = temp_text.strokeBounds.width;
-    // temp_text.remove();
-
-    // //Calculate text scale
-    // let text_scale = (line_start_x - 5) / longest_width;
-
-    //Make sure that small texts are not too small
-    //Text scale calculation end -------------------------------------------------
-
-    //TODO: Not that clean, text should have a min. width / lines might need to be moved according to that width
-
     //Horizontal lines and labels
     for (let i = 0; i < labels.length; ++i)
     {
@@ -504,7 +502,11 @@ export class RidgelineChartComponent implements OnInit {
 
     for (let x = xy_min_max[0][0]; x < xy_min_max[1][0]; x += x_value_offset)
     {
+      //Round x - TODO: Does of course not work depending on the x axis (scale)
+      x = Math.round((x + Number.EPSILON) * 100) / 100;
+
       let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * x_axis_width + x_axis_start;
+
       let line = new paper.Path.Line(new paper.Point(x_point, line_start_y - config.ridges_height),
                                      new paper.Point(x_point, y_bottom_line_end));
       line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
@@ -513,7 +515,7 @@ export class RidgelineChartComponent implements OnInit {
       let text = new paper.PointText(new paper.Point(x_point, y_bottom_line_end + 10));
       text.justification = 'center';
       text.fillColor = new paper.Color(0.0, 0.0, 0.0);
-      text.content = '' + x;
+      text.content = '' + x.toFixed(2); //Only show last two decimals - TODO: Change depending on used scale
       text.fontSize = font_size;
       //text.scale(text_scale);
     }
@@ -563,14 +565,10 @@ export class RidgelineChartComponent implements OnInit {
 
     if (gradient_max_y_values.length < 2)
     {
-      //TODO: Set no gradient here
       path_filler.fillColor = new paper.Color(0.1, 0.4, 1.0, 0.5);
     }
     else
     {
-      //TODO: Draw less often!
-      //TODO: Remove for-loop from this section in another one, where it is not called each time again
-
       // color_gradients are sorted (see transform_data) before they are converted to canvas-y-data. Thus, we find the
       // max y at index 0 and the min y at the last index
       let gradient_max = gradient_max_y_values[0][1];
