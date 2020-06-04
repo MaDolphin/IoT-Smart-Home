@@ -14,6 +14,7 @@ import de.monticore.umlcd4a.cd4analysis._ast.ASTCDAttribute;
 import de.monticore.umlcd4a.cd4analysis._ast.ASTCDClass;
 import de.monticore.umlcd4a.cd4analysis._ast.ASTCDCompilationUnit;
 import de.monticore.umlcd4a.cd4analysis._ast.ASTCDMethod;
+import frontend.common.FrontendCoreTemplate;
 import frontend.common.FrontendTransformationUtils;
 
 import java.util.Collection;
@@ -46,7 +47,7 @@ public class DTOTypeResolverCreator extends AggregateTrafo {
         .type("Map<string, ElementType<IDTO>>")
             .setName("types").build();
     clazz.addCDAttribute(attr);
-    getGlex().replaceTemplate(CoreTemplate.CLASS_ATTRIBUTE_VALUE.toString(), attr,
+    getGlex().replaceTemplate(FrontendCoreTemplate.CLASS_ATTRIBUTE_VALUE.toString(), attr,
             new StringHookPoint(" = DTOTypeResolver.init()"));
 
     // Generate additional methods

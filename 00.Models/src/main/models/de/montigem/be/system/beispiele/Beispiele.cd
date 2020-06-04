@@ -16,6 +16,10 @@ classdiagram Beispiele {
     
   }
 
+// -------- Heatmap Chart Example --------
+  class BeispieleHeatmapChart {
+   
+  }
   // -------- Line Chart Example --------
   class BeispieleLineChart {
     List<BeispieleLineChartEntry> entries;
