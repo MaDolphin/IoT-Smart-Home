@@ -24,7 +24,7 @@ webpage Densitychart(  socket LineGraph data,
               link: "./"
           }
       }
-  }
+    }
       row (space-evenly, spaceabove) {
         // container for card 2
         container(80%) {
@@ -35,9 +35,10 @@ webpage Densitychart(  socket LineGraph data,
                     }
                 }
                 body {
-                  html {"<density-chart [data2]=\"densitysensordata\"></density-chart>"}}
+                  html {"<density-chart [data2]=\"densitysensordata\"></density-chart>"}
                 }
             }
         }
+      }
   }
 
