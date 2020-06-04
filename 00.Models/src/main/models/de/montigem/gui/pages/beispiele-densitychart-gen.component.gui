@@ -1,4 +1,4 @@
-webpage Densitychart(socket LineGraph data,
+webpage Densitychart(  socket LineGraph data,
                          all DensitySensorData densitysensordata
  ) {  column(nospace) {
       navigation "navigationBarLinks" {

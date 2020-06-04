@@ -17,15 +17,7 @@ classdiagram Sensor {
     List<LineGraphEntry> entries;
     ZonedDateTime timestamp;
   }
-  class DensityChartEntry {
-    String name;
-    int value;
-  }
-  class DensityChart {
-    List<DensityChartEntry> entries;
-    ZonedDateTime timestamp;
 
-  }
 }
 
 
