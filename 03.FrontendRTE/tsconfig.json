@@ -58,6 +58,7 @@
       "@statuslist-dto/*" : ["target/generated-sources/dtos/*"],
       "@objectlist-dto/*" : ["target/generated-sources/dtos/*"],
       "@linegraph-dto/*" : ["target/generated-sources/dtos/*"],
+      "@gaugegraph-dto/*" : ["target/generated-sources/dtos/*"],
 
       // Beispielkomponenten
       "@beispielepiechart-dto/*" : ["target/generated-sources/dtos/*"],
@@ -68,12 +69,14 @@
       "@editabletableexampleentry-dto/*" : ["target/generated-sources/dtos/*"],
       "@rechnungsstellungstatus-dto/*" : ["target/generated-sources/dtos/*"],
       "@beispielelinechart-dto/*" : ["target/generated-sources/dtos/*"],
+      "@beispielegaugechart-dto/*" : ["target/generated-sources/dtos/*"],
       "@tempsensortable-dto/*" : ["target/generated-sources/dtos/*"],
       "@alarmctrltable-dto/*" : ["target/generated-sources/dtos/*"],
       "@sirenctrltable-dto/*" : ["target/generated-sources/dtos/*"],
       "@smokesensortable-dto/*" : ["target/generated-sources/dtos/*"],
       "@motionsensordata-dto/*" : ["target/generated-sources/dtos/*"],
-      "@sirenctrl-dto/*": ["target/generated-sources/dtos/*"]
+      "@sirenctrl-dto/*": ["target/generated-sources/dtos/*"],
+      "@gaugechartdata-dto/*": ["target/generated-sources/dtos/*"]
     }
   }
 }

@@ -27,6 +27,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
 import { HeatmapChartComponent } from './charts/heatmap-chart/heatmap-chart.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { GaugeChartComponent } from './charts/gauge-chart/gauge-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
@@ -44,7 +45,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     HorizontalBarChartComponent,
     LineChartComponent,
     HeatmapChartComponent,
+    GaugeChartComponent,
     BudgetWidgetComponent,
+    GaugeChartComponent,
   ],
   imports: [
     DataTableModule,
@@ -82,7 +85,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     HorizontalBarChartComponent,
     LineChartComponent,
     HeatmapChartComponent,
-    BudgetWidgetComponent
+    BudgetWidgetComponent,
+    GaugeChartComponent
   ],
   providers: [
   ],

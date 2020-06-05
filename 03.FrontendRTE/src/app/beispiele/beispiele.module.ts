@@ -20,6 +20,7 @@ import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-g
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
 import { BeispieleHeatmapchartsGenComponent } from "./beispiele-heatmapcharts-gen.component";
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
+import { BeispieleGaugechartGenComponent } from "./beispiele-gaugechart-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
@@ -60,7 +61,8 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispieleLayout3GenComponent,
     BeispieleLayout4GenComponent,
     BeispieleLayout5GenComponent,
-    BeispieleInputOtherGenComponent
+    BeispieleInputOtherGenComponent,
+    BeispieleGaugechartGenComponent
   ],
   imports: [
     MatIconModule,
@@ -77,6 +79,7 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     routing,
     PipesModule,
     ContextMenuModule,
+    NgxChartsModule
   ],
   providers: [
     ContextMenuService,

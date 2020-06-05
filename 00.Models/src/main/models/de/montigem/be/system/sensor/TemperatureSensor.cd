@@ -1,0 +1,24 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+
+package de.montigem.be.system.sensor;
+
+import de.montigem.be.domain.Domain.*;
+
+classdiagram TemperatureSensor {
+
+  class GaugeChartData {
+    List<GaugeChartDataEntry> entries;
+  }
+
+  class GaugeChartDataEntry {
+    String name;
+    int value;
+  }
+}
+
+
+
+
+
+

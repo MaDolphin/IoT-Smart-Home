@@ -12,6 +12,9 @@ webpage beispieleDatentabellen {
             tab "Heatmap" {
                 link: "../heatmapcharts"
             }
+            tab "GaugeCharts" {
+              link: "../gaugecharts"
+            }
             tab "HorizontalBarCharts" {
                 link: "../horizontalbarcharts"
             }
