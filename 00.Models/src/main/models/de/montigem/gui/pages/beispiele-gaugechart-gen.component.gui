@@ -1,4 +1,4 @@
-webpage GaugeChart (socket LineGraph data, all GaugeChartData chartData) {
+webpage GaugeChart (socket GaugeChartData chartData) {
   column(nospace) {
     navigation "navigationBarLinks" {
       tab "Info" {

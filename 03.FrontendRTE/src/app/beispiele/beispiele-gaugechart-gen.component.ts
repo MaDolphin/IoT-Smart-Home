@@ -25,15 +25,53 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
     public transformedRealtimeData1: LineDataGroup[] = [];
     public transformedRealtimeData2: LineDataGroup[] = [];
 
+
+
+
+
+
+
+
+
+    public subscribechartDataSocket(): void {
+
+        if (this.chartDataSocket) {
+            this.subscriptions.push(this.chartDataSocket.subscribe(message => {
+                    let receivedData: GaugeChartDataDTO = TypedJSON.parse(message.data, GaugeChartDataDTO);
+                    this.chartData = this.transformSocketData(receivedData);
+                    console.log(receivedData);
+                    console.log(this.chartData);
+
+                    this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
+                    this.transformedRealtimeData2 = GaugeDummyData.getNewData(0, 500);
+                }, err =>
+                    console.error(err)
+            ));
+        } else {
+            console.error('Socket is not initialized. Initialize socket in the component constructor');
+        }
+
+    }
+
+
+
+
+
+
+
+
+
     public subscribedataSocket(): void {
-        if (this.dataSocket) {
-            this.subscriptions.push(this.dataSocket.subscribe(message => {
-                    let receivedData: LineGraphDTO = TypedJSON.parse(message.data, LineGraphDTO);
+        if (this.chartDataSocket) {
+            this.subscriptions.push(this.chartDataSocket.subscribe(message => {
+                    //let receivedData: GaugeChartDataDTO = TypedJSON.parse(message.data, GaugeChartDataDTO);
+                    //this.chartData = this.transformSocketData(receivedData);
+                    console.log("wrong");
                     //console.log(receivedData);
                     //console.log(this.transformSocketData(receivedData));
                     //this.data = this.transformSocketData(receivedData);
-                    this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
-                    this.transformedRealtimeData2 = GaugeDummyData.getNewData(0, 500);
+                    //this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
+                    //this.transformedRealtimeData2 = GaugeDummyData.getNewData(0, 500);
                     //this.chartData = GaugeDummyData.getNewData(0, 30);
                 }, err =>
                     console.error(err)
