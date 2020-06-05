@@ -19,21 +19,29 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
         protected _router: Router,
         protected _webSocketService: WebSocketService
     ) {
-        super(_commandRestService, _route, _router, _webSocketService);
+        super(_commandRestService, _route, _router/*, _webSocketService*/);
     }
 
     public transformedRealtimeData1: LineDataGroup[] = [];
     public transformedRealtimeData2: LineDataGroup[] = [];
 
 
+    ngOnInit() {
+        super.ngOnInit();
+        setInterval(() => this.reloadData(), 2000);
+    }
+
+    public reloadData(): void {
+        console.log(this.chartData);
+        if (this.chartData)
+            console.log(this.chartData.getData());
+
+        this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
+        this.transformedRealtimeData2 = GaugeDummyData.getNewData(150, 450);
+    }
 
 
-
-
-
-
-
-    public subscribechartDataSocket(): void {
+    /*public subscribechartDataSocket(): void {
 
         if (this.chartDataSocket) {
             this.subscriptions.push(this.chartDataSocket.subscribe(message => {
@@ -51,17 +59,10 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
             console.error('Socket is not initialized. Initialize socket in the component constructor');
         }
 
-    }
+    }*/
 
 
-
-
-
-
-
-
-
-    public subscribedataSocket(): void {
+    /*public subscribedataSocket(): void {
         if (this.chartDataSocket) {
             this.subscriptions.push(this.chartDataSocket.subscribe(message => {
                     //let receivedData: GaugeChartDataDTO = TypedJSON.parse(message.data, GaugeChartDataDTO);
@@ -79,5 +80,5 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
         } else {
             console.error('Socket is not initialized. Initialize socket in the component constructor');
         }
-    }
+    }*/
 }
