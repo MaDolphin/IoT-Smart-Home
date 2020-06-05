@@ -1,5 +1,5 @@
 webpage RidgelineChartSamplePage(
-    socket LineGraph lineChartData,
+    socket RidgelineChartData chartData1,
     //socket RidgelineGraph ridgeLineData,
     all RidgelineChartData chartData
     //all BeispieleLineChart lineChartData2

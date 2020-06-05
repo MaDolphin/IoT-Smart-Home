@@ -101,7 +101,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   private realtimeTest : boolean = true;
 
-  private useBackendData: boolean = false;
+  private useBackendData: boolean = true;
 
 
 
@@ -115,9 +115,9 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     this.color_stop_y_input = document.getElementById('color_stop_y_input') as HTMLInputElement;
   }
 
-  public subscribelineChartDataSocket(): void {
-    if (this.lineChartDataSocket) {
-      this.subscriptions.push(this.lineChartDataSocket.subscribe(message => {
+  public subscribechartData1Socket(): void {
+    if (this.chartData1Socket) {
+      this.subscriptions.push(this.chartData1Socket.subscribe(message => {
         this.data = this.getData(message);
         
       }, err =>
