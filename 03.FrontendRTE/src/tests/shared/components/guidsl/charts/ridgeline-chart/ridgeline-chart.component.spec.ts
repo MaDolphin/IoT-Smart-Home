@@ -32,9 +32,11 @@ describe('Components', () => {
                         let assumed_xy_min_max = [[-30,-5],[100,199]];
                         let assumed_x_range = 130;
                         let assumed_y_range = 204;
+                        let assumed_max_y_range_from_0 = 199;
                         expect(assumed_xy_min_max).toEqual(this.data.xy_min_max);
                         expect(assumed_x_range).toEqual(this.data.x_range);
                         expect(assumed_y_range).toEqual(this.data.y_range);
+                        expect(assumed_max_y_range_from_0).toEqual(this.data.max_y_range_from_0);
                     }
                 );
 

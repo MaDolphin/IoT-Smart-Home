@@ -93,7 +93,8 @@ export class Data
   private transformed_values : number[][][]; //Transformed data (for drawing)
 
   public x_range: number; //Range in x of data (range of min to max value)
-  public y_range: number; //Range in y of data (range of 0 to absolute maximum of min and max)
+  public y_range: number; //Range in y of data (range of min to max value)
+  public max_y_range_from_0: number; //Range in y of data (range of 0 to absolute maximum of min and max)
                           // so it equals either y_max or -y_min
   public xy_min_max: number[][]; //min and max value in x and y dimension of data values
   public x_start_value : number; //Smallest x value in data
@@ -204,8 +205,8 @@ export class Data
     //Get relevant data information
     this.xy_min_max = this.get_xy_min_max(this.values);
     this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
-    //this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
-    this.y_range = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
+    this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
+    this.max_y_range_from_0 = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
     this.x_start_value = this.xy_min_max[0][0];
   }
 
@@ -255,7 +256,7 @@ export class Data
     //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
     //Range in context with width/height gives a scale factor for the data, so all data have a uniform x and y scale in the end
     let width_scale = config.x_axis_width / this.x_range;
-    let height_scale = config.ridges_height / this.y_range;
+    let height_scale = config.ridges_height / this.max_y_range_from_0;
     for (let i = 0; i < this.values.length; ++i)
     {
       let y_from = config.y_axis_start + config.ridges_offset * i;
