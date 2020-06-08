@@ -9,6 +9,12 @@ webpage beispieleDatentabellen {
             tab "BarCharts" {
                 link: "../barcharts"
             }
+            tab "Heatmap" {
+                link: "../heatmapcharts"
+            }
+            tab "GaugeCharts" {
+              link: "../gaugecharts"
+            }
             tab "HorizontalBarCharts" {
                 link: "../horizontalbarcharts"
             }

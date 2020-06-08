@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="00.Models/src/main/models"/>
+	<classpathentry kind="src" path="01.Generator/src"/>
+	<classpathentry kind="src" path="02.OCL/src/main/java"/>
+	<classpathentry kind="src" path="04.BackendRTE/src/main/java"/>
+	<classpathentry kind="src" path="04.BackendRTE/src/test/java"/>
+	<classpathentry kind="src" path="08.WebSocket/src/main/java"/>
+	<classpathentry kind="lib" path="04.BackendRTE/lib/hibernate-commons-annotations-5.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="04.BackendRTE/lib/hibernate-core-5.2.4.Final.jar"/>
+	<classpathentry kind="lib" path="04.BackendRTE/lib/hibernate-java8-5.2.4.Final.jar"/>
+	<classpathentry kind="lib" path="04.BackendRTE/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="04.BackendRTE/lib/mysql-connector-java-6.0.5.jar"/>
+	<classpathentry kind="lib" path="04.BackendRTE/lib/openejb-client-4.7.4.jar"/>
+	<classpathentry kind="lib" path="04.BackendRTE/lib/se-commons-logging-1.7.8-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="04.BackendRTE/lib/simple-jndi-0.11.4.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

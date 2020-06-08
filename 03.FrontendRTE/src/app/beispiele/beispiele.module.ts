@@ -8,6 +8,8 @@ import { ButtonDirectivesModule, FormDirectivesModule, PanelDirectivesModule } f
 import { ContextMenuModule, ContextMenuService } from 'ngx-contextmenu';
 import { PipesModule } from '@shared/pipes';
 import { routing } from './beispiele.routing';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { BeispieleDatatablesGenComponent } from './beispiele-datatables-gen.component';
@@ -16,7 +18,9 @@ import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleHorizontalbarchartsGenComponent } from "@targetgui/beispiele-horizontalbarcharts-gen.component/beispiele-horizontalbarcharts-gen.component";
 import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-gen.component/beispiele-piecharts-gen.component";
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
+import { BeispieleHeatmapchartsGenComponent } from "./beispiele-heatmapcharts-gen.component";
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
+import { BeispieleGaugechartGenComponent } from "./beispiele-gaugechart-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 import { BeispieleDensitychartsGenComponent } from "./beispiele-densitycharts-gen.component";
@@ -33,6 +37,7 @@ import { BeispieleLayout3GenComponent } from "@targetgui/beispiele-layout-3-gen.
 import { BeispieleLayout4GenComponent } from "@targetgui/beispiele-layout-4-gen.component/beispiele-layout-4-gen.component";
 import { BeispieleLayout5GenComponent } from "@targetgui/beispiele-layout-5-gen.component/beispiele-layout-5-gen.component";
 import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-other-gen.component/beispiele-input-other-gen.component";
+import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +49,7 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispieleHorizontalbarchartsGenComponent,
     BeispielePiechartsGenComponent,
     BeispieleTimelinechartsGenComponent,
+    BeispieleHeatmapchartsGenComponent,
     BeispieleBarchartsGenComponent,
     BeispieleLinechartsGenComponent,
     BeispieleDensitychartsGenComponent,
@@ -58,7 +64,9 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispieleLayout3GenComponent,
     BeispieleLayout4GenComponent,
     BeispieleLayout5GenComponent,
-    BeispieleInputOtherGenComponent
+    BeispieleInputOtherGenComponent,
+    BeispieleGaugechartGenComponent,
+    BeispieleDensitychartGenComponent
   ],
   imports: [
     MatIconModule,
@@ -70,9 +78,12 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     InputModule,
     GuiDslComponentsModule,
     PanelDirectivesModule,
+    NgxChartsModule,
+//    BrowserAnimationsModule,
     routing,
     PipesModule,
     ContextMenuModule,
+    NgxChartsModule
   ],
   providers: [
     ContextMenuService,

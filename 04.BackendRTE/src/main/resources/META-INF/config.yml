@@ -1,7 +1,7 @@
 # (c) https://github.com/MontiCore/monticore  
 # Development options
 DEVELOPER_MODE: "false"
-SEND_MAILS: "false"
+SEND_MAILS: "true"
 
 # User settings
 DEFAULT_CURRENCY: "EUR"

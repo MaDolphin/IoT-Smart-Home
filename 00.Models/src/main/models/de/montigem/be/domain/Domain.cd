@@ -40,6 +40,19 @@ classdiagram Domain{
     long wert;
   }
 
+  class CPSError{
+      Optional<String> sensorId;
+      String errCode;
+      String errMsg;
+      String timeStamp;
+      String source;
+      List<String> recipients;
+  }
+
+  class EmailRecipients{
+    List<String> recipients;
+  }
+
   class AlarmCtrl{
     <<dbColumn="unique=true">>String serial = "0";
     int smokeCtrlMax = 0;
@@ -82,7 +95,10 @@ classdiagram Domain{
   enum SensorType{
     TEMPERATURE,
     ANGLE,
-    PERCENT;
+    PERCENT,
+    LIGHT,
+    CO2,
+    MOTION;
   }
 
   enum ZahlenTyp{

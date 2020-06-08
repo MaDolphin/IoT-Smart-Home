@@ -1,0 +1,52 @@
+/* (c) https://github.com/MontiCore/monticore */
+webpage HeatmapCharts (socket LineGraph data, all MotionSensorData motionsensordata){
+
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Info" {
+              link: "../charts"
+            }
+            tab "BarCharts" {
+              link: "../barcharts/1"
+            }
+            tab "HorizontalBarCharts" {
+                link: "../horizontalbarcharts"
+            }
+            tab "TimeLineCharts" {
+                link: "../timelinecharts/1"
+            }
+            tab "PieCharts" {
+              link: "../piecharts/1"
+            }
+            tab "LineCharts" {
+              link: "../linecharts"
+            }
+            tab "HeatmapCharts" {
+                link: "./"
+              }
+        }
+    }
+
+    row (space-evenly, spaceabove) {
+        container(80%, minwidth : 250px, padding-right : 5px, padding-left : 5px) {
+            card {
+                head{
+                    row(stretch) {
+                        label "Bewegungsmeldungen"
+                    }
+                }
+                body {
+
+                    html {"
+                        <heatmap-chart [data]=\"motionsensordata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\">
+						</heatmap-chart>
+					  "}
+
+                }
+            }
+        }
+
+        
+    }
+
+}

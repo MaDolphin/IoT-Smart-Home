@@ -6,4 +6,5 @@ public enum MessageHandlerType {
   CommandManager,
   Sensor,
   None,
+  Add,
 }

@@ -4,6 +4,7 @@ import { BeispieleImagesGenComponent } from './beispiele-images-gen.component';
 import { BeispieleLayoutGenComponent } from './beispiele-layout-gen.component';
 import { BeispieleHorizontalbarchartsGenComponent } from "@targetgui/beispiele-horizontalbarcharts-gen.component/beispiele-horizontalbarcharts-gen.component";
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
+import { BeispieleHeatmapchartsGenComponent } from "./beispiele-heatmapcharts-gen.component";
 import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-gen.component/beispiele-piecharts-gen.component";
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
@@ -16,6 +17,7 @@ import { BeispieleButtonsGenComponent } from "./beispiele-buttons-gen.component"
 import { BeispieleTextinputsGenComponent } from "./beispiele-textinputs-gen.component";
 import { BeispieleAutocompletesAndDropdownsGenComponent } from "./beispiele-autocompletes-and-dropdowns-gen.component";
 import { BeispieleLabelsGenComponent } from "./beispiele-labels-gen.component";
+import { BeispieleGaugechartGenComponent } from "./beispiele-gaugechart-gen.component";
 import { BeispieleLayout1GenComponent } from "@targetgui/beispiele-layout-1-gen.component/beispiele-layout-1-gen.component";
 import { BeispieleLayout2GenComponent } from "@targetgui/beispiele-layout-2-gen.component/beispiele-layout-2-gen.component";
 import { BeispieleLayout3GenComponent } from "@targetgui/beispiele-layout-3-gen.component/beispiele-layout-3-gen.component";
@@ -62,12 +64,20 @@ export const routes: Routes = [
     component: BeispieleBarchartsGenComponent
   },
   {
+    path: 'heatmapcharts',
+    component: BeispieleHeatmapchartsGenComponent
+  },
+  {
     path: 'piecharts/:id',
     component: BeispielePiechartsGenComponent
   },
   {
     path: 'timelinecharts/:id',
     component: BeispieleTimelinechartsGenComponent
+  },
+  {
+    path: 'gaugecharts',
+    component: BeispieleGaugechartGenComponent
   },
   {
     path: 'input',
