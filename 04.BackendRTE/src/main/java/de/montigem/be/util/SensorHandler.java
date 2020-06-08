@@ -5,6 +5,8 @@ package de.montigem.be.util;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
 import de.montigem.be.marshalling.JsonMarshal;
 import de.montigem.be.service.WebSocketService;
+import de.montigem.be.system.sensor.dtos.GaugeChartDataDTO;
+import de.montigem.be.system.sensor.dtos.GaugeChartDataEntryDTO;
 import de.montigem.be.system.sensor.dtos.LineGraphDTO;
 import de.montigem.be.system.sensor.dtos.LineGraphEntryDTO;
 import de.se_rwth.commons.logging.Log;
@@ -51,18 +53,47 @@ public class SensorHandler {
 
     for (Pair<SensorType, Session> sensor : sensors) {
       if (currentTime.getSecond() % getSecondsForSensorType(sensor.getLeft()) == 0) {
-        sendToSensor(daoLib, WebSocketService.getJWT(sensor.getRight()).getResource(), currentTime, sensor);
+        switch (sensor.getLeft()){
+          case TEMPERATURE:
+            sendToSensor_GaugeChart(daoLib, WebSocketService.getJWT(sensor.getRight()).getResource(), currentTime, sensor);
+            break;
+          case LIGHT:
+            break;
+          case ANGLE:
+            break;
+          case CO2:
+            break;
+          case MOTION:
+            break;
+          case PERCENT:
+            break;
+          default:
+            sendToSensor(daoLib, WebSocketService.getJWT(sensor.getRight()).getResource(), currentTime, sensor);
+            break;
+        }
+//        sendToSensor(daoLib, WebSocketService.getJWT(sensor.getRight()).getResource(), currentTime, sensor);
       }
     }
   }
 
   private static void sendToSensor(DAOLib daoLib, String resource, ZonedDateTime currentTime, Pair<SensorType, Session> sensor) {
     List<LineGraphEntryDTO> values = daoLib.getSensorDAO().getListOfSensorIdsForType(resource, sensor.getLeft()).parallelStream()
-        .map(sId -> daoLib.getSensorDAO().getValueInTimeById(resource, currentTime, getSecondsForSensorType(sensor.getLeft()), sId))
-        .filter(Optional::isPresent).map(Optional::get)
-        .collect(Collectors.toList());
+            .map(sId -> daoLib.getSensorDAO().getValueInTimeById(resource, currentTime, getSecondsForSensorType(sensor.getLeft()), sId))
+            .filter(Optional::isPresent).map(Optional::get)
+            .collect(Collectors.toList());
 
     String dto = JsonMarshal.getInstance().marshal(new LineGraphDTO(0, values, currentTime));
+    if (sensor.getRight().isOpen()) {
+      sensor.getRight().getAsyncRemote().sendText(dto);
+    }
+  }
+  private static void sendToSensor_GaugeChart(DAOLib daoLib, String resource, ZonedDateTime currentTime, Pair<SensorType, Session> sensor) {
+    List<GaugeChartDataEntryDTO> values = daoLib.getSensorDAO().getListOfSensorIdsForType(resource, sensor.getLeft()).parallelStream()
+            .map(sId -> daoLib.getSensorDAO().getValueInTimeById_GaugeChart(resource, currentTime, getSecondsForSensorType(sensor.getLeft()), sId))
+            .filter(Optional::isPresent).map(Optional::get)
+            .collect(Collectors.toList());
+
+    String dto = JsonMarshal.getInstance().marshal(new GaugeChartDataDTO(0, values));
     if (sensor.getRight().isOpen()) {
       sensor.getRight().getAsyncRemote().sendText(dto);
     }
