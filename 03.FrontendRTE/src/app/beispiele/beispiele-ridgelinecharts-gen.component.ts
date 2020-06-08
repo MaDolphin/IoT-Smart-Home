@@ -10,6 +10,10 @@ import { RidgelineChartComponent } from "@components/charts/ridgeline-chart/ridg
 import { BeispieleRidgelinechartsGenComponentTOP } from "@targetgui/beispiele-ridgelinecharts-gen.component/beispiele-ridgelinecharts-gen.component-top";
 import { WebSocketService } from '@shared/architecture/services/websocket.service';
 
+
+import { TypedJSON } from '@upe/typedjson';
+import { RidgelineChartDataDTO } from '@ridgelinechartdata-dto/ridgelinechartdata.dto';
+
 /**
  * See BeispielePieChartDTO.java, BeispielePieChartDTOLoader.java for more details on how to use PieCharts
  */
@@ -37,7 +41,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   private realtimeTest : boolean = true;
 
-  private useBackendData: boolean = false;
+  private useBackendData: boolean = true;
 
 
 
@@ -134,11 +138,12 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   
 // ---------------------------------------------- Data Management ----------------------------------------------
   
+
+
   public subscribechartData1Socket(): void {
     if (this.chartData1Socket) {
       this.subscriptions.push(this.chartData1Socket.subscribe(message => {
         this.data = this.getData(message);
-        
       }, err =>
         console.log(err)
       ));
@@ -150,10 +155,11 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   
   public getData(message){
-    if (this.useBackendData){
-      console.log(message.data);
+    if (this.useBackendData){ // Currently sent via REST (all) and not via websocket
       // Transforme Data to that which is necessary here
-      return [];
+      let data = this.transformDTO(this.chartData);
+      this.labels = data[1];
+      return data[0];
 
     } else {
       // NOTE: ONLY FOR TESTING (QUICK AND DIRTY)
@@ -179,6 +185,26 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
       return res;
     }
+  }
+
+  /**
+   * Transforms data
+   * @param input a RidgelineChartDataDTO object
+   * @return a tuple consisting of the values (number[][][]) and the y-labels (string[])
+   */
+  public transformDTO(input: RidgelineChartDataDTO){
+    let values_result = [];
+    let labels_result = [];
+    for (const ridgelineDataDTO of input.ridgelines){
+      labels_result.push(ridgelineDataDTO.label);
+
+      let ridge = [];
+      for (const entry of ridgelineDataDTO.entries){
+        ridge.push([entry.x, entry.y]);
+      }
+      values_result.push(ridge);
+    }
+    return [values_result, labels_result];
   }
 
 
