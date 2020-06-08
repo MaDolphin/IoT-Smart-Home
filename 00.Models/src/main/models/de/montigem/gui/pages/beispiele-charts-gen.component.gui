@@ -7,10 +7,13 @@ webpage beispieleDatentabellen {
                 link: "./"
             }
             tab "BarCharts" {
-                link: "../barcharts/1"
+                link: "../barcharts"
             }
             tab "Heatmap" {
                 link: "../heatmapcharts"
+            }
+            tab "GaugeCharts" {
+              link: "../gaugecharts"
             }
             tab "HorizontalBarCharts" {
                 link: "../horizontalbarcharts"
@@ -21,8 +24,8 @@ webpage beispieleDatentabellen {
             tab "PieCharts" {
               link: "../piecharts/1"
             }
-            tab "LineCharts" {
-              link: "../linecharts"
+            tab "DensityChart" {
+              link: "../densitycharts"
             }
             tab "Ridgeline" {
               link: "../ridgelinecharts"

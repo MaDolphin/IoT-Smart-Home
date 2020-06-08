@@ -20,9 +20,11 @@ import { BeispielePiechartsGenComponent } from "@targetgui/beispiele-piecharts-g
 import { BeispieleTimelinechartsGenComponent } from "./beispiele-timelinecharts-gen.component";
 import { BeispieleHeatmapchartsGenComponent } from "./beispiele-heatmapcharts-gen.component";
 import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.component";
+import { BeispieleGaugechartGenComponent } from "./beispiele-gaugechart-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
 import { BeispieleRidgelinechartsGenComponent } from "./beispiele-ridgelinecharts-gen.component";
+import { BeispieleDensitychartsGenComponent } from "./beispiele-densitycharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
 import { BeispieleInputGenComponent } from "@targetgui/beispiele-input-gen.component/beispiele-input-gen.component";
@@ -36,6 +38,7 @@ import { BeispieleLayout3GenComponent } from "@targetgui/beispiele-layout-3-gen.
 import { BeispieleLayout4GenComponent } from "@targetgui/beispiele-layout-4-gen.component/beispiele-layout-4-gen.component";
 import { BeispieleLayout5GenComponent } from "@targetgui/beispiele-layout-5-gen.component/beispiele-layout-5-gen.component";
 import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-other-gen.component/beispiele-input-other-gen.component";
+import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,7 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispieleBarchartsGenComponent,
     BeispieleLinechartsGenComponent,
     BeispieleRidgelinechartsGenComponent,
+    BeispieleDensitychartsGenComponent,
     BeispieleRowdatatablesGenComponent,
     BeispieleDatatablesInfoGenComponent,
     BeispieleButtonsGenComponent,
@@ -62,7 +66,9 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispieleLayout3GenComponent,
     BeispieleLayout4GenComponent,
     BeispieleLayout5GenComponent,
-    BeispieleInputOtherGenComponent
+    BeispieleInputOtherGenComponent,
+    BeispieleGaugechartGenComponent,
+    BeispieleDensitychartGenComponent
   ],
   imports: [
     MatIconModule,
@@ -79,6 +85,7 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     routing,
     PipesModule,
     ContextMenuModule,
+    NgxChartsModule
   ],
   providers: [
     ContextMenuService,

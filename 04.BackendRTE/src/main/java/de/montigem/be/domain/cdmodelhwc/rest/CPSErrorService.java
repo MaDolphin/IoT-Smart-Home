@@ -33,7 +33,7 @@ public class CPSErrorService {
 
     /**
      * @Description: retrieving CPSError messages
-     * POST http://localhost:8080/montigem-be/api/domain/receive-json/cppserror
+     * POST http://localhost:8080/montigem-be/api/domain/receive-json/cpserror
      * Example POST-request body as json:
      * {"id":1, "code":"errcode", "msg":"cpserr", "timeStamp":"01-01-2020 08:00:00", "recipients":"email1@mail.tld; email2@mail.tld; email3@mail.tld"}
      * @Param: [json]
@@ -41,7 +41,7 @@ public class CPSErrorService {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/cppserror")
+    @Path("/cpserror")
     public Response receiveError(String json){
         try {
             JsonElement element = new Gson().fromJson(json, JsonElement.class);

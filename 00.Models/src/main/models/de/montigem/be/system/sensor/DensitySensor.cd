@@ -1,0 +1,20 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+
+package de.montigem.be.system.sensor;
+
+import de.montigem.be.domain.Domain.*;
+import java.time.ZonedDateTime;
+
+classdiagram DensitySensor {
+
+  class DensitySensorEntry {
+      String name;
+      float value;
+    }
+    class DensitySensorData {
+      List<DensitySensorEntry> entries;
+    }
+}
+
+

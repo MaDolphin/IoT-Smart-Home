@@ -27,7 +27,9 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
 import { RidgelineChartComponent } from './charts/ridgeline-chart/ridgeline-chart.component';
 import { HeatmapChartComponent } from './charts/heatmap-chart/heatmap-chart.component';
+import { DensityChartComponent } from './charts/density-chart/density-chart.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { GaugeChartComponent } from './charts/gauge-chart/gauge-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
@@ -45,7 +47,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     HorizontalBarChartComponent,
     LineChartComponent,
     RidgelineChartComponent,
+    DensityChartComponent,
     HeatmapChartComponent,
+    GaugeChartComponent,
     BudgetWidgetComponent,
   ],
   imports: [
@@ -85,7 +89,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     LineChartComponent,
     RidgelineChartComponent,
     HeatmapChartComponent,
-    BudgetWidgetComponent
+    BudgetWidgetComponent,
+    GaugeChartComponent,
+    DensityChartComponent,
   ],
   providers: [
   ],
