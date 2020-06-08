@@ -1,7 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LineDataGroup} from "@components/charts/line-chart/line-chart.component";
-import {GaugeDummyData} from "@components/charts/gauge-chart/gauge-dummy-data";
-import {GaugeChartDataDTO} from "@targetdtos/gaugechartdata.dto";
 import {GaugeChartDataEntryDTO} from "@targetdtos/gaugechartdataentry.dto";
 
 @Component({
