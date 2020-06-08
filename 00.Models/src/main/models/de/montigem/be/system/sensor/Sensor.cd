@@ -17,6 +17,7 @@ classdiagram Sensor {
     List<LineGraphEntry> entries;
     ZonedDateTime timestamp;
   }
+
 }
 
 

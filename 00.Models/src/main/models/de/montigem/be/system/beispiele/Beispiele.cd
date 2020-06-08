@@ -10,10 +10,27 @@ classdiagram Beispiele {
     int startjahr;
     int abschlussjahr;
   }
-// -------- Heatmap Chart Example --------
+
+  // -------- Heatmap Chart Example --------
   class BeispieleHeatmapChart {
-   
+
   }
+
+  // -------- Density Chart Example --------
+  class BeispieleDensityChart {
+    List<BeispieleDensityChartEntry> entries;
+  }
+
+  class BeispieleDensityChartEntry {
+    String label;
+    List<BeispieleDensityChartEntryData> dataEntries;
+  }
+
+  class BeispieleDensityChartEntryData {
+    int x;
+    int y;
+  }
+
   // -------- Line Chart Example --------
   class BeispieleLineChart {
     List<BeispieleLineChartEntry> entries;
