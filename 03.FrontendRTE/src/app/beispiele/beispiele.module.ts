@@ -37,6 +37,7 @@ import { BeispieleLayout3GenComponent } from "@targetgui/beispiele-layout-3-gen.
 import { BeispieleLayout4GenComponent } from "@targetgui/beispiele-layout-4-gen.component/beispiele-layout-4-gen.component";
 import { BeispieleLayout5GenComponent } from "@targetgui/beispiele-layout-5-gen.component/beispiele-layout-5-gen.component";
 import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-other-gen.component/beispiele-input-other-gen.component";
+import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { BeispieleInputOtherGenComponent } from "@targetgui/beispiele-input-othe
     BeispieleLayout4GenComponent,
     BeispieleLayout5GenComponent,
     BeispieleInputOtherGenComponent,
-    BeispieleGaugechartGenComponent
+    BeispieleGaugechartGenComponent,
+    BeispieleDensitychartGenComponent
   ],
   imports: [
     MatIconModule,
