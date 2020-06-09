@@ -64,6 +64,7 @@ webpage RidgelineChartSamplePage(
                   [smooth]=\"false\"
                   [overshoot]=30
                   [rawData]=data
+                  [overwrite_data]=\"false\"
                   [labels]=labels
                   [font_size]=\"12\"
                   [color_gradients]=color_gradients>

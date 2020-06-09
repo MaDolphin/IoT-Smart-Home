@@ -105,6 +105,10 @@ export class Data
   //Convenience values
   public length: number;
 
+  //Values for updating data - store updated data until it gets merged with old data, check if old data needs to be transformed as well
+  private update_values : number[][][];
+  private update_old_data : boolean;
+
   /**
    * For all given ridge-lines this function sorts the points in each ridge-line
    * by the x-coordinate (rising)
@@ -208,6 +212,50 @@ export class Data
     this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
     this.max_y_range_from_0 = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
     this.x_start_value = this.xy_min_max[0][0];
+    this.update_old_data = false; //True only if data is updated and xy_min_max changes
+  }
+
+  /**
+   * This function updates all variables of this class dependent on the newly added data, and stores it for merging later upon data transform
+   * @param new_data The data to add to all ridge-line charts.
+   */
+  public update(new_data: number[][][]){
+    if (new_data.length > 0)
+    {
+      //Store data
+      this.update_values = new_data;
+      if (new_data.length > this.values.length)
+      {
+        this.length = new_data.length;
+      }
+
+      //Sort data by x for drawing
+      this.sort_by_x(this.update_values);
+
+      //Update all relevant data information
+      let updated_xy_min_max = this.get_xy_min_max(this.update_values);
+      //Check if the transformation will have to change - in that case, old data needs to be transformed again as well
+      if (updated_xy_min_max[0][0] < this.xy_min_max[0][0]
+        || updated_xy_min_max[0][1] < this.xy_min_max[0][1]
+        || updated_xy_min_max[1][0] > this.xy_min_max[1][0]
+        || updated_xy_min_max[1][1] > this.xy_min_max[1][1]
+      )
+      {
+        this.update_old_data = true;
+      }
+
+      //First update xy_min_max if required
+      this.xy_min_max[0][0] = Math.min(this.xy_min_max[0][0], updated_xy_min_max[0][0]);
+      this.xy_min_max[0][1] = Math.min(this.xy_min_max[0][1], updated_xy_min_max[0][1]);
+      this.xy_min_max[1][0] = Math.max(this.xy_min_max[1][0], updated_xy_min_max[1][0]);
+      this.xy_min_max[1][1] = Math.max(this.xy_min_max[1][1], updated_xy_min_max[1][1]);
+
+      //Update other data information based on updated xy_min_max
+      this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
+      this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
+      this.max_y_range_from_0 = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
+      this.x_start_value = this.xy_min_max[0][0];
+    }
   }
 
 
@@ -304,6 +352,105 @@ export class Data
     }
   }
 
+  /**
+   * For performance reasons: Perform transformation on added / old data only where necessary
+   * Transform data to start at or after x_start value regarding the (same) coordinate system,
+   * scale the coordinate system to x_range/y_range over a given pixel width/height, start at
+   * some (x,y)-pixel using translate_x/_y
+   * Also invert y value for drawing
+   */
+  public transfrom_and_migrate_updated_data(config : Ridgeline_Config, color_gradients : [string, number][])
+  {
+    if (this.update_values.length > 0)
+    {
+      //Merge with values
+      for (let i = 0; i < this.update_values.length; ++i)
+      {
+        //Merge from point where x data starts in new data, else add a new entry if updated data has more rows
+        if (i < this.values.length)
+        {
+          if (this.update_values[i].length > 0)
+          {
+            //Delete every value in this.values (old data) with an x value higher or equal to the added data's x values
+            let lowest_x = this.update_values[i][0][0];
+            let obsolete_index = this.values[i].findIndex((element) => element[0] >= lowest_x);
+            if (obsolete_index >= 0)
+            {
+              this.values[i].length = obsolete_index;
+            }
+
+            //Then add new data
+            for (let j = 0; j < this.update_values[i].length; ++j)
+            {
+              this.values[i].push(this.update_values[i][j]);
+            }
+          }
+        }
+        else
+        {
+          this.values[i] = this.update_values[i];
+        }
+      }
+
+      //If old data needs to be updated as well, just transform everything again
+      if (this.update_old_data)
+      {
+        this.transform_data(config, color_gradients);
+        this.update_old_data = false;
+        this.update_values = [];
+      }
+      else
+      {
+        //Just transform new data, then add it to transformed old data
+        let transformed_new_data : number[][][] = [];
+        //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
+        //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
+        //Range in context with width/height gives a scale factor for the data, so all data have a uniform x and y scale in the end
+        let width_scale = config.x_axis_width / this.x_range;
+        let height_scale = config.ridges_height / this.max_y_range_from_0;
+        for (let i = 0; i < this.update_values.length; ++i)
+        {
+          let y_from = config.y_axis_start + config.ridges_offset * i;
+          transformed_new_data[i] = this.update_values[i].map(
+            (item: number[]) =>
+            {
+              return [(item[0] - this.x_start_value) * width_scale + config.x_axis_start, -(item[1] * height_scale) + y_from];
+            }
+          );
+        }
+
+        //Then just merge with updated values
+        for (let i = 0; i < transformed_new_data.length; ++i)
+        {
+          //Merge from point where x data starts in new data, else add a new entry if updated data has more rows
+          if (i < this.transformed_values.length)
+          {
+            if (transformed_new_data[i].length > 0)
+            {
+              //Delete every value in this.transformed values (old data) with an x value higher or equal to the added data's x values
+              let lowest_x = transformed_new_data[i][0][0];
+              let obsolete_index = this.transformed_values[i].findIndex((element) => element[0] >= lowest_x);
+              if (obsolete_index >= 0)
+              {
+                this.transformed_values[i].length = obsolete_index;
+              }
+
+              //Then add new data
+              for (let j = 0; j < transformed_new_data[i].length; ++j)
+              {
+                this.transformed_values[i].push(transformed_new_data[i][j]);
+              }
+            }
+          }
+          else
+          {
+            this.transformed_values[i] = transformed_new_data[i];
+          }
+        }
+      }
+    }
+  }
+
   private sort_by_y_gradient(gradients : [string, number][])
   {
     gradients.sort(
@@ -339,6 +486,7 @@ export class RidgelineChartComponent implements OnInit {
   @Input() labels: string[]; // The labels of the ridges
   @Input() font_size: string;
   @Input() color_gradients: [string, number][]; //Color gradients: [y_value, color_string]
+  @Input() overwrite_data: boolean; //If true, overwrite data on set, else just update/merge it with old data; also has an influence on further data processing
   _rawData: number[][][] = [];
   
   //Input function and value for max y value of ridgeline color gradient
@@ -356,8 +504,8 @@ export class RidgelineChartComponent implements OnInit {
 
   //Ridgeline data and configuration
   private data : Data = new Data();
-  private config: Ridgeline_Config;
-
+  private config: Ridgeline_Config = new Ridgeline_Config();
+  private had_data_before: boolean = false; //Remember if data has ever been set before (for first-time setup)
 
   /*
   @Input() 
@@ -367,8 +515,22 @@ export class RidgelineChartComponent implements OnInit {
 
   @Input()
   public set rawData(rawData: number[][][]){
+    this.had_data_before = this._rawData.length > 0;
     this._rawData = rawData;
-    this.data.setup(rawData);
+
+    //Change behaviour depending on whether we only add data and want to perform our analysis only on that, or whether we actually want to reset the previously set data and overwrite everything
+    //Also: First-time behaviour (if no data was set previously) is the same
+    if (this.overwrite_data || !this.had_data_before)
+    {
+      this.data.setup(rawData);
+    }
+    else
+    {
+      //This is less CPU-expensive - we set the data block that needs to be updated, which can change e.g. the x-range of our data
+      this.data.update(rawData);
+    }
+
+    //Transformation of the (new) data now depends e.g. on the size on the canvas and thus is done within UI functions
   }
 
 
@@ -409,9 +571,6 @@ export class RidgelineChartComponent implements OnInit {
     this.canvas.setAttribute("height", "100%");
     this.ctx = this.canvas.getContext('2d');
 
-    // Setup all necessary parameters for drawing
-    this.config = new Ridgeline_Config();
-
     // Set up paperjs with the given canvas
     paper.setup(this.canvas);
 
@@ -433,14 +592,23 @@ export class RidgelineChartComponent implements OnInit {
       }
       frame_count = 1;
 
-      // Should not be called too often
-      if (this.hasData()){
-        //this.data.setup(this.rawData);
-
-        paper.project.clear();
-
+      //Update or set data if required
+      if (this.overwrite_data || !this.had_data_before)
+      {
         this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot);
         this.data.transform_data(this.config, this.color_gradients);
+      }
+      else
+      {
+        //Thus, we need to update the configuration again
+        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot);
+        //After that, we just need to transform the updated data and have to merge it with the already existing data
+        this.data.transfrom_and_migrate_updated_data(this.config, this.color_gradients);
+      }
+
+      // Should not be called too often
+      if (this.hasData()){
+        paper.project.clear();
 
         //Draw grid for data
         this.plot_grid(this.labels, this.data, this.config);
