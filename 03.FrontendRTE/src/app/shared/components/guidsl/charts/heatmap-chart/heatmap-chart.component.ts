@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 import {Component, HostBinding, Input, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 import { HeatMapComponent } from '@swimlane/ngx-charts/release/heat-map';
+import { interval } from 'rxjs';
 
 // A Wrapper for ngx-charts-heat-map
 
@@ -16,8 +17,7 @@ export class HeatmapChartComponent implements OnChanges {
 
   //Redistribute timestamps if data changes
   ngOnChanges(changes: SimpleChanges) {
-    this.computed_data = this.rearrange_array(this.data);
-  
+    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);
   }
   //Set minimum and maximum Column numbers
   private min_num_seperations = 1;
@@ -42,11 +42,12 @@ export class HeatmapChartComponent implements OnChanges {
     if(value<this.min_num_seperations) {this.num_seperations = this.min_num_seperations;}
     else if(value > this.max_num_seperations){this.num_seperations = this.max_num_seperations;}
     else {this.num_seperations = value;}
-    this.computed_data = this.rearrange_array(this.data);    
+    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);    
   }
 
   //Creates an [{"name",series:["name","value"]}] array from an [{"name", "timestamp"}] array by splitting the time into num_seperators equal periods and couting amount of entries for each period & sensor name
   rearrange_array(somedata) {
+    
     //Earliest timestamp
     var min = somedata[0].timestamp;
     //Latest timestamp
