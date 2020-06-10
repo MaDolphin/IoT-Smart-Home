@@ -67,7 +67,9 @@ webpage RidgelineChartSamplePage(
                   [overwrite_data]=\"false\"
                   [labels]=labels
                   [font_size]=\"12\"
-                  [color_gradients]=color_gradients>
+                  [color_gradients]=color_gradients
+                  [x_is_time]=\"true\"
+                  [show_date]=\"false\">
                 </ridgeline-chart>
               "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name

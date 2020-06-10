@@ -144,6 +144,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     if (this.chartData1Socket) {
       this.subscriptions.push(this.chartData1Socket.subscribe(message => {
         this.data = this.getData(message);
+        console.log(this.data);
       }, err =>
         console.log(err)
       ));

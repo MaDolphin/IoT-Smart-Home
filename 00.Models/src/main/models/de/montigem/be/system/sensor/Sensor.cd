@@ -20,8 +20,8 @@ classdiagram Sensor {
 
 
   class RidgelineDataEntry {
-    int x;
-    int y;
+    double x;
+    double y;
   }
 
   class RidgelineData {

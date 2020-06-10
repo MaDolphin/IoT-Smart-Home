@@ -32,6 +32,8 @@ class Ridgeline_Config {
    * @param canvas_width 
    * @param canvas_height 
    * @param overshoot     how far do one ridge overlaps into another one (in percentage)
+   * @param space_for_two_lines_of_labels Is true if space for two lines of the x-axis labels should be reserved
+   *                                      Otherwise only space for one line is reserved
    */
   public set_params(
     labels : string[],
@@ -41,16 +43,21 @@ class Ridgeline_Config {
     canvas_height: number, 
     grid_line_end_x: number, 
     font_size: string,
-    overshoot: number)
+    overshoot: number,
+    space_for_two_lines_of_labels: boolean)
   {
+    let abs_space_x_axis_legend = 10;
+    if (space_for_two_lines_of_labels){
+      abs_space_x_axis_legend = 30;
+    }
                                     // divide by everything which has to fit into the canvas space
                                     // i.e. the number of ridges (dat_rows), the space which might be needed for the overshoot
                                     // at the top and the bottom (2*overshoot/100), and the additional space for negative values
                                     // needed at the bottom (+1)
                                     // At the moment this covers the axis-description implicitly
-                          // Substract some space which is used by y-axis-legend
-    this.ridges_offset = (canvas_height - 10) / (data_rows + 2 * overshoot/100 + 1); // Space after which the next ridge begins
-    this.ridges_height = (canvas_height - 10) / (data_rows + 2 * overshoot/100 + 1) * (1 + overshoot/100); 
+                          // Substract some space which is used by x-axis-legend
+    this.ridges_offset = (canvas_height - abs_space_x_axis_legend) / (data_rows + 2 * overshoot/100 + 1); // Space after which the next ridge begins
+    this.ridges_height = (canvas_height - abs_space_x_axis_legend) / (data_rows + 2 * overshoot/100 + 1) * (1 + overshoot/100); 
 
     //Compute line start from font size and biggest label
     //Text scale calculation -------------------------------------------------
@@ -149,6 +156,7 @@ export class Data
   {
     //Store as [[min_x, min_y],[max_x, max_y]]
     let result : number[][] = [[0,0],[0,0]];
+    let initialized = false;
 
     for (let data of data_array)
     {
@@ -156,10 +164,18 @@ export class Data
       let max = this.get_max_x_y(data);
 
       //Store as [[min_x, min_y],[max_x, max_y]]
-      result[0][0] = Math.min(result[0][0], min[0]);
-      result[0][1] = Math.min(result[0][1], min[1]);
-      result[1][0] = Math.max(result[1][0], max[0]);
-      result[1][1] = Math.max(result[1][1], max[1]);
+      if (!initialized){
+        result[0][0] = min[0];
+        result[0][1] = min[1];
+        result[1][0] = max[0];
+        result[1][1] = max[1];
+        initialized = true;
+      } else {
+        result[0][0] = Math.min(result[0][0], min[0]);
+        result[0][1] = Math.min(result[0][1], min[1]);
+        result[1][0] = Math.max(result[1][0], max[0]);
+        result[1][1] = Math.max(result[1][1], max[1]);
+      }
     }
 
     return result;
@@ -364,7 +380,7 @@ export class Data
     if (this.update_values.length > 0)
     {
       //Merge with values
-      for (let i = 0; i < this.update_values.length; ++i)
+      for (let i = 0; i < this.update_values.length; ++i) // iterate over ridges
       {
         //Merge from point where x data starts in new data, else add a new entry if updated data has more rows
         if (i < this.values.length)
@@ -487,6 +503,9 @@ export class RidgelineChartComponent implements OnInit {
   @Input() font_size: string;
   @Input() color_gradients: [string, number][]; //Color gradients: [y_value, color_string]
   @Input() overwrite_data: boolean; //If true, overwrite data on set, else just update/merge it with old data; also has an influence on further data processing
+  @Input() x_is_time: boolean=true;
+  @Input() show_date: boolean=false; // Only relevant, if x_is_time==true;
+  @Input() relative_x_precision: number=2;
   _rawData: number[][][] = [];
   
   //Input function and value for max y value of ridgeline color gradient
@@ -595,13 +614,13 @@ export class RidgelineChartComponent implements OnInit {
       //Update or set data if required
       if (this.overwrite_data || !this.had_data_before)
       {
-        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot);
+        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date);
         this.data.transform_data(this.config, this.color_gradients);
       }
       else
       {
         //Thus, we need to update the configuration again
-        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot);
+        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date);
         //After that, we just need to transform the updated data and have to merge it with the already existing data
         this.data.transfrom_and_migrate_updated_data(this.config, this.color_gradients);
       }
@@ -668,6 +687,8 @@ export class RidgelineChartComponent implements OnInit {
     //Vertical lines and labels (TODO)
     let y_bottom_line_end = line_start_y + offset_horizontal * (labels.length - 1) + config.ridges_height;
                             // Consider only length-1 offsets and instead for the last ridge the whole height (offset+overshoot)
+    
+    let x_label_precision = this.get_x_label_precision(x_value_offset);
 
     for (let x = xy_min_max[0][0]; x < xy_min_max[1][0]; x += x_value_offset)
     {
@@ -684,7 +705,7 @@ export class RidgelineChartComponent implements OnInit {
       let text = new paper.PointText(new paper.Point(x_point, y_bottom_line_end + 10));
       text.justification = 'center';
       text.fillColor = new paper.Color(0.0, 0.0, 0.0);
-      text.content = '' + x.toFixed(2); //Only show last two decimals - TODO: Change depending on used scale
+      text.content = this.x_to_text(x, x_label_precision);
       text.fontSize = font_size;
       //text.scale(text_scale);
     }
@@ -765,6 +786,58 @@ export class RidgelineChartComponent implements OnInit {
         origin: [data_row[0][0], gradient_max],
         destination: [data_row[0][0], gradient_min]
       });
+    }
+  }
+
+  /**
+   * This function computes how many positions after decimal point are given regarding the x-labels.
+   * That can be configured using the parameter relative_x_precision, deciding how many positions are
+   * used for every offset > 10**(relative_x_precision).
+   * @param x_value_offset  The space between two vertical lines in the plot
+   * @returns               Example for relative_x_precision=2:
+   *                            x_value_offset > 100 ==> 0
+   *                            x_value_offset > 10  ==> 1
+   *                            x_value_offset > 1   ==> 2
+   *                            x_value_offset > 0.1 ==> 3
+   */
+  private get_x_label_precision(x_value_offset: number): number{
+    let res = 0;
+    while (x_value_offset < 10**(this.relative_x_precision-res)){
+      res += 1;
+    }
+    return res;
+  }
+
+
+  /**
+   * This function is called when drawing the grid and converts the input x-value into a String which will
+   * be shown as label on the x-axis.
+   * If x_is_time==true the x value will be interpreted as epoch seconds
+   * @param x          The x-value residing at the vertical line for which a label is needed
+   * @param precision  How many positions after decimal point are given
+   */
+  private x_to_text(x: number, precision: number) : string{
+    if (this.x_is_time){
+      let res = '';
+      let date = new Date(x);
+
+      console.log(this.show_date);
+      if (this.show_date){
+        let y_str = date.getFullYear().toString();
+        let month_str = (date.getMonth() + 1).toString().padStart(2,"0");
+        let d_str = date.getDate().toString().padStart(2,"0");
+        res += d_str+"."+month_str+"."+y_str+"\n";
+      }
+
+      let h_str = date.getHours().toString().padStart(2,"0");
+      let min_str = date.getMinutes().toString().padStart(2,"0");
+      let s_str = date.getSeconds().toString().padStart(2,"0");
+
+      res += h_str+':'+min_str+':'+s_str;
+      return res;
+      
+    } else {
+      return ''+x.toFixed(precision);
     }
   }
 }
