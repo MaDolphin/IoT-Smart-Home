@@ -44,6 +44,20 @@ export class HeatmapChartComponent implements OnChanges {
     else {this.num_seperations = value;}
     if(this.data) this.computed_data = this.rearrange_array(this.data.entries);    
   }
+  //Checkbox attributes
+  prettyprint_timestamps = true;
+  loop_days = false;
+  //Refresh chart if changed
+  enter_pretty_date(value)
+  {
+    this.prettyprint_timestamps = value;
+    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);  
+  }
+  enter_loop_days(value)
+  {
+    this.loop_days = value;
+    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);  
+  }
 
   //Creates an [{"name",series:["name","value"]}] array from an [{"name", "timestamp"}] array by splitting the time into num_seperators equal periods and couting amount of entries for each period & sensor name
   rearrange_array(somedata) {
@@ -62,6 +76,11 @@ export class HeatmapChartComponent implements OnChanges {
     };
     //Increse maximum by one, so highest element is below the max (otherwise it is not counted)
     max++;
+    if(this.loop_days)
+    {
+      min = 0;
+      max = 86400;
+    }
 
     //Period between earliest and latest timestamp 
     var diff;
@@ -86,7 +105,10 @@ export class HeatmapChartComponent implements OnChanges {
 
       //Count the occurences in this chunk
       for (var entry of somedata) {
-        if((min + j*step) <= entry.timestamp && entry.timestamp < (min + (j+1)*step)){
+        if((this.loop_days) && ((min + j*step) <= (entry.timestamp % 86400) && (entry.timestamp % 86400) < (min + (j+1)*step))){
+          counts[names.indexOf(entry.name)]++;
+        }
+        else if((min + j*step) <= entry.timestamp && entry.timestamp < (min + (j+1)*step)){
           counts[names.indexOf(entry.name)]++;
         }
       }
@@ -96,7 +118,8 @@ export class HeatmapChartComponent implements OnChanges {
         temp_series.push({name:names[count],value:counts[count]});
       }
       //Create String for time-chunk
-      var step_name = this.timeToString(min+j*step) + "-" + this.timeToString(min+(j+1)*step);
+      var step_name = Math.floor(min+j*step) + "-" + Math.floor(min+(j+1)*step);
+      if(this.prettyprint_timestamps) step_name = this.timeToString(min+j*step, diff) + "-" + this.timeToString(min+(j+1)*step, diff);
       //Fill outer array
       computed_d.push({name:step_name,series:temp_series});
     }
@@ -106,19 +129,28 @@ export class HeatmapChartComponent implements OnChanges {
 
 
   //Create String from Timestamps
-  timeToString(timestamp){
+  timeToString(timestamp, difference){
     // Create a new JavaScript Date object based on the timestamp
     // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-    var date = new Date((timestamp-7200) * 1000);
+    var date = new Date((timestamp) * 1000);
+    
     // Hours part from the timestamp
-    var hours = date.getHours();
+    var hours = date.getUTCHours();
     // Minutes part from the timestamp
-    var minutes = "0" + date.getMinutes();
+    var minutes = "0" + date.getUTCMinutes();
+    var datum = date.getUTCDate();
+    var month = date.getUTCMonth();
+    var year = date.getUTCFullYear();
 
-    // Will display time in 10:23 format
-    return hours + ':' + minutes.substr(-2);  
-    //return timestamp;	
+    if(difference>86400)
+    {
+      return hours + ':' + minutes.substr(-2) + ' ' + datum + '/' + month + '/' + year;
+    }
+    else{
+      // Will display time in 10:23 format
+      return hours + ':' + minutes.substr(-2);  
+      //return timestamp;	
+    }
   };
-
 
 }
