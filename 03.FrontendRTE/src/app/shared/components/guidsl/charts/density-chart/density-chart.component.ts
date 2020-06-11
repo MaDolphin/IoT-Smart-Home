@@ -10,6 +10,8 @@ import {Data2Model} from 'src/app/data/data.model';
 export class DensityChartComponent implements OnChanges {
   @ViewChild('my_dataviz')
   private chartContainer: ElementRef;
+  @ViewChild('no_data_label')
+  private informationLabel: ElementRef;
 
   @Input()
   data2: Data2Model[];
@@ -27,7 +29,11 @@ export class DensityChartComponent implements OnChanges {
   paths; // path element for each density curve
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.data2) { return; }
+    if (!this.data2)
+    {
+	this.informationLabel.nativeElement.innerHTML="No data available";
+	return;
+    }
     this.updateChart(changes.data2.currentValue);
   }
 
