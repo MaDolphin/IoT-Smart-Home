@@ -44,7 +44,8 @@ class Ridgeline_Config {
     grid_line_end_x: number, 
     font_size: string,
     overshoot: number,
-    space_for_two_lines_of_labels: boolean)
+    space_for_two_lines_of_labels: boolean,
+    x_axis_value_offset: number)
   {
     let abs_space_x_axis_legend = 10;
     if (space_for_two_lines_of_labels){
@@ -81,9 +82,10 @@ class Ridgeline_Config {
     this.x_axis_width = canvas_width - this.x_axis_start;
     
     //Set x-axis value offset when drawing legend from min to max x value (vertical line every offset)
-    this.x_axis_value_offset = data_x_range / canvas_width * 80; //Every 80px    
+    //this.x_axis_value_offset = data_x_range / canvas_width * 80; //Every 80px    
     //Round this value to at most two decimal places
-    this.x_axis_value_offset = Math.round((this.x_axis_value_offset + Number.EPSILON) * 100) / 100;
+    //this.x_axis_value_offset = Math.round((this.x_axis_value_offset + Number.EPSILON) * 100) / 100;
+    this.x_axis_value_offset = x_axis_value_offset;
 
     this.y_axis_start = this.ridges_height;
   }
@@ -497,7 +499,6 @@ export class Data
   styleUrls: ['./ridgeline-chart.component.scss'],
 })
 export class RidgelineChartComponent implements OnInit {
-  @Input() smooth: boolean;
   @Input() overshoot: number;
   @Input() labels: string[]; // The labels of the ridges
   @Input() font_size: string;
@@ -506,6 +507,7 @@ export class RidgelineChartComponent implements OnInit {
   @Input() x_is_time: boolean=true;
   @Input() show_date: boolean=false; // Only relevant, if x_is_time==true;
   @Input() relative_x_precision: number=2;
+  @Input() align_x_label_to = 1000;
   _rawData: number[][][] = [];
   
   //Input function and value for max y value of ridgeline color gradient
@@ -614,13 +616,13 @@ export class RidgelineChartComponent implements OnInit {
       //Update or set data if required
       if (this.overwrite_data || !this.had_data_before)
       {
-        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date);
+        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date, this.align_x_label_to);
         this.data.transform_data(this.config, this.color_gradients);
       }
       else
       {
         //Thus, we need to update the configuration again
-        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date);
+        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date, this.align_x_label_to);
         //After that, we just need to transform the updated data and have to merge it with the already existing data
         this.data.transfrom_and_migrate_updated_data(this.config, this.color_gradients);
       }
@@ -689,11 +691,12 @@ export class RidgelineChartComponent implements OnInit {
                             // Consider only length-1 offsets and instead for the last ridge the whole height (offset+overshoot)
     
     let x_label_precision = this.get_x_label_precision(x_value_offset);
+    let x_label_start_value = Math.ceil(xy_min_max[0][0] / this.align_x_label_to) * this.align_x_label_to;
 
-    for (let x = xy_min_max[0][0]; x < xy_min_max[1][0]; x += x_value_offset)
+    for (let x = x_label_start_value; x <= xy_min_max[1][0]; x += x_value_offset)
     {
       //Round x - TODO: Does of course not work depending on the x axis (scale)
-      x = Math.round((x + Number.EPSILON) * 100) / 100;
+      //x = Math.round((x + Number.EPSILON) * 100) / 100;
 
       let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * x_axis_width + x_axis_start;
 
@@ -832,8 +835,9 @@ export class RidgelineChartComponent implements OnInit {
       let h_str = date.getHours().toString().padStart(2,"0");
       let min_str = date.getMinutes().toString().padStart(2,"0");
       let s_str = date.getSeconds().toString().padStart(2,"0");
+      //let ms_str = date.getMilliseconds().toString().padStart(3,"0");
 
-      res += h_str+':'+min_str+':'+s_str;
+      res += h_str+':'+min_str+':'+s_str;//+':'+ms_str;
       return res;
       
     } else {

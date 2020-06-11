@@ -61,7 +61,6 @@ webpage RidgelineChartSamplePage(
                   <button id='gradient_reset' (click)='reset_color_stop($event)'>Reset</button>
                 </form>
                 <ridgeline-chart
-                  [smooth]=\"false\"
                   [overshoot]=30
                   [rawData]=data
                   [overwrite_data]=\"false\"
@@ -69,7 +68,8 @@ webpage RidgelineChartSamplePage(
                   [font_size]=\"12\"
                   [color_gradients]=color_gradients
                   [x_is_time]=\"true\"
-                  [show_date]=\"false\">
+                  [show_date]=\"false\"
+                  [align_x_label_to]=1000>
                 </ridgeline-chart>
               "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name
