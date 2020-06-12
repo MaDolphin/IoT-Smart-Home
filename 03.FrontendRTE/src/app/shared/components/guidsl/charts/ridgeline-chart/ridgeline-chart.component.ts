@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import * as paper from 'paper';
 import { Config } from 'protractor';
 
@@ -25,6 +25,11 @@ class Ridgeline_Config {
   x_axis_value_offset: number; // The value offset between two x-axis descriptions (e.g. 5 --> 5,10,15,...)
                           // TODO: set this value automatically dependent on data range
   y_axis_start: number;
+
+  //Detect resize event (window resize callback leads to strange behaviour, so we had to do this differently)
+  previous_canvas_width : number = 0;
+  previous_canvas_height : number = 0;
+  size_was_changed : boolean = false;
 
   /**
    * TODO Rename this function with a better suited name
@@ -62,14 +67,18 @@ class Ridgeline_Config {
 
     //Compute line start from font size and biggest label
     //Text scale calculation -------------------------------------------------
-    let longest_label = labels.reduce(function(prev, current) { return (prev.length > current.length) ? prev : current; } );
-    let temp_text = new paper.PointText(new paper.Point(0, 0));
-    temp_text.justification = 'left';
-    temp_text.fillColor = new paper.Color(0.0, 0.0, 0.0);
-    temp_text.content = longest_label;
-    temp_text.fontSize = font_size;
-    let longest_width = temp_text.strokeBounds.width;
-    temp_text.remove();
+    let longest_width = 0;
+    if (labels.length > 0)
+    {
+      let longest_label = labels.reduce(function(prev, current) { return (prev.length > current.length) ? prev : current; } );
+      let temp_text = new paper.PointText(new paper.Point(0, 0));
+      temp_text.justification = 'left';
+      temp_text.fillColor = new paper.Color(0.0, 0.0, 0.0);
+      temp_text.content = longest_label;
+      temp_text.fontSize = font_size;
+      longest_width = temp_text.strokeBounds.width;
+      temp_text.remove();
+    }
     //Text scale calculation end -------------------------------------------------
     this.grid_line_start_x = longest_width + 10;
 
@@ -88,6 +97,18 @@ class Ridgeline_Config {
     this.x_axis_value_offset = x_axis_value_offset;
 
     this.y_axis_start = this.ridges_height;
+
+    //Detect resize event
+    if (this.previous_canvas_height != canvas_height || this.previous_canvas_width != canvas_width)
+    {
+      this.size_was_changed = true;
+    }
+    else
+    {
+      this.size_was_changed = false;
+    }
+    this.previous_canvas_height = canvas_height;
+    this.previous_canvas_width = canvas_width;
   }
 }
 
@@ -98,25 +119,27 @@ class Ridgeline_Config {
 
 export class Data
 {
-  private values : number[][][]; //Underlying data (list of 2D data)
-  private transformed_values : number[][][]; //Transformed data (for drawing)
+  private values : number[][][] = []; //Underlying data (list of 2D data)
+  private transformed_values : number[][][] = []; //Transformed data (for drawing)
 
-  public x_range: number; //Range in x of data (range of min to max value)
-  public y_range: number; //Range in y of data (range of min to max value)
-  public max_y_range_from_0: number; //Range in y of data (range of 0 to absolute maximum of min and max)
+  public x_range: number = 0; //Range in x of data (range of min to max value)
+  public y_range: number = 0; //Range in y of data (range of min to max value)
+  public max_y_range_from_0: number = 0; //Range in y of data (range of 0 to absolute maximum of min and max)
                           // so it equals either y_max or -y_min
-  public xy_min_max: number[][]; //min and max value in x and y dimension of data values
-  public x_start_value : number; //Smallest x value in data
+  public xy_min_max: number[][] = []; //min and max value in x and y dimension of data values
+  public x_start_value : number = 0; //Smallest x value in data
 
   //Value for color gradient - can be accessed by getter for each data row index
+  private color_gradients : [string, number][] = [];
   private transformed_color_gradients : [string, number][][] = [];
 
-  //Convenience values
-  public length: number;
+  //'Watcher' for data changes - transform functions are only applied if data has changed
+  //Set to true if data changed, set to false after transform
+  private has_untransformed_data = false;
+  private has_untransformed_color_gradients = false;
 
-  //Values for updating data - store updated data until it gets merged with old data, check if old data needs to be transformed as well
-  private update_values : number[][][];
-  private update_old_data : boolean;
+  //Convenience values
+  public length: number = 0;
 
   /**
    * For all given ridge-lines this function sorts the points in each ridge-line
@@ -190,7 +213,7 @@ export class Data
   private get_min_x_y(data: number[][])
   {
     return data.reduce(
-      function(previous_value: number[], current_value: number[])
+      (previous_value: number[], current_value: number[]) =>
       {
         return [Math.min(previous_value[0], current_value[0]), Math.min(previous_value[1], current_value[1])];
       }
@@ -204,7 +227,7 @@ export class Data
   private get_max_x_y(data: number[][])
   {
     return data.reduce(
-      function(previous_value: number[], current_value: number[])
+      (previous_value: number[], current_value: number[]) =>
       {
         return [Math.max(previous_value[0], current_value[0]), Math.max(previous_value[1], current_value[1])];
       }
@@ -216,7 +239,13 @@ export class Data
    * This function sets up all variables of this class dependent on the data.
    * @param data The data of all ridge-line charts.
    */
-  public setup(data: number[][][]){
+  public set_raw_data(data: number[][][]){
+    //Only continue if data is present
+    if (data.length == 0)
+    {
+      return;
+    }
+
     //Store data
     this.values = data;
     this.length = this.values.length;
@@ -230,37 +259,30 @@ export class Data
     this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
     this.max_y_range_from_0 = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
     this.x_start_value = this.xy_min_max[0][0];
-    this.update_old_data = false; //True only if data is updated and xy_min_max changes
+
+    //Transform needs to be called
+    this.has_untransformed_data = true;
+    this.has_untransformed_color_gradients = true;
   }
 
   /**
-   * This function updates all variables of this class dependent on the newly added data, and stores it for merging later upon data transform
+   * This function updates all variables of this class dependent on the newly added data, and merges it with old data
    * @param new_data The data to add to all ridge-line charts.
    */
-  public update(new_data: number[][][]){
+  public update_raw_data(new_data: number[][][]){
     if (new_data.length > 0)
     {
       //Store data
-      this.update_values = new_data;
       if (new_data.length > this.values.length)
       {
         this.length = new_data.length;
       }
 
       //Sort data by x for drawing
-      this.sort_by_x(this.update_values);
+      this.sort_by_x(new_data);
 
       //Update all relevant data information
-      let updated_xy_min_max = this.get_xy_min_max(this.update_values);
-      //Check if the transformation will have to change - in that case, old data needs to be transformed again as well
-      if (updated_xy_min_max[0][0] < this.xy_min_max[0][0]
-        || updated_xy_min_max[0][1] < this.xy_min_max[0][1]
-        || updated_xy_min_max[1][0] > this.xy_min_max[1][0]
-        || updated_xy_min_max[1][1] > this.xy_min_max[1][1]
-      )
-      {
-        this.update_old_data = true;
-      }
+      let updated_xy_min_max = this.get_xy_min_max(new_data);
 
       //First update xy_min_max if required
       this.xy_min_max[0][0] = Math.min(this.xy_min_max[0][0], updated_xy_min_max[0][0]);
@@ -273,7 +295,48 @@ export class Data
       this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
       this.max_y_range_from_0 = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
       this.x_start_value = this.xy_min_max[0][0];
+
+      //Merge new with old data
+      for (let i = 0; i < new_data.length; ++i) // iterate over ridges
+      {
+        //Merge from point where x data starts in new data, else add a new entry if updated data has more rows
+        if (i < this.values.length)
+        {
+          if (new_data[i].length > 0)
+          {
+            //Delete every value in this.values (old data) with an x value higher or equal to the added data's x values
+            let lowest_x = new_data[i][0][0];
+            let obsolete_index = this.values[i].findIndex((element) => element[0] >= lowest_x);
+            if (obsolete_index >= 0)
+            {
+              this.values[i].length = obsolete_index;
+            }
+
+            //Then add new data
+            for (let j = 0; j < new_data[i].length; ++j)
+            {
+              this.values[i].push(new_data[i][j]);
+            }
+          }
+        }
+        else
+        {
+          this.values[i] = new_data[i];
+        }
+      }
     }
+
+    //Transform needs to be called
+    this.has_untransformed_data = true;
+  }
+
+  public set_color_gradients(color_gradients : [string, number][])
+  {
+    // Add and sort color_gradients (from min to max data point (regarding y value))
+    this.color_gradients = this.sort_by_y_gradient(color_gradients);
+
+    //Transform needs to be called
+    this.has_untransformed_color_gradients = true;
   }
 
 
@@ -309,14 +372,17 @@ export class Data
    * some (x,y)-pixel using translate_x/_y
    * Also invert y value for drawing
    */
-  public transform_data(config : Ridgeline_Config, color_gradients : [string, number][])
+  public transform_data(config : Ridgeline_Config)
   {
+    //Only transform if that is necessary
+    if (!this.has_untransformed_data && !config.size_was_changed)
+    {
+      return;
+    }
+
     //Make a copy of values before transformation, to keep values unchanged
     this.transformed_values = [];
     this.transformed_color_gradients = [];
-
-    // sort color_gradients
-    color_gradients = this.sort_by_y_gradient(color_gradients);
 
     //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
     //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
@@ -332,26 +398,48 @@ export class Data
           return [(item[0] - this.x_start_value) * width_scale + config.x_axis_start, -(item[1] * height_scale) + y_from];
         }
       );
+    }
 
-      //Transform color gradient values
+    //Data is now transformed, so we do not need to transform it again unless it gets changed
+    this.has_untransformed_data = false;
+  }
+
+  /**
+   * Transform color gradients to y-coordinate-values for each ridge, sorted from lowest to highest
+   */
+  public transform_color_gradients(config : Ridgeline_Config)
+  {
+    //Only transform if that is necessary
+    if ((!this.has_untransformed_color_gradients || this.values.length == 0) && !config.size_was_changed)
+    {
+      return;
+    }
+
+    //Transform color gradient values - should start and stop relative to 0-line of current ridge (y_from), translate from data point to y-coordinates in paperjs
+    let height_scale = config.ridges_height / this.max_y_range_from_0;
+    for (let i = 0; i < this.values.length; ++i)
+    {
+      let y_from = config.y_axis_start + config.ridges_offset * i;
+
       this.transformed_color_gradients.push([]);
+
       let max_height = window.innerHeight;
       let min_height = 0;
-      for (let j = 0; j < color_gradients.length; ++j)
+      for (let j = 0; j < this.color_gradients.length; ++j)
       {
         //Cap gradient y value s.t. we do not get an overflow
         let color_y_value = 0.0;
-        if (color_gradients[j][1] > 300000000)
+        if (this.color_gradients[j][1] > 300000000)
         {
           color_y_value = 300000000;
         }
-        else if (color_gradients[j][1] < -300000000)
+        else if (this.color_gradients[j][1] < -300000000)
         {
           color_y_value = -300000000;
         }
         else
         {
-          color_y_value = color_gradients[j][1];
+          color_y_value = this.color_gradients[j][1];
         }
 
         //Also cap height values that do not make sense
@@ -365,108 +453,12 @@ export class Data
           color_pixel_height_y = min_height;
         }
 
-        this.transformed_color_gradients[i].push([color_gradients[j][0], color_pixel_height_y ]);
+        this.transformed_color_gradients[i].push([this.color_gradients[j][0], color_pixel_height_y ]);
       }
     }
-  }
 
-  /**
-   * For performance reasons: Perform transformation on added / old data only where necessary
-   * Transform data to start at or after x_start value regarding the (same) coordinate system,
-   * scale the coordinate system to x_range/y_range over a given pixel width/height, start at
-   * some (x,y)-pixel using translate_x/_y
-   * Also invert y value for drawing
-   */
-  public transfrom_and_migrate_updated_data(config : Ridgeline_Config, color_gradients : [string, number][])
-  {
-    if (this.update_values.length > 0)
-    {
-      //Merge with values
-      for (let i = 0; i < this.update_values.length; ++i) // iterate over ridges
-      {
-        //Merge from point where x data starts in new data, else add a new entry if updated data has more rows
-        if (i < this.values.length)
-        {
-          if (this.update_values[i].length > 0)
-          {
-            //Delete every value in this.values (old data) with an x value higher or equal to the added data's x values
-            let lowest_x = this.update_values[i][0][0];
-            let obsolete_index = this.values[i].findIndex((element) => element[0] >= lowest_x);
-            if (obsolete_index >= 0)
-            {
-              this.values[i].length = obsolete_index;
-            }
-
-            //Then add new data
-            for (let j = 0; j < this.update_values[i].length; ++j)
-            {
-              this.values[i].push(this.update_values[i][j]);
-            }
-          }
-        }
-        else
-        {
-          this.values[i] = this.update_values[i];
-        }
-      }
-
-      //If old data needs to be updated as well, just transform everything again
-      if (this.update_old_data)
-      {
-        this.transform_data(config, color_gradients);
-        this.update_old_data = false;
-        this.update_values = [];
-      }
-      else
-      {
-        //Just transform new data, then add it to transformed old data
-        let transformed_new_data : number[][][] = [];
-        //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
-        //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
-        //Range in context with width/height gives a scale factor for the data, so all data have a uniform x and y scale in the end
-        let width_scale = config.x_axis_width / this.x_range;
-        let height_scale = config.ridges_height / this.max_y_range_from_0;
-        for (let i = 0; i < this.update_values.length; ++i)
-        {
-          let y_from = config.y_axis_start + config.ridges_offset * i;
-          transformed_new_data[i] = this.update_values[i].map(
-            (item: number[]) =>
-            {
-              return [(item[0] - this.x_start_value) * width_scale + config.x_axis_start, -(item[1] * height_scale) + y_from];
-            }
-          );
-        }
-
-        //Then just merge with updated values
-        for (let i = 0; i < transformed_new_data.length; ++i)
-        {
-          //Merge from point where x data starts in new data, else add a new entry if updated data has more rows
-          if (i < this.transformed_values.length)
-          {
-            if (transformed_new_data[i].length > 0)
-            {
-              //Delete every value in this.transformed values (old data) with an x value higher or equal to the added data's x values
-              let lowest_x = transformed_new_data[i][0][0];
-              let obsolete_index = this.transformed_values[i].findIndex((element) => element[0] >= lowest_x);
-              if (obsolete_index >= 0)
-              {
-                this.transformed_values[i].length = obsolete_index;
-              }
-
-              //Then add new data
-              for (let j = 0; j < transformed_new_data[i].length; ++j)
-              {
-                this.transformed_values[i].push(transformed_new_data[i][j]);
-              }
-            }
-          }
-          else
-          {
-            this.transformed_values[i] = transformed_new_data[i];
-          }
-        }
-      }
-    }
+    //Gradients are now transformed, so we do not need to transform it again unless it gets changed
+    this.has_untransformed_color_gradients = false;
   }
 
   private sort_by_y_gradient(gradients : [string, number][])
@@ -498,11 +490,10 @@ export class Data
   templateUrl: './ridgeline-chart.component.html',
   styleUrls: ['./ridgeline-chart.component.scss'],
 })
-export class RidgelineChartComponent implements OnInit {
+export class RidgelineChartComponent implements OnInit, AfterViewInit {
   @Input() overshoot: number;
   @Input() labels: string[]; // The labels of the ridges
   @Input() font_size: string;
-  @Input() color_gradients: [string, number][]; //Color gradients: [y_value, color_string]
   @Input() overwrite_data: boolean; //If true, overwrite data on set, else just update/merge it with old data; also has an influence on further data processing
   @Input() x_is_time: boolean=true;
   @Input() show_date: boolean=false; // Only relevant, if x_is_time==true;
@@ -518,10 +509,11 @@ export class RidgelineChartComponent implements OnInit {
   // }
 
   //private canvas_div: HTMLDivElement;
+  @ViewChild('canvasContainer') canvas_container_view : ElementRef<HTMLDivElement>;
+  @ViewChild('canvas') canvas_view : ElementRef<HTMLCanvasElement>;
   private canvas_container: HTMLDivElement;
   private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
-  private path: paper.Path;
+  private scope: paper.PaperScope;
 
   //Ridgeline data and configuration
   private data : Data = new Data();
@@ -534,6 +526,7 @@ export class RidgelineChartComponent implements OnInit {
     console.log("Smoothed set to: "+smooth);
   }*/
 
+  //Raw data which is transformed and then shown in the plot
   @Input()
   public set rawData(rawData: number[][][]){
     this.had_data_before = this._rawData.length > 0;
@@ -543,15 +536,24 @@ export class RidgelineChartComponent implements OnInit {
     //Also: First-time behaviour (if no data was set previously) is the same
     if (this.overwrite_data || !this.had_data_before)
     {
-      this.data.setup(rawData);
+      this.data.set_raw_data(rawData);
     }
     else
     {
       //This is less CPU-expensive - we set the data block that needs to be updated, which can change e.g. the x-range of our data
-      this.data.update(rawData);
+      this.data.update_raw_data(rawData);
     }
 
     //Transformation of the (new) data now depends e.g. on the size on the canvas and thus is done within UI functions
+  }
+
+  //Color gradients: [y_value, color_string] for gradient shown on displayed data
+  @Input() 
+  public set color_gradients(gradients : [string, number][])
+  {
+    this.data.set_color_gradients(gradients);
+    console.log("Gradient set:");
+    console.log(gradients);
   }
 
 
@@ -579,21 +581,21 @@ export class RidgelineChartComponent implements OnInit {
     //paper.view.viewSize.width = this.canvas.width;
     this.canvas.width = this.canvas_container.clientWidth - 10;
     this.canvas.height = this.canvas_container.clientHeight - 10;
-    paper.view.viewSize.width = this.canvas_container.clientWidth - 10;
-    paper.view.viewSize.height = this.canvas_container.clientHeight - 10;
+    this.scope.view.viewSize.width = this.canvas_container.clientWidth - 10;
+    this.scope.view.viewSize.height = this.canvas_container.clientHeight - 10;
   }
 
 
   ngAfterViewInit() {    
-    this.canvas_container = document.getElementById('canvas_container') as HTMLDivElement;
-    this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    this.canvas_container = this.canvas_container_view.nativeElement as HTMLDivElement;
+    this.canvas = this.canvas_view.nativeElement as HTMLCanvasElement;
     this.canvas.setAttribute("resize", "true");
     this.canvas.setAttribute("width", "100%");
     this.canvas.setAttribute("height", "100%");
-    this.ctx = this.canvas.getContext('2d');
 
     // Set up paperjs with the given canvas
-    paper.setup(this.canvas);
+    this.scope = new paper.PaperScope();
+    this.scope.setup(this.canvas);
 
     let height = 5 * 100; // Choose an arbitrary value which might fit to the number of ridges
 
@@ -604,7 +606,7 @@ export class RidgelineChartComponent implements OnInit {
     //Paperjs framerate: 60fps
     //We do not need to update the view that often, 3fps should be enough to see real-time data
     let frame_count = 0;
-    paper.view.onFrame = (event) => {
+    this.scope.view.onFrame = (event) => {
       //Only show every 10th frame
       if (frame_count % 20 != 0)
       {
@@ -613,23 +615,14 @@ export class RidgelineChartComponent implements OnInit {
       }
       frame_count = 1;
 
-      //Update or set data if required
-      if (this.overwrite_data || !this.had_data_before)
-      {
-        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date, this.align_x_label_to);
-        this.data.transform_data(this.config, this.color_gradients);
-      }
-      else
-      {
-        //Thus, we need to update the configuration again
-        this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date, this.align_x_label_to);
-        //After that, we just need to transform the updated data and have to merge it with the already existing data
-        this.data.transfrom_and_migrate_updated_data(this.config, this.color_gradients);
-      }
+      //Update or set data if required - these functions only change the data / gradients if their values have been modified (see @Input set functions)
+      this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date, this.align_x_label_to);
+      this.data.transform_data(this.config);
+      this.data.transform_color_gradients(this.config);
 
       // Should not be called too often
       if (this.hasData()){
-        paper.project.clear();
+        this.scope.project.clear();
 
         //Draw grid for data
         this.plot_grid(this.labels, this.data, this.config);
@@ -645,7 +638,7 @@ export class RidgelineChartComponent implements OnInit {
       }
 
       // Lines to see some parameters in real life
-      // let line = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(this.canvas.width, this.canvas.height));
+      // let line = new this.scope.Path.Line(new paper.Point(0, 0), new paper.Point(this.canvas.width, this.canvas.height));
       // line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
       // let line2 = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(0, this.config.y_axis_start));
       // line2.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
@@ -674,16 +667,16 @@ export class RidgelineChartComponent implements OnInit {
     //Horizontal lines and labels
     for (let i = 0; i < labels.length; ++i)
     {
-      let line = new paper.Path.Line(new paper.Point(line_start_x, line_start_y + offset_horizontal*i), new paper.Point(line_end_x, line_start_y + offset_horizontal*i));
-      line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
+      let line = new this.scope.Path.Line(new this.scope.Point(line_start_x, line_start_y + offset_horizontal*i), new this.scope.Point(line_end_x, line_start_y + offset_horizontal*i));
+      line.strokeColor = new this.scope.Color(0.2, 0.2, 0.2, 0.2);
 
       //Put text left of line
-      let text = new paper.PointText(new paper.Point(0, line_start_y + offset_horizontal*i));
+      let text = new this.scope.PointText(new this.scope.Point(0, line_start_y + offset_horizontal*i));
       text.justification = 'left';
-      text.fillColor = new paper.Color(0.0, 0.0, 0.0);
+      text.fillColor = new this.scope.Color(0.0, 0.0, 0.0);
       text.content = labels[i];
       text.fontSize = font_size;
-      //text.scale(text_scale, new paper.Point(0, line_start_y + offset_horizontal*i));
+      //text.scale(text_scale, new this.scope.Point(0, line_start_y + offset_horizontal*i));
     }
 
     //Vertical lines and labels (TODO)
@@ -700,14 +693,14 @@ export class RidgelineChartComponent implements OnInit {
 
       let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * x_axis_width + x_axis_start;
 
-      let line = new paper.Path.Line(new paper.Point(x_point, line_start_y - config.ridges_height),
-                                     new paper.Point(x_point, y_bottom_line_end));
-      line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
+      let line = new this.scope.Path.Line(new this.scope.Point(x_point, line_start_y - config.ridges_height),
+                                     new this.scope.Point(x_point, y_bottom_line_end));
+      line.strokeColor = new this.scope.Color(0.2, 0.2, 0.2, 0.2);
 
       //Put text below line
-      let text = new paper.PointText(new paper.Point(x_point, y_bottom_line_end + 10));
+      let text = new this.scope.PointText(new this.scope.Point(x_point, y_bottom_line_end + 10));
       text.justification = 'center';
-      text.fillColor = new paper.Color(0.0, 0.0, 0.0);
+      text.fillColor = new this.scope.Color(0.0, 0.0, 0.0);
       text.content = this.x_to_text(x, x_label_precision);
       text.fontSize = font_size;
       //text.scale(text_scale);
@@ -726,39 +719,39 @@ export class RidgelineChartComponent implements OnInit {
       return;
     }
 
-    let path = new paper.Path({
-      segments: [new paper.Point(data_row[0][0], data_row[0][1])],
+    let path = new this.scope.Path({
+      segments: [new this.scope.Point(data_row[0][0], data_row[0][1])],
       strokeColor: 'black',
       strokeWidth: '1',
     });
 
     for (let i = 1; i < data_row.length; ++i)
     {
-      path.lineTo(new paper.Point(data_row[i][0], data_row[i][1]));
+      path.lineTo(new this.scope.Point(data_row[i][0], data_row[i][1]));
     }
 
     //path.smooth(); -> Leads to problems if we have straight lines in between (line might not stay straight then)
 
-    let path_filler = new paper.Path({
-      segments: [new paper.Point(data_row[0][0], data_row[0][1])],
-      strokeColor: new paper.Color(0.0, 0.0, 0.0, 0.0),
+    let path_filler = new this.scope.Path({
+      segments: [new this.scope.Point(data_row[0][0], data_row[0][1])],
+      strokeColor: new this.scope.Color(0.0, 0.0, 0.0, 0.0),
       strokeWidth: '2',
     });
 
     for (let i = 1; i < data_row.length; ++i)
     {
-      path_filler.lineTo(new paper.Point(data_row[i][0], data_row[i][1]));
+      path_filler.lineTo(new this.scope.Point(data_row[i][0], data_row[i][1]));
     }
     //path_filler.smooth();
-    path_filler.lineTo(new paper.Point(data_row[data_row.length - 1][0], y_from));
-    path_filler.lineTo(new paper.Point(data_row[0][0], y_from));
+    path_filler.lineTo(new this.scope.Point(data_row[data_row.length - 1][0], y_from));
+    path_filler.lineTo(new this.scope.Point(data_row[0][0], y_from));
 
 
 
 
     if (gradient_max_y_values.length < 2)
     {
-      path_filler.fillColor = new paper.Color(0.1, 0.4, 1.0, 0.5);
+      path_filler.fillColor = new this.scope.Color(0.1, 0.4, 1.0, 0.5);
     }
     else
     {
@@ -782,7 +775,7 @@ export class RidgelineChartComponent implements OnInit {
         gradient_percent.push([gradient_max_y_values[i][0], y_percentage])
       }
 
-      path_filler.fillColor = new paper.Color({
+      path_filler.fillColor = new this.scope.Color({
         gradient: {
           stops: gradient_percent
         },
@@ -824,7 +817,6 @@ export class RidgelineChartComponent implements OnInit {
       let res = '';
       let date = new Date(x);
 
-      console.log(this.show_date);
       if (this.show_date){
         let y_str = date.getFullYear().toString();
         let month_str = (date.getMonth() + 1).toString().padStart(2,"0");

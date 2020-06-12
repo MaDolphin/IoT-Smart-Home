@@ -31,8 +31,11 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     super(_commandRestService, _route, _router, _webSocketService);
   }
 
-  public data = []; // The data which is actually given to the diagram
-  public labels = ['test1', 'test2', 'test3', 'custom', 'random sinus'];
+  public data_static = []; // The data which is actually given to the static diagram
+  public labels_static = [];
+
+  public data_dynamic = []; // The data which is actually given to the dynamic diagram
+  public labels_dynamic = [];
 
 
   private dummyData; // helping variable
@@ -41,7 +44,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   private realtimeTest : boolean = true;
 
-  private useBackendData: boolean = true;
+  private useDynamicBackendData: boolean = false;
 
 
 
@@ -57,8 +60,9 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
 
   // -------------------------------- Variables for color gradient configuration --------------------------------
-  //Color gradient data structure which can be used to set gradients / color stops to color specific y values of the visualization
-  public color_gradients : [string, number][] = [];
+  //Color gradient data_static structure which can be used to set gradients / color stops to color specific y values of the visualization
+  public color_gradients_static : [string, number][] = [["#b3e5fc", 0], ["#ff8a65", 2]];
+  public color_gradients_dynamic : [string, number][] = [];
 
   //Color picker functions
   public show_color_picker = false;
@@ -118,9 +122,9 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     let stop = parseFloat(value);
 
     //Add new color gradient section only if the value does not yet exist
-    if (this.color_gradients.find(element => element[1] == stop) == undefined)
+    if (this.color_gradients_dynamic.find(element => element[1] == stop) == undefined)
     {
-      this.color_gradients.push([ this.selected_color, stop ]);
+      this.color_gradients_dynamic.push([ this.selected_color, stop ]);
     }
   }
 
@@ -132,19 +136,19 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     //Don't refresh the page
     event.preventDefault();
     
-    this.color_gradients.length = 0;
+    this.color_gradients_dynamic.length = 0;
   }
   
   
-// ---------------------------------------------- Data Management ----------------------------------------------
+// ---------------------------------------------- data Management ----------------------------------------------
   
 
 
   public subscribechartData1Socket(): void {
     if (this.chartData1Socket) {
       this.subscriptions.push(this.chartData1Socket.subscribe(message => {
-        this.data = this.getData(message);
-        console.log(this.data);
+        this.data_dynamic = this.getData(message);
+        console.log(this.data_static);
       }, err =>
         console.log(err)
       ));
@@ -153,14 +157,24 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     }
   }
 
-
+  //REST 'all'-getter that sets static data
+  public initRidgelineChartDataDTOchartData(): void {
+    RidgelineChartDataDTO.getAll(this.commandManager)
+      .then((model: RidgelineChartDataDTO) => {
+        this.chartData = model;
+        let data_transformed = this.transformDTO(this.chartData);
+        this.data_static = data_transformed[0];
+        this.labels_static = data_transformed[1];
+      });
+  }
   
   public getData(message){
-    if (this.useBackendData){ // Currently sent via REST (all) and not via websocket
-      // Transforme Data to that which is necessary here
-      let data = this.transformDTO(this.chartData);
-      this.labels = data[1];
-      return data[0];
+    if (this.useDynamicBackendData){ // Currently sent via REST (all) and not via websocket
+      // Transforme data_static to that which is necessary here
+      // let data_static = this.transformDTO(this.chartData);
+      // this.labels_static = data_static[1];
+      // return data_static[0];
+      console.log("TODO: Add socket getData part again!");
 
     } else {
       // NOTE: ONLY FOR TESTING (QUICK AND DIRTY)
@@ -182,16 +196,16 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
         res.push(this.dummyData[i].slice(0,Math.min(this.dummyData[i].length, this.dummyDataIndex)));
       }
       
-      this.labels = ['test1', 'test2', 'test3', 'random sinus'];
+      this.labels_dynamic = ['test1', 'test2', 'test3', 'random sinus'];
 
       return res;
     }
   }
 
   /**
-   * Transforms data
+   * Transforms data_static
    * @param input a RidgelineChartDataDTO object
-   * @return a tuple consisting of the values (number[][][]) and the y-labels (string[])
+   * @return a tuple consisting of the values (number[][][]) and the y-labels_static (string[])
    */
   public transformDTO(input: RidgelineChartDataDTO){
     let values_result = [];
@@ -210,7 +224,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
 
   /**
-   * Creates the data for all ridgelines
+   * Creates the data_static for all ridgelines
    * @returns number[][][]
    */
   public createDummyData(){
@@ -231,7 +245,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   
 
 
-  //Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
+  //Creates function data_static array from x_1 to x_2, in step_size steps, with one of two random functions
   private get_test_data(x_1: number, x_2: number, step_size: number)
   {
     let test_data : number[][] = [];
