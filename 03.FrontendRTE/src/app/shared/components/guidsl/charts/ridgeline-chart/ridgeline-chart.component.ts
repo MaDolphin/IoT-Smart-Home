@@ -355,7 +355,6 @@ export class Data
 
   public get_transformed_color_gradients(index : number)
   {
-    console.log(this.transformed_color_gradients);
     if (this.transformed_color_gradients.length > index && index >= 0)
     {
       return this.transformed_color_gradients[index];
@@ -415,7 +414,7 @@ export class Data
     {
       return;
     }
-    
+
     this.transformed_color_gradients = [];
 
     //Transform color gradient values - should start and stop relative to 0-line of current ridge (y_from), translate from data point to y-coordinates in paperjs
@@ -555,10 +554,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   @Input() 
   public set color_gradients(gradients : [string, number][])
   {
-    console.log("Is called");
     this.data.set_color_gradients(gradients);
-    console.log("Gradient set:");
-    console.log(gradients);
   }
 
 
