@@ -355,6 +355,7 @@ export class Data
 
   public get_transformed_color_gradients(index : number)
   {
+    console.log(this.transformed_color_gradients);
     if (this.transformed_color_gradients.length > index && index >= 0)
     {
       return this.transformed_color_gradients[index];
@@ -382,7 +383,7 @@ export class Data
 
     //Make a copy of values before transformation, to keep values unchanged
     this.transformed_values = [];
-    this.transformed_color_gradients = [];
+    //this.transformed_color_gradients = [];
 
     //Transform data to start at center point (translate_x, translate_y) and resize to desired width and height, and invert y coordinate
     //Also, for a uniform x scale, make it start s.t. it regards the smallest actual x_start_value
@@ -414,6 +415,8 @@ export class Data
     {
       return;
     }
+    
+    this.transformed_color_gradients = [];
 
     //Transform color gradient values - should start and stop relative to 0-line of current ridge (y_from), translate from data point to y-coordinates in paperjs
     let height_scale = config.ridges_height / this.max_y_range_from_0;
@@ -547,10 +550,12 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     //Transformation of the (new) data now depends e.g. on the size on the canvas and thus is done within UI functions
   }
 
+
   //Color gradients: [y_value, color_string] for gradient shown on displayed data
   @Input() 
   public set color_gradients(gradients : [string, number][])
   {
+    console.log("Is called");
     this.data.set_color_gradients(gradients);
     console.log("Gradient set:");
     console.log(gradients);
@@ -586,7 +591,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   }
 
 
-  ngAfterViewInit() {    
+  ngAfterViewInit() {
     this.canvas_container = this.canvas_container_view.nativeElement as HTMLDivElement;
     this.canvas = this.canvas_view.nativeElement as HTMLCanvasElement;
     this.canvas.setAttribute("resize", "true");
@@ -601,7 +606,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
 
     this.adjust_size();
 
-    window.addEventListener('resize', this.adjust_size, false);
+    window.addEventListener('resize', this.adjust_size.bind(this), false);
 
     //Paperjs framerate: 60fps
     //We do not need to update the view that often, 3fps should be enough to see real-time data

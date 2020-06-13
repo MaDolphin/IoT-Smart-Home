@@ -47,18 +47,6 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   private useDynamicBackendData: boolean = false;
 
 
-
-  ngOnInit(): void {
-    super.ngOnInit();
-    this.dummyData = this.createDummyData(); // To avoid that this is done every time again
-  }
-
-  ngAfterViewInit() {  
-    super.ngAfterViewInit();  
-    this.color_stop_y_input = document.getElementById('color_stop_y_input') as HTMLInputElement;
-  }
-
-
   // -------------------------------- Variables for color gradient configuration --------------------------------
   //Color gradient data_static structure which can be used to set gradients / color stops to color specific y values of the visualization
   public color_gradients_static : [string, number][] = [["#b3e5fc", 0], ["#ff8a65", 2]];
@@ -70,6 +58,20 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   //Input field to get input value
   private color_stop_y_input: HTMLInputElement;
+
+
+  // ---------------------------------------------- Init Functions ----------------------------------------------
+
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.dummyData = this.createDummyData(); // To avoid that this is done every time again
+  }
+
+  ngAfterViewInit() {  
+    super.ngAfterViewInit();  
+    this.color_stop_y_input = document.getElementById('color_stop_y_input') as HTMLInputElement;
+  }
+
 
 
   // ----------------------------------------- Color Gradient Utilities -----------------------------------------
@@ -116,16 +118,24 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   {
     //Don't refresh the page
     event.preventDefault();
+    console.log("Add color");
 
     //Get color gradient y value
     let value : string = this.color_stop_y_input.value;
     let stop = parseFloat(value);
 
+    let res = [...this.color_gradients_dynamic]; // Create a copy of the current gradients
+
     //Add new color gradient section only if the value does not yet exist
-    if (this.color_gradients_dynamic.find(element => element[1] == stop) == undefined)
+    if (res.find(element => element[1] == stop) == undefined)
     {
-      this.color_gradients_dynamic.push([ this.selected_color, stop ]);
+      res.push([ this.selected_color, stop ]);
     }
+    
+    // Overwrite the old value; only pushing to the old wouldn't force Angular to send
+    // the new one to the ridgeline-chart.component
+    this.color_gradients_dynamic = res;
+    console.log(this.color_gradients_dynamic);
   }
 
   /**
@@ -136,7 +146,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     //Don't refresh the page
     event.preventDefault();
     
-    this.color_gradients_dynamic.length = 0;
+    this.color_gradients_dynamic = [];
   }
   
   
@@ -148,7 +158,8 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     if (this.chartData1Socket) {
       this.subscriptions.push(this.chartData1Socket.subscribe(message => {
         this.data_dynamic = this.getData(message);
-        console.log(this.data_static);
+        //this.color_gradients_dynamic = [["#b3e5fc", 0]];
+        //console.log(this.data_static);
       }, err =>
         console.log(err)
       ));
