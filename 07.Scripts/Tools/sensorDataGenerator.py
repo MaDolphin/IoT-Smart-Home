@@ -28,7 +28,7 @@ for i in range(0,1000):
 	elif(i <= 200):
 		sensorId = '1'
 		type = 'CO2'
-		value = 90;
+		value = 90
 		timeStamp += 1
 	elif(i == 201):
 		sensorId = '2'
