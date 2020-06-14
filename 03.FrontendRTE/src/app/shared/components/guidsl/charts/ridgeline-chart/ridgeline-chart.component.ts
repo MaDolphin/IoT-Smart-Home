@@ -131,7 +131,7 @@ export class Data
 
   //Value for color gradient - can be accessed by getter for each data row index
   private color_gradients : [string, number][] = [];
-  private transformed_color_gradients : [string, number][][] = [];
+  private transformed_color_gradients : [paper.Color, number][][] = [];
 
   //'Watcher' for data changes - transform functions are only applied if data has changed
   //Set to true if data changed, set to false after transform
@@ -406,8 +406,9 @@ export class Data
 
   /**
    * Transform color gradients to y-coordinate-values for each ridge, sorted from lowest to highest
+   * Add alpha value to gradients (if desired, else set it to 1.0)
    */
-  public transform_color_gradients(config : Ridgeline_Config)
+  public transform_color_gradients(config : Ridgeline_Config, alpha : number)
   {
     //Only transform if that is necessary
     if ((!this.has_untransformed_color_gradients || this.values.length == 0) && !config.size_was_changed)
@@ -455,7 +456,10 @@ export class Data
           color_pixel_height_y = min_height;
         }
 
-        this.transformed_color_gradients[i].push([this.color_gradients[j][0], color_pixel_height_y ]);
+        //Add transparency to color
+        let rgba_color = new paper.Color(this.color_gradients[j][0]);
+        rgba_color.alpha = alpha;
+        this.transformed_color_gradients[i].push([rgba_color, color_pixel_height_y ]);
       }
     }
 
@@ -619,7 +623,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
       //Update or set data if required - these functions only change the data / gradients if their values have been modified (see @Input set functions)
       this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date, this.align_x_label_to);
       this.data.transform_data(this.config);
-      this.data.transform_color_gradients(this.config);
+      this.data.transform_color_gradients(this.config, 0.7); //TODO: Alpha for transparency as input value
 
       // Should not be called too often
       if (this.hasData()){
@@ -708,7 +712,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private plot_ridge(data_row: number[][], gradient_max_y_values: [string, number][], config: Ridgeline_Config, index: number)
+  private plot_ridge(data_row: number[][], gradient_max_y_values: [paper.Color, number][], config: Ridgeline_Config, index: number)
   {
     let y_from = this.config.y_axis_start + this.config.ridges_offset * index;
 

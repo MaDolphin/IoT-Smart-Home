@@ -49,7 +49,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   // -------------------------------- Variables for color gradient configuration --------------------------------
   //Color gradient data_static structure which can be used to set gradients / color stops to color specific y values of the visualization
-  public color_gradients_static : [string, number][] = [["#b3e5fc", 0], ["#ff8a65", 2]];
+  public color_gradients_static : [string, number][] = [["#e91e63", 0], ["#2196f3", 1], ["#2196f3", 3]];
   public color_gradients_dynamic : [string, number][] = [];
 
   //Color picker functions
@@ -176,6 +176,17 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
         let data_transformed = this.transformDTO(this.chartData);
         this.data_static = data_transformed[0];
         this.labels_static = data_transformed[1];
+        //Just for presentation
+        // this.data_static = [];
+        // for (let j = 0; j < 2; ++j)
+        // {
+        //   this.data_static[j] = [];
+        //   for (let i = -2; i < 15; i+=0.25)
+        //   {
+        //     this.data_static[j].push([i * 360000, Math.sin((i + j) / 2.0) * Math.random() * 20]);
+        //   }
+        // }
+        // this.labels_static = ["Income Mon", "Income Tue"];
       });
   }
   
