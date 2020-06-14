@@ -74,6 +74,7 @@
       "@alarmctrltable-dto/*" : ["target/generated-sources/dtos/*"],
       "@sirenctrltable-dto/*" : ["target/generated-sources/dtos/*"],
       "@smokesensortable-dto/*" : ["target/generated-sources/dtos/*"],
+      "@ridgelinechartdata-dto/*": ["target/generated-sources/dtos/*"],
       "@motionsensordata-dto/*" : ["target/generated-sources/dtos/*"],
       "@sirenctrl-dto/*": ["target/generated-sources/dtos/*"],
       "@gaugechartdata-dto/*": ["target/generated-sources/dtos/*"],

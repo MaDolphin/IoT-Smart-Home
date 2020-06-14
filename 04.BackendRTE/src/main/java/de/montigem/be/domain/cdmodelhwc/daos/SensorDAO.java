@@ -11,6 +11,7 @@ import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
 import de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue;
 import de.montigem.be.domain.cdmodelhwc.rest.SensorService;
 import de.montigem.be.error.MontiGemErrorFactory;
+import de.montigem.be.system.sensor.dtos.GaugeChartDataEntryDTO;
 import de.montigem.be.system.sensor.dtos.LineGraphEntryDTO;
 import de.montigem.be.util.DAOLib;
 import de.montigem.be.util.Responses;
@@ -72,6 +73,28 @@ public class SensorDAO extends SensorDAOTOP {
         query.setMaxResults(1);
 
         LineGraphEntryDTO singleResult;
+        try {
+            singleResult = query.getSingleResult();
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
+        return Optional.of(singleResult);
+    }
+
+    @Transactional
+    public Optional<GaugeChartDataEntryDTO> getValueInTimeById_GaugeChart(String resource, ZonedDateTime currentTime, int seconds, long id) {
+        router.setDataSource(resource);
+        TypedQuery<GaugeChartDataEntryDTO> query = em.createQuery(
+                "SELECT new " + GaugeChartDataEntryDTO.class.getName() + "(s.id, s.sensorId, v.value) FROM " + getDomainClass().getName() + " s JOIN s.value AS v "
+                        + "WHERE s.id = :id "
+                        + " AND v.timestamp >= :lastUpdate AND v.timestamp < :currentTime",
+                GaugeChartDataEntryDTO.class);
+        query.setParameter("id", id);
+        query.setParameter("lastUpdate", currentTime.minusSeconds(seconds));
+        query.setParameter("currentTime", currentTime);
+        query.setMaxResults(1);
+
+        GaugeChartDataEntryDTO singleResult;
         try {
             singleResult = query.getSingleResult();
         } catch (NoResultException e) {
@@ -154,12 +177,12 @@ public class SensorDAO extends SensorDAOTOP {
     }
 
     /**
-    * @Description: find all Sensor-Values by given SensorId
-    * @Param: [sensorId]
-    * @return: java.util.List<de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue>
-    * @Author: Haikun
-    * @Date: 2020/5/10
-    */
+     * @Description: find all Sensor-Values by given SensorId
+     * @Param: [sensorId]
+     * @return: java.util.List<de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue>
+     * @Author: Haikun
+     * @Date: 2020/5/10
+     */
     @Transactional
     public List<SensorValue> getListOfSensorValueById(String sensorId) {
         Sensor sensor;

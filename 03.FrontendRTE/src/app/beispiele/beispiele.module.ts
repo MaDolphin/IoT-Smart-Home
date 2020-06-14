@@ -23,6 +23,7 @@ import { BeispieleBarchartsGenComponent } from "./beispiele-barcharts-gen.compon
 import { BeispieleGaugechartGenComponent } from "./beispiele-gaugechart-gen.component";
 import { BeispieleChartsGenComponent } from "@targetgui/beispiele-charts-gen.component/beispiele-charts-gen.component";
 import { BeispieleLinechartsGenComponent } from "./beispiele-linecharts-gen.component";
+import { BeispieleRidgelinechartsGenComponent } from "./beispiele-ridgelinecharts-gen.component";
 import { BeispieleDensitychartsGenComponent } from "./beispiele-densitycharts-gen.component";
 import { BeispieleDatatablesInfoGenComponent } from "@targetgui/beispiele-datatables-info-gen.component/beispiele-datatables-info-gen.component";
 import { BeispieleRowdatatablesGenComponent } from "./beispiele-rowdatatables-gen.component";
@@ -52,6 +53,7 @@ import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitycha
     BeispieleHeatmapchartsGenComponent,
     BeispieleBarchartsGenComponent,
     BeispieleLinechartsGenComponent,
+    BeispieleRidgelinechartsGenComponent,
     BeispieleDensitychartsGenComponent,
     BeispieleRowdatatablesGenComponent,
     BeispieleDatatablesInfoGenComponent,

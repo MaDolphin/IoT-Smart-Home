@@ -61,7 +61,7 @@ public class WebSocketService {
   @OnOpen
   public void onOpen(Session session, @PathParam("token") String token, @PathParam("messageHandler") String messageHandler, @PathParam("usage") String usage) {
     JWToken jwt = new JWToken(token, ShiroJWTFilter.getUsernameFromToken(token),
-        ShiroJWTFilter.getServerInstanceFromToken(token));
+            ShiroJWTFilter.getServerInstanceFromToken(token));
 
     boolean hasError = false;
     try {
@@ -168,7 +168,7 @@ public class WebSocketService {
         try {
           if (session.isOpen()) {
             session.close(new CloseReason(
-                CloseReason.CloseCodes.CLOSED_ABNORMALLY, "An exception occured: " + throwable.toString())
+                    CloseReason.CloseCodes.CLOSED_ABNORMALLY, "An exception occured: " + throwable.toString())
             );
           }
         }

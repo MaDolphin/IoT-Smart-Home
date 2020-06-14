@@ -25,6 +25,7 @@ import { HorizontalBarChartComponent } from '@shared/components/guidsl/charts/ho
 import { BudgetWidgetComponent } from '@shared/components/guidsl/budget-widget/budget-widget.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
+import { RidgelineChartComponent } from './charts/ridgeline-chart/ridgeline-chart.component';
 import { HeatmapChartComponent } from './charts/heatmap-chart/heatmap-chart.component';
 import { DensityChartComponent } from './charts/density-chart/density-chart.component';
 import { Ng5SliderModule } from 'ng5-slider';
@@ -45,6 +46,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     BalanceBoxComponent,
     HorizontalBarChartComponent,
     LineChartComponent,
+    RidgelineChartComponent,
     DensityChartComponent,
     HeatmapChartComponent,
     GaugeChartComponent,
@@ -85,6 +87,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     BalanceBoxComponent,
     HorizontalBarChartComponent,
     LineChartComponent,
+    RidgelineChartComponent,
     HeatmapChartComponent,
     BudgetWidgetComponent,
     GaugeChartComponent,

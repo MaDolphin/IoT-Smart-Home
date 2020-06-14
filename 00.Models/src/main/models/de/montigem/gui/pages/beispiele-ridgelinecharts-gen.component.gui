@@ -1,0 +1,86 @@
+webpage RidgelineChartSamplePage(
+    socket RidgelineChartData chartData1,
+    //socket RidgelineGraph ridgeLineData,
+    all RidgelineChartData chartData
+    //all BeispieleLineChart lineChartData2
+) {  // webpage declaration with data init
+
+  column(nospace) {
+      navigation "navigationBarLinks" {
+          tab "Info" {
+            link: "../charts"
+          }
+          tab "BarCharts" {
+            link: "../barcharts/1"
+          }
+          tab "HorizontalBarCharts" {
+              link: "../horizontalbarcharts"
+          }
+          tab "TimeLineCharts" {
+              link: "../timelinecharts/1"
+          }
+          tab "PieCharts" {
+            link: "../piecharts/1"
+          }
+          tab "LineCharts" {
+              link: "../linecharts"
+            }
+          tab "Ridgeline" {
+              link: "./"
+          }
+      }
+  }
+
+
+  row (space-evenly, spaceabove) {
+
+    // container for card 2
+    container(80%) {
+        card {
+            head {
+                label "Ridgeline Chart"
+            }
+            body {
+              html {"
+                <form [formGroup]='' style='position:relative;left:0px;top:0px;'>
+                  <label for='gradient_test'>Add color stop (at least two required): </label>
+                  <!-- Color stop y-value -->
+                  <input #box [value]='0.3' (keydown.enter)='ignore_keydown($event)' id='color_stop_y_input'/>
+                  <!-- Selector for color stop color -->
+                  <div class='color-picker' height='10px' style='display:inline-block'>
+                    <button class='closed' [ngStyle]=\"{'background': selected_color}\" (click)='toggle_color_picker($event)'>Color</button>
+                    <div class='opened' style='position: absolute; box-shadow: 0px 7px 12px 0px rgba(53, 53, 53, 0.2); padding:1px' *ngIf='show_color_picker'>
+                      <p>Enter hex color:</p>
+                      <div class='hex-color-input'>
+                        <input #color_input type='text' maxlength='7' [value]='selected_color' (keydown.enter)='ignore_keydown($event)' (keyup.enter)='change_color($event, color_input.value)' />
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Add and reset buttons for gradient colors -->
+                  <button id='gradient_add' (click)='add_color_stop($event)'>Add</button>
+                  <button id='gradient_reset' (click)='reset_color_stop($event)'>Reset</button>
+                </form>
+                <ridgeline-chart
+                  [smooth]=\"false\"
+                  [overshoot]=30
+                  [rawData]=data
+                  [labels]=labels
+                  [font_size]=\"12\"
+                  [color_gradients]=color_gradients>
+                </ridgeline-chart>
+              "}
+                //ridgelinechart "RidgeLineChart" {           // line chart declaration with name
+                    //data : <lineChartData         // data reference (see first line)
+                    // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
+                    //stepSizeY : 2                 // Y Axis step size
+                    //title: "Realtime LineChart"   // chart title
+                    //realtime                      // if chart shows realtime data (enables animation)
+                    // overwriteData              // incoming data overwrites current data for chart if set,
+                                                // otherwise the data is appended to existing list
+                //}
+            }
+        }
+    }
+  }
+
+}

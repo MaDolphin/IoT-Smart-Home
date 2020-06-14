@@ -27,6 +27,9 @@ webpage beispieleDatentabellen {
             tab "DensityChart" {
               link: "../densitycharts"
             }
+            tab "Ridgeline" {
+              link: "../ridgelinecharts"
+            }
         }
     }
 

@@ -3,7 +3,6 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
 import {BeispieleGaugechartGenComponentTOP} from '@targetgui/beispiele-gaugechart-gen.component/beispiele-gaugechart-gen.component-top';
 import {WebSocketService} from '@shared/architecture/services/websocket.service';
-import {LineGraphDTO} from '@targetdtos/linegraph.dto';
 import {TypedJSON} from "@upe/typedjson";
 import {LineDataGroup} from "@components/charts/line-chart/line-chart.component";
 import {GaugeChartDataDTO} from '@targetdtos/gaugechartdata.dto';
@@ -19,7 +18,7 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
         protected _router: Router,
         protected _webSocketService: WebSocketService
     ) {
-        super(_commandRestService, _route, _router/*, _webSocketService*/);
+        super(_commandRestService, _route, _router, _webSocketService);
     }
 
     public transformedRealtimeData1: LineDataGroup[] = [];
@@ -28,57 +27,60 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
 
     ngOnInit() {
         super.ngOnInit();
-        setInterval(() => this.reloadData(), 2000);
+        // setInterval(() => this.reloadData(), 2000);
     }
 
     public reloadData(): void {
-        console.log(this.chartData);
-        if (this.chartData)
-            console.log(this.chartData.getData());
-
-        this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
-        this.transformedRealtimeData2 = GaugeDummyData.getNewData(150, 450);
+        // this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
+        // this.transformedRealtimeData2 = GaugeDummyData.getNewData(150, 450);
     }
 
+    public initchartDataSocket(): void {
 
-    /*public subscribechartDataSocket(): void {
+        this.chartDataSocket = this._webSocketService.open('Sensor', ['TEMPERATURE']);
 
+    }
+
+    public subscribechartDataSocket(): void {
         if (this.chartDataSocket) {
+            console.log("subscibe websocketservice")
             this.subscriptions.push(this.chartDataSocket.subscribe(message => {
                     let receivedData: GaugeChartDataDTO = TypedJSON.parse(message.data, GaugeChartDataDTO);
-                    this.chartData = this.transformSocketData(receivedData);
-                    console.log(receivedData);
-                    console.log(this.chartData);
-
-                    this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
-                    this.transformedRealtimeData2 = GaugeDummyData.getNewData(0, 500);
-                }, err =>
-                    console.error(err)
-            ));
-        } else {
-            console.error('Socket is not initialized. Initialize socket in the component constructor');
-        }
-
-    }*/
-
-
-    /*public subscribedataSocket(): void {
-        if (this.chartDataSocket) {
-            this.subscriptions.push(this.chartDataSocket.subscribe(message => {
-                    //let receivedData: GaugeChartDataDTO = TypedJSON.parse(message.data, GaugeChartDataDTO);
-                    //this.chartData = this.transformSocketData(receivedData);
-                    console.log("wrong");
                     //console.log(receivedData);
-                    //console.log(this.transformSocketData(receivedData));
-                    //this.data = this.transformSocketData(receivedData);
-                    //this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
-                    //this.transformedRealtimeData2 = GaugeDummyData.getNewData(0, 500);
-                    //this.chartData = GaugeDummyData.getNewData(0, 30);
+                    this.chartData = this.transformSocketData(receivedData);
+                    if (this.chartData.length > 0)
+                        this.transformedRealtimeData1 = this.chartData;
+                    console.log("received data: " + message.data);
+                    console.log("transformed Data: ");
+                    console.log(this.chartData);
+                    console.log("-------------------------------");
+
+                    this.transformedRealtimeData2 = GaugeDummyData.getNewData(150, 450);
+                    //console.log(this.transformedRealtimeData2);
                 }, err =>
                     console.error(err)
             ));
         } else {
             console.error('Socket is not initialized. Initialize socket in the component constructor');
         }
-    }*/
+
+    }
+
+    public transformSocketData(dataset: any): LineDataGroup[] {
+        let data = [];
+        if (!dataset.entries.length) {
+            /*data.push({
+                name: dataset.timestamp,
+                value: null
+            })*/
+        }
+        dataset.entries.forEach(entry => {
+            data.push({
+                name: entry.name,
+                value: entry.value
+            })
+        })
+        return data;
+
+    }
 }
