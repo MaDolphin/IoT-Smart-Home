@@ -32,7 +32,7 @@ export class GaugeChartComponent implements OnInit {
     selectedMax: number;
 
     // data (changed by the data-field with the realtime data)
-    public dataSet: any[] = [];
+    public dataSet: any = [];
 
     ngOnInit(): void {
         // to force resetting when first data is load
@@ -49,17 +49,17 @@ export class GaugeChartComponent implements OnInit {
 
     @Input()
     public set data(gaugeData: GaugeChartDataEntryDTO[]) {
-        // todo only replace changed data, don't replace all
         let t = this;
+        //console.log(gaugeData.entries);
+        //console.log("received data");
 
-        if (gaugeData) {
-            t.dataSet = gaugeData;
+        if (gaugeData && gaugeData.entries && gaugeData.entries.length > 0) {
+            t.dataSet = gaugeData.entries;
 
-            // (Re)set realDataMin and realDataMax
-            t.dataSet.forEach(function (entry: any, i: number) {
+            t.dataSet.forEach(function (entry: any) {
                 if (entry.value < t.realDataMin) t.realDataMin = Math.floor(entry.value); // Abrunden
                 if (entry.value > t.realDataMax) t.realDataMax = Math.ceil(entry.value); // Aufrunden
-            })
+            });
         }
     }
 
