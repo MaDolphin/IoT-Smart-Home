@@ -7,6 +7,9 @@ import {TypedJSON} from "@upe/typedjson";
 import {LineDataGroup} from "@components/charts/line-chart/line-chart.component";
 import {GaugeChartDataDTO} from '@targetdtos/gaugechartdata.dto';
 import {GaugeDummyData} from "@components/charts/gauge-chart/gauge-dummy-data";
+import {BeispieleBarChart_getById} from "@commands/beispielebarchart.getbyid";
+import {IDTO} from "@shared/architecture";
+import {BeispieleBarChartDTO} from "@targetdtos/beispielebarchart.dto";
 
 @Component({
     templateUrl: '../../../target/generated-sources/gui/beispiele-gaugechart-gen.component/beispiele-gaugechart-gen.component.html',
@@ -18,24 +21,22 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
         protected _router: Router,
         protected _webSocketService: WebSocketService
     ) {
-        super(_commandRestService, _route, _router, _webSocketService);
+        super(_commandRestService, _route, _router/*, _webSocketService*/);
     }
 
-    public transformedRealtimeData1: LineDataGroup[] = [];
     public transformedRealtimeData2: LineDataGroup[] = [];
 
 
     ngOnInit() {
         super.ngOnInit();
-        // setInterval(() => this.reloadData(), 2000);
+        //this.transformedRealtimeData1 = this.chartData;
+        setInterval(() => {
+            super.initAllCommands();
+            // console.log("Send to receive");
+        }, 1000);
     }
 
-    public reloadData(): void {
-        // this.transformedRealtimeData1 = GaugeDummyData.getNewData(0, 30);
-        // this.transformedRealtimeData2 = GaugeDummyData.getNewData(150, 450);
-    }
-
-    public initchartDataSocket(): void {
+    /*public initchartDataSocket(): void {
 
         this.chartDataSocket = this._webSocketService.open('Sensor', ['TEMPERATURE']);
 
@@ -73,7 +74,7 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
                 name: dataset.timestamp,
                 value: null
             })*/
-        }
+/*        }
         dataset.entries.forEach(entry => {
             data.push({
                 name: entry.name,
@@ -82,5 +83,5 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
         })
         return data;
 
-    }
+    }*/
 }
