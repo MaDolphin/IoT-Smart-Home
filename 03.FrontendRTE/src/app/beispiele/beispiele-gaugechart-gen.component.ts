@@ -2,36 +2,49 @@ import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
 import {BeispieleGaugechartGenComponentTOP} from '@targetgui/beispiele-gaugechart-gen.component/beispiele-gaugechart-gen.component-top';
-import {WebSocketService} from '@shared/architecture/services/websocket.service';
-import {TypedJSON} from "@upe/typedjson";
 import {LineDataGroup} from "@components/charts/line-chart/line-chart.component";
-import {GaugeChartDataDTO} from '@targetdtos/gaugechartdata.dto';
 import {GaugeDummyData} from "@components/charts/gauge-chart/gauge-dummy-data";
-import {BeispieleBarChart_getById} from "@commands/beispielebarchart.getbyid";
-import {IDTO} from "@shared/architecture";
-import {BeispieleBarChartDTO} from "@targetdtos/beispielebarchart.dto";
 
+/**
+ * This component displays two gauge charts,
+ * left one with realtime data from the backend,
+ * right one with random dummy data generated
+ */
 @Component({
     templateUrl: '../../../target/generated-sources/gui/beispiele-gaugechart-gen.component/beispiele-gaugechart-gen.component.html',
 })
 export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenComponentTOP {
+    /**
+     * @ignore
+     * @param _commandRestService
+     * @param _route
+     * @param _router
+     */
     public constructor(
         protected _commandRestService: CommandRestService,
         protected _route: ActivatedRoute,
-        protected _router: Router,
-        protected _webSocketService: WebSocketService
+        protected _router: Router/*,
+        protected _webSocketService: WebSocketService*/
     ) {
         super(_commandRestService, _route, _router/*, _webSocketService*/);
     }
 
+    /**
+     * data that is displayed in the gauge chart on the right
+     */
     public transformedRealtimeData2: LineDataGroup[] = [];
 
-
+    /**
+     * used to fetch and display the information in real time
+     */
     ngOnInit() {
         super.ngOnInit();
-        //this.transformedRealtimeData1 = this.chartData;
+        var t = this;
         setInterval(() => {
-            super.initAllCommands();
+            super.initAllCommands(); // reload data from db in chartData used for GaugeChart1
+            t.transformedRealtimeData2 = GaugeDummyData.getNewData(0, 500);
+            /*console.log(this.transformedRealtimeData2);
+            console.log(this.chartData);*/
             // console.log("Send to receive");
         }, 1000);
     }
@@ -74,14 +87,14 @@ export class BeispieleGaugechartGenComponent extends BeispieleGaugechartGenCompo
                 name: dataset.timestamp,
                 value: null
             })*/
-/*        }
-        dataset.entries.forEach(entry => {
-            data.push({
-                name: entry.name,
-                value: entry.value
+    /*        }
+            dataset.entries.forEach(entry => {
+                data.push({
+                    name: entry.name,
+                    value: entry.value
+                })
             })
-        })
-        return data;
+            return data;
 
-    }*/
+        }*/
 }
