@@ -209,20 +209,25 @@ export class Data
   /**
    * Returns the minimal values of x and y over all x- and y-values in data
    * @returns [min_x, min_y]
+   *          [INFINITY, INFINITY] if there is no entry in data
    */
   private get_min_x_y(data: number[][])
   {
+    // if (data.length == 0){
+
+    // }
     return data.reduce(
       (previous_value: number[], current_value: number[]) =>
       {
         return [Math.min(previous_value[0], current_value[0]), Math.min(previous_value[1], current_value[1])];
-      }
-    );
+      },
+      [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY]);
   }
 
   /**
    * Returns the maximum values of x and y over all x- and y-values in data
    * @returns [max_x, max_y]
+   *          [-INFINITY, -INFINITY] if there is no entry in data
    */
   private get_max_x_y(data: number[][])
   {
@@ -230,8 +235,8 @@ export class Data
       (previous_value: number[], current_value: number[]) =>
       {
         return [Math.max(previous_value[0], current_value[0]), Math.max(previous_value[1], current_value[1])];
-      }
-    );
+      },
+      [Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY]);
   }
 
 
@@ -255,10 +260,7 @@ export class Data
 
     //Get relevant data information
     this.xy_min_max = this.get_xy_min_max(this.values);
-    this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
-    this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
-    this.max_y_range_from_0 = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
-    this.x_start_value = this.xy_min_max[0][0];
+    this.compute_ranges();
 
     //Transform needs to be called
     this.has_untransformed_data = true;
@@ -268,6 +270,7 @@ export class Data
   /**
    * This function updates all variables of this class dependent on the newly added data, and merges it with old data
    * @param new_data The data to add to all ridge-line charts.
+   *                 If it contains an empty ridge, nothing changes for this ridge
    */
   public update_raw_data(new_data: number[][][]){
     if (new_data.length > 0)
@@ -291,10 +294,7 @@ export class Data
       this.xy_min_max[1][1] = Math.max(this.xy_min_max[1][1], updated_xy_min_max[1][1]);
 
       //Update other data information based on updated xy_min_max
-      this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
-      this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
-      this.max_y_range_from_0 = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
-      this.x_start_value = this.xy_min_max[0][0];
+      this.compute_ranges();
 
       //Merge new with old data
       for (let i = 0; i < new_data.length; ++i) // iterate over ridges
@@ -329,6 +329,17 @@ export class Data
     //Transform needs to be called
     this.has_untransformed_data = true;
   }
+
+  /**
+   * Computes x_range, y_range and max_y_range_from_0 dependent on the current xy_min_max
+   */
+  private compute_ranges(){
+    this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
+    this.y_range = Math.abs(this.xy_min_max[0][1] - this.xy_min_max[1][1]);
+    this.max_y_range_from_0 = Math.max(Math.abs(this.xy_min_max[0][1]), Math.abs(this.xy_min_max[1][1]));
+    this.x_start_value = this.xy_min_max[0][0];
+  }
+
 
   public set_color_gradients(color_gradients : [string, number][])
   {
