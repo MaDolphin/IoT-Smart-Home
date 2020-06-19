@@ -556,14 +556,20 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   //Raw data which is transformed and then shown in the plot
   @Input()
   public set rawData(rawData: number[][][]){
+    if (rawData.length <= 0)
+    {
+      return;
+    }
+
+    if (rawData[0].length > 500)
+    {
+      return;
+    }
+
+    //TODO: Revert this later on, is due to currently faulty data for static example
+
     this.had_data_before = this._rawData.length > 0;
     this._rawData = rawData;
-
-    if (rawData[0].length > 514)
-    {
-      console.log(rawData[0][514]);
-    }
-    console.log(rawData);
 
     //Change behaviour depending on whether we only add data and want to perform our analysis only on that, or whether we actually want to reset the previously set data and overwrite everything
     //Also: First-time behaviour (if no data was set previously) is the same
@@ -601,22 +607,31 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   {
     //Set div size to viewport width part depending on current window size
     //With about 500px window width, we only have half of the screen left, at 2000px we have about 90 percent
-    let viewport_width_proportion = (0.2/1000 * window.innerWidth + 0.36) * 100;
-    if (viewport_width_proportion > 90)
-    {
-      viewport_width_proportion = 90;
-    }
-    let canvas_container_width = "width: " + viewport_width_proportion + "vw";
-    this.canvas_container.setAttribute("style", canvas_container_width);
+    // let viewport_width_proportion = (0.2/1000 * window.innerWidth + 0.36) * 100;
+    // if (viewport_width_proportion > 90)
+    // {
+    //   viewport_width_proportion = 90;
+    // }
+    // let canvas_container_width = "width: " + viewport_width_proportion + "vw";
+    // this.canvas_container.setAttribute("style", canvas_container_width);
+
+    let width_factor = this.initial_parent_width / this.initial_view_width;
+    let height_factor = this.initial_parent_height / this.initial_view_height;
 
     //Width is set through CSS property / HTML "resize" property because we cannot always use window.innerWidth as orientation
     //paper.view.viewSize.width = this.canvas.width;
-    this.canvas.width = this.canvas_container.clientWidth - 10;
-    this.canvas.height = this.canvas_container.clientHeight - 10;
-    this.scope.view.viewSize.width = this.canvas_container.clientWidth - 10;
-    this.scope.view.viewSize.height = this.canvas_container.clientHeight - 10;
+    //this.canvas_container.clientWidth - 10
+    this.canvas.width = width_factor * window.innerWidth;
+    this.canvas.height = height_factor * window.innerHeight;
+    this.scope.view.viewSize.width = width_factor * window.innerWidth;
+    this.scope.view.viewSize.height = height_factor * window.innerHeight;
   }
 
+
+  private initial_parent_width;
+  private initial_parent_height;
+  private initial_view_width;
+  private initial_view_height;
 
   ngAfterViewInit() {
     this.canvas_container = this.canvas_container_view.nativeElement as HTMLDivElement;
@@ -625,11 +640,14 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     this.canvas.setAttribute("width", "100%");
     this.canvas.setAttribute("height", "100%");
 
+    this.initial_parent_width = this.canvas_container.clientWidth;
+    this.initial_parent_height = this.canvas_container.clientHeight;
+    this.initial_view_width = window.innerWidth;
+    this.initial_view_height = window.innerHeight;
+
     // Set up paperjs with the given canvas
     this.scope = new paper.PaperScope();
     this.scope.setup(this.canvas);
-
-    let height = 5 * 100; // Choose an arbitrary value which might fit to the number of ridges
 
     this.adjust_size();
 
@@ -638,7 +656,9 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     //Paperjs framerate: 60fps
     //We do not need to update the view that often, 3fps should be enough to see real-time data
     let frame_count = 0;
+
     this.scope.view.onFrame = (event) => {
+      console.log("Frame");
       //Only show every 10th frame
       if (frame_count % 20 != 0)
       {

@@ -35,7 +35,7 @@ webpage RidgelineChartSamplePage(
   row (space-evenly, spaceabove) {
 
     // Dynamic ridgeline plot
-    container(90%) {
+    container(40%) {
         card {
             head {
                 label "Ridgeline Chart Dynamic"
@@ -87,7 +87,7 @@ webpage RidgelineChartSamplePage(
     }
 
     // Static ridgeline plot
-    container(90%) {
+    container(40%) {
         card {
             head {
                 label "Ridgeline Chart Static"
