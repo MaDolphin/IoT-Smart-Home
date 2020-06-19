@@ -61,6 +61,7 @@ webpage RidgelineChartSamplePage(
                   <button id='gradient_reset' (click)='reset_color_stop($event)'>Reset</button>
                 </form>
                 <ridgeline-chart
+                  [alpha]=0.2
                   [overshoot]=30
                   [rawData]=data_dynamic
                   [overwrite_data]=\"false\"
@@ -94,6 +95,7 @@ webpage RidgelineChartSamplePage(
             body {
               html {"
                 <ridgeline-chart
+                  [alpha]=0.8
                   [overshoot]=30
                   [rawData]=data_static
                   [overwrite_data]=\"true\"

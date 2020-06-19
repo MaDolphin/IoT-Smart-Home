@@ -506,6 +506,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   @Input() relative_x_precision: number=2;
   @Input() align_x_label_to = 1000;
   _rawData: number[][][] = [];
+  _alpha: number = 1.0;
   
   //Input function and value for max y value of ridgeline color gradient
   // private color_gradient_max_y : number = 0.3; //Should match default value in HTML
@@ -526,6 +527,15 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   private config: Ridgeline_Config = new Ridgeline_Config();
   private had_data_before: boolean = false; //Remember if data has ever been set before (for first-time setup)
 
+  //Transparency of the color the graphs are filled with
+  @Input() 
+  public set alpha (alpha: number){
+    if (alpha >= 0 && alpha <= 1)
+    {
+      this._alpha = alpha;
+    }
+  }
+
   /*
   @Input() 
   public set smooth(smooth: boolean){
@@ -537,6 +547,12 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   public set rawData(rawData: number[][][]){
     this.had_data_before = this._rawData.length > 0;
     this._rawData = rawData;
+
+    if (rawData[0].length > 514)
+    {
+      console.log(rawData[0][514]);
+    }
+    console.log(rawData);
 
     //Change behaviour depending on whether we only add data and want to perform our analysis only on that, or whether we actually want to reset the previously set data and overwrite everything
     //Also: First-time behaviour (if no data was set previously) is the same
@@ -623,7 +639,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
       //Update or set data if required - these functions only change the data / gradients if their values have been modified (see @Input set functions)
       this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date, this.align_x_label_to);
       this.data.transform_data(this.config);
-      this.data.transform_color_gradients(this.config, 0.7); //TODO: Alpha for transparency as input value
+      this.data.transform_color_gradients(this.config, this._alpha);
 
       // Should not be called too often
       if (this.hasData()){
