@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {BeispieleDensitychartGenComponent} from '@targetgui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component';
 import {WebSocketService} from "@services/websocket.service";
+import { DensitySensorDataDTO } from '@densitysensordata-dto/densitysensordata.dto';
+
 @Component({
     templateUrl: '../../../target/generated-sources/gui/beispiele-densitychart-gen.component/beispiele-densitychart-gen.component.html',
 })
@@ -21,6 +23,8 @@ export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGen
     }
     title = 'Densitychart';
     public densitysensordata;
+    
+    /**
     public subscribedataSocket(): void {
         if(this.dataSocket) {
             this.subscriptions.push(this.dataSocket.subscribe(message => {
@@ -35,6 +39,6 @@ export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGen
         return [{"type": "Temperatur A", "value": 10+ Math.random() * 10},{"type": "Temperatur B", "value": 15 + Math.random() * 10}];
     }
 
-
+**/
 
 }

@@ -29,22 +29,25 @@ export class DensityChartComponent implements OnChanges {
   paths; // path element for each density curve
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.data2)
+    if (this.data2==null)
     {
-	this.informationLabel.nativeElement.innerHTML="No data available";
-	return;
+        this.informationLabel.nativeElement.innerHTML="No data available";
+    }else if(this.data2.length <=0 || this.data2.entries.length<=0)
+    {
+        this.informationLabel.nativeElement.innerHTML="received data is empty";
+    }else{
+        this.informationLabel.nativeElement.innerHTML="";
+        this.updateChart(this.data2);
     }
-    this.updateChart(changes.data2.currentValue);
-  }
+ }
 
-  onResize(changes: SimpleChanges) {
+/**  onResize(changes: SimpleChanges) {
     this.updateChart(changes.data2.currentValue);
-  }
-  private createDensityChart(): void {
-
+  }**/
+  private createDensityChart(data2: Data2Model[]): void {
     d3.select('svg').remove();
     const densityElement = this.chartContainer.nativeElement;
-    const data = this.data2;
+    const data = data2;
 
     /**
      * select chart from html and append an svg
@@ -206,11 +209,12 @@ export class DensityChartComponent implements OnChanges {
   */
   private updateChart(data2: Data2Model[]) {
     if ( this.firstCall == 1 ) {
-      this.createDensityChart();
+      this.createDensityChart(data2);
       this.firstCall = 0;
     }else{
       const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7), this.x.ticks(60));
       const types = [];
+      console.log(data2);
       kde(data2
         .filter((d) => {
           if (types.indexOf(d.type) === -1) {
