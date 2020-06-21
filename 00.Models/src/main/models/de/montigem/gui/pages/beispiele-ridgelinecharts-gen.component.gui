@@ -66,7 +66,7 @@ webpage RidgelineChartSamplePage(
                   [rawData]=data_dynamic
                   [overwrite_data]=\"false\"
                   [labels]=labels_dynamic
-                  [font_size]=\"12\"
+                  [font_size]=12
                   [color_gradients]=color_gradients_dynamic
                   [x_is_time]=\"true\"
                   [show_date]=\"false\"
@@ -103,8 +103,8 @@ webpage RidgelineChartSamplePage(
                   [font_size]=\"12\"
                   [color_gradients]=color_gradients_static
                   [x_is_time]=\"true\"
-                  [show_date]=\"false\"
-                  [align_x_label_to]=1000>
+                  [show_date]=\"true\"
+                  [align_x_label_to]=86400000>
                 </ridgeline-chart>
               "}
             }

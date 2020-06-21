@@ -176,6 +176,9 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
         let data_transformed = this.transformDTO(this.chartData);
         this.data_static = data_transformed[0];
         this.labels_static = data_transformed[1];
+        console.log(this.data_static);
+        console.log(this.labels_static);
+        console.log(this.data_static.length);
         //Just for presentation
         // this.data_static = [];
         // for (let j = 0; j < 2; ++j)

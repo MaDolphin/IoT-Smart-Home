@@ -17,7 +17,7 @@ class Ridgeline_Config {
   grid_line_end_x: number;
   grid_line_start_y: number;
   
-  font_size: string;
+  font_size: number;
 
   // values for x axis of data plots
   x_axis_start: number;
@@ -31,31 +31,33 @@ class Ridgeline_Config {
   previous_canvas_height : number = 0;
   size_was_changed : boolean = false;
 
+
   /**
-   * TODO Rename this function with a better suited name
-   * @param all_data 
-   * @param canvas_width 
+   * This function has to be called in order to set all parameters.
+   * @param labels          The labels of all ridges. Necessary in order to compute needed space on the left side of diagram
+   * @param data_rows       The number of ridges.
+   * @param canvas_width    
    * @param canvas_height 
-   * @param overshoot     how far do one ridge overlaps into another one (in percentage)
-   * @param space_for_two_lines_of_labels Is true if space for two lines of the x-axis labels should be reserved
-   *                                      Otherwise only space for one line is reserved
+   * @param grid_line_end_x x-Point on canvas at which the grid should end in x-direction on the right side
+   * @param font_size       font size of axis description in pixel
+   * @param overshoot       how far do one ridge overlaps into another one (in percentage)
+   * @param number_of_lines_of_labels for how many lines of the x-axis labels should be space reserved
+   *                                  (e.g. for the label "Line1\nLine2" this should be 2)
+   * @param x_axis_value_offset which numerical distance should be between two x-axis-descriptions
    */
   public set_params(
     labels : string[],
     data_rows : number, 
-    data_x_range: number,
     canvas_width: number, 
     canvas_height: number, 
     grid_line_end_x: number, 
-    font_size: string,
+    font_size: number,
     overshoot: number,
-    space_for_two_lines_of_labels: boolean,
+    number_of_lines_of_labels: number,
     x_axis_value_offset: number)
   {
-    let abs_space_x_axis_legend = 10;
-    if (space_for_two_lines_of_labels){
-      abs_space_x_axis_legend = 30;
-    }
+    let abs_space_x_axis_legend_per_line = font_size + 2;
+    let abs_space_x_axis_legend = abs_space_x_axis_legend_per_line * number_of_lines_of_labels;
                                     // divide by everything which has to fit into the canvas space
                                     // i.e. the number of ridges (dat_rows), the space which might be needed for the overshoot
                                     // at the top and the bottom (2*overshoot/100), and the additional space for negative values
@@ -89,11 +91,7 @@ class Ridgeline_Config {
 
     this.x_axis_start = this.grid_line_start_x;
     this.x_axis_width = canvas_width - this.x_axis_start;
-    
-    //Set x-axis value offset when drawing legend from min to max x value (vertical line every offset)
-    //this.x_axis_value_offset = data_x_range / canvas_width * 80; //Every 80px    
-    //Round this value to at most two decimal places
-    //this.x_axis_value_offset = Math.round((this.x_axis_value_offset + Number.EPSILON) * 100) / 100;
+
     this.x_axis_value_offset = x_axis_value_offset;
 
     this.y_axis_start = this.ridges_height;
@@ -331,7 +329,7 @@ export class Data
   }
 
   /**
-   * Computes x_range, y_range and max_y_range_from_0 dependent on the current xy_min_max
+   * Computes x_range, y_range, max_y_range_from_0 and x_start_value dependent on the current xy_min_max
    */
   private compute_ranges(){
     this.x_range = Math.abs(this.xy_min_max[0][0] - this.xy_min_max[1][0]);
@@ -510,7 +508,7 @@ export class Data
 export class RidgelineChartComponent implements OnInit, AfterViewInit {
   @Input() overshoot: number;
   @Input() labels: string[]; // The labels of the ridges
-  @Input() font_size: string;
+  @Input() font_size: number; // The font size in pixel
   @Input() overwrite_data: boolean; //If true, overwrite data on set, else just update/merge it with old data; also has an influence on further data processing
   @Input() x_is_time: boolean=true;
   @Input() show_date: boolean=false; // Only relevant, if x_is_time==true;
@@ -557,11 +555,6 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   @Input()
   public set rawData(rawData: number[][][]){
     if (rawData.length <= 0)
-    {
-      return;
-    }
-
-    if (rawData[0].length > 500)
     {
       return;
     }
@@ -668,7 +661,11 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
       frame_count = 1;
 
       //Update or set data if required - these functions only change the data / gradients if their values have been modified (see @Input set functions)
-      this.config.set_params(this.labels, this.data.length, this.data.x_range, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, this.x_is_time && this.show_date, this.align_x_label_to);
+      let number_of_lines_of_labels = 1
+      if (this.x_is_time && this.show_date){
+        number_of_lines_of_labels = 2;
+      }
+      this.config.set_params(this.labels, this.data.length, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, number_of_lines_of_labels, this.align_x_label_to);
       this.data.transform_data(this.config);
       this.data.transform_color_gradients(this.config, this._alpha);
 
@@ -701,7 +698,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
 
   private plot_grid(labels: string[], data: Data, config: Ridgeline_Config)
   {
-    //Values for later
+    //Val for later
     let line_start_x = config.grid_line_start_x;
     let line_end_x = config.grid_line_end_x;
     let line_start_y = config.grid_line_start_y;
