@@ -103,8 +103,8 @@ webpage RidgelineChartSamplePage(
                   [font_size]=\"12\"
                   [color_gradients]=color_gradients_static
                   [x_is_time]=\"true\"
-                  [show_date]=\"true\"
-                  [align_x_label_to]=86400000>
+                  [show_date]=\"false\"
+                  [align_x_label_to]=14400000>
                 </ridgeline-chart>
               "}
             }

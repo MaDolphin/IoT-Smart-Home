@@ -173,12 +173,9 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     RidgelineChartDataDTO.getAll(this.commandManager)
       .then((model: RidgelineChartDataDTO) => {
         this.chartData = model;
-        let data_transformed = this.transformDTO(this.chartData);
+        let data_transformed = this.split_data_on_days(this.transformDTO(this.chartData)[0]);
         this.data_static = data_transformed[0];
         this.labels_static = data_transformed[1];
-        console.log(this.data_static);
-        console.log(this.labels_static);
-        console.log(this.data_static.length);
         //Just for presentation
         // this.data_static = [];
         // for (let j = 0; j < 2; ++j)
@@ -192,6 +189,60 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
         // this.labels_static = ["Income Mon", "Income Tue"];
       });
   }
+
+  /**
+   * Creates an own ridge for each day included in data
+   * @param data 
+   * @return a tuple consisting of the values (number[][][]) and the y-labels_static (string[])
+   */
+  private split_data_on_days(data: number[][][]){
+    if (data.length == 0){
+      return [[],[]];
+    }
+    let res_data = [];
+    let res_labels = [];
+    let current_value_index = 0;
+    
+
+    while (current_value_index < data[0].length){
+      res_data.push([]); // Append one ridge for each day
+
+      let date = new Date(data[0][current_value_index][0]);
+      let current_day = date.getDate();
+
+      // Label creation
+      let y_str = date.getFullYear().toString();
+      let month_str = (date.getMonth() + 1).toString().padStart(2,"0");
+      let d_str = date.getDate().toString().padStart(2,"0");
+      res_labels.push(''+d_str+"."+month_str+"."+y_str+"\n");
+
+
+      // For logging
+      // let h_str = date.getHours().toString().padStart(2,"0");
+      // let min_str = date.getMinutes().toString().padStart(2,"0");
+      // let s_str = date.getSeconds().toString().padStart(2,"0");
+      // //let ms_str = date.getMilliseconds().toString().padStart(3,"0");
+      // console.log(''+h_str+':'+min_str+':'+s_str);
+
+      while ((current_value_index < data[0].length) && (current_day == (new Date(data[0][current_value_index][0]).getDate()))){
+        let new_data_entry = [data[0][current_value_index][0] % 86400000, data[0][current_value_index][1]];
+        res_data[res_data.length-1].push(new_data_entry);
+        current_value_index++;
+      }
+    }
+
+    return [res_data, res_labels];
+
+    // for (let ridge_index=0; ridge_index<data[0].length; ridge_index++){
+    //   while (current_day == (new Date(data[0][current_valu][0]).getDate())){
+
+    //   }
+    // }
+
+    // Assume subsequent days
+  }
+
+
   
   public getData(message){
     if (this.useDynamicBackendData){ // Currently sent via REST (all) and not via websocket
