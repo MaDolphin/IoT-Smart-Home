@@ -5,6 +5,9 @@ webpage Densitychart(  socket LineGraph data,
           tab "Info" {
             link: "../charts"
           }
+          tab "Density & Gauge Charts" {
+            link: "../density_gauge_dashboard"
+          }
           tab "BarCharts" {
             link: "../barcharts/1"
           }

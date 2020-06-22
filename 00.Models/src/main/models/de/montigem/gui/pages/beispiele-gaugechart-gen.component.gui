@@ -4,6 +4,9 @@ webpage GaugeChart (all GaugeChartData chartData) {
       tab "Info" {
         link: "../charts"
       }
+      tab "Density & Gauge Charts" {
+        link: "../density_gauge_dashboard"
+      }
       tab "BarCharts" {
         link: "../barcharts/1"
       }
