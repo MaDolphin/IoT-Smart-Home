@@ -31,11 +31,53 @@ export class HeatmapChartComponent implements OnChanges {
   showLegend = true;
   showXAxisLabel = false;
   showYAxisLabel = false;
+
   colorScheme = {
-    domain: ['#A3CAEC', '#00549F']
+    domain: ['#A3CAEC','#98BCDB','#8CAECB','#819FBA','#7591AA','#6A8399','#5E7588','#536778','#536778','#3C4A57','#303C46']
   };
+
+
+  color_to_html_hex(redv, greenv, bluev)
+  {
+    return ('#'+('0'+Math.floor(redv).toString(16)).slice(-2)+('0'+Math.floor(greenv).toString(16)).slice(-2)+('0'+Math.floor(bluev).toString(16)).slice(-2));
+  }
+
+  colorscalefactor = 0.3;
+
+  color_domain_mid_steps = 10;
+
+  enter_color(value:string)
+  {
+    var color = parseInt(value.substr(1),16);
+    var blue = (color % 256);
+    var green = ((color-blue)/256)%256;
+    var red = (color-blue-(256*green))/65536;
+    if((blue+green+red)>381)
+    {
+      var secondary_red =red*this.colorscalefactor;
+      var secondary_green =green*this.colorscalefactor;
+      var secondary_blue =blue*this.colorscalefactor;
+    }
+    else
+    {
+      var secondary_red =255-(255-red)*this.colorscalefactor;
+      var secondary_green =255-(255-green)*this.colorscalefactor;
+      var secondary_blue =255-(255-blue)*this.colorscalefactor;
+    }
+    var new_domain = [];
+    for(var i = 1; i<=this.color_domain_mid_steps;i++)
+    {
+      new_domain.push(this.color_to_html_hex(((this.color_domain_mid_steps-i)*secondary_red+i*red)/this.color_domain_mid_steps,((this.color_domain_mid_steps-i)*secondary_green+i*green)/this.color_domain_mid_steps,((this.color_domain_mid_steps-i)*secondary_blue+i*blue)/this.color_domain_mid_steps));
+    }
+    new_domain.push(value);
+    this.colorScheme = {domain: new_domain};
+  }
+
+
   //Initial number of columns, same as html
-  num_seperations : number = 6;
+  num_seperations  = 6;
+
+  loop_factor  = 86400;
   //If new column number is selected, clip to extremes and recalculate chart
   enter_num_seperations(value:number)
   {
@@ -58,6 +100,12 @@ export class HeatmapChartComponent implements OnChanges {
     this.loop_days = value;
     if(this.data) this.computed_data = this.rearrange_array(this.data.entries);  
   }
+  enter_num_loop_factor(value)
+  {
+    if(value<2) this.loop_factor=2;
+    else this.loop_factor=value;
+    if(this.data) this.computed_data = this.rearrange_array(this.data.entries); 
+  }
 
   //Creates an [{"name",series:["name","value"]}] array from an [{"name", "timestamp"}] array by splitting the time into num_seperators equal periods and couting amount of entries for each period & sensor name
   rearrange_array(somedata) {
@@ -79,7 +127,7 @@ export class HeatmapChartComponent implements OnChanges {
     if(this.loop_days)
     {
       min = 0;
-      max = 86400;
+      max = this.loop_factor;
     }
 
     //Period between earliest and latest timestamp 
@@ -105,7 +153,7 @@ export class HeatmapChartComponent implements OnChanges {
 
       //Count the occurences in this chunk
       for (var entry of somedata) {
-        if((this.loop_days) && ((min + j*step) <= (entry.timestamp % 86400) && (entry.timestamp % 86400) < (min + (j+1)*step))){
+        if((this.loop_days) && ((min + j*step) <= (entry.timestamp % this.loop_factor) && (entry.timestamp % this.loop_factor) < (min + (j+1)*step))){
           counts[names.indexOf(entry.name)]++;
         }
         else if((min + j*step) <= entry.timestamp && entry.timestamp < (min + (j+1)*step)){
