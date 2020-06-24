@@ -248,7 +248,7 @@ export class Data
     if (x_range <= 0) return;
 
     //Data is assumed to be sorted - max x can thus be obtained easily
-    let max_x = 0;
+    let max_x = Number.NEGATIVE_INFINITY;
     for (let i = 0; i < data.length; ++i)
     {
       if (data[i].length > 0)
@@ -263,8 +263,8 @@ export class Data
       {
         let new_start_index = this.values[i].findIndex((element) => element[0] >= (max_x - x_range));
 
-        if (new_start_index >= 0) data[i] = data[i].slice(new_start_index - 1, data[i].length);
-        else data[i] = [];
+        if (new_start_index > 0) data[i] = data[i].slice(new_start_index - 1, data[i].length);
+        else if (new_start_index < 0) data[i] = [];
       }
     }
   }
