@@ -70,7 +70,8 @@ webpage RidgelineChartSamplePage(
                   [color_gradients]=color_gradients_dynamic
                   [x_is_time]=\"true\"
                   [show_date]=\"false\"
-                  [align_x_label_to]=1000>
+                  [align_x_label_to]=1000
+                  [max_x_range]=10>
                 </ridgeline-chart>
               "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name
