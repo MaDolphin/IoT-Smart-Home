@@ -24,6 +24,7 @@ describe('Components', () => {
                     this.data2.set_raw_data(raw_data2);
                 });
 
+// ----------------------------------------- Data-class tests -----------------------------------------
 
                 it('sort_by_x',
                     () => {
