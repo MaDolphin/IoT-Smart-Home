@@ -239,12 +239,44 @@ export class Data
       [Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY]);
   }
 
+  /**
+   * Returns the data restricted to the given x range (to [max_x - x_range, max_x]), only if x_range > 0
+   * @param data Data to restrict, assumed to be sorted!
+   * @param x_range Desired range of the x values up to the highest value
+   */
+  private restrict_to_x_range(data: number[][][], x_range: number)
+  {
+    //Abort if x_range is too small
+    if (x_range <= 0) return;
+
+    //Data is assumed to be sorted - max x can thus be obtained easily
+    let max_x = 0;
+    for (let i = 0; i < data.length; ++i)
+    {
+      if (data[i].length > 0)
+      {
+        max_x = Math.max(max_x, data[i][data[i].length - 1][0]);
+      }
+    }
+
+    for (let i = 0; i < data.length; ++i)
+    {
+      if (data[i].length > 0)
+      {
+        let new_start_index = this.values[i].findIndex((element) => element[0] >= (max_x - x_range));
+
+        if (new_start_index >= 0) data[i] = data[i].slice(new_start_index - 1, data[i].length);
+        else data[i] = [];
+      }
+    }
+  }
 
   /**
    * This function sets up all variables of this class dependent on the data.
    * @param data The data of all ridge-line charts.
+   * @param max_x_range The window size of the data
    */
-  public set_raw_data(data: number[][][]){
+  public set_raw_data(data: number[][][], max_x_range: number){
     //Only continue if data is present
     if (data.length == 0)
     {
@@ -257,6 +289,9 @@ export class Data
 
     //Sort data by x for drawing
     this.sort_by_x(this.values);
+
+    //Restrict data to x range
+    this.restrict_to_x_range(this.values, max_x_range);
 
     //Get relevant data information
     this.xy_min_max = this.get_xy_min_max(this.values);
@@ -271,8 +306,9 @@ export class Data
    * This function updates all variables of this class dependent on the newly added data, and merges it with old data
    * @param new_data The data to add to all ridge-line charts.
    *                 If it contains an empty ridge, nothing changes for this ridge
+   * @param max_x_range The window size of the data
    */
-  public update_raw_data(new_data: number[][][]){
+  public update_raw_data(new_data: number[][][], max_x_range: number){
     if (new_data.length > 0)
     {
       //Store data
@@ -325,6 +361,12 @@ export class Data
         }
       }
     }
+
+    //Restrict data to x range
+    this.restrict_to_x_range(this.values, max_x_range);
+    this.xy_min_max = this.get_xy_min_max(this.values);
+    this.compute_ranges();
+    //TODO: Change behaviour for xy_min_max in this function, change xy_min_max to expect sorted data (which happens anyway) s.t. computation is much faster (see restrict_to_x_range)
 
     //Transform needs to be called
     this.has_untransformed_data = true;
@@ -516,6 +558,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   @Input() show_date: boolean=false; // Only relevant, if x_is_time==true;
   @Input() relative_x_precision: number=2;
   @Input() align_x_label_to = 1000;
+  @Input() max_x_range = -1; //For sliding window, applied if > 0
   _rawData: number[][][] = [];
   _alpha: number = 1.0;
   
@@ -575,12 +618,12 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     //Also: First-time behaviour (if no data was set previously) is the same
     if (this.overwrite_data || !this.had_data_before)
     {
-      this.data.set_raw_data(rawData);
+      this.data.set_raw_data(rawData, this.max_x_range);
     }
     else
     {
       //This is less CPU-expensive - we set the data block that needs to be updated, which can change e.g. the x-range of our data
-      this.data.update_raw_data(rawData);
+      this.data.update_raw_data(rawData, this.max_x_range);
     }
 
     //Transformation of the (new) data now depends e.g. on the size on the canvas and thus is done within UI functions
