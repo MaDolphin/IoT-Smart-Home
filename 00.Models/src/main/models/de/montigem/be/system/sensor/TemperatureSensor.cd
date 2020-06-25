@@ -15,6 +15,16 @@ classdiagram TemperatureSensor {
     String name;
     int value;
   }
+
+  class TemperatureData {
+    List<TemperatureDataEntry> entries;
+  }
+
+  class TemperatureDataEntry {
+    String name;
+    int value;
+    int timestamp;
+  }
 }
 
 

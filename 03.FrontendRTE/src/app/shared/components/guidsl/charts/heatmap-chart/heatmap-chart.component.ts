@@ -10,14 +10,21 @@ import { interval } from 'rxjs';
   templateUrl: './heatmap-chart.component.html',
 })
 export class HeatmapChartComponent implements OnChanges {
+
   //Now we only need data and labels, to create a heatmap-chart
   @Input() data;
   @Input() XLabel;
   @Input() YLabel;
+  @Input() timestampdata = false;
 
   //Redistribute timestamps if data changes
   ngOnChanges(changes: SimpleChanges) {
     if(this.data) this.computed_data = this.rearrange_array(this.data.entries);
+    
+    if(this.timestampdata){
+      this.prettyprint_timestamps=true;
+      this.loop_factor=86400;
+    } 
   }
   //Set minimum and maximum Column numbers
   private min_num_seperations = 1;
@@ -31,6 +38,8 @@ export class HeatmapChartComponent implements OnChanges {
   showLegend = true;
   showXAxisLabel = false;
   showYAxisLabel = false;
+
+  
 
   colorScheme = {
     domain: ['#A3CAEC','#98BCDB','#8CAECB','#819FBA','#7591AA','#6A8399','#5E7588','#536778','#536778','#3C4A57','#303C46']
@@ -77,7 +86,7 @@ export class HeatmapChartComponent implements OnChanges {
   //Initial number of columns, same as html
   num_seperations  = 6;
 
-  loop_factor  = 86400;
+  loop_factor  = 10;
   //If new column number is selected, clip to extremes and recalculate chart
   enter_num_seperations(value:number)
   {
@@ -87,7 +96,7 @@ export class HeatmapChartComponent implements OnChanges {
     if(this.data) this.computed_data = this.rearrange_array(this.data.entries);    
   }
   //Checkbox attributes
-  prettyprint_timestamps = true;
+  prettyprint_timestamps = false;
   loop_days = false;
   //Refresh chart if changed
   enter_pretty_date(value)
@@ -109,19 +118,37 @@ export class HeatmapChartComponent implements OnChanges {
 
   //Creates an [{"name",series:["name","value"]}] array from an [{"name", "timestamp"}] array by splitting the time into num_seperators equal periods and couting amount of entries for each period & sensor name
   rearrange_array(somedata) {
+    if(this.timestampdata)
+    {
+      //Earliest timestamp
+      var min = somedata[0].timestamp;
+      //Latest timestamp
+      var max = somedata[0].timestamp;
+      //List of Sensor Names
+      var names = [];
+      //Calculate the three values
+      for (var i_data of somedata) {
+        if(min>i_data.timestamp){min=i_data.timestamp;}
+        if(max<i_data.timestamp){max=i_data.timestamp;}
+        names.indexOf(i_data.name) === -1 ? names.push(i_data.name) : undefined;
+      };
+    }
+    else
+    {
+      //Earliest timestamp
+      var min = somedata[0].value;
+      //Latest timestamp
+      var max = somedata[0].value;
+      //List of Sensor Names
+      var names = [];
+      //Calculate the three values
+      for (var i_data of somedata) {
+        if(min>i_data.value){min=i_data.value;}
+        if(max<i_data.value){max=i_data.value;}
+        names.indexOf(i_data.name) === -1 ? names.push(i_data.name) : undefined;
+      };
+    }
     
-    //Earliest timestamp
-    var min = somedata[0].timestamp;
-    //Latest timestamp
-    var max = somedata[0].timestamp;
-    //List of Sensor Names
-    var names = [];
-    //Calculate the three values
-    for (var i_data of somedata) {
-      if(min>i_data.timestamp){min=i_data.timestamp;}
-      if(max<i_data.timestamp){max=i_data.timestamp;}
-      names.indexOf(i_data.name) === -1 ? names.push(i_data.name) : undefined;
-    };
     //Increse maximum by one, so highest element is below the max (otherwise it is not counted)
     max++;
     if(this.loop_days)
@@ -151,15 +178,31 @@ export class HeatmapChartComponent implements OnChanges {
       //Define shape of inner array
       let temp_series: {name: string,value:number}[] = [];
 
-      //Count the occurences in this chunk
-      for (var entry of somedata) {
-        if((this.loop_days) && ((min + j*step) <= (entry.timestamp % this.loop_factor) && (entry.timestamp % this.loop_factor) < (min + (j+1)*step))){
-          counts[names.indexOf(entry.name)]++;
-        }
-        else if((min + j*step) <= entry.timestamp && entry.timestamp < (min + (j+1)*step)){
-          counts[names.indexOf(entry.name)]++;
+      if(this.timestampdata)
+      {
+        //Count the occurences in this chunk
+        for (var entry of somedata) {
+          if((this.loop_days) && ((min + j*step) <= (entry.timestamp % this.loop_factor) && (entry.timestamp % this.loop_factor) < (min + (j+1)*step))){
+            counts[names.indexOf(entry.name)]++;
+          }
+          else if((min + j*step) <= entry.timestamp && entry.timestamp < (min + (j+1)*step)){
+            counts[names.indexOf(entry.name)]++;
+          }
         }
       }
+      else
+      {
+        //Count the occurences in this chunk
+        for (var entry of somedata) {
+          if((this.loop_days) && ((min + j*step) <= (entry.value % this.loop_factor) && (entry.value % this.loop_factor) < (min + (j+1)*step))){
+            counts[names.indexOf(entry.name)]++;
+          }
+          else if((min + j*step) <= entry.value && entry.value < (min + (j+1)*step)){
+            counts[names.indexOf(entry.name)]++;
+          }
+        }
+      }
+      
 
       //Fill inner array
       for (var count in counts) {
