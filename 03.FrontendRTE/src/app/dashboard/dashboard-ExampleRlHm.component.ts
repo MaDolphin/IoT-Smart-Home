@@ -12,6 +12,8 @@ import { WebSocketService } from "@services/websocket.service";
 
 export class DashboardExampleRlHmComponent extends DashboardExampleRlHmComponentTOP implements OnInit {
   protected socket;
+   xAxisLabel = "";
+   yAxisLabel = "";
 
   public constructor(
     _router: Router,
