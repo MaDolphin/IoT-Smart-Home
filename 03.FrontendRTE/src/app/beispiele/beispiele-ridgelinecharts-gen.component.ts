@@ -315,8 +315,48 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
       test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
     }
     let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
+
+    //For test purposes
+    // let thresholds = [-15, -5, 0, 5, 10, 15, 20, 25];
+    // let bandwidth = 1.0;
+    // let test_raw_data = [];
+    // for (let data of all_data)
+    // {
+    //   test_raw_data.push(this.get_kde(thresholds, bandwidth, this.get_column(data)));
+    // }
+
+    // console.log(test_raw_data);
     
+    // return test_raw_data;
     return all_data;
+  }
+
+  private get_column(data : number[][])
+  {
+    return data.map(entry => entry[1]);
+  }
+
+  //TODO: Beide Funktionen überarbeiten und an andere Stelle setzen und in get_kde die tatsächliche Funktion als Parameter nehmen; auch andere kernel Funktionen bereitstellen
+  //Based on: https://de.wikipedia.org/wiki/Kerndichtesch%C3%A4tzer
+  private gauss_kernel(value)
+  {
+    return 1 / (Math.sqrt(2*Math.PI)) * Math.exp(-0.5 * Math.pow(value, 2))
+  }
+
+  public get_kde(thresholds, bandwidth, data)
+  {
+    //Get a kde value for the y axis for each x-value in thresholds ("bins")
+    return thresholds.map(
+      t =>  
+        [t, 
+          1 / (data.length * bandwidth) * //!length might be zero
+          data.map(
+            x => this.gauss_kernel((t - x) / bandwidth)
+          ).reduce(
+            (sum, x) => sum + x, 0
+          )
+        ]
+    );
   }
   
 
