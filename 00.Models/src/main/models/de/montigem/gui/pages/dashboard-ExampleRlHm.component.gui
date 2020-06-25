@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-webpage Dashboard(all TemperatureData temperaturedata) {
+webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
   column(nospace) {
         navigation "navigationBarLinks" {
             tab "Dashboard" {

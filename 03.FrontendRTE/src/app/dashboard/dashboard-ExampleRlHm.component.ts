@@ -1,16 +1,16 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 import { Component, OnInit } from "@angular/core";
-import { DashboardComponent } from "@targetgui/dashboard.component-ExampleRlHm/dashboard.component-ExampleRlHm";
+import { DashboardExampleRlHmComponentTOP} from "@targetgui/dashboard-ExampleRlHm.component/dashboard-ExampleRlHm.component-top";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CommandRestService } from "@shared/architecture/command/rte/command.rest.service";
 import { WebSocketService } from "@services/websocket.service";
 
 @Component({
-  templateUrl: '../../../target/generated-sources/gui/dashboard.component-ExampleRlHm/dashboard.component-ExampleRlHm.html',
+  templateUrl: '../../../target/generated-sources/gui/dashboard-ExampleRlHm.component/dashboard-ExampleRlHm.component.html',
 })
 
-export class DashboardComponentExampleRlHm extends DashboardComponent implements OnInit {
+export class DashboardExampleRlHmComponent extends DashboardExampleRlHmComponentTOP implements OnInit {
   protected socket;
 
   public constructor(

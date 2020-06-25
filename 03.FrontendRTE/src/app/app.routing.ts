@@ -9,7 +9,7 @@ import {LoginComponent} from '@shared/auth/login/login.component';
 import {MainLayoutComponent} from '@shared/layout/main/main-layout.component';
 import {DashboardComponent} from "@dashboard/dashboard.component";
 import {InfoComponent} from './info/info.component';
-import { DashboardComponentExampleRlHm } from '@dashboard/dashboard-Example-RlHm.component';
+import { DashboardExampleRlHmComponent } from '@dashboard/dashboard-ExampleRlHm.component';
 
 export const routes: Routes = [
   {
@@ -29,7 +29,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard/Example-RlHm',
-        component: DashboardComponentExampleRlHm,
+        component: DashboardExampleRlHmComponent,
         data: {pageTitle: 'Example-RlHm'}
       },
       {

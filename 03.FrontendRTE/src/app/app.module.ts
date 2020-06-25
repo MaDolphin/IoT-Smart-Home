@@ -23,7 +23,7 @@ import { UtilsModule } from '@shared/utils/utils.module';
 import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-components.module';
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { DashboardComponent } from '@dashboard/dashboard.component';
-import {DashboardComponentExampleRlHm} from '@dashboard/dashboard-Example-RlHm.component';
+import {DashboardExampleRlHmComponent} from '@dashboard/dashboard-ExampleRlHm.component';
 import {InfoComponent} from './info/info.component';
 
 
@@ -50,7 +50,7 @@ export const MY_DATE_FORMATS = {
   declarations: [
     AppComponent,
     DashboardComponent,
-    DashboardComponentExampleRlHm,
+    DashboardExampleRlHmComponent,
     InfoComponent
   ],
   imports:      [
