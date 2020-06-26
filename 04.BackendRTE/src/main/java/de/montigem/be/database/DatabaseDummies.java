@@ -4,6 +4,7 @@ package de.montigem.be.database;
 import de.montigem.be.authz.util.SecurityHelper;
 import de.montigem.be.domain.cdmodelhwc.classes.sensor.Sensor;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
+import de.montigem.be.domain.cdmodelhwc.classes.sensorunit.SensorUnit;
 import de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue;
 import de.montigem.be.util.DAOLib;
 import de.se_rwth.commons.logging.Log;
@@ -35,7 +36,7 @@ public class DatabaseDummies {
 
   public void createSensors(String resource) {
     daoLib.getSensorDAO().create(
-            new Sensor().rawInitAttrs(Collections.emptyList(), "SensorX25", SensorType.ANGLE, Arrays.asList(
+            new Sensor().rawInitAttrs(Collections.emptyList(), "SensorX25", SensorType.ANGLE, SensorUnit.NONE, Arrays.asList(
                     new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(5), 4f),
                     new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(6), 7f),
                     new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(7), 2f),
@@ -48,7 +49,7 @@ public class DatabaseDummies {
                     new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(14), 7f)
             )), resource);
     daoLib.getSensorDAO().create(
-            new Sensor().rawInitAttrs(Collections.emptyList(), "SensorX26", SensorType.ANGLE, Arrays.asList(
+            new Sensor().rawInitAttrs(Collections.emptyList(), "SensorX26", SensorType.ANGLE, SensorUnit.NONE, Arrays.asList(
                     new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(7), 5f),
                     new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(8), 3f),
                     new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(9), 3f),

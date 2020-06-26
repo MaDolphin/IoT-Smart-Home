@@ -28,6 +28,7 @@ classdiagram Domain{
   class Sensor{
     String sensorId;
     SensorType type;
+    SensorUnit unit;
   }
 
   class SensorValue{
@@ -90,6 +91,11 @@ classdiagram Domain{
     MAIL_NICHT_GESENDET,
     MAIL_FEHLERHAFT,
     MAIL_GESENDET;
+  }
+
+  enum SensorUnit{
+    NONE,
+    CELCIUS;
   }
 
   enum SensorType{
