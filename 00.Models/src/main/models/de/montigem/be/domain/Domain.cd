@@ -32,7 +32,7 @@ classdiagram Domain{
 
   class SensorValue{
     ZonedDateTime timestamp;
-    int value;
+    Float value;
   }
 
   class ZahlenWert{

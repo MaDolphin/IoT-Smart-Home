@@ -36,29 +36,29 @@ public class DatabaseDummies {
   public void createSensors(String resource) {
     daoLib.getSensorDAO().create(
             new Sensor().rawInitAttrs(Collections.emptyList(), "SensorX25", SensorType.ANGLE, Arrays.asList(
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(5), 4),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(6), 7),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(7), 2),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(8), 4),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(9), 5),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(10), 5),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(11), 3),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(12), 4),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(13), 5),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(14), 7)
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(5), 4f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(6), 7f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(7), 2f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(8), 4f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(9), 5f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(10), 5f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(11), 3f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(12), 4f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(13), 5f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(14), 7f)
             )), resource);
     daoLib.getSensorDAO().create(
             new Sensor().rawInitAttrs(Collections.emptyList(), "SensorX26", SensorType.ANGLE, Arrays.asList(
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(7), 5),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(8), 3),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(9), 3),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(10), 2),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(11), 6),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(12), 7),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(13), 6),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(14), 3),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(15), 5),
-                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(16), 7)
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(7), 5f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(8), 3f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(9), 3f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(10), 2f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(11), 6f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(12), 7f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(13), 6f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(14), 3f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(15), 5f),
+                    new SensorValue().rawInitAttrs(Collections.emptyList(), ZonedDateTime.now().plusSeconds(16), 7f)
             )), resource);
   }
 }

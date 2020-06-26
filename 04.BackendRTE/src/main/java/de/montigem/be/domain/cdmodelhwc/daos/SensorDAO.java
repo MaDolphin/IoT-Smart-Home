@@ -202,7 +202,7 @@ public class SensorDAO extends SensorDAOTOP {
             for(JsonElement d : dataArray){
                 String sensorId = d.getAsJsonObject().get("sensorId").getAsString();
                 String type = d.getAsJsonObject().get("type").getAsString();
-                int value = d.getAsJsonObject().get("value").getAsInt();
+                float value = d.getAsJsonObject().get("value").getAsFloat();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
                 ZonedDateTime timeStamp = ZonedDateTime.parse(d.getAsJsonObject().get("timeStamp").getAsString() + " UTC", formatter);
                 SensorType sensorType;
