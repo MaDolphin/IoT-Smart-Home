@@ -13,7 +13,7 @@ classdiagram TemperatureSensor {
 
   class GaugeChartDataEntry {
     String name;
-    int value;
+    float value;
   }
 
   class TemperatureData {
@@ -22,7 +22,7 @@ classdiagram TemperatureSensor {
 
   class TemperatureDataEntry {
     String name;
-    int value;
+    float value;
     int timestamp;
   }
 }

@@ -49,8 +49,6 @@ row (space-evenly, spaceabove) {
                   [data]=\"chartData\"
                   [min]=\"-40\"
                   [max]=\"50\"
-                  [bigTicks]=\"9\"
-                  [smallTicks]=\"10\"
                   [unit]=\"'°C'\"
                   [textValue]=\"'Temperature'\"
         ></gauge-chart> "}
