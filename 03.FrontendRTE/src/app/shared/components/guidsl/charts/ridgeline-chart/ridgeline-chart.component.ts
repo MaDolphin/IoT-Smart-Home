@@ -548,18 +548,68 @@ export class Data
   styleUrls: ['./ridgeline-chart.component.scss'],
 })
 export class RidgelineChartComponent implements OnInit, AfterViewInit {
-  @Input() overshoot: number;
-  @Input() labels: string[]; // The labels of the ridges
-  @Input() font_size: number; // The font size in pixel
-  @Input() overwrite_data: boolean; //If true, overwrite data on set, else just update/merge it with old data; also has an influence on further data processing
+// ------------------------------ Input Parameters ------------------------------
+  /**
+   * Specifies how much one ridge will overlap with the subsequent one in %. Consequently,
+   * the maximum y-value will overlap exactly that far.
+   */
+  @Input() overshoot: number = 30;
+
+  /**
+   * The labels for the ridges. Will be shown on the left side of the ridges.
+   */
+  @Input() labels: string[];
+
+  /**
+   * The font sizes of the x-axes-descriptions and the labels on the left side. Has to be specified in pixels.
+   */
+  @Input() font_size: number = 12;
+
+  /**
+   * Changes the operating mode of the diagram.
+   * If true, all data given earlier will be overridden when new data arrives.
+   * If false, the newly given data will be appended to the old data in the following manner: The smallest x-value in the new
+   * data is detected and every entry in the old data with an x-value greater or equal than this smallest one deleted.
+   * Afterwards all new points are appended to the old ones.
+   * To specify the maximum x-range, i.e. when points are deleted again, see max_x_range.
+   */
+  @Input() overwrite_data: boolean;
+
+  /**
+   * Set whether the x-value should be interpreted as timestamp in milliseconds since epoch. The x-axis-description
+   * will change accordingly.
+   */
   @Input() x_is_time: boolean=true;
-  @Input() show_date: boolean=false; // Only relevant, if x_is_time==true;
+
+  /**
+   * Only relevant if x_is_time=true. Then it determines whether the date should be shown on the x-axis in addition to
+   * the time or not.
+   */
+  @Input() show_date: boolean=false;
+
+  /**
+   * TODO
+   */
   @Input() relative_x_precision: number=2;
+
+  /**
+   * TODO
+   */
   @Input() align_x_label_to = 1000;
+
+  /**
+   * TODO
+   * Only applied if > 0 and overwrite_date=false
+   */
   @Input() max_x_range = -1; //For sliding window, applied if > 0
+
+
   _rawData: number[][][] = [];
   _alpha: number = 1.0;
   
+
+
+
   //Input function and value for max y value of ridgeline color gradient
   // private color_gradient_max_y : number = 0.3; //Should match default value in HTML
   // enter_gradient_max_y(value: string)
