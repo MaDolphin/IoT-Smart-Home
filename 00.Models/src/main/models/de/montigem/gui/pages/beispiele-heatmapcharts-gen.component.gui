@@ -38,7 +38,7 @@ webpage HeatmapCharts (socket LineGraph data, all MotionSensorData motionsensord
                 body {
 
                     html {"
-                        <heatmap-chart [data]=\"motionsensordata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\">
+                        <heatmap-chart [data]=\"motionsensordata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\" [timestampdata]=true>
 						</heatmap-chart>
 					  "}
 

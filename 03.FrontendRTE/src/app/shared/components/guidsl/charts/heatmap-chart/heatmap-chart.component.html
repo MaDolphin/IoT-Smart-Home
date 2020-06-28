@@ -1,11 +1,33 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 <form style="position:relative;left:0px;top:0px;">
-	<label for="num_seperations">Gebe hier die gewünschte Anzahl an Spalten (1-32) an:  </label>
-	<input #box [value]="6" (keyup.enter)="enter_num_seperations(box.value)" id="num_seperations" type="number" min="1" max="32">
+	<label for="favcolor">Select a color:  </label>
+	<input #colorbox  (change)="enter_color(colorbox.value)" value="#303C46" id="favcolor" type="color">
+	<br/>
+	<label for="num_seperations">Select the desired number of columns (1-32):  </label>
+	<input #box [value]="6" (change)="enter_num_seperations(box.value)" id="num_seperations" type="number" min="1" max="32">
+	<div *ngIf="timestampdata; then thenblock else elseblock" ></div>
+	<ng-template #thenblock>
+		<br/>
+		<label for="pretty_date">Should the timestamps be pretty-printed?</label>
+		<input #checkbox1 [defaultChecked]="1" (change)="enter_pretty_date(checkbox1.checked)" id="pretty_date" type="checkbox">
+		<br/>
+		<label for="loop_days">Group by grouping factor? (default is by daytime)</label>
+		<input #checkbox2 [defaultChecked]="0" (change)="enter_loop_days(checkbox2.checked)" id="loop_days" type="checkbox">
+		<br/>
+		<label for="loop_factor">Select the desired grouping factor (86400 = 1day):  </label>
+		<input #loopbox [value]="86400" (change)="enter_num_loop_factor(loopbox.value)" id="loop_factor" type="number" >
+	</ng-template>
+	<ng-template #elseblock>
+		<br/>
+		<label for="loop_days">Group by grouping factor?</label>
+		<input #checkbox2 [defaultChecked]="0" (change)="enter_loop_days(checkbox2.checked)" id="loop_days" type="checkbox">
+		<br/>
+		<label for="loop_factor">Select the desired grouping factor (modulo value):  </label>
+		<input #loopbox [value]="10" (change)="enter_num_loop_factor(loopbox.value)" id="loop_factor" type="number" >
+	</ng-template>
 </form>
 
 <div>
 	<ngx-charts-heat-map [scheme]="colorScheme" [results]="computed_data" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="XLabel" [yAxisLabel]="YLabel">
 	</ngx-charts-heat-map>
 </div>
-<p>{{num_seperations}}</p>

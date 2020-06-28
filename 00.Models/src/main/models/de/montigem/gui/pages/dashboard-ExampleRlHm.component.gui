@@ -1,0 +1,61 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
+  column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Dashboard" {
+              link: "../dashboard"
+            }
+            tab "Example-RlHm" {
+              link: "./"
+            }
+        }
+    }
+
+  // Centered Card
+  row (space-evenly, spaceabove) {
+    container(80%, minwidth : 250px, padding-right : 5px, padding-left : 5px) {
+      card {
+        head {
+          row(stretch) {
+            label "RidgeLine Graph with Temperature data"
+          }
+        }
+        body{
+          html {"
+                  <p> Placeholder
+						      </p>
+					    "}
+      }
+    }
+  }
+  card {
+        head {
+          row(stretch) {
+            label "Heatmap Chart of Temperatures"
+          }
+        }
+        body{
+          html {"
+                  <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\">
+						      </heatmap-chart>
+					    "}
+      }
+    }
+  
+  card {
+        head {
+          row(stretch) {
+            label "Heatmap Chart of Temperature-Timestamps"
+          }
+        }
+        body{
+          html {"
+                  <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\" [timestampdata]=true>
+						      </heatmap-chart>
+					    "}
+      }
+    }
+  }
+
+}

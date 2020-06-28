@@ -6,6 +6,9 @@ webpage beispieleDatentabellen {
             tab "Info" {
                 link: "./"
             }
+            tab "Density & Gauge Charts" {
+              link: "../density_gauge_dashboard"
+            }
             tab "BarCharts" {
                 link: "../barcharts"
             }

@@ -9,6 +9,7 @@ import {LoginComponent} from '@shared/auth/login/login.component';
 import {MainLayoutComponent} from '@shared/layout/main/main-layout.component';
 import {DashboardComponent} from "@dashboard/dashboard.component";
 import {InfoComponent} from './info/info.component';
+import { DashboardExampleRlHmComponent } from '@dashboard/dashboard-ExampleRlHm.component';
 
 export const routes: Routes = [
   {
@@ -18,13 +19,18 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'dashboard/dashboard',
         pathMatch: 'full'
       },
       {
-        path: 'dashboard',
+        path: 'dashboard/dashboard',
         component: DashboardComponent,
         data: {pageTitle: 'Dashboard'}
+      },
+      {
+        path: 'dashboard/Example-RlHm',
+        component: DashboardExampleRlHmComponent,
+        data: {pageTitle: 'Example-RlHm'}
       },
       {
         path: 'beispiele',
@@ -64,7 +70,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: '**', redirectTo: 'dashboard'
+    path: '**', redirectTo: 'dashboard/dashboard'
   }
 ];
 

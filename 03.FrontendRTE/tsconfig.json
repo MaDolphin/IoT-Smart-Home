@@ -76,6 +76,7 @@
       "@smokesensortable-dto/*" : ["target/generated-sources/dtos/*"],
       "@ridgelinechartdata-dto/*": ["target/generated-sources/dtos/*"],
       "@motionsensordata-dto/*" : ["target/generated-sources/dtos/*"],
+      "@temperaturedata-dto/*" : ["target/generated-sources/dtos/*"],
       "@sirenctrl-dto/*": ["target/generated-sources/dtos/*"],
       "@gaugechartdata-dto/*": ["target/generated-sources/dtos/*"],
       "@densitysensordata-dto/*" : ["target/generated-sources/dtos/*"]

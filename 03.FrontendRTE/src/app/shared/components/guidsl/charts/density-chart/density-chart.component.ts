@@ -10,9 +10,11 @@ import {Data2Model} from 'src/app/data/data.model';
 export class DensityChartComponent implements OnChanges {
   @ViewChild('my_dataviz')
   private chartContainer: ElementRef;
+  @ViewChild('no_data_label')
+  private informationLabel: ElementRef;
 
   @Input()
-  data2: Data2Model[];
+  data2;
   @Input()
   transitionTime = 1000;
 
@@ -20,25 +22,32 @@ export class DensityChartComponent implements OnChanges {
   
   margin = {top: 30, right: 600, bottom: 30, left: 100};
   firstCall = 1;
-
+  currentData: Array<Data2Model> = [];
   x; // x achses
   y; // y achses
   svg; // top level svg element
   paths; // path element for each density curve
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.data2) { return; }
-    this.updateChart(changes.data2.currentValue);
-  }
+    if (this.data2==null)
+    {
+        this.informationLabel.nativeElement.innerHTML="No data available";
+    }else if(this.data2.length <=0 || this.data2.entries.length<=0)
+    {
+        this.informationLabel.nativeElement.innerHTML="received data is empty";
+    }else{
+        this.informationLabel.nativeElement.innerHTML="";
+        this.updateChart(this.data2);
+    }
+ }
 
-  onResize(changes: SimpleChanges) {
+/**  onResize(changes: SimpleChanges) {
     this.updateChart(changes.data2.currentValue);
-  }
-  private createDensityChart(): void {
-
+  }**/
+  private createDensityChart(data2: Data2Model[]): void {
     d3.select('svg').remove();
     const densityElement = this.chartContainer.nativeElement;
-    const data = this.data2;
+    const data = data2;
 
     /**
      * select chart from html and append an svg
@@ -56,15 +65,15 @@ export class DensityChartComponent implements OnChanges {
     /**
      * @ignore
      */
-    const maxX = Math.max.apply(Math, this.data2.map((d) => d.value));
-    const minX = Math.min.apply(Math, this.data2.map((d) => d.value));
+    const maxX = Math.max.apply(Math, data2.map((d) => d.value));
+    const minX = Math.min.apply(Math, data2.map((d) => d.value));
 
     /**
      * Add the x Axis
      */
     this.x = d3
       .scaleLinear()
-      .domain([-25,45]) // fixed scale is better for changing data // [minX - 8, maxX + 8])
+      .domain([minX-10,maxX+10]) // fixed scale is better for changing data // [minX - 8, maxX + 8])
       .range([0, width]);
 
     /**
@@ -199,13 +208,18 @@ export class DensityChartComponent implements OnChanges {
   * Update chart with new values
   */
   private updateChart(data2: Data2Model[]) {
+    //push all received data to the array
+    for(let i=0;i<this.data2.entries.length;i++)
+    {
+        this.currentData.push({type: this.data2.entries[i].name, value: this.data2.entries[i].value});
+    }
     if ( this.firstCall == 1 ) {
-      this.createDensityChart();
+      this.createDensityChart(this.currentData);
       this.firstCall = 0;
     }else{
       const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7), this.x.ticks(60));
       const types = [];
-      kde(data2
+      kde(this.currentData
         .filter((d) => {
           if (types.indexOf(d.type) === -1) {
             types.push(d.type);
@@ -214,7 +228,7 @@ export class DensityChartComponent implements OnChanges {
       // compute density
       const density = [];
       for (let index = 0; index < types.length; index++) {
-        density[index] = kde(data2.filter((d) => {
+        density[index] = kde(this.currentData.filter((d) => {
           return d.type === types[index];
         })
           .map((d) => {

@@ -1,6 +1,16 @@
 /* (c) https://github.com/MontiCore/monticore */
 
 webpage Dashboard() {
+  column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Dashboard" {
+              link: "./"
+            }
+            tab "Example-RlHm" {
+              link: "../Example-RlHm"
+            }
+        }
+    }
 
   // Centered Card
   row (space-evenly, spaceabove) {

@@ -4,6 +4,9 @@ webpage GaugeChart (all GaugeChartData chartData) {
       tab "Info" {
         link: "../charts"
       }
+      tab "Density & Gauge Charts" {
+        link: "../density_gauge_dashboard"
+      }
       tab "BarCharts" {
         link: "../barcharts/1"
       }
@@ -33,7 +36,7 @@ row (space-evenly, spaceabove) {
       }
       body {
         html {" <gauge-chart
-                  [data]=\"transformedRealtimeData1\"
+                  [data]=\"chartData\"
                   [min]=\"-40\"
                   [max]=\"50\"
                   [bigTicks]=\"9\"

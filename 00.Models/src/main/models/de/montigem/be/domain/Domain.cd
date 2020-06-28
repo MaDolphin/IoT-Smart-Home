@@ -28,11 +28,12 @@ classdiagram Domain{
   class Sensor{
     String sensorId;
     SensorType type;
+    SensorUnit unit;
   }
 
   class SensorValue{
     ZonedDateTime timestamp;
-    int value;
+    Float value;
   }
 
   class ZahlenWert{
@@ -90,6 +91,11 @@ classdiagram Domain{
     MAIL_NICHT_GESENDET,
     MAIL_FEHLERHAFT,
     MAIL_GESENDET;
+  }
+
+  enum SensorUnit{
+    NONE,
+    CELCIUS;
   }
 
   enum SensorType{
