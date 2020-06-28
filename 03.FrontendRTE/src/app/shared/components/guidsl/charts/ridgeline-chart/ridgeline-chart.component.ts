@@ -568,8 +568,8 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   // }
 
   //private canvas_div: HTMLDivElement;
-  @ViewChild('canvasContainer') canvas_container_view : ElementRef<HTMLDivElement>;
-  @ViewChild('canvas') canvas_view : ElementRef<HTMLCanvasElement>;
+  @ViewChild('canvasContainer', { read: ElementRef }) canvas_container_view : ElementRef<HTMLDivElement>;
+  @ViewChild('canvas', { read: ElementRef }) canvas_view : ElementRef<HTMLCanvasElement>;
   private canvas_container: HTMLDivElement;
   private canvas: HTMLCanvasElement;
   private scope: paper.PaperScope;

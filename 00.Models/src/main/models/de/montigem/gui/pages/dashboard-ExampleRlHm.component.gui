@@ -14,47 +14,59 @@ webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
 
   // Centered Card
   row (space-evenly, spaceabove) {
-    container(80%, minwidth : 250px, padding-right : 5px, padding-left : 5px) {
+    container(40%) {
       card {
         head {
           row(stretch) {
-            label "RidgeLine Graph with Temperature data"
+            label "RidgeLine Graph with Temperature Data"
           }
         }
         body{
           html {"
-                  <p> Placeholder
-						      </p>
-					    "}
+                <ridgeline-chart
+                  [alpha]=0.8
+                  [overshoot]=30
+                  [rawData]=data_ridgeline
+                  [overwrite_data]=\"true\"
+                  [labels]=labels_ridgeline
+                  [font_size]=\"12\"
+                  [color_gradients]=color_gradients_ridgeline
+                  [x_is_time]=\"true\"
+                  [show_date]=\"true\"
+                  [align_x_label_to]=60000000>
+                </ridgeline-chart>
+              "}
+        }
       }
     }
   }
-  card {
-        head {
-          row(stretch) {
-            label "Heatmap Chart of Temperatures"
+  row (space-evenly, spaceabove) {
+    card {
+          head {
+            row(stretch) {
+              label "Heatmap Chart of Temperatures"
+            }
           }
+          body{
+            html {"
+                    <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\">
+                    </heatmap-chart>
+                "}
         }
-        body{
-          html {"
-                  <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\">
-						      </heatmap-chart>
-					    "}
       }
-    }
-  
-  card {
-        head {
-          row(stretch) {
-            label "Heatmap Chart of Temperature-Timestamps"
+    
+    card {
+          head {
+            row(stretch) {
+              label "Heatmap Chart of Temperature-Timestamps"
+            }
           }
-        }
-        body{
-          html {"
-                  <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\" [timestampdata]=true>
-						      </heatmap-chart>
-					    "}
-      }
+          body{
+            html {"
+                    <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\" [timestampdata]=true>
+                    </heatmap-chart>
+                "}
+          }
     }
   }
 
