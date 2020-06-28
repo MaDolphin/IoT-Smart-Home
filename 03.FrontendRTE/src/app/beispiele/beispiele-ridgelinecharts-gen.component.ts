@@ -159,7 +159,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
       this.subscriptions.push(this.chartData1Socket.subscribe(message => {
         this.data_dynamic = this.getData(message);
         //this.color_gradients_dynamic = [["#b3e5fc", 0]];
-        //console.log(this.data_static);
+        console.log(this.data_dynamic);
       }, err =>
         console.log(err)
       ));

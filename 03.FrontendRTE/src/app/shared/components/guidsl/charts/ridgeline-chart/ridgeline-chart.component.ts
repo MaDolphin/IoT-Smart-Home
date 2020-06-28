@@ -651,16 +651,16 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     // let canvas_container_width = "width: " + viewport_width_proportion + "vw";
     // this.canvas_container.setAttribute("style", canvas_container_width);
 
-    let width_factor = this.initial_parent_width / this.initial_view_width;
-    let height_factor = this.initial_parent_height / this.initial_view_height;
+    // let width_factor = this.initial_parent_width / this.initial_view_width;
+    // let height_factor = this.initial_parent_height / this.initial_view_height;
 
-    //Width is set through CSS property / HTML "resize" property because we cannot always use window.innerWidth as orientation
-    //paper.view.viewSize.width = this.canvas.width;
-    //this.canvas_container.clientWidth - 10
-    this.canvas.width = width_factor * window.innerWidth;
-    this.canvas.height = height_factor * window.innerHeight;
-    this.scope.view.viewSize.width = width_factor * window.innerWidth;
-    this.scope.view.viewSize.height = height_factor * window.innerHeight;
+    // //Width is set through CSS property / HTML "resize" property because we cannot always use window.innerWidth as orientation
+    // //paper.view.viewSize.width = this.canvas.width;
+    // //this.canvas_container.clientWidth - 10
+    // this.canvas.width = width_factor * window.innerWidth;
+    // this.canvas.height = height_factor * window.innerHeight;
+    // this.scope.view.viewSize.width = width_factor * window.innerWidth;
+    // this.scope.view.viewSize.height = height_factor * window.innerHeight;
   }
 
 
