@@ -49,17 +49,16 @@ export class GaugeChartComponent implements OnInit {
         this.recalcBigTicks();
     }
 
-    private recalcBigTicks() {
+    recalcBigTicks() {
         this.bigTicks = (this.max - this.min) / 10; // Alle 10 Schritte
-        console.log(this.bigTicks)
-        while (this.bigTicks > 10) { // Solange mehr als 10 Ticks, dann halbiere die Anzahl
+        while (this.bigTicks > 15) { // Solange mehr als 10 Ticks, dann halbiere die Anzahl
             if (this.bigTicks >= 100) {
                 this.bigTicks /= 10;
             } else {
                 this.bigTicks /= 10;
             }
-            console.log(this.bigTicks)
         }
+        this.bigTicks = Math.round(this.bigTicks);
     }
 
     /**
@@ -67,7 +66,7 @@ export class GaugeChartComponent implements OnInit {
      */
     get smallTickResizer(): number {
         for (var i = 0; i < 5; i++) {
-            if (this.recalcFromResizer(i) == this.smallTicks) {
+            if (GaugeChartComponent.recalcFromResizer(i) == this.smallTicks) {
                 return i;
             }
         }
@@ -78,14 +77,14 @@ export class GaugeChartComponent implements OnInit {
      * input range to select smallTicksCount
      */
     set smallTickResizer(n: number) {
-        this.smallTicks = this.recalcFromResizer(n);
+        this.smallTicks = GaugeChartComponent.recalcFromResizer(n);
     }
 
     /**
      * For the input range to select how many ticks are displayed
      * @param n
      */
-    private recalcFromResizer(n: number): number {
+    private static recalcFromResizer(n: number): number {
         switch (n) {
             case 0:
                 return 0;
