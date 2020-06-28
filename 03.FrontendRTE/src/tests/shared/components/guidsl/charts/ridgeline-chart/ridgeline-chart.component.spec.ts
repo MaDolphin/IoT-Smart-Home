@@ -14,14 +14,14 @@ describe('Components', () => {
                                 ];
                     
                     this.data = new Data();
-                    this.data.set_raw_data(raw_data);
+                    this.data.set_raw_data(raw_data, 1000);
 
                     let raw_data2 = [[[-20,194.23],[-75,222.2]],
                                      [[-2993,4]]
                                     ];
                             
                     this.data2 = new Data();
-                    this.data2.set_raw_data(raw_data2);
+                    this.data2.set_raw_data(raw_data2, 10000);
                 });
 
 // ----------------------------------------- Data-class tests -----------------------------------------
@@ -63,7 +63,7 @@ describe('Components', () => {
                         expect(assumed_length2).toEqual(this.data2.length);
 
                         // Test further edgecase in which no data is existing in one ridge
-                        this.data.set_raw_data([[],[[5,-10]]]);
+                        this.data.set_raw_data([[],[[5,-10]]], 100);
                         let assumed_xy_min_max3 = [[5,-10],[5,-10]];
                         let assumed_x_range3 = 0;
                         let assumed_y_range3 = 0;
@@ -76,7 +76,7 @@ describe('Components', () => {
                         expect(assumed_length3).toEqual(this.data.length);
 
                         // Test further edgecase in which no data is existing in all ridges
-                        this.data.set_raw_data([[],[],[]]);
+                        this.data.set_raw_data([[],[],[]], 100);
                         let assumed_xy_min_max4 = [[Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY],[Number.NEGATIVE_INFINITY,Number.NEGATIVE_INFINITY]];
                         let assumed_x_range4 = Number.POSITIVE_INFINITY;
                         let assumed_y_range4 = Number.POSITIVE_INFINITY;
@@ -102,19 +102,19 @@ describe('Components', () => {
                                               [[-11,42.1],[-1,33.987],[0,0.3]],
                                               [[1,3]]
                                              ];
-                        this.data.update_raw_data(further_raw_data);
+                        this.data.update_raw_data(further_raw_data, 1000);
                         expect(assumed_result).toEqual(this.data.values);
 
                         // Edgecase 1: empty input
                         further_raw_data = [];
-                        this.data.update_raw_data(further_raw_data);
+                        this.data.update_raw_data(further_raw_data, 1000);
                         expect(assumed_result).toEqual(this.data.values); // nothing should have changed
 
                         // Edgecase 2: empty ridge
                         further_raw_data = [[[202,-5.3]],
                                             []];
                         assumed_result[0].push([202, -5.3]);
-                        this.data.update_raw_data(further_raw_data);
+                        this.data.update_raw_data(further_raw_data, 1000);
                         expect(assumed_result).toEqual(this.data.values); // nothing should have changed
                     }
                 )
@@ -124,6 +124,9 @@ describe('Components', () => {
                         console.log("TODO");
                     }
                 )
+
+
+                // TODO Add test for x-window
             });
         });
     });
