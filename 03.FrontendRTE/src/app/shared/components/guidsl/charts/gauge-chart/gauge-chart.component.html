@@ -3,15 +3,12 @@
     <label>
         Show Axis: <input [(ngModel)]="showAxis" type="checkbox" checked/>
     </label>
-    <div *ngIf="false && showAxis">
-        <label>
-            <p>Minimum:</p>
-            <input [(ngModel)]="selectedMin" type="range" [min]="min" [max]="realDataMin"/>
-        </label>
-        <label>
-            <p>Maximum</p>
-            <input [(ngModel)]="selectedMax" type="range" [min]="realDataMax" [max]="max"/>
-        </label>
+    <div *ngIf="showAxis">
+        <p style="position: relative; height: 25px">
+            <label for="helperTicks" style="position: absolute; left: 0">Anzahl Hilfsstriche:</label>
+            <input id="helperTicks"  style="position: absolute; right: 0; width: auto"
+                   [(ngModel)]="smallTickResizer" type="range" [min]="1" [max]="4"/>
+        </p>
     </div>
 
     <div class="anti-resize-gauge-chart-container">
@@ -20,8 +17,8 @@
                 [results]="dataSet"
                 [legend]="legend"
                 [legendPosition]="legendPosition"
-                [min]="selectedMin"
-                [max]="selectedMax"
+                [min]="min"
+                [max]="max"
                 [bigSegments]="bigTicks"
                 [smallSegments]="smallTicks"
                 [units]="unit"

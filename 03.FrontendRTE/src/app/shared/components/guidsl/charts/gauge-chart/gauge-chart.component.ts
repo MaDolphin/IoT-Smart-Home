@@ -13,10 +13,6 @@ import {GaugeChartDataEntryDTO} from "@targetdtos/gaugechartdataentry.dto";
 export class GaugeChartComponent implements OnInit {
     /** text that is displayed inside the gauge chart */
     @Input() textValue: string;
-    /** manually set how many ticks should be displayed */
-    @Input() bigTicks: number = 10; // todo calculate ticks from selectedRange
-    /** manually set how many small ticks between the big ticks should be displayed */
-    @Input() smallTicks: number = 5; // todo calculate ticks from selectedRange
     /** when set it is displayed under the text value */
     @Input() unit: string;
     /** manually set the min value */
@@ -38,14 +34,10 @@ export class GaugeChartComponent implements OnInit {
     /** used intern for showing the axis when function showAxis() is called  */
     private _showAxis: boolean = true;
 
-    /** realDataMin is used to set the end of the slider     */
-    realDataMin: number;
-    /** realDataMax is used to set the end of the slider     */
-    realDataMax: number;
-    /** this is the actual value of the min slider */
-    selectedMin: number;
-    /** this is the actual value of the max slider */
-    selectedMax: number;
+    /** manually set how many ticks should be displayed */
+    bigTicks: number;
+    /** manually set how many small ticks between the big ticks should be displayed */
+    smallTicks: number;
 
     /** data (changed by the data-field with the realtime data) */
     public dataSet: any = [];
@@ -54,13 +46,59 @@ export class GaugeChartComponent implements OnInit {
      * init internal values
      */
     ngOnInit(): void {
-        // to force resetting when first data is load
-        this.realDataMin = this.max;
-        this.realDataMax = this.min;
+        this.recalcBigTicks();
+    }
 
-        // select biggest span
-        this.selectedMin = this.min;
-        this.selectedMax = this.max;
+    private recalcBigTicks() {
+        this.bigTicks = (this.max - this.min) / 10; // Alle 10 Schritte
+        console.log(this.bigTicks)
+        while (this.bigTicks > 10) { // Solange mehr als 10 Ticks, dann halbiere die Anzahl
+            if (this.bigTicks >= 100) {
+                this.bigTicks /= 10;
+            } else {
+                this.bigTicks /= 10;
+            }
+            console.log(this.bigTicks)
+        }
+    }
+
+    /**
+     * for input range to select smallTicksCount
+     */
+    get smallTickResizer(): number {
+        for (var i = 0; i < 5; i++) {
+            if (this.recalcFromResizer(i) == this.smallTicks) {
+                return i;
+            }
+        }
+        return 4;// Default
+    }
+
+    /**
+     * input range to select smallTicksCount
+     */
+    set smallTickResizer(n: number) {
+        this.smallTicks = this.recalcFromResizer(n);
+    }
+
+    /**
+     * For the input range to select how many ticks are displayed
+     * @param n
+     */
+    private recalcFromResizer(n: number): number {
+        switch (n) {
+            case 0:
+                return 0;
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+            case 3:
+                return 4;
+            case 4:
+            default:
+                return 10;
+        }
     }
 
     /**
@@ -84,8 +122,16 @@ export class GaugeChartComponent implements OnInit {
             t.dataSet = gaugeData.entries;
 
             t.dataSet.forEach(function (entry: any) {
-                if (entry.value < t.realDataMin) t.realDataMin = Math.floor(entry.value); // Abrunden
-                if (entry.value > t.realDataMax) t.realDataMax = Math.ceil(entry.value); // Aufrunden
+                if (entry.value < t.min) {
+                    // Abrunden auf ganze Zehner
+                    t.min = Math.floor(entry.value / 10) * 10;
+                    t.recalcBigTicks();
+                }
+                if (entry.value > t.max) {
+                    // Aufrunden auf ganze Zehner
+                    t.max = Math.ceil(entry.value / 10) * 10;
+                    t.recalcBigTicks();
+                }
             });
         }
     }
@@ -102,10 +148,6 @@ export class GaugeChartComponent implements OnInit {
      * @param checked
      */
     public set showAxis(checked: boolean) {
-        if (!checked) {
-            this.selectedMin = this.min; // select biggest span
-            this.selectedMax = this.max; // select biggest span
-        }
         this._showAxis = checked;
     }
 

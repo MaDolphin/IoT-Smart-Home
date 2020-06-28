@@ -39,8 +39,6 @@ row (space-evenly, spaceabove) {
                   [data]=\"chartData\"
                   [min]=\"-40\"
                   [max]=\"50\"
-                  [bigTicks]=\"9\"
-                  [smallTicks]=\"10\"
                   [unit]=\"'°C'\"
                   [textValue]=\"'Temperature'\"
         ></gauge-chart> "}
@@ -57,8 +55,6 @@ row (space-evenly, spaceabove) {
                   [data]=\"transformedRealtimeData2\"
                   [min]=\"0\"
                   [max]=\"500\"
-                  [bigTicks]=\"10\"
-                  [smallTicks]=\"0\"
                   [textValue]=\"'Air Pollution'\"
         ></gauge-chart> "}
       }
