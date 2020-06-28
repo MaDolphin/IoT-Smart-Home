@@ -3,7 +3,7 @@
     <label>
         Show Axis: <input [(ngModel)]="showAxis" type="checkbox" checked/>
     </label>
-    <div *ngIf="showAxis">
+    <div *ngIf="false && showAxis">
         <label>
             <p>Minimum:</p>
             <input [(ngModel)]="selectedMin" type="range" [min]="min" [max]="realDataMin"/>
