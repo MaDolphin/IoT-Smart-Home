@@ -31,8 +31,11 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     super(_commandRestService, _route, _router, _webSocketService);
   }
 
-  public data = []; // The data which is actually given to the diagram
-  public labels = ['test1', 'test2', 'test3', 'custom', 'random sinus'];
+  public data_static = []; // The data which is actually given to the static diagram
+  public labels_static = [];
+
+  public data_dynamic = []; // The data which is actually given to the dynamic diagram
+  public labels_dynamic = [];
 
 
   private dummyData; // helping variable
@@ -41,9 +44,23 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
   private realtimeTest : boolean = true;
 
-  private useBackendData: boolean = true;
+  private useDynamicBackendData: boolean = false;
 
 
+  // -------------------------------- Variables for color gradient configuration --------------------------------
+  //Color gradient data_static structure which can be used to set gradients / color stops to color specific y values of the visualization
+  public color_gradients_static : [string, number][] = [["#e91e63", 0], ["#2196f3", 1], ["#2196f3", 3]];
+  public color_gradients_dynamic : [string, number][] = [];
+
+  //Color picker functions
+  public show_color_picker = false;
+  public selected_color = '#ffffff';
+
+  //Input field to get input value
+  private color_stop_y_input: HTMLInputElement;
+
+
+  // ---------------------------------------------- Init Functions ----------------------------------------------
 
   ngOnInit(): void {
     super.ngOnInit();
@@ -55,17 +72,6 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     this.color_stop_y_input = document.getElementById('color_stop_y_input') as HTMLInputElement;
   }
 
-
-  // -------------------------------- Variables for color gradient configuration --------------------------------
-  //Color gradient data structure which can be used to set gradients / color stops to color specific y values of the visualization
-  public color_gradients : [string, number][] = [];
-
-  //Color picker functions
-  public show_color_picker = false;
-  public selected_color = '#ffffff';
-
-  //Input field to get input value
-  private color_stop_y_input: HTMLInputElement;
 
 
   // ----------------------------------------- Color Gradient Utilities -----------------------------------------
@@ -112,16 +118,24 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   {
     //Don't refresh the page
     event.preventDefault();
+    console.log("Add color");
 
     //Get color gradient y value
     let value : string = this.color_stop_y_input.value;
     let stop = parseFloat(value);
 
+    let res = [...this.color_gradients_dynamic]; // Create a copy of the current gradients
+
     //Add new color gradient section only if the value does not yet exist
-    if (this.color_gradients.find(element => element[1] == stop) == undefined)
+    if (res.find(element => element[1] == stop) == undefined)
     {
-      this.color_gradients.push([ this.selected_color, stop ]);
+      res.push([ this.selected_color, stop ]);
     }
+    
+    // Overwrite the old value; only pushing to the old wouldn't force Angular to send
+    // the new one to the ridgeline-chart.component
+    this.color_gradients_dynamic = res;
+    console.log(this.color_gradients_dynamic);
   }
 
   /**
@@ -132,18 +146,20 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     //Don't refresh the page
     event.preventDefault();
     
-    this.color_gradients.length = 0;
+    this.color_gradients_dynamic = [];
   }
   
   
-// ---------------------------------------------- Data Management ----------------------------------------------
+// ---------------------------------------------- data Management ----------------------------------------------
   
 
 
   public subscribechartData1Socket(): void {
     if (this.chartData1Socket) {
       this.subscriptions.push(this.chartData1Socket.subscribe(message => {
-        this.data = this.getData(message);
+        this.data_dynamic = this.getData(message);
+        //this.color_gradients_dynamic = [["#b3e5fc", 0]];
+        console.log(this.data_dynamic);
       }, err =>
         console.log(err)
       ));
@@ -152,14 +168,89 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     }
   }
 
+  //REST 'all'-getter that sets static data
+  public initRidgelineChartDataDTOchartData(): void {
+    RidgelineChartDataDTO.getAll(this.commandManager)
+      .then((model: RidgelineChartDataDTO) => {
+        this.chartData = model;
+        let data_transformed = this.split_data_on_days(this.transformDTO(this.chartData)[0]);
+        this.data_static = data_transformed[0];
+        this.labels_static = data_transformed[1];
+        //Just for presentation
+        // this.data_static = [];
+        // for (let j = 0; j < 2; ++j)
+        // {
+        //   this.data_static[j] = [];
+        //   for (let i = -2; i < 15; i+=0.25)
+        //   {
+        //     this.data_static[j].push([i * 360000, Math.sin((i + j) / 2.0) * Math.random() * 20]);
+        //   }
+        // }
+        // this.labels_static = ["Income Mon", "Income Tue"];
+      });
+  }
+
+  /**
+   * Creates an own ridge for each day included in data
+   * @param data 
+   * @return a tuple consisting of the values (number[][][]) and the y-labels_static (string[])
+   */
+  private split_data_on_days(data: number[][][]){
+    if (data.length == 0){
+      return [[],[]];
+    }
+    let res_data = [];
+    let res_labels = [];
+    let current_value_index = 0;
+    
+
+    while (current_value_index < data[0].length){
+      res_data.push([]); // Append one ridge for each day
+
+      let date = new Date(data[0][current_value_index][0]);
+      let current_day = date.getDate();
+
+      // Label creation
+      let y_str = date.getFullYear().toString();
+      let month_str = (date.getMonth() + 1).toString().padStart(2,"0");
+      let d_str = date.getDate().toString().padStart(2,"0");
+      res_labels.push(''+d_str+"."+month_str+"."+y_str+"\n");
+
+
+      // For logging
+      // let h_str = date.getHours().toString().padStart(2,"0");
+      // let min_str = date.getMinutes().toString().padStart(2,"0");
+      // let s_str = date.getSeconds().toString().padStart(2,"0");
+      // //let ms_str = date.getMilliseconds().toString().padStart(3,"0");
+      // console.log(''+h_str+':'+min_str+':'+s_str);
+
+      while ((current_value_index < data[0].length) && (current_day == (new Date(data[0][current_value_index][0]).getDate()))){
+        let new_data_entry = [data[0][current_value_index][0] % 86400000, data[0][current_value_index][1]];
+        res_data[res_data.length-1].push(new_data_entry);
+        current_value_index++;
+      }
+    }
+
+    return [res_data, res_labels];
+
+    // for (let ridge_index=0; ridge_index<data[0].length; ridge_index++){
+    //   while (current_day == (new Date(data[0][current_valu][0]).getDate())){
+
+    //   }
+    // }
+
+    // Assume subsequent days
+  }
+
 
   
   public getData(message){
-    if (this.useBackendData){ // Currently sent via REST (all) and not via websocket
-      // Transforme Data to that which is necessary here
-      let data = this.transformDTO(this.chartData);
-      this.labels = data[1];
-      return data[0];
+    if (this.useDynamicBackendData){ // Currently sent via REST (all) and not via websocket
+      // Transforme data_static to that which is necessary here
+      // let data_static = this.transformDTO(this.chartData);
+      // this.labels_static = data_static[1];
+      // return data_static[0];
+      console.log("TODO: Add socket getData part again!");
 
     } else {
       // NOTE: ONLY FOR TESTING (QUICK AND DIRTY)
@@ -181,16 +272,16 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
         res.push(this.dummyData[i].slice(0,Math.min(this.dummyData[i].length, this.dummyDataIndex)));
       }
       
-      this.labels = ['test1', 'test2', 'test3', 'random sinus'];
+      this.labels_dynamic = ['test1', 'test2', 'test3', 'random sinus'];
 
       return res;
     }
   }
 
   /**
-   * Transforms data
+   * Transforms data_static
    * @param input a RidgelineChartDataDTO object
-   * @return a tuple consisting of the values (number[][][]) and the y-labels (string[])
+   * @return a tuple consisting of the values (number[][][]) and the y-labels_static (string[])
    */
   public transformDTO(input: RidgelineChartDataDTO){
     let values_result = [];
@@ -209,7 +300,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
 
 
   /**
-   * Creates the data for all ridgelines
+   * Creates the data_static for all ridgelines
    * @returns number[][][]
    */
   public createDummyData(){
@@ -224,13 +315,53 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
       test_data_5.push([i, Math.sin(i / 2.0) * Math.random()]);
     }
     let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
+
+    //For test purposes
+    // let thresholds = [-15, -5, 0, 5, 10, 15, 20, 25];
+    // let bandwidth = 1.0;
+    // let test_raw_data = [];
+    // for (let data of all_data)
+    // {
+    //   test_raw_data.push(this.get_kde(thresholds, bandwidth, this.get_column(data)));
+    // }
+
+    // console.log(test_raw_data);
     
+    // return test_raw_data;
     return all_data;
+  }
+
+  private get_column(data : number[][])
+  {
+    return data.map(entry => entry[1]);
+  }
+
+  //TODO: Beide Funktionen überarbeiten und an andere Stelle setzen und in get_kde die tatsächliche Funktion als Parameter nehmen; auch andere kernel Funktionen bereitstellen
+  //Based on: https://de.wikipedia.org/wiki/Kerndichtesch%C3%A4tzer
+  private gauss_kernel(value)
+  {
+    return 1 / (Math.sqrt(2*Math.PI)) * Math.exp(-0.5 * Math.pow(value, 2))
+  }
+
+  public get_kde(thresholds, bandwidth, data)
+  {
+    //Get a kde value for the y axis for each x-value in thresholds ("bins")
+    return thresholds.map(
+      t =>  
+        [t, 
+          1 / (data.length * bandwidth) * //!length might be zero
+          data.map(
+            x => this.gauss_kernel((t - x) / bandwidth)
+          ).reduce(
+            (sum, x) => sum + x, 0
+          )
+        ]
+    );
   }
   
 
 
-  //Creates function data array from x_1 to x_2, in step_size steps, with one of two random functions
+  //Creates function data_static array from x_1 to x_2, in step_size steps, with one of two random functions
   private get_test_data(x_1: number, x_2: number, step_size: number)
   {
     let test_data : number[][] = [];

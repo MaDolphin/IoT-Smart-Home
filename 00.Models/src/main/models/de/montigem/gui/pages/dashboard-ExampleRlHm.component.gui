@@ -1,0 +1,73 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
+  column(nospace) {
+        navigation "navigationBarLinks" {
+            tab "Dashboard" {
+              link: "../dashboard"
+            }
+            tab "Example-RlHm" {
+              link: "./"
+            }
+        }
+    }
+
+  // Centered Card
+  row (space-evenly, spaceabove) {
+    container(40%) {
+      card {
+        head {
+          row(stretch) {
+            label "RidgeLine Graph with Temperature Data"
+          }
+        }
+        body{
+          html {"
+                <ridgeline-chart
+                  [alpha]=0.8
+                  [overshoot]=30
+                  [rawData]=data_ridgeline
+                  [overwrite_data]=\"true\"
+                  [labels]=labels_ridgeline
+                  [font_size]=\"12\"
+                  [color_gradients]=color_gradients_ridgeline
+                  [x_is_time]=\"true\"
+                  [show_date]=\"true\"
+                  [align_x_label_to]=60000000>
+                </ridgeline-chart>
+              "}
+        }
+      }
+    }
+  }
+  row (space-evenly, spaceabove) {
+    card {
+          head {
+            row(stretch) {
+              label "Heatmap Chart of Temperatures"
+            }
+          }
+          body{
+            html {"
+                    <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\">
+                    </heatmap-chart>
+                "}
+        }
+      }
+    
+    card {
+          head {
+            row(stretch) {
+              label "Heatmap Chart of Temperature-Timestamps"
+            }
+          }
+          body{
+            html {"
+                    <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\" [timestampdata]=true>
+                    </heatmap-chart>
+                "}
+          }
+    }
+  }
+
+}

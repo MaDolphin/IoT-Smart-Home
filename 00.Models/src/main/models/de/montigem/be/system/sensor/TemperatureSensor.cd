@@ -13,7 +13,17 @@ classdiagram TemperatureSensor {
 
   class GaugeChartDataEntry {
     String name;
-    int value;
+    float value;
+  }
+
+  class TemperatureData {
+    List<TemperatureDataEntry> entries;
+  }
+
+  class TemperatureDataEntry {
+    String name;
+    float value;
+    int timestamp;
   }
 }
 

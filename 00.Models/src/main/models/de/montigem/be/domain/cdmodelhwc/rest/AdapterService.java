@@ -1,8 +1,13 @@
 /*Generated file from MCGenerator*/
 package de.montigem.be.domain.cdmodelhwc.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import de.montigem.be.domain.cdmodelhwc.classes.adapter.AdapterFactory;
 import de.montigem.be.domain.cdmodelhwc.classes.adapter.Adapter;
+import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
+import de.montigem.be.domain.cdmodelhwc.classes.sensorunit.SensorUnit;
+import de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue;
 import de.montigem.be.domain.cdmodelhwc.daos.AdapterDAO;
 import de.montigem.be.database.DatabaseDataSource;
 import de.montigem.be.domain.rte.interfaces.IObject;
@@ -25,6 +30,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 /**
@@ -117,6 +123,25 @@ public class AdapterService {
 			return Responses.userError(MontiGemErrorFactory.exceptionCaught(new JsonException("Failed to set Data")),
 					getClass());
 		}
+
+		JsonElement element = new Gson().fromJson(json, JsonElement.class);
+		float value = element.getAsJsonObject().get("data").getAsFloat();
+		ZonedDateTime timeStamp = ZonedDateTime.now();
+		SensorValue sensorValue = new SensorValue();
+		sensorValue.setTimestamp(timeStamp);
+		sensorValue.setValue(value);
+		SensorType sensorType;
+		SensorUnit sensorUnit;
+		if(port.contains("smokeSensor")) {
+			sensorType = SensorType.CO2;
+			sensorUnit = SensorUnit.NONE;
+			daoLib.getSensorDAO().setSensorValue(id, sensorType, sensorUnit, sensorValue);
+		}else if(port.contains("tempCtrl")) {
+			sensorType = SensorType.TEMPERATURE;
+			sensorUnit = SensorUnit.CELCIUS;
+			daoLib.getSensorDAO().setSensorValue(id, sensorType, sensorUnit, sensorValue);
+		}
+
 		return Responses.okResponse();
 	}
 
@@ -279,7 +304,7 @@ public class AdapterService {
 
 	/**
 	 * Gets handle.
-	 * 
+	 *
 	 * @return handle
 	 */
 	public static AdapterHandle getHandle() {
@@ -288,7 +313,7 @@ public class AdapterService {
 
 	/**
 	 * Sets handle.
-	 * 
+	 *
 	 * @handle set handler
 	 */
 	public static void setHandle(AdapterHandle handle) {

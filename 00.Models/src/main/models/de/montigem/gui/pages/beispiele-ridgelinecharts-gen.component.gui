@@ -34,11 +34,11 @@ webpage RidgelineChartSamplePage(
 
   row (space-evenly, spaceabove) {
 
-    // container for card 2
-    container(80%) {
+    // Dynamic ridgeline plot
+    container(40%) {
         card {
             head {
-                label "Ridgeline Chart"
+                label "Ridgeline Chart Dynamic"
             }
             body {
               html {"
@@ -61,12 +61,17 @@ webpage RidgelineChartSamplePage(
                   <button id='gradient_reset' (click)='reset_color_stop($event)'>Reset</button>
                 </form>
                 <ridgeline-chart
-                  [smooth]=\"false\"
+                  [alpha]=0.2
                   [overshoot]=30
-                  [rawData]=data
-                  [labels]=labels
-                  [font_size]=\"12\"
-                  [color_gradients]=color_gradients>
+                  [rawData]=data_dynamic
+                  [overwrite_data]=\"false\"
+                  [labels]=labels_dynamic
+                  [font_size]=12
+                  [color_gradients]=color_gradients_dynamic
+                  [x_is_time]=\"true\"
+                  [show_date]=\"false\"
+                  [align_x_label_to]=1000
+                  [max_x_range]=10>
                 </ridgeline-chart>
               "}
                 //ridgelinechart "RidgeLineChart" {           // line chart declaration with name
@@ -78,6 +83,31 @@ webpage RidgelineChartSamplePage(
                     // overwriteData              // incoming data overwrites current data for chart if set,
                                                 // otherwise the data is appended to existing list
                 //}
+            }
+        }
+    }
+  
+    // Static ridgeline plot
+    container(40%) {
+        card {
+            head {
+                label "Ridgeline Chart Static"
+            }
+            body {
+              html {"
+                <ridgeline-chart
+                  [alpha]=0.8
+                  [overshoot]=30
+                  [rawData]=data_static
+                  [overwrite_data]=\"true\"
+                  [labels]=labels_static
+                  [font_size]=\"12\"
+                  [color_gradients]=color_gradients_static
+                  [x_is_time]=\"true\"
+                  [show_date]=\"false\"
+                  [align_x_label_to]=14400000>
+                </ridgeline-chart>
+              "}
             }
         }
     }

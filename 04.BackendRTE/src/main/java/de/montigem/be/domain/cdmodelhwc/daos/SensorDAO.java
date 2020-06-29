@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import de.montigem.be.domain.cdmodelhwc.classes.sensor.Sensor;
 import de.montigem.be.domain.cdmodelhwc.classes.sensortype.SensorType;
+import de.montigem.be.domain.cdmodelhwc.classes.sensorunit.SensorUnit;
 import de.montigem.be.domain.cdmodelhwc.classes.sensorvalue.SensorValue;
 import de.montigem.be.domain.cdmodelhwc.rest.SensorService;
 import de.montigem.be.error.MontiGemErrorFactory;
@@ -33,6 +34,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import de.montigem.be.util.tuple.*;
 
 public class SensorDAO extends SensorDAOTOP {
 
@@ -111,11 +114,12 @@ public class SensorDAO extends SensorDAOTOP {
      * @Date: 2020/5/8
      */
     @Transactional
-    public void setSensor(String sensorId, SensorType type) {
+    public void setSensor(String sensorId, SensorType type, SensorUnit unit) {
         EntityManager em = getEntityManager();
         Sensor sensor = new Sensor();
         sensor.setSensorId(sensorId);
         sensor.setType(type);
+        sensor.setUnit(unit);
         em.persist(sensor);
     }
 
@@ -148,14 +152,14 @@ public class SensorDAO extends SensorDAOTOP {
      * @Date: 2020/5/8
      */
     @Transactional
-    public void setSensorValue(String sensorId, SensorType type, SensorValue sensorValue) {
+    public void setSensorValue(String sensorId, SensorType type, SensorUnit unit, SensorValue sensorValue) {
 
         EntityManager em = getEntityManager();
 
         Sensor sensor;
 
         if (this.getSensorById(sensorId) == null) {  // if the Sensor is not in the DB, then create a new Sensor.
-            this.setSensor(sensorId, type);
+            this.setSensor(sensorId, type, unit);
         }
         sensor = this.getSensorById(sensorId);
 
@@ -198,34 +202,41 @@ public class SensorDAO extends SensorDAOTOP {
         try {
             JsonElement element = new Gson().fromJson(json, JsonElement.class);
             JsonArray dataArray = element.getAsJsonObject().get("data").getAsJsonArray();
-            ArrayList<ImmutableTriple<String, SensorType, SensorValue>> sensorData = new ArrayList<>();
+            ArrayList<FourTuple<String, SensorType, SensorUnit, SensorValue>> sensorData = new ArrayList<>();
             for(JsonElement d : dataArray){
                 String sensorId = d.getAsJsonObject().get("sensorId").getAsString();
                 String type = d.getAsJsonObject().get("type").getAsString();
-                int value = d.getAsJsonObject().get("value").getAsInt();
+                float value = d.getAsJsonObject().get("value").getAsFloat();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
                 ZonedDateTime timeStamp = ZonedDateTime.parse(d.getAsJsonObject().get("timeStamp").getAsString() + " UTC", formatter);
                 SensorType sensorType;
+                SensorUnit sensorUnit;
                 switch (type){
-                    case "TEMPERATURE": sensorType = SensorType.TEMPERATURE; break;
-                    case "ANGLE": sensorType = SensorType.ANGLE; break;
-                    case "PERCENT": sensorType = SensorType.PERCENT; break;
-                    case "LIGHT": sensorType = SensorType.LIGHT; break;
-                    case "CO2": sensorType = SensorType.CO2; break;
-                    case "MOTION": sensorType = SensorType.MOTION; break;
+                    case "TEMPERATURE": sensorType = SensorType.TEMPERATURE;
+                                        sensorUnit = SensorUnit.CELCIUS; break;
+                    case "ANGLE": sensorType = SensorType.ANGLE;
+                                  sensorUnit = SensorUnit.NONE; break;
+                    case "PERCENT": sensorType = SensorType.PERCENT;
+                                    sensorUnit = SensorUnit.NONE; break;
+                    case "LIGHT": sensorType = SensorType.LIGHT;
+                                  sensorUnit = SensorUnit.NONE; break;
+                    case "CO2": sensorType = SensorType.CO2;
+                                sensorUnit = SensorUnit.NONE; break;
+                    case "MOTION": sensorType = SensorType.MOTION;
+                                   sensorUnit = SensorUnit.NONE; break;
                     default:
                         return "No SensorType";
                 }
                 SensorValue sensorValue = new SensorValue();
                 sensorValue.rawInitAttrs(null, timeStamp, value);
 
-                sensorData.add(ImmutableTriple.of(sensorId, sensorType,sensorValue));
+                sensorData.add(FourTuple.of(sensorId, sensorType, sensorUnit,sensorValue));
             }
             StringBuilder output = new StringBuilder();
             output.append("Successfully inserted following values into the database: ");
-            for(ImmutableTriple<String, SensorType, SensorValue> d : sensorData){
-                setSensorValue(d.getLeft(), d.getMiddle(), d.getRight());
-                output.append(d.getLeft()).append("-").append(d.getMiddle()).append("-").append(d.getRight().getValue()).append("-").append(d.getRight().getTimestamp()).append(";");
+            for(FourTuple<String, SensorType, SensorUnit, SensorValue> d : sensorData){
+                setSensorValue(d.getFirst(), d.getSecond(), d.getThird(), d.getFourth());
+                output.append(d.getFirst()).append("-").append(d.getSecond()).append("-").append(d.getThird()).append("-").append(d.getFourth().getValue()).append("-").append(d.getFourth().getTimestamp()).append(";");
             }
             return output.toString();
         } catch (Exception e) {
