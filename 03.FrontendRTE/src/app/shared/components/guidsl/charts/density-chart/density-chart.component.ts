@@ -18,25 +18,30 @@ export class DensityChartComponent implements OnChanges {
   @Input()
   transitionTime = 1000;
 
+  get getData(): any {
+    return this.data2
+  }
+  set setData(data2Model) {
+    this.data2 = this.data2
+  }
+
   constructor() { }
-  
+
   margin = {top: 30, right: 600, bottom: 30, left: 100};
   firstCall = 1;
   currentData: Array<Data2Model> = [];
-  x; // x achses
-  y; // y achses
+  x; // x axis
+  y; // y axis
   svg; // top level svg element
   paths; // path element for each density curve
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.data2==null)
-    {
-        this.informationLabel.nativeElement.innerHTML="No data available";
-    }else if(this.data2.length <=0 || this.data2.entries.length<=0)
-    {
-        this.informationLabel.nativeElement.innerHTML="received data is empty";
-    }else{
-        this.informationLabel.nativeElement.innerHTML="";
+    if (this.data2 == null) {
+        this.informationLabel.nativeElement.innerHTML = "No data available";
+    } else if (this.data2.length <= 0 || this.data2.entries.length <= 0) {
+        this.informationLabel.nativeElement.innerHTML = "received data is empty";
+    } else {
+        this.informationLabel.nativeElement.innerHTML = "";
         this.updateChart(this.data2);
     }
  }
@@ -44,7 +49,7 @@ export class DensityChartComponent implements OnChanges {
 /**  onResize(changes: SimpleChanges) {
     this.updateChart(changes.data2.currentValue);
   }**/
-  private createDensityChart(data2: Data2Model[]): void {
+  public createDensityChart(data2: Data2Model[]): void {
     d3.select('svg').remove();
     const densityElement = this.chartContainer.nativeElement;
     const data = data2;
@@ -73,7 +78,7 @@ export class DensityChartComponent implements OnChanges {
      */
     this.x = d3
       .scaleLinear()
-      .domain([minX-10,maxX+10]) // fixed scale is better for changing data // [minX - 8, maxX + 8])
+      .domain([minX - 10, maxX + 10]) // fixed scale is better for changing data // [minX - 8, maxX + 8])
       .range([0, width]);
 
     /**
@@ -97,8 +102,7 @@ export class DensityChartComponent implements OnChanges {
     const types = [];
     kde(data
       .filter((d) => {
-        if (types.indexOf(d.type) === -1)
-        {
+        if (types.indexOf(d.type) === -1) {
           types.push(d.type);
           color.push('#' + (0xd95d80 + (1 / types.length) * 0xfffff0).toString(16).substr(1, 6));
         }
@@ -187,7 +191,7 @@ export class DensityChartComponent implements OnChanges {
    * @param kernel The kernel
    * @param X Number of Ricks
    */
-  private kernelDensityEstimator(kernel, X) {
+  public kernelDensityEstimator(kernel, X) {
     return (V) => {
       return X.map((x) => {
         return [x, d3.mean(V, (v) => kernel(x - (v as number)))];
@@ -199,7 +203,7 @@ export class DensityChartComponent implements OnChanges {
    * Returns the value of the Epanechnikov kernel
    * @param k
    */
-  private kernelEpanechnikov(k) {
+  public kernelEpanechnikov(k) {
     return (v) => {
       return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
     };
@@ -207,16 +211,15 @@ export class DensityChartComponent implements OnChanges {
   /**
   * Update chart with new values
   */
-  private updateChart(data2: Data2Model[]) {
+  public updateChart(data2: Data2Model[]) {
     //push all received data to the array
-    for(let i=0;i<this.data2.entries.length;i++)
-    {
+    for (let i = 0; i < this.data2.entries.length; i++) {
         this.currentData.push({type: this.data2.entries[i].name, value: this.data2.entries[i].value});
     }
     if ( this.firstCall == 1 ) {
       this.createDensityChart(this.currentData);
       this.firstCall = 0;
-    }else{
+    } else {
       const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7), this.x.ticks(60));
       const types = [];
       kde(this.currentData
