@@ -127,6 +127,41 @@ describe('Components', () => {
 
 
                 // TODO Add test for x-window
+
+
+
+                it('get_x_label_precision',
+                    () => {
+                        let chart = new RidgelineChartComponent();
+
+                        chart.relative_x_precision = 2;
+                        expect(chart.get_x_label_precision(1093750)).toEqual(0);
+                        expect(chart.get_x_label_precision(2535.3)).toEqual(0);
+                        expect(chart.get_x_label_precision(100.5)).toEqual(0);
+                        expect(chart.get_x_label_precision(99.9)).toEqual(1);
+                        expect(chart.get_x_label_precision(10)).toEqual(1);
+                        expect(chart.get_x_label_precision(9.999)).toEqual(2);
+                        expect(chart.get_x_label_precision(0.0015)).toEqual(5);
+
+                        chart.relative_x_precision = 5;
+                        expect(chart.get_x_label_precision(1093750)).toEqual(0);
+                        expect(chart.get_x_label_precision(2535.3)).toEqual(2);
+                        expect(chart.get_x_label_precision(100.5)).toEqual(3);
+                        expect(chart.get_x_label_precision(99.9)).toEqual(4);
+                        expect(chart.get_x_label_precision(10)).toEqual(4);
+                        expect(chart.get_x_label_precision(9.999)).toEqual(5);
+                        expect(chart.get_x_label_precision(0.0015)).toEqual(8);
+
+                        chart.relative_x_precision = -2;
+                        expect(chart.get_x_label_precision(1)).toEqual(0);
+                        expect(chart.get_x_label_precision(0.0015)).toEqual(1);
+
+                        chart.relative_x_precision = 0;
+                        expect(chart.get_x_label_precision(1)).toEqual(0);
+                        expect(chart.get_x_label_precision(0.1)).toEqual(1);
+                        expect(chart.get_x_label_precision(0.09)).toEqual(2);
+                    }
+                )
             });
         });
     });

@@ -588,20 +588,26 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   @Input() show_date: boolean=false;
 
   /**
-   * TODO
+   * This parameter is only active if x_is_time=false and x-values are interpreted as usual.
+   * With this parameter it can be controlled how many positions after decimal point are given regarding the x-labels.
+   * The decision is done relatively to the value offset between two subsequent x-labels.
+   * If this offset is in the order of 10^x, there will be max(0, realtive_x_precision-x) positions after decimal point.
    */
   @Input() relative_x_precision: number=2;
 
   /**
-   * TODO
+   * Determines at which x-positions the diagram will plot an x-axis-description.
+   * E.g. if the x-values can be interpreted as milliseconds the value 1000 will specify that there will be a
+   * x-axis-description at each exact second (all positions after the fourth one will be 0 at the description).
    */
   @Input() align_x_label_to = 1000;
 
   /**
-   * TODO
-   * Only applied if > 0 and overwrite_date=false
+   * Only applied if > 0 and overwrite_data=false
+   * If new data is appended to the already existing data, every entry with an x-value lower than max(x)-max_x_range
+   * will be deleted from the currently shown data. The result is a sliding x-window.
    */
-  @Input() max_x_range = -1; //For sliding window, applied if > 0
+  @Input() max_x_range = -1;
 
 
   _rawData: number[][][] = [];
@@ -938,12 +944,8 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
    *                            x_value_offset > 1   ==> 2
    *                            x_value_offset > 0.1 ==> 3
    */
-  private get_x_label_precision(x_value_offset: number): number{
-    let res = 0;
-    while (x_value_offset < 10**(this.relative_x_precision-res)){
-      res += 1;
-    }
-    return res;
+  public get_x_label_precision(x_value_offset: number): number{
+    return Math.max(0, this.relative_x_precision-Math.floor(Math.log10(x_value_offset)));
   }
 
 
