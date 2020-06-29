@@ -3,11 +3,12 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Input} from "@angular/core";
 import * as d3 from 'd3';
 import {FormsModule} from "@angular/forms";
-
+import {Data2Model} from 'src/app/data/data.model';
+/*
 interface Data2Model {
     type: string;
     value: number;
-}
+}*/
 
 describe('Components', () => {
     describe('GuiDSL', () => {
