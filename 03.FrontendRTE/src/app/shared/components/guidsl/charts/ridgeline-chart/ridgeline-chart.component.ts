@@ -592,6 +592,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
    * With this parameter it can be controlled how many positions after decimal point are given regarding the x-labels.
    * The decision is done relatively to the value offset between two subsequent x-labels.
    * If this offset is in the order of 10^x, there will be max(0, realtive_x_precision-x) positions after decimal point.
+   * Note: Negative values are also allowed and will work as specified but will not be desired most likely.
    */
   @Input() relative_x_precision: number=2;
 
