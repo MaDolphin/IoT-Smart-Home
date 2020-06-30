@@ -114,7 +114,9 @@ class Ridgeline_Config {
 
 
 
-
+/**
+ * Data class used for managing, storing and transforming the data (ridgelines, data range and color gradients) to be drawn on the canvas
+ */
 export class Data
 {
   private values : number[][][] = []; //Underlying data (list of 2D data)
@@ -541,7 +543,29 @@ export class Data
   }
 }
 
-
+/**
+ * This component can be used to create / show a ridgeline chart 
+ * If you want to display density charts, please provide 2D density data already
+ * Expected data format: 
+ * List of 
+ *  list of [x,y] data (for each ridge)
+ * 
+ * Example usage:
+ * 
+ * @example
+ * <ridgeline-chart
+ *  [alpha]=0.8
+ *  [overshoot]=30
+ *  [rawData]=data_ridgeline
+ *  [overwrite_data]="true"
+ *  [labels]=labels_ridgeline
+ *  [font_size]="12"
+ *  [color_gradients]=color_gradients_ridgeline
+ *  [x_is_time]="true"
+ *  [show_date]="true"
+ *  [align_x_label_to]=60000000>
+ * </ridgeline-chart>
+ */
 @Component({
   selector: 'ridgeline-chart',
   templateUrl: './ridgeline-chart.component.html',
@@ -634,7 +658,12 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   private config: Ridgeline_Config = new Ridgeline_Config();
   private had_data_before: boolean = false; //Remember if data has ever been set before (for first-time setup)
 
-  //Transparency of the color the graphs are filled with
+  /**
+   * Transparency of the colors the graphs are filled with
+   * 
+   * @param {number} alpha The alpha value for all colors (0 - 1)
+   * 0: fully transparent, 1: not transparent
+   */
   @Input() 
   public set alpha (alpha: number){
     if (alpha >= 0 && alpha <= 1)
@@ -649,7 +678,15 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     console.log("Smoothed set to: "+smooth);
   }*/
 
-  //Raw data which is transformed and then shown in the plot
+  /**
+   * Set raw data which is then shown in the plot
+   * 
+   * @param {number[][][]} rawData 
+   * Consists of a list of:
+   *  a list of [x, y] data (for each ridgeline)
+   * to be displayed. 
+   * Note: If you want to display density charts, please not that you need to compute them yourself, and then just pass them as [x, y] data
+   */
   @Input()
   public set rawData(rawData: number[][][]){
     if (rawData.length <= 0)
@@ -681,7 +718,19 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   }
 
 
-  //Color gradients: [y_value, color_string] for gradient shown on displayed data
+  /**
+   * Use this to set color gradients:  
+   * The gradient stops then starts at y_value with a color given by color_string
+   * 
+   * @param {[string, number][]} gradients in the form of [color_string, y_value_stop]
+   * Color strings: Hex value (like #000000) or color strings like 'blue' (if these are accepted by paperjs)
+   * Alpha: Set separately for all gradients with the [alpha]{@link alpha} parameter
+   * y_value_stop: y value in your data sets from which you want the color stop to start - note: color fade starts from previous color stop to this color stop
+   * -> Example for sharp color stop (only 0.1 y-range for gradient between the two colors)
+   * 
+   * @example
+   * [["#29b6f6", 0], ["#29b6f6", 19.9], ["#ff7043", 20]]
+   */
   @Input() 
   public set color_gradients(gradients : [string, number][])
   {
@@ -689,6 +738,10 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   }
 
 
+  /**
+   * Can be used to check if the internal data structure for the ridgelines was set
+   * @returns {boolean} True if data is set, false otherwise
+   */
   public hasData(): boolean{
     return this._rawData.length > 0;
   }
@@ -707,6 +760,9 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     this.scope.view.viewSize.height = window.innerHeight / 2;
   }
 
+  /**
+   * This function sets the canvas, a resize callback and creates the paperjs context and frame function for updating the graph on content change
+   */
   ngAfterViewInit() {
     this.canvas = this.canvas_view.nativeElement as HTMLCanvasElement;
     this.canvas.setAttribute("resize", "true");
@@ -756,12 +812,18 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
         for (let i = 0; i < this.data.length; ++i)
         {
           // ToDo: further refinement of config object and function call to avoid so many parameters
-          this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_color_gradients(i), this.config, i);
+          this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_color_gradients(i), i);
         }
       }
     }
   }
 
+  /**
+   * Draws a grid for the x and y axis, and labels on the left side of each ridge
+   * @param labels Array of labels for each ridge, drawn left of the ridge
+   * @param data Data class which stores information about e.g. the data range, which is useful for drawing the x- and y-axis
+   * @param config Configuration data, explicitly set by the user or derived from the set data, to e.g. find out where to draw the labels
+   */
   private plot_grid(labels: string[], data: Data, config: Ridgeline_Config)
   {
     //Val for later
@@ -822,7 +884,13 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private plot_ridge(data_row: number[][], gradient_max_y_values: [paper.Color, number][], config: Ridgeline_Config, index: number)
+  /**
+   * Plot one of the ridges with this function; index is used to determine the y-offset of each ridge, to plot them below one another
+   * @param data_row Data for one ridge ([x,y]-data), already transformed from the raw data to pixel values on the canvas
+   * @param gradient_max_y_values Gradient values, to set color stops for filling the ridges
+   * @param index Index of data_row, to find out where to draw the ridge baseline on the y axis
+   */
+  private plot_ridge(data_row: number[][], gradient_max_y_values: [paper.Color, number][], index: number)
   {
     let y_from = this.config.y_axis_start + this.config.ridges_offset * index;
 
