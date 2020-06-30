@@ -1,12 +1,13 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation, HostListener, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
 
-import {Data2Model} from 'src/app/data/data.model';
+import {Data2Model, datatypes} from 'src/app/data/data.model';
 @Component({
   selector: 'density-chart',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './density-chart.component.html'
 })
+
 export class DensityChartComponent implements OnChanges {
   @ViewChild('my_dataviz')
   private chartContainer: ElementRef;
@@ -18,6 +19,12 @@ export class DensityChartComponent implements OnChanges {
   @Input()
   transitionTime = 1000;
 
+  levels:Array<datatypes> = [
+      {num: 0, name: "temperature"},
+      {num: 1, name: "CO2"}
+  ];
+  selectedLevel = this.levels[0];
+  
   get getData(): any {
     return this.data2
   }
@@ -25,7 +32,7 @@ export class DensityChartComponent implements OnChanges {
     this.data2 = this.data2
   }
 
-  constructor() { }
+  constructor() {}
 
   margin = {top: 30, right: 600, bottom: 30, left: 100};
   firstCall = 1;
@@ -35,7 +42,18 @@ export class DensityChartComponent implements OnChanges {
   svg; // top level svg element
   paths; // path element for each density curve
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {  
+    this.updateData();
+  }
+  
+  public updateData():void
+  {
+    if(this.selectedLevel.num == 0)//temperature
+    {  
+        console.log("filter temperature data to data2");
+    }else{//CO2
+        console.log("filter co2 data to data2");
+    }
     if (this.data2 == null) {
         this.informationLabel.nativeElement.innerHTML = "No data available";
     } else if (this.data2.length <= 0 || this.data2.entries.length <= 0) {
@@ -44,7 +62,7 @@ export class DensityChartComponent implements OnChanges {
         this.informationLabel.nativeElement.innerHTML = "";
         this.updateChart(this.data2);
     }
- }
+  }
 
 /**  onResize(changes: SimpleChanges) {
     this.updateChart(changes.data2.currentValue);

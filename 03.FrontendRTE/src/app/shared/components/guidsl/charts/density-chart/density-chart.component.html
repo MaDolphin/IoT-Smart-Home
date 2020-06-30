@@ -7,6 +7,10 @@
 <label>End date:</label>
 
 <input type="date" id="endDate" name="density-end">-->
+ <select type="datatypeSelector" [(ngModel)]="selectedLevel" (ngModelChange)="updateData()">
+      <option *ngFor="let level of levels" [ngValue]="level">{{level.name}}</option>
+</select>
+
 <br>
 <label #no_data_label id="no_data_label"></label>
 
