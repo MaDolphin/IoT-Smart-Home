@@ -625,9 +625,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   // }
 
   //private canvas_div: HTMLDivElement;
-  @ViewChild('canvasContainer', { read: ElementRef }) canvas_container_view : ElementRef<HTMLDivElement>;
   @ViewChild('canvas', { read: ElementRef }) canvas_view : ElementRef<HTMLCanvasElement>;
-  private canvas_container: HTMLDivElement;
   private canvas: HTMLCanvasElement;
   private scope: paper.PaperScope;
 
@@ -676,6 +674,9 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
       this.data.update_raw_data(rawData, this.max_x_range);
     }
 
+    //Update size based on columns
+    this.adjust_size();
+
     //Transformation of the (new) data now depends e.g. on the size on the canvas and thus is done within UI functions
   }
 
@@ -698,45 +699,20 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
 
   private adjust_size()
   {
-    //Set div size to viewport width part depending on current window size
-    //With about 500px window width, we only have half of the screen left, at 2000px we have about 90 percent
-    // let viewport_width_proportion = (0.2/1000 * window.innerWidth + 0.36) * 100;
-    // if (viewport_width_proportion > 90)
-    // {
-    //   viewport_width_proportion = 90;
-    // }
-    // let canvas_container_width = "width: " + viewport_width_proportion + "vw";
-    // this.canvas_container.setAttribute("style", canvas_container_width);
-
-    // let width_factor = this.initial_parent_width / this.initial_view_width;
-    // let height_factor = this.initial_parent_height / this.initial_view_height;
-
-    // //Width is set through CSS property / HTML "resize" property because we cannot always use window.innerWidth as orientation
-    // //paper.view.viewSize.width = this.canvas.width;
-    // //this.canvas_container.clientWidth - 10
-    // this.canvas.width = width_factor * window.innerWidth;
-    // this.canvas.height = height_factor * window.innerHeight;
-    // this.scope.view.viewSize.width = width_factor * window.innerWidth;
-    // this.scope.view.viewSize.height = height_factor * window.innerHeight;
+    //Canvas scales automatically to width
+    //Height always depends on the current window height (other methods did not seem to make more sense)
+    this.canvas.width = this.canvas.offsetWidth;
+    this.canvas.height = window.innerHeight / 2;
+    this.scope.view.viewSize.width = this.canvas.offsetWidth;
+    this.scope.view.viewSize.height = window.innerHeight / 2;
   }
 
-
-  private initial_parent_width;
-  private initial_parent_height;
-  private initial_view_width;
-  private initial_view_height;
-
   ngAfterViewInit() {
-    this.canvas_container = this.canvas_container_view.nativeElement as HTMLDivElement;
     this.canvas = this.canvas_view.nativeElement as HTMLCanvasElement;
     this.canvas.setAttribute("resize", "true");
-    this.canvas.setAttribute("width", "100%");
-    this.canvas.setAttribute("height", "100%");
 
-    this.initial_parent_width = this.canvas_container.clientWidth;
-    this.initial_parent_height = this.canvas_container.clientHeight;
-    this.initial_view_width = window.innerWidth;
-    this.initial_view_height = window.innerHeight;
+    this.canvas.width = this.canvas.offsetWidth;
+    this.canvas.height = 200;
 
     // Set up paperjs with the given canvas
     this.scope = new paper.PaperScope();
@@ -776,8 +752,6 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
         //Draw grid for data
         this.plot_grid(this.labels, this.data, this.config);
 
-        //TODO: Proper arguments for grid drawing
-
         //Draw test data
         for (let i = 0; i < this.data.length; ++i)
         {
@@ -785,14 +759,6 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
           this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_color_gradients(i), this.config, i);
         }
       }
-
-      // Lines to see some parameters in real life
-      // let line = new this.scope.Path.Line(new paper.Point(0, 0), new paper.Point(this.canvas.width, this.canvas.height));
-      // line.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
-      // let line2 = new paper.Path.Line(new paper.Point(0, 0), new paper.Point(0, this.config.y_axis_start));
-      // line2.strokeColor = new paper.Color(0.2, 0.2, 0.2, 0.2);
-      
-
     }
   }
 

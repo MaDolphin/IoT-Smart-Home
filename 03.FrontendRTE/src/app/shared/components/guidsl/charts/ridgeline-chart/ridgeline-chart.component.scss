@@ -45,16 +45,9 @@
     border-radius: 4px 0 0 4px;
   }
 
-  .canvas_container {
-    //width: 50vw;
-    //height: 70vh;
-    margin: 0;
-    border: 0;
-    padding: 0;
-  }
-
   .canvas {
-    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
   }
 
   canvas[resize] {
