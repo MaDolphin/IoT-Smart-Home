@@ -14,8 +14,9 @@ import { TemperatureDataDTO } from '@temperaturedata-dto/temperaturedata.dto';
 
 export class DashboardExampleRlHmComponent extends DashboardExampleRlHmComponentTOP implements OnInit {
   protected socket;
-   xAxisLabel = "";
-   yAxisLabel = "";
+  //The Axis-labels of the diagram (usually omited)
+  xAxisLabel = "";
+  yAxisLabel = "";
 
   public constructor(
     _router: Router,

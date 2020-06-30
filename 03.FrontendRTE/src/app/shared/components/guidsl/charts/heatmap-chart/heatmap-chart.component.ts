@@ -1,7 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-import {Component, HostBinding, Input, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
-import { HeatMapComponent } from '@swimlane/ngx-charts/release/heat-map';
-import { interval } from 'rxjs';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
 // A Wrapper for ngx-charts-heat-map
 
@@ -15,22 +13,40 @@ export class HeatmapChartComponent implements OnChanges {
   @Input() data;
   @Input() XLabel;
   @Input() YLabel;
+  //Allows choosing the input-type between timestamps and numbers
+  //Choosing timestamps changes loop_factor to 1 day (86400 seconds) and enables timestamp-string conversion (+ adds menu option) by default
   @Input() timestampdata = false;
 
-  //Redistribute timestamps if data changes
   ngOnChanges(changes: SimpleChanges) {
-    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);
-    
-    if(this.timestampdata){
-      this.prettyprint_timestamps=true;
-      this.loop_factor=86400;
-    } 
+    for (const propName in changes) {
+      if (changes.hasOwnProperty(propName)) {
+        switch (propName) {
+          //Recalculate Binning, when data changes
+          case 'data': {
+            if(this.data) this.computed_data = this.rearrange_array(this.data.entries);
+          }
+          //Change default paramaters if input type changes
+          case 'timestampdata': {
+            if(this.timestampdata){
+              this.prettyprint_timestamps=true;
+              this.loop_factor=86400;
+            }
+          }
+        }
+      }
+    }
   }
+
+
+
   //Set minimum and maximum Column numbers
   private min_num_seperations = 1;
   private max_num_seperations = 32;
 
+  //The data used as input of ngx-charts
   computed_data;
+
+
   //Pre-set some ngx-charts properties (See ngx-charts documentation for details)
   showXAxis = true;
   showYAxis = true;
@@ -41,26 +57,27 @@ export class HeatmapChartComponent implements OnChanges {
 
   
 
+
+  //The default color-scheme: Result of running enter_color on default color #303C46
   colorScheme = {
     domain: ['#A3CAEC','#98BCDB','#8CAECB','#819FBA','#7591AA','#6A8399','#5E7588','#536778','#536778','#3C4A57','#303C46']
   };
 
-
-  color_to_html_hex(redv, greenv, bluev)
-  {
-    return ('#'+('0'+Math.floor(redv).toString(16)).slice(-2)+('0'+Math.floor(greenv).toString(16)).slice(-2)+('0'+Math.floor(bluev).toString(16)).slice(-2));
-  }
-
+  //The secondary color is calculated as being colorscalefactor away from white/black when starting at the selected color
   colorscalefactor = 0.3;
-
+  //How many mid-steps there should in the colorScheme between selected and secondary color. (Due to a Bug of mgx-charts this shouldn't be low, as otherwise the bin-colors overshoot the maximum color)
   color_domain_mid_steps = 10;
 
+  //Calculates a fitting secondary color to be used on a color scale
   enter_color(value:string)
   {
+    //Converts Hex-String to RGB values
     var color = parseInt(value.substr(1),16);
     var blue = (color % 256);
     var green = ((color-blue)/256)%256;
     var red = (color-blue-(256*green))/65536;
+
+    //Checks if the given color is closer to white or black, then selects the secondary color as 1-colorscalefactor the way towards the further of the two
     if((blue+green+red)>381)
     {
       var secondary_red =red*this.colorscalefactor;
@@ -73,6 +90,8 @@ export class HeatmapChartComponent implements OnChanges {
       var secondary_green =255-(255-green)*this.colorscalefactor;
       var secondary_blue =255-(255-blue)*this.colorscalefactor;
     }
+
+    //Adds colorscalefactor-1 linear mid-steps between input color and secondary color (For colorscalefactor=1 there is only input and secondary)
     var new_domain = [];
     for(var i = 1; i<=this.color_domain_mid_steps;i++)
     {
@@ -81,6 +100,16 @@ export class HeatmapChartComponent implements OnChanges {
     new_domain.push(value);
     this.colorScheme = {domain: new_domain};
   }
+
+
+  //Converts RGB color to a Hex String
+  color_to_html_hex(redv, greenv, bluev)
+  {
+    return ('#'+('0'+Math.floor(redv).toString(16)).slice(-2)+('0'+Math.floor(greenv).toString(16)).slice(-2)+('0'+Math.floor(bluev).toString(16)).slice(-2));
+  }
+
+
+
 
 
   //Initial number of columns, same as html
@@ -98,7 +127,7 @@ export class HeatmapChartComponent implements OnChanges {
   //Checkbox attributes
   prettyprint_timestamps = false;
   loop_days = false;
-  //Refresh chart if changed
+  //Refresh chart if user selections change (loop_factor has minimum 2)
   enter_pretty_date(value)
   {
     this.prettyprint_timestamps = value;
@@ -118,6 +147,7 @@ export class HeatmapChartComponent implements OnChanges {
 
   //Creates an [{"name",series:["name","value"]}] array from an [{"name", "timestamp"}] array by splitting the time into num_seperators equal periods and couting amount of entries for each period & sensor name
   rearrange_array(somedata) {
+    //Depending on input type this either uses "timestamp" or "value" fields
     if(this.timestampdata)
     {
       //Earliest timestamp
@@ -178,6 +208,7 @@ export class HeatmapChartComponent implements OnChanges {
       //Define shape of inner array
       let temp_series: {name: string,value:number}[] = [];
 
+      //Depending on input type this either uses "timestamp" or "value" fields
       if(this.timestampdata)
       {
         //Count the occurences in this chunk
@@ -221,18 +252,20 @@ export class HeatmapChartComponent implements OnChanges {
 
   //Create String from Timestamps
   timeToString(timestamp, difference){
-    // Create a new JavaScript Date object based on the timestamp
-    // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+    //Create a new JavaScript Date object based on the timestamp
+    //multiplied by 1000 so that the argument is in milliseconds, not seconds.
     var date = new Date((timestamp) * 1000);
     
-    // Hours part from the timestamp
+    //Hours part from the timestamp
     var hours = date.getUTCHours();
-    // Minutes part from the timestamp
+    //Minutes part from the timestamp
     var minutes = "0" + date.getUTCMinutes();
     var datum = date.getUTCDate();
-    var month = date.getUTCMonth();
+    //For unknown reasons Months start at index 0
+    var month = date.getUTCMonth()+1;
     var year = date.getUTCFullYear();
 
+    //Removes dates if data covers less than a day
     if(difference>86400)
     {
       return hours + ':' + minutes.substr(-2) + ' ' + datum + '/' + month + '/' + year;
