@@ -6,8 +6,9 @@ import { Config } from 'protractor';
 /**
  * This class is a configuration class saving important configuration values
  * needed to transform and plot the data of the Ridgelines.
+ * Export only for testing!
  */
-class Ridgeline_Config {
+export class Ridgeline_Config {
   // ridges
   ridges_offset: number; // == offset horizontal // describes the size ot the space between two subsequent ridges
   ridges_height: number; // describes the maximum height, which one ridge can use. This space can overlap with subsequent ones

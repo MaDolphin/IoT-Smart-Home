@@ -1,4 +1,4 @@
-import { Data, RidgelineChartComponent } from '@shared/components/guidsl/charts/ridgeline-chart/ridgeline-chart.component'
+import { Data, RidgelineChartComponent, Ridgeline_Config } from '@shared/components/guidsl/charts/ridgeline-chart/ridgeline-chart.component'
 import { N } from '@angular/cdk/keycodes';
 
 
@@ -22,6 +22,9 @@ describe('Components', () => {
                             
                     this.data2 = new Data();
                     this.data2.set_raw_data(raw_data2, 10000);
+
+                    this.config = new Ridgeline_Config();
+                    this.config.set_params(["1","2"], 2, 1000, 798.8, 1000, 14, 20, 2, 1000);
                 });
 
 // ----------------------------------------- Data-class tests -----------------------------------------
@@ -121,12 +124,41 @@ describe('Components', () => {
 
                 it('transform_data',
                     () => {
-                        console.log("TODO");
+                        // Can only work, if test on Config-class works
+                        // Test by using this.data2
+
                     }
                 )
 
 
+
+// ----------------------------------------- Data-class tests -----------------------------------------
+                it('set_params',
+                    () => {
+                        let config : Ridgeline_Config = this.config;
+                        expect(config.ridges_offset).toEqual(213);
+                        expect(config.ridges_height).toEqual(276.9);
+                        expect(config.grid_line_start_x).toBeGreaterThan(10);
+                        expect(config.grid_line_end_x).toEqual(1000);
+                        expect(config.grid_line_start_y).toEqual(276.9);
+                        expect(config.font_size).toEqual(14);
+                        expect(config.x_axis_start).toEqual(config.grid_line_start_x);
+                        expect(config.x_axis_width).toEqual(1000-config.x_axis_start);
+                        expect(config.x_axis_value_offset).toEqual(1000);
+                        expect(config.y_axis_start).toEqual(276.9);
+                    }
+                )
+
+
+
+
+
+// -------------------------------------- RidgelineChartcomponent --------------------------------------
+
                 // TODO Add test for x-window
+
+
+
 
 
 
@@ -162,6 +194,8 @@ describe('Components', () => {
                         expect(chart.get_x_label_precision(0.09)).toEqual(2);
                     }
                 )
+
+
             });
         });
     });

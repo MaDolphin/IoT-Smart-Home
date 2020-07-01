@@ -101,7 +101,7 @@ webpage RidgelineChartSamplePage(
                   [rawData]=data_static
                   [overwrite_data]=\"true\"
                   [labels]=labels_static
-                  [font_size]=\"12\"
+                  [font_size]=12
                   [color_gradients]=color_gradients_static
                   [x_is_time]=\"true\"
                   [show_date]=\"false\"
