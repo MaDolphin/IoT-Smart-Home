@@ -186,21 +186,25 @@ export class Data
 
     for (let data of data_array)
     {
-      let min = this.get_min_x_y(data);
-      let max = this.get_max_x_y(data);
+      let min_y = this.get_min_y(data);
+      let max_y = this.get_max_y(data);
+
+      let len = data.length;
+      let min_x = len > 0 ? data[0][0] : Number.NEGATIVE_INFINITY;
+      let max_x = len > 0 ? data[len - 1][0] : Number.POSITIVE_INFINITY;
 
       //Store as [[min_x, min_y],[max_x, max_y]]
       if (!initialized){
-        result[0][0] = min[0];
-        result[0][1] = min[1];
-        result[1][0] = max[0];
-        result[1][1] = max[1];
+        result[0][0] = min_x;
+        result[0][1] = min_y;
+        result[1][0] = max_x;
+        result[1][1] = max_y;
         initialized = true;
       } else {
-        result[0][0] = Math.min(result[0][0], min[0]);
-        result[0][1] = Math.min(result[0][1], min[1]);
-        result[1][0] = Math.max(result[1][0], max[0]);
-        result[1][1] = Math.max(result[1][1], max[1]);
+        result[0][0] = Math.min(result[0][0], min_x);
+        result[0][1] = Math.min(result[0][1], min_y);
+        result[1][0] = Math.max(result[1][0], max_x);
+        result[1][1] = Math.max(result[1][1], max_y);
       }
     }
 
@@ -208,42 +212,39 @@ export class Data
   }
 
   /**
-   * Returns the minimal values of x and y over all x- and y-values in data
-   * @returns [min_x, min_y]
-   *          [INFINITY, INFINITY] if there is no entry in data
+   * Returns the minimal values of y over all y-values in data (x values can be obtained more efficiently bc the data is sorted by x)
+   * @returns min_y
+   *          INFINITY if there is no entry in data
    */
-  private get_min_x_y(data: number[][])
+  private get_min_y(data: number[][])
   {
-    // if (data.length == 0){
-
-    // }
     return data.reduce(
-      (previous_value: number[], current_value: number[]) =>
+      (previous_value: number, current_value: number[]) =>
       {
-        return [Math.min(previous_value[0], current_value[0]), Math.min(previous_value[1], current_value[1])];
+        return Math.min(previous_value, current_value[1]);
       },
-      [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY]);
+      Number.POSITIVE_INFINITY);
   }
 
   /**
-   * Returns the maximum values of x and y over all x- and y-values in data
-   * @returns [max_x, max_y]
-   *          [-INFINITY, -INFINITY] if there is no entry in data
+   * Returns the maximum values of y over all y-values in data (x values can be obtained more efficiently bc the data is sorted by x)
+   * @returns max_y
+   *          -INFINITY if there is no entry in data
    */
-  private get_max_x_y(data: number[][])
+  private get_max_y(data: number[][])
   {
     return data.reduce(
-      (previous_value: number[], current_value: number[]) =>
+      (previous_value: number, current_value: number[]) =>
       {
-        return [Math.max(previous_value[0], current_value[0]), Math.max(previous_value[1], current_value[1])];
+        return Math.max(previous_value, current_value[1]);
       },
-      [Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY]);
+      Number.NEGATIVE_INFINITY);
   }
 
   /**
    * Returns the data restricted to the given x range (to [max_x - x_range, max_x]), only if x_range > 0
    * @param data Data to restrict, assumed to be sorted!
-   * @param x_range Desired range of the x values up to the highest value
+   * @param x_range Desired range of the x values up to the highest value, ignored if <= 0
    */
   private restrict_to_x_range(data: number[][][], x_range: number)
   {
@@ -312,7 +313,7 @@ export class Data
   public update_raw_data(new_data: number[][][], max_x_range: number){
     if (new_data.length > 0)
     {
-      //Store data
+      //Store new data length, if new rows were added
       if (new_data.length > this.values.length)
       {
         this.length = new_data.length;
@@ -321,17 +322,21 @@ export class Data
       //Sort data by x for drawing
       this.sort_by_x(new_data);
 
-      //Update all relevant data information
-      let updated_xy_min_max = this.get_xy_min_max(new_data);
+      //Update min max values only using new data if no sliding window method is used - else, everything might have to be recomputed, so we would not benefit from this
+      if (max_x_range <= 0)
+      {
+        //Update all relevant data information
+        let updated_xy_min_max = this.get_xy_min_max(new_data);
 
-      //First update xy_min_max if required
-      this.xy_min_max[0][0] = Math.min(this.xy_min_max[0][0], updated_xy_min_max[0][0]);
-      this.xy_min_max[0][1] = Math.min(this.xy_min_max[0][1], updated_xy_min_max[0][1]);
-      this.xy_min_max[1][0] = Math.max(this.xy_min_max[1][0], updated_xy_min_max[1][0]);
-      this.xy_min_max[1][1] = Math.max(this.xy_min_max[1][1], updated_xy_min_max[1][1]);
+        //First update xy_min_max if required
+        this.xy_min_max[0][0] = Math.min(this.xy_min_max[0][0], updated_xy_min_max[0][0]);
+        this.xy_min_max[0][1] = Math.min(this.xy_min_max[0][1], updated_xy_min_max[0][1]);
+        this.xy_min_max[1][0] = Math.max(this.xy_min_max[1][0], updated_xy_min_max[1][0]);
+        this.xy_min_max[1][1] = Math.max(this.xy_min_max[1][1], updated_xy_min_max[1][1]);
 
-      //Update other data information based on updated xy_min_max
-      this.compute_ranges();
+        //Update other data information based on updated xy_min_max
+        this.compute_ranges();
+      }
 
       //Merge new with old data
       for (let i = 0; i < new_data.length; ++i) // iterate over ridges
@@ -365,9 +370,13 @@ export class Data
 
     //Restrict data to x range
     this.restrict_to_x_range(this.values, max_x_range);
-    this.xy_min_max = this.get_xy_min_max(this.values);
-    this.compute_ranges();
-    //TODO: Change behaviour for xy_min_max in this function, change xy_min_max to expect sorted data (which happens anyway) s.t. computation is much faster (see restrict_to_x_range)
+
+    //Update all relevant data information (both x and y values might have changed) if sliding window is used
+    if (max_x_range > 0)
+    {
+      this.xy_min_max = this.get_xy_min_max(this.values);
+      this.compute_ranges();
+    }
 
     //Transform needs to be called
     this.has_untransformed_data = true;
@@ -402,7 +411,7 @@ export class Data
     }
     else
     {
-      //TODO: Show error
+      console.log("Error: Could not transform data row (in get_transformed_data_row(), ridgeline-chart component)");
       return [];
     }
   }
@@ -415,7 +424,7 @@ export class Data
     }
     else
     {
-      //TODO: Show error
+      console.log("Error: Could not transform data row (in get_transformed_data_row(), ridgeline-chart component)");
       return [];
     }
   }
@@ -695,8 +704,6 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    //TODO: Revert this later on, is due to currently faulty data for static example
-
     this.had_data_before = this._rawData.length > 0;
     this._rawData = rawData;
 
@@ -708,12 +715,9 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     }
     else
     {
-      //This is less CPU-expensive - we set the data block that needs to be updated, which can change e.g. the x-range of our data
+      //This is a bit less CPU-expensive - we set the data block that needs to be updated, which can change e.g. the x-range of our data
       this.data.update_raw_data(rawData, this.max_x_range);
     }
-
-    //Update size based on columns
-    this.adjust_size();
 
     //Transformation of the (new) data now depends e.g. on the size on the canvas and thus is done within UI functions
   }
@@ -812,7 +816,6 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
         //Draw test data
         for (let i = 0; i < this.data.length; ++i)
         {
-          // ToDo: further refinement of config object and function call to avoid so many parameters
           this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_color_gradients(i), i);
         }
       }
@@ -857,7 +860,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
       //text.scale(text_scale, new this.scope.Point(0, line_start_y + offset_horizontal*i));
     }
 
-    //Vertical lines and labels (TODO)
+    //Vertical lines and labels
     let y_bottom_line_end = line_start_y + offset_horizontal * (labels.length - 1) + config.ridges_height;
                             // Consider only length-1 offsets and instead for the last ridge the whole height (offset+overshoot)
     
@@ -866,9 +869,6 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
 
     for (let x = x_label_start_value; x <= xy_min_max[1][0]; x += x_value_offset)
     {
-      //Round x - TODO: Does of course not work depending on the x axis (scale)
-      //x = Math.round((x + Number.EPSILON) * 100) / 100;
-
       let x_point = (x - xy_min_max[0][0]) / (xy_min_max[1][0] - xy_min_max[0][0]) * x_axis_width + x_axis_start;
 
       let line = new this.scope.Path.Line(new this.scope.Point(x_point, line_start_y - config.ridges_height),
