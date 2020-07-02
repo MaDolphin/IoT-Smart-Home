@@ -210,7 +210,7 @@ export class DensityChartComponent implements OnChanges {
        * Creates the legend
        */
       this.svg.append('circle').attr('cx', 750).attr('cy', 30 * index + 40).attr('r', 6).style('fill', color[index]);
-      this.svg.append('text').attr('x', 770).attr('y', 30 * index + 40).text(types[index])
+      this.svg.append('text').attr('x', 770).attr('y', 30 * index + 40).text(this.getTypeFromSensorId(types[index]))
         .style('font-size', '14px').attr('alignment-baseline', 'middle');
     }
   }
@@ -286,6 +286,16 @@ export class DensityChartComponent implements OnChanges {
       if(type == 2 && this.selectedLevel.num == 1)//selected CO2
           return true;
       return false;
+  }
+  
+  public getTypeFromSensorId(index)
+  {
+      if(index == 1)
+          return "Temperatur";
+      else if(index == 2)
+          return "CO2";
+      else
+          return "";
   }
   
 }
