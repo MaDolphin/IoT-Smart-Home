@@ -85,7 +85,7 @@ public class SensorDAO extends SensorDAOTOP {
     }
 
     @Transactional
-    public Optional<GaugeChartDataEntryDTO> getValueInTimeById_GaugeChart(String resource, ZonedDateTime currentTime, int seconds, long id) {
+    public Optional<GaugeChartDataEntryDTO> getValueInTimeById_GaugeChart(String resource, ZonedDateTime currentTime, int seconds, long id, SensorType type) {
         router.setDataSource(resource);
         TypedQuery<GaugeChartDataEntryDTO> query = em.createQuery(
                 "SELECT new " + GaugeChartDataEntryDTO.class.getName() + "(s.id, s.sensorId, v.value) FROM " + getDomainClass().getName() + " s JOIN s.value AS v "
@@ -103,6 +103,9 @@ public class SensorDAO extends SensorDAOTOP {
         } catch (NoResultException e) {
             return Optional.empty();
         }
+        String old_Name = singleResult.getName();
+        String new_Name = type.toString() + '+' + old_Name;
+        singleResult.setName(new_Name);
         return Optional.of(singleResult);
     }
 
