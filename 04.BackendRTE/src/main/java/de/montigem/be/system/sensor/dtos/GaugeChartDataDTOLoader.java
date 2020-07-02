@@ -22,27 +22,21 @@ public class GaugeChartDataDTOLoader extends GaugeChartDataDTOLoaderTOP {
     }
 
     public GaugeChartDataDTOLoader(DAOLib daoLib, SecurityHelper securityHelper) {
-        //super(daoLib, securityHelper);
-//        List<GaugeChartDataEntryDTO> entries = new ArrayList<>();
-//        entries.add(new GaugeChartDataEntryDTO(0, "Kitchen", 17));
-//        entries.add(new GaugeChartDataEntryDTO(1, "Bathroom", 25));
-//        entries.add(new GaugeChartDataEntryDTO(2, "Bedroom", 10));
-//        entries.add(new GaugeChartDataEntryDTO(3, "Office", 13));
-//        setDTO(new GaugeChartDataDTO(0, entries));
-
         String resource = securityHelper.getSessionCompliantResource();
         ZonedDateTime currentTime = ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         SensorType sensorType1 = SensorType.TEMPERATURE;
         SensorType sensorType2 = SensorType.CO2;
 
         List<GaugeChartDataEntryDTO> values1 = daoLib.getSensorDAO().getListOfSensorIdsForType(resource, sensorType1).parallelStream()
-                .map(sId -> daoLib.getSensorDAO().getValueInTimeById_GaugeChart(resource, currentTime, 1, sId, sensorType1))
+                .map(sId -> daoLib.getSensorDAO().getValueInTimeById_GaugeChart(resource, currentTime, 3*60, sId, sensorType1))
                 .filter(Optional::isPresent).map(Optional::get)
                 .collect(Collectors.toList());
+        //System.out.println("values1 length: " + values1.size());
         List<GaugeChartDataEntryDTO> values2 = daoLib.getSensorDAO().getListOfSensorIdsForType(resource, sensorType2).parallelStream()
-                .map(sId -> daoLib.getSensorDAO().getValueInTimeById_GaugeChart(resource, currentTime, 1, sId, sensorType2))
+                .map(sId -> daoLib.getSensorDAO().getValueInTimeById_GaugeChart(resource, currentTime, 3*60, sId, sensorType2))
                 .filter(Optional::isPresent).map(Optional::get)
                 .collect(Collectors.toList());
+        //System.out.println("values2 length: " + values2.size());
         values1.addAll(values2);
         setDTO(new GaugeChartDataDTO(0, values1));
 
