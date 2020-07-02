@@ -114,13 +114,14 @@ export class GaugeChartComponent implements OnInit {
     @Input()
     public set data(gaugeData: GaugeChartDataEntryDTO[]) {
         let t = this;
-        //console.log(gaugeData.entries);
         //console.log("received data");
-
         if (gaugeData && gaugeData.entries && gaugeData.entries.length > 0) {
+            //console.log(gaugeData.entries);
+
             t.dataSet = gaugeData.entries;
 
             t.dataSet.forEach(function (entry: any) {
+                //console.log(entry);
                 if (entry.value < t.min) {
                     // Abrunden auf ganze Zehner
                     t.min = Math.floor(entry.value / 10) * 10;
