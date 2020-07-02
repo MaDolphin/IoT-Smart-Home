@@ -21,7 +21,8 @@ export class DensityChartComponent implements OnChanges {
 
   levels:Array<datatypes> = [
       {num: 0, name: "temperature"},
-      {num: 1, name: "CO2"}
+      {num: 1, name: "CO2"},
+      {num:-1, name:"ALL"}
   ];
   selectedLevel = this.levels[0];
   
@@ -42,25 +43,35 @@ export class DensityChartComponent implements OnChanges {
   svg; // top level svg element
   paths; // path element for each density curve
 
+  /*** update chart if new data arrives **/
   ngOnChanges(changes: SimpleChanges): void {  
-    this.updateData();
+    this.updateData(false);
   }
   
-  public updateData():void
-  {
-    if(this.selectedLevel.num == 0)//temperature
-    {  
-        console.log("filter temperature data to data2");
-    }else{//CO2
-        console.log("filter co2 data to data2");
-    }
+  /**if user changes selection display new chart**/
+  public onSelectionChange(): void {
+      this.currentData = [];
+      this.updateData(true);
+  }
+  
+  public updateData(refresh):void
+  { 
     if (this.data2 == null) {
         this.informationLabel.nativeElement.innerHTML = "No data available";
     } else if (this.data2.length <= 0 || this.data2.entries.length <= 0) {
         this.informationLabel.nativeElement.innerHTML = "received data is empty";
     } else {
         this.informationLabel.nativeElement.innerHTML = "";
-        this.updateChart(this.data2);
+        //push all received data to the array
+        for (let i = 0; i < this.data2.entries.length; i++) {
+            this.currentData.push({type: this.data2.entries[i].name, value: this.data2.entries[i].value});
+        }
+        if(refresh)
+        {  
+            this.createDensityChart(this.currentData);
+        }else{
+            this.updateChart(this.currentData);
+        }
     }
   }
 
@@ -88,8 +99,8 @@ export class DensityChartComponent implements OnChanges {
     /**
      * @ignore
      */
-    const maxX = Math.max.apply(Math, data2.map((d) => d.value));
-    const minX = Math.min.apply(Math, data2.map((d) => d.value));
+    const maxX = Math.max.apply(Math, data.map((d) => d.value));
+    const minX = Math.min.apply(Math, data.map((d) => d.value));
 
     /**
      * Add the x Axis
@@ -120,7 +131,7 @@ export class DensityChartComponent implements OnChanges {
     const types = [];
     kde(data
       .filter((d) => {
-        if (types.indexOf(d.type) === -1) {
+        if (types.indexOf(d.type) === -1 && this.isSelected(d.type)) {
           types.push(d.type);
           color.push('#' + (0xd95d80 + (1 / types.length) * 0xfffff0).toString(16).substr(1, 6));
         }
@@ -230,42 +241,51 @@ export class DensityChartComponent implements OnChanges {
   * Update chart with new values
   */
   public updateChart(data2: Data2Model[]) {
-    //push all received data to the array
-    for (let i = 0; i < this.data2.entries.length; i++) {
-        this.currentData.push({type: this.data2.entries[i].name, value: this.data2.entries[i].value});
-    }
-    if ( this.firstCall == 1 ) {
-      this.createDensityChart(this.currentData);
+    if (this.firstCall == 1) {
+      this.createDensityChart(data2);
       this.firstCall = 0;
     } else {
       const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7), this.x.ticks(60));
       const types = [];
-      kde(this.currentData
+      kde(data2
         .filter((d) => {
-          if (types.indexOf(d.type) === -1) {
+          if (types.indexOf(d.type) === -1 && this.isSelected(d.type)) {
             types.push(d.type);
           }
         }));
       // compute density
       const density = [];
       for (let index = 0; index < types.length; index++) {
-        density[index] = kde(this.currentData.filter((d) => {
+        density[index] = kde(data2.filter((d) => {
           return d.type === types[index];
         })
           .map((d) => {
             return d.value;
           }));
       }
+      console.log(this.paths);
       // update the chart
       this.paths.forEach((path, index) => {
         path.datum(density[index])
-          .transition()
-          .duration(1000)
-          .attr('d', d3.line()
+        .transition()
+        .duration(1000)
+        .attr('d', d3.line()
             .curve(d3.curveBasis)
             .x((d) => this.x(d[0]) + this.margin.left)
             .y((d) => this.y(d[1]) + this.margin.top));
       });
     }
   }
+  /*mapping of type to selectionbox - returns true if the type is currently selected*/
+  public isSelected(type)
+  {   
+      if(this.selectedLevel.num == -1)//selected All
+          return true;
+      if(type == 1 && this.selectedLevel.num == 0)//selected temperature
+          return true;
+      if(type == 2 && this.selectedLevel.num == 1)//selected CO2
+          return true;
+      return false;
+  }
+  
 }
