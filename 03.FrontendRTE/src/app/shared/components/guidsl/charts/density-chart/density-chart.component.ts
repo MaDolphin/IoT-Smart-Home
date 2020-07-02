@@ -22,7 +22,7 @@ export class DensityChartComponent implements OnChanges {
   levels:Array<datatypes> = [
       {num: 0, name: "temperature"},
       {num: 1, name: "CO2"},
-      {num:-1, name:"ALL"}
+      {num:-1, name:"all data"}
   ];
   selectedLevel = this.levels[0];
   
@@ -198,7 +198,7 @@ export class DensityChartComponent implements OnChanges {
         .attr('text-anchor', 'end')
         .attr('x', width / 2 + this.margin.left)
         .attr('y', height + 1.9 * this.margin.top )
-        .text('Temperatur');
+        .text(this.selectedLevel.name);
       this.svg.append('text')
         .attr('text-anchor', 'end')
         .attr('transform', 'rotate(-90)')
