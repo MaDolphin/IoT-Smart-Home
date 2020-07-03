@@ -49,7 +49,7 @@ webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
           }
           body{
             html {"
-                    <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\">
+                    <heatmap-chart [data]=\"temperaturedata\" [defaultColor]=\"InColor1\" [defaultColNum]=\"InColNum1\">
                     </heatmap-chart>
                 "}
         }
@@ -63,7 +63,7 @@ webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
           }
           body{
             html {"
-                    <heatmap-chart [data]=\"temperaturedata\" [XLabel]=\"xAxisLabel\" [YLabel]=\"yAxisLabel\" [timestampdata]=true>
+                    <heatmap-chart [data]=\"temperaturedata\" [defaultColor]=\"InColor2\" [defaultColNum]=\"InColNum2\" [timestampdata]=true>
                     </heatmap-chart>
                 "}
           }

@@ -1,10 +1,10 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 <form style="position:relative;left:0px;top:0px;">
 	<label for="favcolor">Select a color:  </label>
-	<input #colorbox  (change)="enter_color(colorbox.value)" value="#303C46" id="favcolor" type="color">
+	<input #colorbox [value]=defaultColor  (change)="enter_color(colorbox.value)" id="favcolor" type="color">
 	<br/>
 	<label for="num_seperations">Select the desired number of columns (1-32):  </label>
-	<input #box [value]="6" (change)="enter_num_seperations(box.value)" id="num_seperations" type="number" min="1" max="32">
+	<input #box [value]=defaultColNum (change)="enter_num_seperations(box.value)" id="num_seperations" type="number" min="1" max="32">
 	<div *ngIf="timestampdata; then thenblock else elseblock" ></div>
 	<ng-template #thenblock>
 		<br/>

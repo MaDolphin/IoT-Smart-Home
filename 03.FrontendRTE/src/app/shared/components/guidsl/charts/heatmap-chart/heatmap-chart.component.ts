@@ -1,36 +1,50 @@
 /* (c) https://github.com/MontiCore/monticore */
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
-// A Wrapper for ngx-charts-heat-map
-
+/**
+ * Acts as a Wrapper for [NGX-Charts Heatmap]{@link https://swimlane.gitbook.io/ngx-charts/v/docs-test/examples/heat-map-chart}.
+ * @param data The input data, which is a list of elements. The elements should have a field "name" and ("value" or "timestamp"), other fields will be ignored
+ * @param XLabel The label for the X-Axis - default is none
+ * @param YLabel The label for the Y-Axis - default is none
+ * @param timestampdata Decides wether the second relevant field for @param data is "value" (if false) or "timestamp" (if true) - default is false
+ * @param defaultColor The default Color, which the diagram is initially displayed with. (Hex String) - default is @example "#303C46"
+ * @param defaultColNum The default number of columns, which the diagram is initially displayed with. (Will be clamped between @param min_num_seperations and @param max_num_seperations) - default is 6
+ */
 @Component({
   selector: 'heatmap-chart',
   templateUrl: './heatmap-chart.component.html',
 })
 export class HeatmapChartComponent implements OnChanges {
 
-  //Now we only need data and labels, to create a heatmap-chart
   @Input() data;
   @Input() XLabel;
   @Input() YLabel;
-  //Allows choosing the input-type between timestamps and numbers
-  //Choosing timestamps changes loop_factor to 1 day (86400 seconds) and enables timestamp-string conversion (+ adds menu option) by default
   @Input() timestampdata = false;
+  @Input() defaultColor?: string = "#303C46";
+  @Input() defaultColNum?: number = 6;
 
+
+  /**
+   * Updates internal parameters based on Inputs
+   */
   ngOnChanges(changes: SimpleChanges) {
     for (const propName in changes) {
       if (changes.hasOwnProperty(propName)) {
         switch (propName) {
-          //Recalculate Binning, when data changes
           case 'data': {
             if(this.data) this.computed_data = this.rearrange_array(this.data.entries);
           }
-          //Change default paramaters if input type changes
           case 'timestampdata': {
             if(this.timestampdata){
               this.prettyprint_timestamps=true;
               this.loop_factor=86400;
             }
+          }
+          case 'defaultColor': {
+            if(/^#[0-9A-F]{6}$/i.test(this.defaultColor)) this.enter_color(this.defaultColor);
+          }
+          case 'defaultColNum': {
+            this.enter_num_seperations(this.defaultColNum);
           }
         }
       }
@@ -39,15 +53,50 @@ export class HeatmapChartComponent implements OnChanges {
 
 
 
-  //Set minimum and maximum Column numbers
+  /**
+   * @param min_num_seperations The lower bound for the number of columns in the chart
+   * @param max_num_seperations The upper bound for the number of columns in the chart
+   */
   private min_num_seperations = 1;
   private max_num_seperations = 32;
 
-  //The data used as input of ngx-charts
+  /**
+   * @param computed_data Data used as input for [NGX-Charts Heatmap]{@link https://swimlane.gitbook.io/ngx-charts/v/docs-test/examples/heat-map-chart}
+   * @example * [
+   *{
+   *  "name": "Germany",
+   *  "series": [
+   *    {
+   *      "name": "2010",
+   *      "value": 7300000
+   *    },
+   *    {
+   *      "name": "2011",
+   *      "value": 8940000
+   *    }
+   *  ]
+   * },
+   * {
+   *  "name": "USA",
+   *  "series": [
+   *    {
+   *      "name": "2010",
+   *      "value": 7870000
+   *    },
+   *    {
+   *      "name": "2011",
+   *      "value": 8270000
+   *    }
+   *  ]
+   * }
+   *]
+   */
   computed_data;
 
-
-  //Pre-set some ngx-charts properties (See ngx-charts documentation for details)
+  /**
+   * Sets some Input values for [NGX-Charts Heatmap]{@link https://swimlane.gitbook.io/ngx-charts/v/docs-test/examples/heat-map-chart}
+   * Specifically @param showXAxis, @param showYAxis, @param gradient, @param showLegend, @param showXAxisLabel, @param showYAxisLabel
+   */
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -58,17 +107,25 @@ export class HeatmapChartComponent implements OnChanges {
   
 
 
-  //The default color-scheme: Result of running enter_color on default color #303C46
+  /**
+   * @param colorScheme The default color-scheme: Result of running enter_color on default color #303C46
+   */
   colorScheme = {
     domain: ['#A3CAEC','#98BCDB','#8CAECB','#819FBA','#7591AA','#6A8399','#5E7588','#536778','#536778','#3C4A57','#303C46']
   };
-
-  //The secondary color is calculated as being colorscalefactor away from white/black when starting at the selected color
+  /**
+   * @param colorscalefactor The secondary color is calculated as being colorscalefactor away from white/black when starting at the selected color
+   */
   colorscalefactor = 0.3;
-  //How many mid-steps there should in the colorScheme between selected and secondary color. (Due to a Bug of mgx-charts this shouldn't be low, as otherwise the bin-colors overshoot the maximum color)
+  /**
+   * @param color_domain_mid_steps How many mid-steps there should in the colorScheme between selected and secondary color. (Due to a Bug of mgx-charts this shouldn't be low, as otherwise the bin-colors overshoot the maximum color)
+   */
   color_domain_mid_steps = 10;
 
-  //Calculates a fitting secondary color to be used on a color scale
+  /**
+   * Creates a new @param colorScheme based on @param value (Is influenced by @param colorscalefactor and @param color_domain_mid_steps)
+   * @param value A Hex Color String
+   */
   enter_color(value:string)
   {
     //Converts Hex-String to RGB values
@@ -91,18 +148,24 @@ export class HeatmapChartComponent implements OnChanges {
       var secondary_blue =255-(255-blue)*this.colorscalefactor;
     }
 
-    //Adds colorscalefactor-1 linear mid-steps between input color and secondary color (For colorscalefactor=1 there is only input and secondary)
+    //Adds colorscalefactor-1 linear mid-steps between secondary color and input (For colorscalefactor=1 there is only secondary color and 2*input 
     var new_domain = [];
-    for(var i = 1; i<=this.color_domain_mid_steps;i++)
+    for(var i = 0; i<this.color_domain_mid_steps;i++)
     {
       new_domain.push(this.color_to_html_hex(((this.color_domain_mid_steps-i)*secondary_red+i*red)/this.color_domain_mid_steps,((this.color_domain_mid_steps-i)*secondary_green+i*green)/this.color_domain_mid_steps,((this.color_domain_mid_steps-i)*secondary_blue+i*blue)/this.color_domain_mid_steps));
     }
     new_domain.push(value);
+    //Added a second time to aprehend ngx bug
+    new_domain.push(value);
     this.colorScheme = {domain: new_domain};
   }
 
-
-  //Converts RGB color to a Hex String
+  /**
+   * @param redv Red value (0-255)
+   * @param greenv Green value (0-255)
+   * @param bluev  Blue value (0-255)
+   * @returns Hex Color String from the given color values
+   */
   color_to_html_hex(redv, greenv, bluev)
   {
     return ('#'+('0'+Math.floor(redv).toString(16)).slice(-2)+('0'+Math.floor(greenv).toString(16)).slice(-2)+('0'+Math.floor(bluev).toString(16)).slice(-2));
@@ -111,12 +174,27 @@ export class HeatmapChartComponent implements OnChanges {
 
 
 
-
-  //Initial number of columns, same as html
+  /**
+   * @param num_seperations number of columns in the chart
+   */
   num_seperations  = 6;
-
+  /**
+   * @param loop_factor A modulo value for binning
+   */
   loop_factor  = 10;
-  //If new column number is selected, clip to extremes and recalculate chart
+  /**
+   * @param prettyprint_timestamps Wether the values on the X-Axis should be converter to Timestamp-Strings
+   */
+  prettyprint_timestamps = false;
+  /**
+   * @param loop_days Wether a modulo should be applied to the values of the entries in @param data
+   */
+  loop_days = false;
+
+  /**
+   * Updates internal parameters @param num_seperations and  @param computed_data based on User-Inputs
+   * @param value Number entered by the used
+   */
   enter_num_seperations(value:number)
   {
     if(value<this.min_num_seperations) {this.num_seperations = this.min_num_seperations;}
@@ -124,29 +202,51 @@ export class HeatmapChartComponent implements OnChanges {
     else {this.num_seperations = value;}
     if(this.data) this.computed_data = this.rearrange_array(this.data.entries);    
   }
-  //Checkbox attributes
-  prettyprint_timestamps = false;
-  loop_days = false;
-  //Refresh chart if user selections change (loop_factor has minimum 2)
-  enter_pretty_date(value)
-  {
-    this.prettyprint_timestamps = value;
-    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);  
-  }
-  enter_loop_days(value)
-  {
-    this.loop_days = value;
-    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);  
-  }
+
+  /**
+   * Updates internal parameters @param loop_factor and  @param computed_data based on User-Inputs
+   * @param value Number entered by the used
+   */
   enter_num_loop_factor(value)
   {
     if(value<2) this.loop_factor=2;
     else this.loop_factor=value;
     if(this.data) this.computed_data = this.rearrange_array(this.data.entries); 
   }
+  
+  /**
+   * Updates internal parameters @param prettyprint_timestamps and @param computed_data based on User-Inputs
+   * @param value Checkbox checked by User
+   */
+  enter_pretty_date(value)
+  {
+    this.prettyprint_timestamps = value;
+    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);  
+  }
 
+  /**
+   * Updates internal parameters @param loop_days and  @param computed_data based on User-Inputs
+   * @param value Checkbox checked by User
+   */
+  enter_loop_days(value)
+  {
+    this.loop_days = value;
+    if(this.data) this.computed_data = this.rearrange_array(this.data.entries);  
+  }
+
+
+  /**
+   * @param somedata A list of entries. Just like @param data
+   * @returns a matrix of entries. Just like @param computed_data
+   */
   //Creates an [{"name",series:["name","value"]}] array from an [{"name", "timestamp"}] array by splitting the time into num_seperators equal periods and couting amount of entries for each period & sensor name
   rearrange_array(somedata) {
+    if(!somedata[0]) return this.computed_data;
+    else {
+      if (this.timestampdata && !('timestamp' in somedata[0])) return this.computed_data;
+      if (!this.timestampdata && !('value' in somedata[0])) return this.computed_data;
+    }
+
     //Depending on input type this either uses "timestamp" or "value" fields
     if(this.timestampdata)
     {
@@ -250,7 +350,12 @@ export class HeatmapChartComponent implements OnChanges {
   };
 
 
-  //Create String from Timestamps
+  /**
+   * Generates a Timestamp-String from a Unix timestamp
+   * Leaves out the date, if @param difference is at most a day
+   * @param timestamp A Unix timestamp
+   * @param difference The difference between the lowest and highest timestamp in the given @param data
+   */
   timeToString(timestamp, difference){
     //Create a new JavaScript Date object based on the timestamp
     //multiplied by 1000 so that the argument is in milliseconds, not seconds.
