@@ -1,11 +1,15 @@
 import { Data, RidgelineChartComponent, Ridgeline_Config } from '@shared/components/guidsl/charts/ridgeline-chart/ridgeline-chart.component'
+import * as paper from 'paper';
 import { N } from '@angular/cdk/keycodes';
+import { TestBed, async } from '@angular/core/testing';
 
 
 describe('Components', () => {
     describe('GuiDSL', () => {
         describe('Charts', () => {
             describe('Ridgeline-Chart Component', () => {
+                let fixture, chart, element, de;
+
                 beforeEach(() => {
                     // Create testing data
                     let raw_data = [[[1,5],[5,4],[2.3,0]],
@@ -24,9 +28,24 @@ describe('Components', () => {
                     this.data2 = new Data();
                     this.data2.set_raw_data(raw_data2, 10000);
 
-                    this.config = new Ridgeline_Config();
-                    this.config.set_params(["1","2"], 2, 1000, 798.8, 1000, 14, 20, 2, 1000);
                 });
+
+                beforeEach(async(() => {
+                    // // Create module
+                    // TestBed.configureTestingModule({
+                    //     declarations: [RidgelineChartComponent]
+                    // }).compileComponents();
+                
+                }));
+                beforeEach(() => {
+                    // Create module
+                    TestBed.configureTestingModule({
+                        declarations: [RidgelineChartComponent]
+                    }).compileComponents();
+                    fixture = TestBed.createComponent(RidgelineChartComponent);
+                    fixture.detectChanges();
+                });
+
 
 // ----------------------------------------- Data-class tests -----------------------------------------
 
@@ -91,9 +110,9 @@ describe('Components', () => {
                         expect(assumed_y_range4).toEqual(this.data.y_range);
                         expect(assumed_max_y_range_from_0_4).toEqual(this.data.max_y_range_from_0);
                         expect(assumed_length4).toEqual(this.data.length);
-
                     }
                 );
+                
 
                 it('update_raw_data',
                     () => {
@@ -134,19 +153,27 @@ describe('Components', () => {
 
 
 // ----------------------------------------- Data-class tests -----------------------------------------
-                it('set_params',
+                it('Config: set_params',
                     () => {
+                        // chart = fixture.componentInstance;
+                        // element = fixture.nativeElement;
+                        // de = fixture.debugElement;
+
+                        // Create Config
+                        this.config = new Ridgeline_Config();
+                        this.config.set_params(["1","2"], 2, 1000, 797, 1000, 14, 20, 2, 1000);
+
                         let config : Ridgeline_Config = this.config;
-                        expect(config.ridges_offset).toEqual(213);
-                        expect(config.ridges_height).toEqual(276.9);
+                        expect(config.ridges_offset).toEqual(225);
+                        expect(config.ridges_height).toEqual(270);
                         expect(config.grid_line_start_x).toBeGreaterThan(10);
                         expect(config.grid_line_end_x).toEqual(1000);
-                        expect(config.grid_line_start_y).toEqual(276.9);
+                        expect(config.grid_line_start_y).toEqual(270);
                         expect(config.font_size).toEqual(14);
                         expect(config.x_axis_start).toEqual(config.grid_line_start_x);
                         expect(config.x_axis_width).toEqual(1000-config.x_axis_start);
                         expect(config.x_axis_value_offset).toEqual(1000);
-                        expect(config.y_axis_start).toEqual(276.9);
+                        expect(config.y_axis_start).toEqual(270);
                     }
                 )
 
@@ -165,6 +192,8 @@ describe('Components', () => {
 
                 it('get_x_label_precision',
                     () => {
+
+                        //fixture.detectChanges();
                         let chart = new RidgelineChartComponent();
 
                         chart.relative_x_precision = 2;

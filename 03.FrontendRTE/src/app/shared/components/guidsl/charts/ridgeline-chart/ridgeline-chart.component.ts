@@ -198,8 +198,8 @@ export class Data
       let max_y = this.get_max_y(data);
 
       let len = data.length;
-      let min_x = len > 0 ? data[0][0] : Number.NEGATIVE_INFINITY;
-      let max_x = len > 0 ? data[len - 1][0] : Number.POSITIVE_INFINITY;
+      let min_x = len > 0 ? data[0][0] : Number.POSITIVE_INFINITY;
+      let max_x = len > 0 ? data[len - 1][0] : Number.NEGATIVE_INFINITY;
 
       //Store as [[min_x, min_y],[max_x, max_y]]
       if (!initialized){
