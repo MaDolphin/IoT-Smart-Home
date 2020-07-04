@@ -16,8 +16,19 @@ public class DensitySensorDataDTOLoader extends DensitySensorDataDTOLoaderTOP {
 
     public DensitySensorDataDTOLoader(DAOLib daoLib, SecurityHelper securityHelper) {
         DensitySensorDataDTO dto = new DensitySensorDataDTO();
-        List<Sensor> sensors = daoLib.getSensorDAO().getListOfSensorsForType(securityHelper.getSessionCompliantResource(), SensorType.TEMPERATURE);
+        List<Sensor> sensors = daoLib.getSensorDAO().getListOfSensorsForType(securityHelper.getSessionCompliantResource(), SensorType.CO2);
+        List<Sensor> sensors2 = daoLib.getSensorDAO().getListOfSensorsForType(securityHelper.getSessionCompliantResource(), SensorType.TEMPERATURE);
         sensors.forEach((sensor) -> {
+            List<SensorValue> entryValues = sensor.getValues();
+            entryValues.forEach((entryValue)->{
+                DensitySensorEntryDTO entryDTO = new DensitySensorEntryDTO();
+                entryDTO.setValue(entryValue.getValue());
+                entryDTO.setName(sensor.getSensorId());
+                entryDTO.setId(entryValue.getId());
+                dto.getEntries().add(entryDTO);
+            });
+        });
+        sensors2.forEach((sensor) -> {
             List<SensorValue> entryValues = sensor.getValues();
             entryValues.forEach((entryValue)->{
                 DensitySensorEntryDTO entryDTO = new DensitySensorEntryDTO();

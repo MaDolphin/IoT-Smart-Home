@@ -1,12 +1,13 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild, ViewEncapsulation, HostListener, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
 
-import {Data2Model} from 'src/app/data/data.model';
+import {Data2Model, datatypes} from 'src/app/data/data.model';
 @Component({
   selector: 'density-chart',
   encapsulation: ViewEncapsulation.None,
   templateUrl: './density-chart.component.html'
 })
+
 export class DensityChartComponent implements OnChanges {
   @ViewChild('my_dataviz')
   private chartContainer: ElementRef;
@@ -18,33 +19,66 @@ export class DensityChartComponent implements OnChanges {
   @Input()
   transitionTime = 1000;
 
-  constructor() { }
+  levels:Array<datatypes> = [
+      {num: 0, name: "temperature"},
+      {num: 1, name: "CO2"},
+      {num:-1, name:"all data"}
+  ];
+  selectedLevel = this.levels[0];
   
+  get getData(): any {
+    return this.data2
+  }
+  set setData(data2Model) {
+    this.data2 = this.data2
+  }
+
+  constructor() {}
+
   margin = {top: 30, right: 600, bottom: 30, left: 100};
   firstCall = 1;
   currentData: Array<Data2Model> = [];
-  x; // x achses
-  y; // y achses
+  x; // x axis
+  y; // y axis
   svg; // top level svg element
   paths; // path element for each density curve
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.data2==null)
-    {
-        this.informationLabel.nativeElement.innerHTML="No data available";
-    }else if(this.data2.length <=0 || this.data2.entries.length<=0)
-    {
-        this.informationLabel.nativeElement.innerHTML="received data is empty";
-    }else{
-        this.informationLabel.nativeElement.innerHTML="";
-        this.updateChart(this.data2);
+  /*** update chart if new data arrives **/
+  ngOnChanges(changes: SimpleChanges): void {  
+    this.updateData(false);
+  }
+  
+  /**if user changes selection display new chart**/
+  public onSelectionChange(): void {
+      this.currentData = [];
+      this.updateData(true);
+  }
+  
+  public updateData(refresh):void
+  { 
+    if (this.data2 == null) {
+        this.informationLabel.nativeElement.innerHTML = "No data available";
+    } else if (this.data2.length <= 0 || this.data2.entries.length <= 0) {
+        this.informationLabel.nativeElement.innerHTML = "received data is empty";
+    } else {
+        this.informationLabel.nativeElement.innerHTML = "";
+        //push all received data to the array
+        for (let i = 0; i < this.data2.entries.length; i++) {
+            this.currentData.push({type: this.data2.entries[i].name, value: this.data2.entries[i].value});
+        }
+        if(refresh)
+        {  
+            this.createDensityChart(this.currentData);
+        }else{
+            this.updateChart(this.currentData);
+        }
     }
- }
+  }
 
 /**  onResize(changes: SimpleChanges) {
     this.updateChart(changes.data2.currentValue);
   }**/
-  private createDensityChart(data2: Data2Model[]): void {
+  public createDensityChart(data2: Data2Model[]): void {
     d3.select('svg').remove();
     const densityElement = this.chartContainer.nativeElement;
     const data = data2;
@@ -65,15 +99,15 @@ export class DensityChartComponent implements OnChanges {
     /**
      * @ignore
      */
-    const maxX = Math.max.apply(Math, data2.map((d) => d.value));
-    const minX = Math.min.apply(Math, data2.map((d) => d.value));
+    const maxX = Math.max.apply(Math, data.map((d) => d.value));
+    const minX = Math.min.apply(Math, data.map((d) => d.value));
 
     /**
      * Add the x Axis
      */
     this.x = d3
       .scaleLinear()
-      .domain([minX-10,maxX+10]) // fixed scale is better for changing data // [minX - 8, maxX + 8])
+      .domain([minX - 10, maxX + 10]) // fixed scale is better for changing data // [minX - 8, maxX + 8])
       .range([0, width]);
 
     /**
@@ -97,8 +131,7 @@ export class DensityChartComponent implements OnChanges {
     const types = [];
     kde(data
       .filter((d) => {
-        if (types.indexOf(d.type) === -1)
-        {
+        if (types.indexOf(d.type) === -1 && this.isSelected(d.type)) {
           types.push(d.type);
           color.push('#' + (0xd95d80 + (1 / types.length) * 0xfffff0).toString(16).substr(1, 6));
         }
@@ -165,7 +198,7 @@ export class DensityChartComponent implements OnChanges {
         .attr('text-anchor', 'end')
         .attr('x', width / 2 + this.margin.left)
         .attr('y', height + 1.9 * this.margin.top )
-        .text('Temperatur');
+        .text(this.selectedLevel.name);
       this.svg.append('text')
         .attr('text-anchor', 'end')
         .attr('transform', 'rotate(-90)')
@@ -177,7 +210,7 @@ export class DensityChartComponent implements OnChanges {
        * Creates the legend
        */
       this.svg.append('circle').attr('cx', 750).attr('cy', 30 * index + 40).attr('r', 6).style('fill', color[index]);
-      this.svg.append('text').attr('x', 770).attr('y', 30 * index + 40).text(types[index])
+      this.svg.append('text').attr('x', 770).attr('y', 30 * index + 40).text(this.getTypeFromSensorId(types[index]))
         .style('font-size', '14px').attr('alignment-baseline', 'middle');
     }
   }
@@ -187,7 +220,7 @@ export class DensityChartComponent implements OnChanges {
    * @param kernel The kernel
    * @param X Number of Ricks
    */
-  private kernelDensityEstimator(kernel, X) {
+  public kernelDensityEstimator(kernel, X) {
     return (V) => {
       return X.map((x) => {
         return [x, d3.mean(V, (v) => kernel(x - (v as number)))];
@@ -199,7 +232,7 @@ export class DensityChartComponent implements OnChanges {
    * Returns the value of the Epanechnikov kernel
    * @param k
    */
-  private kernelEpanechnikov(k) {
+  public kernelEpanechnikov(k) {
     return (v) => {
       return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
     };
@@ -207,44 +240,62 @@ export class DensityChartComponent implements OnChanges {
   /**
   * Update chart with new values
   */
-  private updateChart(data2: Data2Model[]) {
-    //push all received data to the array
-    for(let i=0;i<this.data2.entries.length;i++)
-    {
-        this.currentData.push({type: this.data2.entries[i].name, value: this.data2.entries[i].value});
-    }
-    if ( this.firstCall == 1 ) {
-      this.createDensityChart(this.currentData);
+  public updateChart(data2: Data2Model[]) {
+    if (this.firstCall == 1) {
+      this.createDensityChart(data2);
       this.firstCall = 0;
-    }else{
+    } else {
       const kde = this.kernelDensityEstimator(this.kernelEpanechnikov(7), this.x.ticks(60));
       const types = [];
-      kde(this.currentData
+      kde(data2
         .filter((d) => {
-          if (types.indexOf(d.type) === -1) {
+          if (types.indexOf(d.type) === -1 && this.isSelected(d.type)) {
             types.push(d.type);
           }
         }));
       // compute density
       const density = [];
       for (let index = 0; index < types.length; index++) {
-        density[index] = kde(this.currentData.filter((d) => {
+        density[index] = kde(data2.filter((d) => {
           return d.type === types[index];
         })
           .map((d) => {
             return d.value;
           }));
       }
+      console.log(this.paths);
       // update the chart
       this.paths.forEach((path, index) => {
         path.datum(density[index])
-          .transition()
-          .duration(1000)
-          .attr('d', d3.line()
+        .transition()
+        .duration(1000)
+        .attr('d', d3.line()
             .curve(d3.curveBasis)
             .x((d) => this.x(d[0]) + this.margin.left)
             .y((d) => this.y(d[1]) + this.margin.top));
       });
     }
   }
+  /*mapping of type to selectionbox - returns true if the type is currently selected*/
+  public isSelected(type)
+  {   
+      if(this.selectedLevel.num == -1)//selected All
+          return true;
+      if(type == 1 && this.selectedLevel.num == 0)//selected temperature
+          return true;
+      if(type == 2 && this.selectedLevel.num == 1)//selected CO2
+          return true;
+      return false;
+  }
+  
+  public getTypeFromSensorId(index)
+  {
+      if(index == 1)
+          return "Temperatur";
+      else if(index == 2)
+          return "CO2";
+      else
+          return "";
+  }
+  
 }

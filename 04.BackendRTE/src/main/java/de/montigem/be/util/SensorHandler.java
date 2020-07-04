@@ -89,7 +89,7 @@ public class SensorHandler {
   }
   private static void sendToSensor_GaugeChart(DAOLib daoLib, String resource, ZonedDateTime currentTime, Pair<SensorType, Session> sensor) {
     List<GaugeChartDataEntryDTO> values = daoLib.getSensorDAO().getListOfSensorIdsForType(resource, sensor.getLeft()).parallelStream()
-            .map(sId -> daoLib.getSensorDAO().getValueInTimeById_GaugeChart(resource, currentTime, getSecondsForSensorType(sensor.getLeft()), sId))
+            .map(sId -> daoLib.getSensorDAO().getValueInTimeById_GaugeChart(resource, currentTime, getSecondsForSensorType(sensor.getLeft()), sId, sensor.getLeft()))
             .filter(Optional::isPresent).map(Optional::get)
             .collect(Collectors.toList());
 

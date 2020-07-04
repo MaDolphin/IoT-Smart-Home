@@ -41,6 +41,10 @@ export class GaugeChartComponent implements OnInit {
 
     /** data (changed by the data-field with the realtime data) */
     public dataSet: any = [];
+    /** data that is actually shown */
+    public selectedType = "ALL";
+    public selectedDataSet: any = [];
+    allTypes = ["TEMPERATURE", "CO2"];
 
     /**
      * init internal values
@@ -114,13 +118,15 @@ export class GaugeChartComponent implements OnInit {
     @Input()
     public set data(gaugeData: GaugeChartDataEntryDTO[]) {
         let t = this;
-        //console.log(gaugeData.entries);
+        //console.log(gaugeData.entries.length);
         //console.log("received data");
-
         if (gaugeData && gaugeData.entries && gaugeData.entries.length > 0) {
+            //console.log(gaugeData.entries);
+
             t.dataSet = gaugeData.entries;
 
             t.dataSet.forEach(function (entry: any) {
+                //console.log(entry);
                 if (entry.value < t.min) {
                     // Abrunden auf ganze Zehner
                     t.min = Math.floor(entry.value / 10) * 10;
@@ -132,7 +138,32 @@ export class GaugeChartComponent implements OnInit {
                     t.recalcBigTicks();
                 }
             });
+            this.updateSelectedDataset();
         }
+    }
+
+    /**
+     * only show selected datatype
+     */
+    updateSelectedDataset() {
+        //console.log("Update type to " + this.selectedType);
+        this.selectedDataSet = [];
+
+        this.textValue = this.selectedType;
+
+        /*console.log(this.dataSet);
+        console.log("ALL")
+        console.log(this.selectedType)
+        console.log(this.selectedType == "ALL")
+        console.log(this.dataSet.length)*/
+
+        let t = this;
+        this.dataSet.forEach(function (entry: any) {
+            if (t.selectedType == "ALL" || entry.type == t.selectedType) {
+                t.selectedDataSet.push(Object.assign({}, entry));
+            }
+        });
+
     }
 
     /**

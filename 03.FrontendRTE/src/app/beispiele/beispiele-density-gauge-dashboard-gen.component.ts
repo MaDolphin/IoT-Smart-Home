@@ -16,7 +16,7 @@ export class BeispieleDensityGaugeDashboardGenComponent extends BeispieleDensity
 
         super(_commandRestService, _route, _router, _webSocketService);
     }
-    title = 'Densitychart';
+    title = 'Density & Gaugechart';
     public densitysensordata;
 
 }
