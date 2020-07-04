@@ -15,6 +15,7 @@ describe('Components', () => {
                     
                     this.data = new Data();
                     this.data.set_raw_data(raw_data, 1000);
+                    console.log(this.data);
 
                     let raw_data2 = [[[-20,194.23],[-75,222.2]],
                                      [[-2993,4]]
@@ -35,8 +36,8 @@ describe('Components', () => {
                                               [[-30,7],[-22.3,-5],[1,4],[2,0]],
                                               [[-10.2,199],[34.02,5],[73,-4],[100,3]]
                                              ];
-                        
-                        expect(assumed_result).toEqual(this.data.values);
+                        console.log(this.data.get_values());
+                        expect(assumed_result).toEqual(this.data.get_values());
                     }
                 );
 
@@ -106,19 +107,19 @@ describe('Components', () => {
                                               [[1,3]]
                                              ];
                         this.data.update_raw_data(further_raw_data, 1000);
-                        expect(assumed_result).toEqual(this.data.values);
+                        expect(assumed_result).toEqual(this.data.get_values());
 
                         // Edgecase 1: empty input
                         further_raw_data = [];
                         this.data.update_raw_data(further_raw_data, 1000);
-                        expect(assumed_result).toEqual(this.data.values); // nothing should have changed
+                        expect(assumed_result).toEqual(this.data.get_values()); // nothing should have changed
 
                         // Edgecase 2: empty ridge
                         further_raw_data = [[[202,-5.3]],
                                             []];
                         assumed_result[0].push([202, -5.3]);
                         this.data.update_raw_data(further_raw_data, 1000);
-                        expect(assumed_result).toEqual(this.data.values); // nothing should have changed
+                        expect(assumed_result).toEqual(this.data.get_values()); // nothing should have changed
                     }
                 )
 

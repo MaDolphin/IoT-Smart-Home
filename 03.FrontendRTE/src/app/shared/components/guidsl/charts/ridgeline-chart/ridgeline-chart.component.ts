@@ -143,6 +143,14 @@ export class Data
   public length: number = 0;
 
   /**
+   * Only for testing purposes!
+   * @returns A copy of the current values-list.
+   */
+  public get_values() : number[][][]{
+    return [...this.values];
+  }
+
+  /**
    * For all given ridge-lines this function sorts the points in each ridge-line
    * by the x-coordinate (rising)
    * @param data_array The data of all ridge-lines
@@ -569,7 +577,7 @@ export class Data
  *  [rawData]=data_ridgeline
  *  [overwrite_data]="true"
  *  [labels]=labels_ridgeline
- *  [font_size]="12"
+ *  [font_size]=12
  *  [color_gradients]=color_gradients_ridgeline
  *  [x_is_time]="true"
  *  [show_date]="true"
