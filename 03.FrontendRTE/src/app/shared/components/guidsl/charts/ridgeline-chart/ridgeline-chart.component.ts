@@ -274,8 +274,7 @@ export class Data
       if (data[i].length > 0)
       {
         let new_start_index = this.values[i].findIndex((element) => element[0] >= (max_x - x_range));
-
-        if (new_start_index > 0) data[i] = data[i].slice(new_start_index - 1, data[i].length);
+        if (new_start_index > 0) data[i] = data[i].slice(new_start_index, data[i].length);
         else if (new_start_index < 0) data[i] = [];
       }
     }
@@ -306,6 +305,7 @@ export class Data
     //Get relevant data information
     this.xy_min_max = this.get_xy_min_max(this.values);
     this.compute_ranges();
+    console.log(this.values);
 
     //Transform needs to be called
     this.has_untransformed_data = true;
@@ -600,7 +600,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   /**
    * The labels for the ridges. Will be shown on the left side of the ridges.
    */
-  @Input() labels: string[];
+  @Input() labels: string[] = [];
 
   /**
    * The font sizes of the x-axes-descriptions and the labels on the left side. Has to be specified in pixels.

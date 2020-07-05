@@ -19,7 +19,7 @@ describe('Components', () => {
                     
                     this.data = new Data();
                     this.data.set_raw_data(raw_data, 1000);
-                    console.log(this.data);
+                    // console.log(this.data);
 
                     let raw_data2 = [[[-20,194.23],[-75,222.2]],
                                      [[-2993,4]]
@@ -43,6 +43,7 @@ describe('Components', () => {
                         declarations: [RidgelineChartComponent]
                     }).compileComponents();
                     fixture = TestBed.createComponent(RidgelineChartComponent);
+                    // chart = fixture.componentInstance;
                     fixture.detectChanges();
                 });
 
@@ -60,7 +61,7 @@ describe('Components', () => {
                     }
                 );
 
-                it('get_xy_min_max', // Implicitly tests get_min/max_x_y and set_raw_data
+                it('get_xy_min_max', // Implicitly tests get_min/max_x_y and set_raw_data (and thus compute_ranges, too).
                     () => {
                         let assumed_xy_min_max = [[-30,-5],[100,199]];
                         let assumed_x_range = 130;
@@ -142,11 +143,53 @@ describe('Components', () => {
                     }
                 )
 
+                it('restrict_to_x_range',
+                    () => {
+                        // Firstly test, that it is called correctly in set_raw_data
+                        let raw_data = [[[3,5],[-1,4],[11,0],[2.6,18]],
+                                        [[11.5,-5],[-22.6,0],[-30,7],[15.6,4]]
+                                        ];
+
+                        let assumed_restricted_data = [[[2.6,18],[3,5],[11,0]],
+                                                       [[11.5,-5],[15.6,4]]
+                                                       ];
+                    
+                        let data = new Data();
+                        data.set_raw_data(raw_data, 13);
+                        expect(assumed_restricted_data).toEqual(data.get_values());
+
+                        // Secondly test, that it is called correctly in update_raw_data
+                        let further_raw_data = [[[10.8,17.35],[17.9,-5]],
+                                                [[16.6,0]]];
+                        assumed_restricted_data = [[[10.8,17.35],[17.9,-5]],
+                                                   [[11.5,-5],[15.6,4],[16.6,0]]
+                                                  ];
+                        data.update_raw_data(further_raw_data, 13);
+                        expect(assumed_restricted_data).toEqual(data.get_values());
+                    }
+                )
+
                 it('transform_data',
                     () => {
                         // Can only work, if test on Config-class works
-                        // Test by using this.data2
 
+                        let raw_data = [[[1,5],[3,-15.2]],
+                                        [[-22.3,-5],[2,0]],
+                                       ];
+                        
+                        let assumed_transformed_data = [[[]],
+                                                        []
+                                                       ];
+                    
+                        let data = new Data();
+                        data.set_raw_data(raw_data, 1000);
+
+                        // let config = new Ridgeline_Config();
+                        // config.set_params(["1","2"], 2, 1000, 797, 900, 14, 20, 2, 100);
+
+                        // data.transform_data(config);
+
+                        // wdith_scale = 
                     }
                 )
 
@@ -161,18 +204,19 @@ describe('Components', () => {
 
                         // Create Config
                         this.config = new Ridgeline_Config();
-                        this.config.set_params(["1","2"], 2, 1000, 797, 1000, 14, 20, 2, 1000);
+                        this.config.set_params(["1","2"], 2, 1000, 797, 900, 14, 20, 2, 100);
 
                         let config : Ridgeline_Config = this.config;
                         expect(config.ridges_offset).toEqual(225);
                         expect(config.ridges_height).toEqual(270);
                         expect(config.grid_line_start_x).toBeGreaterThan(10);
-                        expect(config.grid_line_end_x).toEqual(1000);
+                        console.log(config.grid_line_start_x);
+                        expect(config.grid_line_end_x).toEqual(900);
                         expect(config.grid_line_start_y).toEqual(270);
                         expect(config.font_size).toEqual(14);
                         expect(config.x_axis_start).toEqual(config.grid_line_start_x);
                         expect(config.x_axis_width).toEqual(1000-config.x_axis_start);
-                        expect(config.x_axis_value_offset).toEqual(1000);
+                        expect(config.x_axis_value_offset).toEqual(100);
                         expect(config.y_axis_start).toEqual(270);
                     }
                 )
