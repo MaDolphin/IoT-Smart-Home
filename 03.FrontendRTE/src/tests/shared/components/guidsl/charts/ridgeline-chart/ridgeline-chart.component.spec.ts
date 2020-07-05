@@ -173,23 +173,30 @@ describe('Components', () => {
                     () => {
                         // Can only work, if test on Config-class works
 
-                        let raw_data = [[[1,5],[3,-15.2]],
-                                        [[-22.3,-5],[2,0]],
+                        let raw_data = [[[1,-27],[3,-15.2]],
+                                        [[-22.3,-5],[-11,4]],
                                        ];
                         
-                        let assumed_transformed_data = [[[]],
-                                                        []
+                        let assumed_transformed_data = [[[922.4,540],[1000,422]],
+                                                        [[18.03,545],[456.6,455]]
                                                        ];
                     
                         let data = new Data();
                         data.set_raw_data(raw_data, 1000);
 
-                        // let config = new Ridgeline_Config();
-                        // config.set_params(["1","2"], 2, 1000, 797, 900, 14, 20, 2, 100);
+                        let config = new Ridgeline_Config();
+                        config.set_params(["1","2"], 2, 1000, 797, 900, 14, 20, 2, 100);
 
-                        // data.transform_data(config);
+                        data.transform_data(config);
 
-                        // wdith_scale = 
+
+                        for(let ridge=0; ridge<assumed_transformed_data.length; ridge++){
+                            expect(data.get_transformed_data_row(ridge).length).toEqual(assumed_transformed_data[ridge].length);
+                            for(let entry=0; entry<assumed_transformed_data[ridge].length; entry++){
+                                expect(data.get_transformed_data_row(ridge)[entry][0]).toBeCloseTo(assumed_transformed_data[ridge][entry][0],0.5);
+                                expect(data.get_transformed_data_row(ridge)[entry][1]).toBeCloseTo(assumed_transformed_data[ridge][entry][1],0.1);
+                            }
+                        }
                     }
                 )
 
@@ -209,7 +216,7 @@ describe('Components', () => {
                         let config : Ridgeline_Config = this.config;
                         expect(config.ridges_offset).toEqual(225);
                         expect(config.ridges_height).toEqual(270);
-                        expect(config.grid_line_start_x).toBeGreaterThan(10);
+                        expect(config.grid_line_start_x).toBeCloseTo(18,0.5);
                         console.log(config.grid_line_start_x);
                         expect(config.grid_line_end_x).toEqual(900);
                         expect(config.grid_line_start_y).toEqual(270);
