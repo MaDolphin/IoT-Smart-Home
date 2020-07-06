@@ -1,6 +1,10 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
+webpage DashboardExampleRlHm(
+  all TemperatureData temperaturedata,
+  all MotionSensorData motionsensordata,
+  all DensitySensorData densitysensordata
+) {
   column(nospace) {
         navigation "navigationBarLinks" {
             tab "Dashboard" {
@@ -23,6 +27,14 @@ webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
         }
         body{
           html {"
+                <mat-form-field appearance='fill'>
+                  <mat-label>Sensor select</mat-label>
+                  <mat-select (selectionChange)='on_ridgeline_sensor_change($event)'>
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor='let sensor of sensors' [value]='sensor'>{{sensor}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
                 <ridgeline-chart
                   [alpha]=0.8
                   [overshoot]=30
