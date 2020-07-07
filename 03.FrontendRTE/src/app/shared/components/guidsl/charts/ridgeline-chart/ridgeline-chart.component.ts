@@ -289,6 +289,10 @@ export class Data
     //Only continue if data is present
     if (data.length == 0)
     {
+      //Clear old data
+      this.values.length = 0;
+      this.length = 0;
+      this.transformed_values.length = 0;
       return;
     }
 
@@ -707,10 +711,10 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
    */
   @Input()
   public set rawData(rawData: number[][][]){
-    if (rawData.length <= 0)
-    {
-      return;
-    }
+    // if (rawData.length <= 0)
+    // {
+    //   return;
+    // }
 
     this.had_data_before = this._rawData.length > 0;
     this._rawData = rawData;
@@ -721,7 +725,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     {
       this.data.set_raw_data(rawData, this.max_x_range);
     }
-    else
+    else if (rawData.length > 0)
     {
       //This is a bit less CPU-expensive - we set the data block that needs to be updated, which can change e.g. the x-range of our data
       this.data.update_raw_data(rawData, this.max_x_range);
@@ -796,7 +800,6 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
     let frame_count = 0;
 
     this.scope.view.onFrame = (event) => {
-      console.log("Frame");
       //Only show every 10th frame
       if (frame_count % 20 != 0)
       {
@@ -826,6 +829,10 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
         {
           this.plot_ridge(this.data.get_transformed_data_row(i), this.data.get_transformed_color_gradients(i), i);
         }
+      }
+      else
+      {
+        this.scope.project.clear();
       }
     }
   }

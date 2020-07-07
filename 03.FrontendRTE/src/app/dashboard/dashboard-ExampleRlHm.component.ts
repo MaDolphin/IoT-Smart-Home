@@ -56,19 +56,18 @@ export class DashboardExampleRlHmComponent extends DashboardExampleRlHmComponent
   {
     if (event.value == "Temperature")
     {
-      this.data_ridgeline = this.data_ridgeline_temp;
+      let res = [...this.data_ridgeline_temp]; // Create a copy of the current gradients
+      this.data_ridgeline = res;
       this.labels_ridgeline = this.labels_ridgeline_temp;
       this.color_gradients_ridgeline = [["#29b6f6", 0], ["#66bb6a", 18], ["#ff7043", 30]];
     }
     else if (event.value == "Motion")
     {
-      this.data_ridgeline = this.data_ridgeline_motion;
+      let res = [...this.data_ridgeline_motion]; // Create a copy of the current gradients
+      this.data_ridgeline = res;
       this.labels_ridgeline = this.labels_ridgeline_motion;
       this.color_gradients_ridgeline = [["#29b6f6", 0], ["#66bb6a", 0.9], ["#ff7043", 1]];
     }
-
-    //Don't refresh the page
-    event.preventDefault();
   }
 
   //Data structures for currently set ridgeline chart
