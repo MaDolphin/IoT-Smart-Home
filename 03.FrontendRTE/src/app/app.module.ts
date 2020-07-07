@@ -4,7 +4,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatGridListModule } from '@angular/material';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatGridListModule, MatFormFieldModule, MatSelectModule, MatOptionModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonDirectivesModule, PanelDirectivesModule } from '@upe/ngx-bootstrap-directives';
@@ -70,6 +70,9 @@ export const MY_DATE_FORMATS = {
     ContextMenuModule.forRoot(),
 
     MatGridListModule,
+    MatFormFieldModule,
+    MatSelectModule, 
+    MatOptionModule,
     ChartsModule,
 
     PanelDirectivesModule,
