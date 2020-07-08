@@ -90,10 +90,23 @@ webpage DashboardTemplate {
         container(49%) {
             card {
                 head {
-                    label "chart type 2"
+                    label "RidgeLine Graph"
                 }
-                body {
-                    // your chart here
+                body{
+                    html {"
+                            <ridgeline-chart
+                            [alpha]=0.8
+                            [overshoot]=30
+                            [rawData]=data_ridgeline
+                            [overwrite_data]=\"true\"
+                            [labels]=labels_ridgeline
+                            [font_size]=\"12\"
+                            [color_gradients]=color_gradients_ridgeline
+                            [x_is_time]=\"true\"
+                            [show_date]=\"true\"
+                            [align_x_label_to]=60000000>
+                            </ridgeline-chart>
+                    "}
                 }
             }
         }

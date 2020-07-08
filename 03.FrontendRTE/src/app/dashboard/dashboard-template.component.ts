@@ -22,6 +22,11 @@ export class DashboardTemplateComponent extends DashboardTemplateComponentTOP im
   public motionsensordata: MotionSensorDataDTO;
   public temperaturedata: TemperatureDataDTO;
 
+  //Data structures for currently set ridgeline chart
+  public data_ridgeline = [];
+  public labels_ridgeline : string[] = [];
+  public color_gradients_ridgeline : [string, number][] = [];
+
   public ngOnInit(): void {
     super.ngOnInit();
     this.initDropDown();
@@ -33,8 +38,8 @@ export class DashboardTemplateComponent extends DashboardTemplateComponentTOP im
       'Movement'
     ]);
     this._sensorTypeControl.defaultValue = 'Temperature';
-    this.initTemperatureDataDTOtemperaturedata();
     this.initMotionSensorDataDTOmotionsensordata();
+    this.initTemperatureDataDTOtemperaturedata();
     this.sendCommands();
     this.sensorType = "temperature";
 
@@ -63,6 +68,31 @@ export class DashboardTemplateComponent extends DashboardTemplateComponentTOP im
       .then((model: TemperatureDataDTO) => {
         this.temperaturedata = model;
 
+        //***************************************************
+        //Process data for ridgeline
+        let new_ridgeline_data = [];
+        let new_ridgeline_labels = [];
+
+        for (let entry of model.entries)
+        {
+          let ridge_index = new_ridgeline_labels.findIndex(label => label === entry.name);
+          //Ridge already exist, add to ridge
+          if (ridge_index >= 0)
+          {
+            new_ridgeline_data[ridge_index].push([entry.timestamp * 1000, entry.value]); //*1000 to translate to ms
+          }
+          else
+          {
+            //Else: Create new ridge
+            new_ridgeline_labels.push(entry.name);
+            new_ridgeline_data.push([[entry.timestamp * 1000, entry.value]]);
+          }
+        }
+
+        this.data_ridgeline = new_ridgeline_data;
+        this.labels_ridgeline = new_ridgeline_labels;
+        this.color_gradients_ridgeline = [["#29b6f6", 0], ["#66bb6a", 18], ["#ff7043", 30]];
+        //***************************************************
       });
   }
 
@@ -71,6 +101,33 @@ export class DashboardTemplateComponent extends DashboardTemplateComponentTOP im
       .then((model: MotionSensorDataDTO) => {
         this.motionsensordata = model;
 
+        //***************************************************
+        //Process data for ridgeline
+        let new_ridgeline_data = [];
+        let new_ridgeline_labels = [];
+
+        for (let entry of model.entries)
+        {
+          let ridge_index = new_ridgeline_labels.findIndex(label => label === entry.name);
+          //Ridge already exist, add to ridge - 1 for sensor detect, 0 in between
+          if (ridge_index >= 0)
+          {
+            new_ridgeline_data[ridge_index].push([(entry.timestamp * 1000) - 1, 0]); //*1000 to translate to ms
+            new_ridgeline_data[ridge_index].push([entry.timestamp * 1000, 1]); //*1000 to translate to ms
+            new_ridgeline_data[ridge_index].push([(entry.timestamp * 1000) + 1, 0]); //*1000 to translate to ms
+          }
+          else
+          {
+            //Else: Create new ridge
+            new_ridgeline_labels.push(entry.name);
+            new_ridgeline_data.push([[(entry.timestamp * 1000) - 1, 0], [entry.timestamp * 1000, 1], [(entry.timestamp * 1000) + 1, 0]]);
+          }
+        }
+
+        this.data_ridgeline = new_ridgeline_data;
+        this.labels_ridgeline = new_ridgeline_labels;
+        this.color_gradients_ridgeline = [["#29b6f6", 0], ["#66bb6a", 0.9], ["#ff7043", 1]];
+        //***************************************************
       });
   }
 
