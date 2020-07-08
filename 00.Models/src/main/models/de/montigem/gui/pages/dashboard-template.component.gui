@@ -1,0 +1,96 @@
+webpage DashboardTemplate {
+    column(nospace) {
+        navigation "navigationBarLinks" {
+            // navigation here (already done for ridgeline-heatmap)
+        }
+    }
+
+    /**
+     * row : all elements are displayed on one row
+     * first parameter (space-between) : spacing between items in the row,
+     * second parameter (space : t r l) : put space to the top (t), right (r)
+     *   and left (l) of the container
+     * see beispiele-layout-4-gen.component.gui
+     **/
+    row (space-between, space : t r l) {
+        /**
+         * container : neutral layout container (~ <div>)
+         * first parameter (98%) : width of the container (can be in pixels, e.g. 300px)
+         **/
+        container(98%) {
+            // card is a preconfigured container with optional head and body
+            card {
+                body {
+                    row(space-evenly) {
+                        // column : all elements are displayed in a column
+                        column(300px) {
+                            // dropdown, where sensorType will result in _sensorTypeControl variable
+                            // see dashboard-template.component.ts
+                            dropdown "Sensor type" {
+                                input: <sensorType
+                                labelAbove
+                            }
+                            number textfield "Conditioner temperature setting" {
+                                input : <temperature
+                                labelAbove
+                            }
+                            // "c" means centered, if spacing is also need (space-between),
+                            // "c" takes precedence
+                            // possible values : l (left), c (centered), r (right)
+                            // row (c, space-between, ...)
+                            row(c, space : t) {
+                                button "Set temperature" {
+                                    click -> setTemperature()
+                                }
+                            }
+                        }
+                        column {
+                            // Simple text with explanation
+                            textoutput {"
+                                The dashboard shows info about distribution of
+                                sensor data ...
+                            "}
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    row (space-between, space : r l) {
+        container(49%) {
+            card {
+                head {
+                    label "chart type 1"
+                }
+                body {
+                    // your chart here
+                }
+            }
+        }
+
+        container(49%) {
+            card {
+                head {
+                    label "chart type 2"
+                }
+                body {
+                    // your chart here
+                }
+            }
+        }
+    }
+
+    row(c) {
+        container(98%) {
+            card {
+                head {
+                    label "chart type 3"
+                }
+                body {
+                    // your chart here
+                }
+            }
+        }
+    }
+}

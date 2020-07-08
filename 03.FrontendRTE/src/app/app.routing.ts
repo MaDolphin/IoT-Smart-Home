@@ -10,6 +10,7 @@ import {MainLayoutComponent} from '@shared/layout/main/main-layout.component';
 import {DashboardComponent} from "@dashboard/dashboard.component";
 import {InfoComponent} from './info/info.component';
 import { DashboardExampleRlHmComponent } from '@dashboard/dashboard-ExampleRlHm.component';
+import {DashboardTemplateComponent} from '@dashboard/dashboard-template.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,10 @@ export const routes: Routes = [
         path: 'dashboard/Example-RlHm',
         component: DashboardExampleRlHmComponent,
         data: {pageTitle: 'Example-RlHm'}
+      },
+      {
+        path: 'dashboard/template',
+        component: DashboardTemplateComponent,
       },
       {
         path: 'beispiele',

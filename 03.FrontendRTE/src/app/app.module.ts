@@ -25,6 +25,7 @@ import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { DashboardComponent } from '@dashboard/dashboard.component';
 import {DashboardExampleRlHmComponent} from '@dashboard/dashboard-ExampleRlHm.component';
 import {InfoComponent} from './info/info.component';
+import {DashboardTemplateComponent} from '@dashboard/dashboard-template.component';
 
 
 registerLocaleData(localeDe, 'de-DE', localeDeExtra);
@@ -51,6 +52,7 @@ export const MY_DATE_FORMATS = {
     AppComponent,
     DashboardComponent,
     DashboardExampleRlHmComponent,
+    DashboardTemplateComponent,
     InfoComponent
   ],
   imports:      [
