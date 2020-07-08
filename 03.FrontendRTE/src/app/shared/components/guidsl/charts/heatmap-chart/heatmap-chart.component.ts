@@ -241,10 +241,10 @@ export class HeatmapChartComponent implements OnChanges {
    */
   //Creates an [{"name",series:["name","value"]}] array from an [{"name", "timestamp"}] array by splitting the time into num_seperators equal periods and couting amount of entries for each period & sensor name
   rearrange_array(somedata) {
-    if(!somedata[0]) return this.computed_data;
+    if(!somedata[0]) return [];
     else {
-      if (this.timestampdata && !('timestamp' in somedata[0])) return this.computed_data;
-      if (!this.timestampdata && !('value' in somedata[0])) return this.computed_data;
+      if (this.timestampdata && !('timestamp' in somedata[0])) return [];
+      if (!this.timestampdata && !('value' in somedata[0])) return [];
     }
 
     //Depending on input type this either uses "timestamp" or "value" fields

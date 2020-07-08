@@ -6,6 +6,9 @@ webpage Dashboard() {
             tab "Dashboard" {
               link: "./"
             }
+            tab "Template" {
+              link: "../template"
+            }
             tab "Example-RlHm" {
               link: "../Example-RlHm"
             }

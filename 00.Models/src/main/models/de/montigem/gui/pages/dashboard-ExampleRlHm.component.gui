@@ -6,6 +6,9 @@ webpage DashboardExampleRlHm(all TemperatureData temperaturedata) {
             tab "Dashboard" {
               link: "../dashboard"
             }
+            tab "Template" {
+              link: "../template"
+            }
             tab "Example-RlHm" {
               link: "./"
             }

@@ -2,6 +2,15 @@ webpage DashboardTemplate {
     column(nospace) {
         navigation "navigationBarLinks" {
             // navigation here (already done for ridgeline-heatmap)
+            tab "Dashboard" {
+              link: "../dashboard"
+            }
+            tab "Template" {
+              link: "./"
+            }
+            tab "Example-RlHm" {
+              link: "../Example-RlHm"
+            }
         }
     }
 
@@ -61,10 +70,19 @@ webpage DashboardTemplate {
         container(49%) {
             card {
                 head {
-                    label "chart type 1"
+                    label "heatmap chart"
                 }
                 body {
-                    // your chart here
+                    html {"
+                    <span *ngIf=\"sensorType==\'temperature\'\">
+                    <heatmap-chart [data]=\"temperaturedata\" [timestampdata]=false>
+                    </heatmap-chart>
+                    </span>
+                    <span *ngIf=\"sensorType==\'movement\'\">
+                    <heatmap-chart [data]=\"motionsensordata\" [timestampdata]=true>
+                    </heatmap-chart>
+                    </span>
+                "}
                 }
             }
         }
