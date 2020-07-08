@@ -79,9 +79,9 @@ export class DensityChartComponent implements OnChanges {
     this.updateChart(changes.data2.currentValue);
   }**/
   public createDensityChart(data2: Data2Model[]): void {
-    d3.select('svg').remove();
     const densityElement = this.chartContainer.nativeElement;
     const data = data2;
+    d3.select(densityElement).select('svg').remove();
 
     /**
      * select chart from html and append an svg

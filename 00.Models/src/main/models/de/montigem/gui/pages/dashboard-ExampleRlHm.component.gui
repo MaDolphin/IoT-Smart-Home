@@ -10,6 +10,9 @@ webpage DashboardExampleRlHm(
             tab "Dashboard" {
               link: "../dashboard"
             }
+            tab "Template" {
+              link: "../template"
+            }
             tab "Example-RlHm" {
               link: "./"
             }
