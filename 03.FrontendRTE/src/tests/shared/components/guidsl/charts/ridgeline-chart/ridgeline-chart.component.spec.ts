@@ -28,6 +28,7 @@ describe('Components', () => {
                     this.data2 = new Data();
                     this.data2.set_raw_data(raw_data2, 10000);
 
+                    this.data3 = new Data(); //Setup clean data object
                 });
 
                 beforeEach(async(() => {
@@ -156,9 +157,8 @@ describe('Components', () => {
                                                        [[11.5,-5],[15.6,4]]
                                                        ];
                     
-                        let data = new Data();
-                        data.set_raw_data(raw_data, 13);
-                        expect(assumed_restricted_data).toEqual(data.values);
+                        this.data3.set_raw_data(raw_data, 13);
+                        expect(assumed_restricted_data).toEqual(this.data3.values);
 
                         // Secondly test, that it is called correctly in update_raw_data
                         let further_raw_data = [[[10.8,17.35],[17.9,-5]],
@@ -166,8 +166,8 @@ describe('Components', () => {
                         assumed_restricted_data = [[[10.8,17.35],[17.9,-5]],
                                                    [[11.5,-5],[15.6,4],[16.6,0]]
                                                   ];
-                        data.update_raw_data(further_raw_data, 13);
-                        expect(assumed_restricted_data).toEqual(data.values);
+                        this.data3.update_raw_data(further_raw_data, 13);
+                        expect(assumed_restricted_data).toEqual(this.data3.values);
                     }
                 )
 
