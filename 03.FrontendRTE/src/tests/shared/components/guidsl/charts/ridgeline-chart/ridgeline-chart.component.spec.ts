@@ -43,8 +43,11 @@ describe('Components', () => {
                         declarations: [RidgelineChartComponent]
                     }).compileComponents();
                     fixture = TestBed.createComponent(RidgelineChartComponent);
-                    // chart = fixture.componentInstance;
                     fixture.detectChanges();
+
+                    chart = fixture.componentInstance;
+                    // element = fixture.nativeElement;
+                    // de = fixture.debugElement;
                 });
 
 
@@ -56,8 +59,7 @@ describe('Components', () => {
                                               [[-30,7],[-22.3,-5],[1,4],[2,0]],
                                               [[-10.2,199],[34.02,5],[73,-4],[100,3]]
                                              ];
-                        console.log(this.data.get_values());
-                        expect(assumed_result).toEqual(this.data.get_values());
+                        expect(assumed_result).toEqual(this.data.values);
                     }
                 );
 
@@ -127,19 +129,19 @@ describe('Components', () => {
                                               [[1,3]]
                                              ];
                         this.data.update_raw_data(further_raw_data, 1000);
-                        expect(assumed_result).toEqual(this.data.get_values());
+                        expect(assumed_result).toEqual(this.data.values);
 
                         // Edgecase 1: empty input
                         further_raw_data = [];
                         this.data.update_raw_data(further_raw_data, 1000);
-                        expect(assumed_result).toEqual(this.data.get_values()); // nothing should have changed
+                        expect(assumed_result).toEqual(this.data.values); // nothing should have changed
 
                         // Edgecase 2: empty ridge
                         further_raw_data = [[[202,-5.3]],
                                             []];
                         assumed_result[0].push([202, -5.3]);
                         this.data.update_raw_data(further_raw_data, 1000);
-                        expect(assumed_result).toEqual(this.data.get_values()); // nothing should have changed
+                        expect(assumed_result).toEqual(this.data.values); // nothing should have changed
                     }
                 )
 
@@ -156,7 +158,7 @@ describe('Components', () => {
                     
                         let data = new Data();
                         data.set_raw_data(raw_data, 13);
-                        expect(assumed_restricted_data).toEqual(data.get_values());
+                        expect(assumed_restricted_data).toEqual(data.values);
 
                         // Secondly test, that it is called correctly in update_raw_data
                         let further_raw_data = [[[10.8,17.35],[17.9,-5]],
@@ -165,7 +167,7 @@ describe('Components', () => {
                                                    [[11.5,-5],[15.6,4],[16.6,0]]
                                                   ];
                         data.update_raw_data(further_raw_data, 13);
-                        expect(assumed_restricted_data).toEqual(data.get_values());
+                        expect(assumed_restricted_data).toEqual(data.values);
                     }
                 )
 
@@ -185,7 +187,7 @@ describe('Components', () => {
                         data.set_raw_data(raw_data, 1000);
 
                         let config = new Ridgeline_Config();
-                        config.set_params(["1","2"], 2, 1000, 797, 900, 14, 20, 2, 100);
+                        config.set_params(["1","2"], 2, 1000, 797, 14, 20, 2, 100);
 
                         data.transform_data(config);
 
@@ -205,20 +207,16 @@ describe('Components', () => {
 // ----------------------------------------- Data-class tests -----------------------------------------
                 it('Config: set_params',
                     () => {
-                        // chart = fixture.componentInstance;
-                        // element = fixture.nativeElement;
-                        // de = fixture.debugElement;
-
                         // Create Config
                         this.config = new Ridgeline_Config();
-                        this.config.set_params(["1","2"], 2, 1000, 797, 900, 14, 20, 2, 100);
+                        this.config.set_params(["1","2"], 2, 1000, 797, 14, 20, 2, 100);
 
                         let config : Ridgeline_Config = this.config;
                         expect(config.ridges_offset).toEqual(225);
                         expect(config.ridges_height).toEqual(270);
                         expect(config.grid_line_start_x).toBeCloseTo(18,0.5);
                         console.log(config.grid_line_start_x);
-                        expect(config.grid_line_end_x).toEqual(900);
+                        expect(config.grid_line_end_x).toEqual(1000);
                         expect(config.grid_line_start_y).toEqual(270);
                         expect(config.font_size).toEqual(14);
                         expect(config.x_axis_start).toEqual(config.grid_line_start_x);
@@ -234,19 +232,9 @@ describe('Components', () => {
 
 // -------------------------------------- RidgelineChartcomponent --------------------------------------
 
-                // TODO Add test for x-window
-
-
-
-
-
 
                 it('get_x_label_precision',
                     () => {
-
-                        //fixture.detectChanges();
-                        let chart = new RidgelineChartComponent();
-
                         chart.relative_x_precision = 2;
                         expect(chart.get_x_label_precision(1093750)).toEqual(0);
                         expect(chart.get_x_label_precision(2535.3)).toEqual(0);
@@ -276,6 +264,11 @@ describe('Components', () => {
                     }
                 )
 
+                it('x_to_text',
+                    () => {
+
+                    }
+                )
 
             });
         });

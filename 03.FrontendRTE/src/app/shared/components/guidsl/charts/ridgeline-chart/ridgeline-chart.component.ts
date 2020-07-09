@@ -39,7 +39,6 @@ export class Ridgeline_Config {
    * @param data_rows       The number of ridges.
    * @param canvas_width    
    * @param canvas_height 
-   * @param grid_line_end_x x-Point on canvas at which the grid should end in x-direction on the right side
    * @param font_size       font size of axis description in pixel
    * @param overshoot       how far do one ridge overlaps into another one (in percentage)
    * @param number_of_lines_of_labels for how many lines of the x-axis labels should be space reserved
@@ -51,7 +50,6 @@ export class Ridgeline_Config {
     data_rows : number, 
     canvas_width: number, 
     canvas_height: number, 
-    grid_line_end_x: number, 
     font_size: number,
     overshoot: number,
     number_of_lines_of_labels: number,
@@ -85,7 +83,7 @@ export class Ridgeline_Config {
     //Text scale calculation end -------------------------------------------------
     this.grid_line_start_x = longest_width + 10;
 
-    this.grid_line_end_x = grid_line_end_x;
+    this.grid_line_end_x = canvas_width;
     this.grid_line_start_y = this.ridges_height;
 
     this.font_size = font_size;
@@ -142,13 +140,6 @@ export class Data
   //Convenience values
   public length: number = 0;
 
-  /**
-   * Only for testing purposes!
-   * @returns A copy of the current values-list.
-   */
-  public get_values() : number[][][]{
-    return [...this.values];
-  }
 
   /**
    * For all given ridge-lines this function sorts the points in each ridge-line
@@ -813,7 +804,7 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
       if (this.x_is_time && this.show_date){
         number_of_lines_of_labels = 2;
       }
-      this.config.set_params(this.labels, this.data.length, this.canvas.width, this.canvas.height, this.canvas.width, this.font_size, this.overshoot, number_of_lines_of_labels, this.align_x_label_to);
+      this.config.set_params(this.labels, this.data.length, this.canvas.width, this.canvas.height, this.font_size, this.overshoot, number_of_lines_of_labels, this.align_x_label_to);
       this.data.transform_data(this.config);
       this.data.transform_color_gradients(this.config, this._alpha);
 
