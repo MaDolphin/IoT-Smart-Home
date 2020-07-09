@@ -266,7 +266,14 @@ describe('Components', () => {
 
                 it('x_to_text',
                     () => {
+                        chart.show_date = true;
+                        expect(chart.x_to_text(1594291372000, 1000)).toEqual("09.07.2020\n12:42:52");
 
+                        chart.show_date = false;
+                        expect(chart.x_to_text(1486739568462, 1)).toEqual("16:12:48");
+
+                        chart.x_is_time = false;
+                        expect(chart.x_to_text(2785.38694, 2)).toEqual("2785.39");
                     }
                 )
 

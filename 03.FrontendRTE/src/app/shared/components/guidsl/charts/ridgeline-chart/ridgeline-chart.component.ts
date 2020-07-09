@@ -994,9 +994,9 @@ export class RidgelineChartComponent implements OnInit, AfterViewInit {
   /**
    * This function is called when drawing the grid and converts the input x-value into a String which will
    * be shown as label on the x-axis.
-   * If x_is_time==true the x value will be interpreted as epoch seconds
+   * If x_is_time==true the x value will be interpreted as epoch milliseconds
    * @param x          The x-value residing at the vertical line for which a label is needed
-   * @param precision  How many positions after decimal point are given
+   * @param precision  How many positions after decimal point are given (expected to be a natural number >0)
    */
   private x_to_text(x: number, precision: number) : string{
     if (this.x_is_time){
