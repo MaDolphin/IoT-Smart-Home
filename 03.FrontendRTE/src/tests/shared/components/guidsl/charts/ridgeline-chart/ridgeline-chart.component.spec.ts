@@ -10,26 +10,6 @@ describe('Components', () => {
             describe('Ridgeline-Chart Component', () => {
                 let fixture, chart, element, de;
 
-                beforeEach(() => {
-                    // Create testing data
-                    let raw_data = [[[1,5],[5,4],[2.3,0]],
-                                [[-22.3,-5],[2,0],[-30,7],[1,4]],
-                                [[100,3],[73,-4],[34.02,5],[-10.2,199]]
-                                ];
-                    
-                    this.data = new Data();
-                    this.data.set_raw_data(raw_data, 1000);
-                    // console.log(this.data);
-
-                    let raw_data2 = [[[-20,194.23],[-75,222.2]],
-                                     [[-2993,4]]
-                                    ];
-                            
-                    this.data2 = new Data();
-                    this.data2.set_raw_data(raw_data2, 10000);
-
-                    this.data3 = new Data(); //Setup clean data object
-                });
 
                 beforeEach(async(() => {
                     // // Create module
@@ -49,6 +29,45 @@ describe('Components', () => {
                     chart = fixture.componentInstance;
                     // element = fixture.nativeElement;
                     // de = fixture.debugElement;
+                });
+
+                beforeEach(() => {
+                    // Create testing data
+                    let raw_data = [[[1,5],[5,4],[2.3,0]],
+                                [[-22.3,-5],[2,0],[-30,7],[1,4]],
+                                [[100,3],[73,-4],[34.02,5],[-10.2,199]]
+                                ];
+                    
+                    this.data = new Data();
+                    this.data.set_raw_data(raw_data, 1000);
+                    // console.log(this.data);
+
+                    let raw_data2 = [[[-20,194.23],[-75,222.2]],
+                                     [[-2993,4]]
+                                    ];
+                            
+                    this.data2 = new Data();
+                    this.data2.set_raw_data(raw_data2, 10000);
+
+                    this.data3 = new Data(); //Setup clean data object
+
+
+                    // Setup for transformation tests
+                    raw_data = [[[1,-27],[3,-15.2]],
+                                [[-22.3,-5],[-11,4]],
+                               ];
+                    let color_gradients = [["#e91e63", -27], ["#2196f3", 27], ["#2196f3", 22.5]];
+                    // With default overshoot=30% the last value should be exactly on the line of the subsequent ridge
+                
+                    this.dataT = new Data();
+                    this.dataT.set_raw_data(raw_data, 1000);
+                    this.dataT.set_color_gradients(color_gradients);
+
+                    let config = new Ridgeline_Config();
+                    config.set_params(["1","2"], 2, 1000, 797, 14, 20, 2, 100);
+
+                    this.dataT.transform_data(config);
+                    this.dataT.transform_color_gradients(config, 1.0);
                 });
 
 
@@ -174,29 +193,43 @@ describe('Components', () => {
                 it('transform_data',
                     () => {
                         // Can only work, if test on Config-class works
+                        let data = this.dataT;
 
-                        let raw_data = [[[1,-27],[3,-15.2]],
-                                        [[-22.3,-5],[-11,4]],
-                                       ];
-                        
                         let assumed_transformed_data = [[[922.4,540],[1000,422]],
                                                         [[18.03,545],[456.6,455]]
                                                        ];
-                    
-                        let data = new Data();
-                        data.set_raw_data(raw_data, 1000);
-
-                        let config = new Ridgeline_Config();
-                        config.set_params(["1","2"], 2, 1000, 797, 14, 20, 2, 100);
-
-                        data.transform_data(config);
-
 
                         for(let ridge=0; ridge<assumed_transformed_data.length; ridge++){
                             expect(data.get_transformed_data_row(ridge).length).toEqual(assumed_transformed_data[ridge].length);
                             for(let entry=0; entry<assumed_transformed_data[ridge].length; entry++){
                                 expect(data.get_transformed_data_row(ridge)[entry][0]).toBeCloseTo(assumed_transformed_data[ridge][entry][0],0.5);
                                 expect(data.get_transformed_data_row(ridge)[entry][1]).toBeCloseTo(assumed_transformed_data[ridge][entry][1],0.1);
+                            }
+                        }
+                    }
+                )
+
+                it('transform_color_gradients',
+                    () => {
+                        // Can only work, if test on Config-class works
+                        let data = this.dataT;
+
+                        let color1 = new paper.Color("#e91e63");
+                        let color2 = new paper.Color("#2196f3");
+                        let color3 = new paper.Color("#2196f3");
+                        color1.alpha = 1.0;
+                        color2.alpha = 1.0;
+                        color3.alpha = 1.0;
+
+                        let assumed_transformed_color_gradients = [[[color1, 540], [color2, 45],  [color3, 0]],
+                                                                   [[color1, 765], [color2, 270], [color3, 225]]];
+
+                        for(let ridge=0; ridge<assumed_transformed_color_gradients.length; ridge++){
+                            expect(data.get_transformed_color_gradients(ridge).length).toEqual(assumed_transformed_color_gradients[ridge].length);
+                            for(let entry=0; entry<assumed_transformed_color_gradients[ridge].length; entry++){
+                                console.log(data.get_transformed_color_gradients(ridge)[entry][0]);
+                                expect(data.get_transformed_color_gradients(ridge)[entry][0]).toEqual(assumed_transformed_color_gradients[ridge][entry][0]);
+                                expect(data.get_transformed_color_gradients(ridge)[entry][1]).toEqual(assumed_transformed_color_gradients[ridge][entry][1]);
                             }
                         }
                     }

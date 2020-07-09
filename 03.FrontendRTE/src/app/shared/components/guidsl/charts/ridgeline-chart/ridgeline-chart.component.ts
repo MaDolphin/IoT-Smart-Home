@@ -427,7 +427,7 @@ export class Data
     }
     else
     {
-      console.log("Error: Could not transform data row (in get_transformed_data_row(), ridgeline-chart component)");
+      console.log("Error: Could not transform color gradients row (in get_transformed_color_gradients(), ridgeline-chart component)");
       return [];
     }
   }
