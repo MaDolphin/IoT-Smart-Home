@@ -213,6 +213,7 @@ describe('Components', () => {
                     () => {
                         // Can only work, if test on Config-class works
                         let data = this.dataT;
+                        console.log("Transform_color_gradients");
 
                         let color1 = new paper.Color("#e91e63");
                         let color2 = new paper.Color("#2196f3");

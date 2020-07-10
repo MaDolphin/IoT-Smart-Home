@@ -533,9 +533,13 @@ export class Data
 
     //Transform color gradient values - should start and stop relative to 0-line of current ridge (y_from), translate from data point to y-coordinates in paperjs
     let height_scale = config.ridges_height / this.max_y_range_from_0;
+    console.log("Height_scale:")
+    console.log(height_scale);
     for (let i = 0; i < this.values.length; ++i)
     {
       let y_from = config.y_axis_start + config.ridges_offset * i;
+      console.log("y_from");
+      console.log(y_from);
 
       this.transformed_color_gradients.push([]);
 
@@ -568,6 +572,11 @@ export class Data
         {
           color_pixel_height_y = min_height;
         }
+
+        console.log("y-value:");
+        console.log(color_y_value);
+        console.log("final-y-value to draw:");
+        console.log(color_pixel_height_y);
 
         //Add transparency to color
         let rgba_color = new paper.Color(this.color_gradients[j][0]);
