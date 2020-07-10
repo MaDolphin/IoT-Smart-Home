@@ -705,11 +705,11 @@ export class RidgelineChartComponent implements AfterViewInit {
   @Input() max_x_range = -1;
 
   /**
-   * This parameter regards a technical detail for drawing color gradients. If a y-value of a gradient-stop (given in
+   * This parameter regards a technical detail for drawing color gradients. If a y-value of a gradient-stop (given in var
    * color_gradients) is significantly larger/smaller than the max/min of the data shown in the diagram,
    * the algorithm will limit the gradient-stop's y-value. If that isn't done, the gradients would not work properly in
    * some cases due to paperjs as the underlying framework. The limit is computed depending on the current canvas height
-   * multiplied with this parameter.
+   * multiplied with this parameter. If the limiting is applied, a warning will be logged.
    * @param factor Default is 10.
    */
   @Input()
@@ -797,8 +797,8 @@ export class RidgelineChartComponent implements AfterViewInit {
    * Use this to set color gradients:  
    * The gradient-stops then start at y_value with a color given by color_string.
    * Note: If the y-value of a gradient-stop is significantly larger/smaller than the max/min of the data shown in the diagram,
-   * the algorithm will limit the gradient-stop's y-value. If that is'nt be done, the gradients would not work properly in
-   * some cases. 
+   * the algorithm will limit the gradient-stop's y-value. If that is'nt done, the gradients would not work properly in
+   * some cases due to paperjs as the underlying framework. If the limiting is applied, a warning will be logged. 
    * 
    * @type {[string, number][]} gradients in the form of [color_string, y_value_stop]
    * Color strings: Hex value (like #000000) or color strings like 'blue' (if these are accepted by paperjs)
