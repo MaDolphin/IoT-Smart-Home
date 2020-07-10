@@ -67,7 +67,7 @@ describe('Components', () => {
                     config.set_params(["1","2"], 2, 1000, 797, 14, 20, 2, 100);
 
                     this.dataT.transform_data(config);
-                    this.dataT.transform_color_gradients(config, 1.0);
+                    this.dataT.transform_color_gradients(config, 1.0, 797);
                 });
 
 

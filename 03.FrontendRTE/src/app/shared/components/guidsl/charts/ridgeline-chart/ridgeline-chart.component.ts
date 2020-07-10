@@ -156,6 +156,8 @@ export class Data
   private color_gradients : [string, number][] = [];
   /** Transformed value for color gradient - can be accessed by getter for each data row index */
   private transformed_color_gradients : [paper.Color, number][][] = [];
+  /** See bounding_factor_gradients of RidgelineChartComponent */
+  public bounding_factor_gradients = 10;
 
 
   /** 
@@ -519,9 +521,14 @@ export class Data
 
   /**
    * Transform color gradients to y-coordinate-values for each ridge, sorted from lowest to highest
-   * Add alpha value to gradients (if desired, else set it to 1.0)
+   * Add alpha value to gradients (if desired, else set it to 1.0).
+   * This function will log a warning if a computed color stop will reside too far outside of the visible area
+   * (see param canvas_height).
+   * @param canvas_height The current height of the canvas times the constant 5 is used here to limit the
+   *                      y-coordinate at which a color stop may reside. That is due to the problem that the
+   *                      color gradients will not work properly if they reside too far outside of the visible area.
    */
-  public transform_color_gradients(config : Ridgeline_Config, alpha : number)
+  public transform_color_gradients(config : Ridgeline_Config, alpha : number, canvas_height : number)
   {
     //Only transform if that is necessary
     if ((!this.has_untransformed_color_gradients || this.values.length == 0) && !config.size_was_changed)
@@ -533,18 +540,15 @@ export class Data
 
     //Transform color gradient values - should start and stop relative to 0-line of current ridge (y_from), translate from data point to y-coordinates in paperjs
     let height_scale = config.ridges_height / this.max_y_range_from_0;
-    console.log("Height_scale:")
-    console.log(height_scale);
     for (let i = 0; i < this.values.length; ++i)
     {
       let y_from = config.y_axis_start + config.ridges_offset * i;
-      console.log("y_from");
-      console.log(y_from);
 
       this.transformed_color_gradients.push([]);
 
-      let max_height = window.innerHeight;
-      let min_height = 0;
+      // limit the y-coordinates at which a color stop may reside
+      let max_height = this.bounding_factor_gradients*canvas_height;
+      let min_height = -(this.bounding_factor_gradients - 1) * canvas_height; // allow same non-visible space in negative direction (-1 since negative space is never visible)
       for (let j = 0; j < this.color_gradients.length; ++j)
       {
         //Cap gradient y value s.t. we do not get an overflow
@@ -567,16 +571,13 @@ export class Data
         if (color_pixel_height_y > max_height)
         {
           color_pixel_height_y = max_height;
+          console.warn("The color stop with color "+this.color_gradients[j][0]+" would be too far outside of the ridgeline-plot and is thus capped to "+max_height+"!");
         }
         if (color_pixel_height_y < min_height)
         {
           color_pixel_height_y = min_height;
+          console.warn("The color stop with color "+this.color_gradients[j][0]+" would be too far outside of the ridgeline-plot and is thus capped to "+min_height+"!");
         }
-
-        console.log("y-value:");
-        console.log(color_y_value);
-        console.log("final-y-value to draw:");
-        console.log(color_pixel_height_y);
 
         //Add transparency to color
         let rgba_color = new paper.Color(this.color_gradients[j][0]);
@@ -703,6 +704,19 @@ export class RidgelineChartComponent implements AfterViewInit {
    */
   @Input() max_x_range = -1;
 
+  /**
+   * This parameter regards a technical detail for drawing color gradients. If a y-value of a gradient-stop (given in
+   * color_gradients) is significantly larger/smaller than the max/min of the data shown in the diagram,
+   * the algorithm will limit the gradient-stop's y-value. If that isn't done, the gradients would not work properly in
+   * some cases due to paperjs as the underlying framework. The limit is computed depending on the current canvas height
+   * multiplied with this parameter.
+   * @param factor Default is 10.
+   */
+  @Input()
+  public set bounding_factor_gradients (factor : number){
+    this.data.bounding_factor_gradients = factor;
+  }
+
 
   /**
    * Contains the data given by the user without any transformation applied.
@@ -713,6 +727,7 @@ export class RidgelineChartComponent implements AfterViewInit {
    * The alpha value used for all color-stops.
    */
   private _alpha: number = 1.0;
+
   
 
 
@@ -780,7 +795,10 @@ export class RidgelineChartComponent implements AfterViewInit {
 
   /**
    * Use this to set color gradients:  
-   * The gradient-stops then start at y_value with a color given by color_string
+   * The gradient-stops then start at y_value with a color given by color_string.
+   * Note: If the y-value of a gradient-stop is significantly larger/smaller than the max/min of the data shown in the diagram,
+   * the algorithm will limit the gradient-stop's y-value. If that is'nt be done, the gradients would not work properly in
+   * some cases. 
    * 
    * @type {[string, number][]} gradients in the form of [color_string, y_value_stop]
    * Color strings: Hex value (like #000000) or color strings like 'blue' (if these are accepted by paperjs)
@@ -856,7 +874,7 @@ export class RidgelineChartComponent implements AfterViewInit {
       }
       this.config.set_params(this.labels, this.data.length, this.canvas.width, this.canvas.height, this.font_size, this.overshoot, number_of_lines_of_labels, this.align_x_label_to);
       this.data.transform_data(this.config);
-      this.data.transform_color_gradients(this.config, this._alpha);
+      this.data.transform_color_gradients(this.config, this._alpha, this.canvas.height);
 
       // Should not be called too often
       if (this.hasData()){

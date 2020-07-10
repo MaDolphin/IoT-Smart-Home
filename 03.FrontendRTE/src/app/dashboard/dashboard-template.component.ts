@@ -92,7 +92,7 @@ export class DashboardTemplateComponent extends DashboardTemplateComponentTOP im
         this.data_ridgeline = new_ridgeline_data;
         this.labels_ridgeline = new_ridgeline_labels;
         //this.color_gradients_ridgeline = [["#29b6f6", 0], ["#66bb6a", 18], ["#ff7043", 30]];
-        this.color_gradients_ridgeline = [["#6699ff", 0], ["#66bb6a",15], /*["#ffff66", 18],*/ ["#ff7043", 25], ["#cc0000",30]];
+        this.color_gradients_ridgeline = [["#6699ff", 0], ["#66bb6a",15], /*["#ffff66", 18],*/ ["#ff7043", 25], ["#cc0000",/*30*/60]];
         //***************************************************
       });
   }
