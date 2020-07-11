@@ -35,7 +35,6 @@ export class Ridgeline_Config {
   /** The y-coordinate at which the y-axis will start. */
   y_axis_start: number;
 
-  // TODO deleted that?
   //Detect resize event (window resize callback leads to strange behaviour, so we had to do this differently)
   previous_canvas_width : number = 0;
   previous_canvas_height : number = 0;
