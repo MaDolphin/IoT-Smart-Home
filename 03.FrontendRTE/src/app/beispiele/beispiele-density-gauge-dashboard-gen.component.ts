@@ -8,7 +8,7 @@ import {BeispieleDensityGaugeDashboardGenComponentTOP} from "@targetgui/beispiel
 @Component({
     templateUrl: '../../../target/generated-sources/gui/beispiele-density-gauge-dashboard-gen.component/beispiele-density-gauge-dashboard-gen.component.html',
 })
-export class BeispieleDensityGaugeDashboardGenComponent extends BeispieleDensityGaugeDashboardGenComponentTOP{
+export class BeispieleDensityGaugeDashboardGenComponent extends BeispieleDensityGaugeDashboardGenComponentTOP {
     constructor(protected _webSocketService: WebSocketService,
                 protected _router: Router,
                 protected _route: ActivatedRoute,
@@ -16,7 +16,29 @@ export class BeispieleDensityGaugeDashboardGenComponent extends BeispieleDensity
 
         super(_commandRestService, _route, _router, _webSocketService);
     }
+
     title = 'Density & Gaugechart';
     public densitysensordata;
+    public sensorType;
+    public _sensorTypeControl;
 
+    ngOnInit() {
+        super.ngOnInit();
+        this.initDropDown();
+    }
+
+    private initDropDown() {
+        this._sensorTypeControl.setOptions([
+            'All',
+            "Temperature",
+            "CO2"
+        ]);
+        this._sensorTypeControl.defaultValue = 'Temperature';
+        this.sensorType = this._sensorTypeControl.defaultValue;
+
+        this._sensorTypeControl.valueChanges.subscribe(value => {
+            //console.log(v);
+            this.sensorType = value;
+        })
+    }
 }

@@ -42,9 +42,8 @@ export class GaugeChartComponent implements OnInit {
     /** data (changed by the data-field with the realtime data) */
     public dataSet: any = [];
     /** data that is actually shown */
-    public selectedType = "ALL";
     public selectedDataSet: any = [];
-    allTypes = ["TEMPERATURE", "CO2"];
+    private _sensorType: any = "All";
 
     /**
      * init internal values
@@ -74,7 +73,7 @@ export class GaugeChartComponent implements OnInit {
                 return i;
             }
         }
-        return 4;// Default
+        return 1;// Default: keine Striche
     }
 
     /**
@@ -107,8 +106,7 @@ export class GaugeChartComponent implements OnInit {
     /**
      * @ignore
      */
-    constructor() {
-    }
+    constructor() {}
 
     /**
      * refreshes the displayed data, when the new given data has at least one element
@@ -142,6 +140,15 @@ export class GaugeChartComponent implements OnInit {
         }
     }
 
+    @Input()
+    set sensorType(sensorType){
+        this._sensorType = sensorType;
+        this.updateSelectedDataset();
+    }
+    get sensorType(): any{
+        return this._sensorType;
+    }
+
     /**
      * only show selected datatype
      */
@@ -149,7 +156,9 @@ export class GaugeChartComponent implements OnInit {
         //console.log("Update type to " + this.selectedType);
         this.selectedDataSet = [];
 
-        this.textValue = this.selectedType;
+        console.log("Gauge-DataType changed to: " + this.sensorType)
+
+        this.textValue = this.sensorType;
 
         /*console.log(this.dataSet);
         console.log("ALL")
@@ -159,7 +168,8 @@ export class GaugeChartComponent implements OnInit {
 
         let t = this;
         this.dataSet.forEach(function (entry: any) {
-            if (t.selectedType == "ALL" || entry.type == t.selectedType) {
+            if (t.sensorType.toLowerCase() == "all"
+                || entry.type.toLowerCase() == t.sensorType.toLowerCase()) {
                 t.selectedDataSet.push(Object.assign({}, entry));
             }
         });

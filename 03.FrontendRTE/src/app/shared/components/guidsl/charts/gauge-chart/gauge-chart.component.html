@@ -1,9 +1,4 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
-<label for="sensorTypeSelect">Sensor-Art auswählen: </label>
-<select id="sensorTypeSelect" [(ngModel)]="selectedType" (ngModelChange)="updateSelectedDataset()">
-    <option value="ALL">ALL</option>
-    <option *ngFor="let sensorType of allTypes" [ngValue]="sensorType">{{sensorType}}</option>
-</select>
 <div *ngIf="hasData()">
     <label>
         Show Axis: <input [(ngModel)]="showAxis" type="checkbox" checked/>
@@ -34,5 +29,5 @@
     </div>
 </div>
 <div *ngIf="!hasData()">
-    Keine Daten vorhanden
+    Keine aktuellen Daten vorhanden
 </div>

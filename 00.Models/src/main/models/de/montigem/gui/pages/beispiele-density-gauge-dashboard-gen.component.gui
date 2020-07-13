@@ -40,19 +40,40 @@ webpage DensityGaugeDashboardSamplePage(socket LineGraph data,
 
 row (space-evenly, spaceabove) {
   container(40%) {
-    card {
-      head {
-        label "Gauge Chart"
-      }
-      body {
-        html {" <gauge-chart
-                  [data]=\"chartData\"
-                  [min]=\"-40\"
-                  [max]=\"50\"
-        ></gauge-chart> "}
+      card {
+        head {
+          label "Dashboard"
+        }
+        body {
+          textoutput {"
+             Wähle hier die Art von Sensoren, die angezeigt werden sollen.
+             Passend zu der Auswahl werden in den Diagrammen,
+             die jeweils dazu gehörigen Daten angezeigt.
+             Das GaugeChart zeigt die aktuellen Daten an und unten im
+             DensityChart kann der zeitliche Verlauf der Daten analysiert werden.
+          "}
+          dropdown "" {
+            input: <sensorType
+            labelAbove
+          }
+        }
       }
     }
-  }
+    container(40%) {
+        card {
+          head {
+            label "Gauge Chart"
+          }
+          body {
+            html {" <gauge-chart
+                      [data]=\"chartData\"
+                      [sensorType]=\"sensorType\"
+                      [min]=\"-40\"
+                      [max]=\"50\"
+            ></gauge-chart> "}
+          }
+        }
+      }
 }
 
 row (space-evenly, spaceabove) {
