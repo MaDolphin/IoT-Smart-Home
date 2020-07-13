@@ -311,6 +311,27 @@ describe('Components', () => {
                     }
                 )
 
+                it('has_data and reset',
+                    () => {
+                        expect(chart.hasData()).toBeFalsy();
+
+                        chart.rawData = [[[9,3]]];
+                        expect(chart.hasData()).toBeTruthy();
+
+                        chart.overwrite_data = true;
+                        chart.rawData = [];
+                        expect(chart.hasData()).toBeFalsy();
+
+                        chart.overwrite_data = false;
+                        chart.rawData = [[],[[9,3]]];
+                        expect(chart.hasData()).toBeTruthy();
+                        chart.rawData = []; // won't overwrite
+                        expect(chart.hasData()).toBeTruthy();
+                        chart.resetData();
+                        expect(chart.hasData()).toBeFalsy();
+                    }
+                )
+
             });
         });
     });
