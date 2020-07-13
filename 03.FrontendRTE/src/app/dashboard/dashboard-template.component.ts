@@ -26,6 +26,7 @@ export class DashboardTemplateComponent extends DashboardTemplateComponentTOP im
   public data_ridgeline = [];
   public labels_ridgeline : string[] = [];
   public color_gradients_ridgeline : [string, number][] = [];
+  public ridgeline_x_align;
 
   public ngOnInit(): void {
     super.ngOnInit();
@@ -91,6 +92,7 @@ export class DashboardTemplateComponent extends DashboardTemplateComponentTOP im
 
         this.data_ridgeline = new_ridgeline_data;
         this.labels_ridgeline = new_ridgeline_labels;
+        this.ridgeline_x_align = 60000000;
         //this.color_gradients_ridgeline = [["#29b6f6", 0], ["#66bb6a", 18], ["#ff7043", 30]];
         this.color_gradients_ridgeline = [["#6699ff", 0], ["#66bb6a",15], /*["#ffff66", 18],*/ ["#ff7043", 25], ["#cc0000",/*30*/60]];
         //***************************************************
@@ -127,6 +129,7 @@ export class DashboardTemplateComponent extends DashboardTemplateComponentTOP im
 
         this.data_ridgeline = new_ridgeline_data;
         this.labels_ridgeline = new_ridgeline_labels;
+        this.ridgeline_x_align = 10000;
         this.color_gradients_ridgeline = [["#29b6f6", 0], ["#66bb6a", 0.9], ["#ff7043", 1]];
         //***************************************************
       });

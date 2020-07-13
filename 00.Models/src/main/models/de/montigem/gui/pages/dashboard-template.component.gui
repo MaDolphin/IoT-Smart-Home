@@ -104,7 +104,7 @@ webpage DashboardTemplate {
                             [color_gradients]=color_gradients_ridgeline
                             [x_is_time]=\"true\"
                             [show_date]=\"true\"
-                            [align_x_label_to]=60000000>
+                            [align_x_label_to]=ridgeline_x_align>
                             </ridgeline-chart>
                     "}
                 }
