@@ -141,8 +141,8 @@ describe('Components', () => {
                     () => {
                         let further_raw_data = [[[200,49.3],[5.1,-24]],
                                                 [[-1,12]],
-                                                [[-11,42.1],[0,0.3],[-1,33.987]],
-                                                [[1,3]]];
+                                                [[-11,42.1],[0,0.3],[-1,33.987]], //Starts before smallest of data in ridge before -> all data before gets replaced 
+                                                [[1,3]]]; //New ridge added with update
                         let assumed_result = [[[1,5],[2.3,0],[5,4],[5.1,-24],[200,49.3]],
                                               [[-30,7],[-22.3,-5],[-1,12]],
                                               [[-11,42.1],[-1,33.987],[0,0.3]],
