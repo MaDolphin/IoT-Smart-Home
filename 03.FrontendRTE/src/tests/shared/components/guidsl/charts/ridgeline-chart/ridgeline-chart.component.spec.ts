@@ -319,7 +319,7 @@ describe('Components', () => {
                         expect(chart.hasData()).toBeTruthy();
 
                         chart.overwrite_data = true;
-                        chart.rawData = [];
+                        chart.rawData = []; // With overwrite_data=true this corresponds to reset
                         expect(chart.hasData()).toBeFalsy();
 
                         chart.overwrite_data = false;
