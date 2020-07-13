@@ -620,7 +620,22 @@ export class Data
     );
     return gradients;
   }
+
+  /**
+   * Can be used to check if the internal data structure for the ridgelines was set
+   * @returns {boolean} True if data is set, false otherwise
+   */
+  public has_data(): boolean{
+    return this.values.length > 0;
+  }
 }
+
+
+
+
+
+
+
 
 /**
  * This component can be used to create / show a ridgeline chart 
@@ -726,11 +741,6 @@ export class RidgelineChartComponent implements AfterViewInit {
 
 
   /**
-   * Contains the data given by the user without any transformation applied.
-   */
-  private _rawData: number[][][] = [];
-
-  /**
    * The alpha value used for all color-stops.
    */
   private _alpha: number = 1.0;
@@ -785,8 +795,7 @@ export class RidgelineChartComponent implements AfterViewInit {
     //   return;
     // }
 
-    this.had_data_before = this._rawData.length > 0;
-    this._rawData = rawData;
+    this.had_data_before = this.hasData();
 
     //Change behaviour depending on whether we only add data and want to perform our analysis only on that, or whether we actually want to reset the previously set data and overwrite everything
     //Also: First-time behaviour (if no data was set previously) is the same
@@ -832,9 +841,16 @@ export class RidgelineChartComponent implements AfterViewInit {
    * @returns {boolean} True if data is set, false otherwise
    */
   public hasData(): boolean{
-    return this._rawData.length > 0;
+    return this.data.has_data();
   }
 
+
+  /**
+   * Resets the data of the plot.
+   */
+  public resetData() {
+    this.data.set_raw_data([],1);
+  }
 
   /**
    * Callback resize event listener of the window, to adjust canvas & paperjs size
