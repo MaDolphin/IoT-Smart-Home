@@ -35,7 +35,6 @@ export class Ridgeline_Config {
   /** The y-coordinate at which the y-axis will start. */
   y_axis_start: number;
 
-  // TODO deleted that?
   //Detect resize event (window resize callback leads to strange behaviour, so we had to do this differently)
   previous_canvas_width : number = 0;
   previous_canvas_height : number = 0;
@@ -46,13 +45,14 @@ export class Ridgeline_Config {
    * This function has to be called in order to set all parameters.
    * @param labels          The labels of all ridges. Necessary in order to compute needed space on the left side of diagram
    * @param data_rows       The number of ridges.
-   * @param canvas_width    
-   * @param canvas_height 
+   * @param canvas_width    Current width of the canvas (which may change)
+   * @param canvas_height   Current height of the canvas (which may change)
    * @param font_size       font size of axis description in pixel
-   * @param overshoot       how far do one ridge overlaps into another one (in percentage)
-   * @param number_of_lines_of_labels for how many lines of the x-axis labels should be space reserved
+   * @param overshoot       how far one ridge overlaps into another one (in percentage)
+   * @param number_of_lines_of_labels for how many lines of the x-axis labels should space be reserved
    *                                  (e.g. for the label "Line1\nLine2" this should be 2)
    * @param x_axis_value_offset which numerical distance should be between two x-axis-descriptions
+   *                                  (e.g. show 9:00am ----(60min)---> 10:00am ...)
    */
   public set_params(
     labels : string[],
@@ -132,7 +132,7 @@ export class Data
   /** Underlying data (list of 2D data) */
   private values : number[][][] = [];
 
-  /** Transformed data (for drawing) */
+  /** Transformed data (for drawing, transformed to coordinate system of the canvas) */
   private transformed_values : number[][][] = [];
 
 
@@ -142,31 +142,31 @@ export class Data
   /** Range in y direction of data (range of min to max value) */
   public y_range: number = 0;
 
-  /** Range in y direction of data (range of 0 to absolute maximum of min and max) so it equals either y_max or -y_min */
+  /** Range in y direction of data (range of 0 to absolute maximum of min and max) so it equals either y_max or -y_min (used for overshoot / in combination with ridge height scaling) */
   public max_y_range_from_0: number = 0; //
 
   /** Min and max value in x and y dimension of data values, i.e., [[x_min, y_min],[x_max, y_max]] */
   public xy_min_max: number[][] = [];
 
-  /** Smallest x value in data */
+  /** Smallest x value in data (-> where the graph starts) */
   public x_start_value : number = 0;
 
 
   /** Initial value for color gradient */
   private color_gradients : [string, number][] = [];
-  /** Transformed value for color gradient - can be accessed by getter for each data row index */
+  /** Transformed value for color gradient - can be accessed by getter for each data row index (stores color with alpha value set by user, and contains gradient y-coordinates already transformed to the canvas' coordinates) */
   private transformed_color_gradients : [paper.Color, number][][] = [];
   /** See bounding_factor_gradients of RidgelineChartComponent */
   public bounding_factor_gradients = 10;
 
 
   /** 
-   * 'Watcher' for data changes - transform functions are only applied if data has changed.
+   * 'Watcher' for data changes - transform functions are only applied if data or the scaling of the canvas has changed.
    * Set to true if data changed, set to false after transform
    */
   private has_untransformed_data = false;
   /** 
-   * 'Watcher' for data changes - transform functions are only applied if data has changed.
+   * 'Watcher' for data changes - transform functions are only applied if data or the scaling of the canvas has changed.
    * Set to true if data changed, set to false after transform
    */
   private has_untransformed_color_gradients = false;
@@ -207,8 +207,8 @@ export class Data
   }
 
 /**
- * Returns the minimal an maximal values out of all points of all ridge-lines
- * @param data_array  The data of all ridge-lines
+ * Returns the minimal and maximal values out of all points of all ridge-lines
+ * @param data_array  The data of all ridge-lines, assumed to be sorted by x per ridgeline!
  * @returns           [[min_x, min_y], [max_x, max_y]]
  */
   private get_xy_min_max(data_array : number[][][])
@@ -245,7 +245,8 @@ export class Data
   }
 
   /**
-   * Returns the minimal values of y over all y-values in data (x values can be obtained more efficiently bc the data is sorted by x)
+   * Returns the minimal values of y over all y-values in data (x values can be obtained more efficiently because the data is sorted by x)
+   * @param data  The data of one of the ridge-lines
    * @returns In general: min_y. 
    *          If there is no entry in data: INFINITY.
    */
@@ -260,7 +261,8 @@ export class Data
   }
 
   /**
-   * Returns the maximum values of y over all y-values in data (x values can be obtained more efficiently bc the data is sorted by x)
+   * Returns the maximum values of y over all y-values in data (x values can be obtained more efficiently because the data is sorted by x)
+   * @param data  The data of one of the ridge-lines
    * @returns In general: max_y.
    *          If there is no entry in data: -INFINITY.
    */
@@ -276,7 +278,7 @@ export class Data
 
   /**
    * Returns the data restricted to the given x range (to [max_x - x_range, max_x]), only if x_range > 0
-   * @param data Data to restrict, assumed to be sorted!
+   * @param data Data to restrict, assumed to be sorted by x values per ridgeline!
    * @param x_range Desired range of the x values up to the highest value, ignored if <= 0
    */
   private restrict_to_x_range(data: number[][][], x_range: number)
@@ -306,7 +308,7 @@ export class Data
   }
 
   /**
-   * This function sets up all variables of this class dependent on the data.
+   * This function sets up all variables of this class dependent on the data. Existing old data gets overriden.
    * @param data The data of all ridge-line charts.
    * @param max_x_range The window size of the data
    */
@@ -447,7 +449,7 @@ export class Data
   /**
    * Returns the transformed data of the ridge with the given index.
    * @param index Index for which the ridge should be given.
-   * @returns [] if index is greater than the number of ridges (than also an error-message will be logged).
+   * @returns Transformed data of the ridge or [] if index is greater than the number of ridges (then also an error-message will be logged).
    */
   public get_transformed_data_row(index : number)
   {
@@ -467,7 +469,7 @@ export class Data
    * Returns the color gradients specifically transformed for the ridge with the given index,
    * i.e., the values correspond to the exact points on the canvas, which depend on the ridge.
    * @param index Index for the ridge for which the color gradients should be given.
-   * @returns [] if index is greater than the number of ridges (than also an error-message will be logged).
+   * @returns Color gradient values for the current ridge or [] if index is greater than the number of ridges (then also an error-message will be logged).
    */
   public get_transformed_color_gradients(index : number)
   {
@@ -483,10 +485,11 @@ export class Data
   }
 
   /**
-   * Transform data to start at or after x_start value regarding the (same) coordinate system,
+   * Transform data to start at or after x_start value regarding the (same) coordinate system for all ridges,
    * scale the coordinate system to x_range/y_range over a given pixel width/height, start at
    * some (x,y)-pixel using translate_x/_y
    * Also invert y value for drawing
+   * @param config Configuration data to find out on which values to scale / transform the data (e.g. fit data to coordinate system of the canvas)
    */
   public transform_data(config : Ridgeline_Config)
   {
@@ -524,6 +527,8 @@ export class Data
    * Add alpha value to gradients (if desired, else set it to 1.0).
    * This function will log a warning if a computed color stop will reside too far outside of the visible area
    * (see param canvas_height).
+   * @param config Configuration data to find out on which values to scale / transform the data (e.g. fit data to coordinate system of the canvas)
+   * @param alpha Alpha value to be applied to the colors previously set by the user
    * @param canvas_height The current height of the canvas times the constant 5 is used here to limit the
    *                      y-coordinate at which a color stop may reside. That is due to the problem that the
    *                      color gradients will not work properly if they reside too far outside of the visible area.
@@ -637,6 +642,8 @@ export class Data
  * If you want to display density charts, please provide 2D density data already
  * Expected data format: 
  * List of list of [x,y] data (i.e. list for each ridge)
+ * Please make sure that the number of labels corresponds to the number of ridges which should be displayed
+ * (First label corresponds to first ridge etc)
  * 
  * @example
  * <ridgeline-chart
@@ -665,12 +672,12 @@ export class RidgelineChartComponent implements AfterViewInit {
   @Input() overshoot: number = 30;
 
   /**
-   * The labels for the ridges. Will be shown on the left side of the ridges.
+   * The labels for the ridges. Will be shown on the left side of the ridges. Must correspond to the number of ridges (first label -> first ridge etc.)
    */
   @Input() labels: string[] = [];
 
   /**
-   * The font sizes of the x-axes-descriptions and the labels on the left side. Has to be specified in pixels.
+   * The font sizes of the x-axis-descriptions and the labels on the left side. Has to be specified in pixels.
    */
   @Input() font_size: number = 12;
 
@@ -680,7 +687,7 @@ export class RidgelineChartComponent implements AfterViewInit {
    * If false, the newly given data will be appended to the old data in the following manner: The smallest x-value in the new
    * data is detected and every entry in the old data with an x-value greater or equal than this smallest one deleted.
    * Afterwards all new points are appended to the old ones.
-   * To specify the maximum x-range, i.e., when points are deleted again, see max_x_range.
+   * To specify the maximum x-range, i.e., when points are deleted again, see [max_x_range][@link max_x_range]. This creates a "sliding window".
    */
   @Input() overwrite_data: boolean;
 
@@ -692,7 +699,7 @@ export class RidgelineChartComponent implements AfterViewInit {
 
   /**
    * Only relevant if x_is_time=true. Then it determines whether the date should be shown on the x-axis in addition to
-   * the time or not.
+   * the time (hours:minutes:seconds) or not.
    */
   @Input() show_date: boolean=false;
 
@@ -713,7 +720,7 @@ export class RidgelineChartComponent implements AfterViewInit {
   @Input() align_x_label_to = 1000;
 
   /**
-   * Only applied if > 0 and overwrite_data=false.
+   * Only applied if > 0 and [overwrite_data][@link overwrite_data]=false.
    * If new data is appended to the already existing data, every entry with an x-value lower than max(x)-max_x_range
    * will be deleted from the currently shown data. The result is a sliding x-window.
    */
@@ -740,14 +747,18 @@ export class RidgelineChartComponent implements AfterViewInit {
 
   
 
-
+  /** Canvas view, used to draw on */
   @ViewChild('canvas', { read: ElementRef }) canvas_view : ElementRef<HTMLCanvasElement>;
+  /** Canvas as HTML element, extracted from canvas view, used to set up paperjs object and for rescaling */
   private canvas: HTMLCanvasElement;
+  /** Scope for paperjs for this graph */
   private scope: paper.PaperScope;
 
-  //Ridgeline data and configuration
+  /** Ridgeline data object, see [Data class][@link Data] if you want to know implementation internals */
   private data : Data = new Data();
+  /** Ridgeline configuration object, see [Configuration class (Ridgeline_Config)][@link Ridgeline_Config] if you want to know implementation internals */
   private config: Ridgeline_Config = new Ridgeline_Config();
+
   /**
    * Remember if data has ever been set before (for first-time setup)
    */
@@ -769,13 +780,13 @@ export class RidgelineChartComponent implements AfterViewInit {
 
 
   /**
-   * Set raw data which is then shown in the plot.
+   * Set raw data which is then transformed and shown in the plot
    * 
    * @param {number[][][]} rawData 
    * Consists of a list of:
    *  a list of [x, y] data (for each ridgeline)
-   * to be displayed.
-   * Note: If you want to display density charts, please not that you need to compute them yourself, and then just pass them as [x, y] data
+   * to be displayed. 
+   * Note: If you want to display density charts, please note that you need to compute them yourself, and then just pass them as [x, y] data
    */
   @Input()
   public set rawData(rawData: number[][][]){
@@ -806,7 +817,7 @@ export class RidgelineChartComponent implements AfterViewInit {
    * Use this to set color gradients:  
    * The gradient-stops then start at y_value with a color given by color_string.
    * Note: If the y-value of a gradient-stop is significantly larger/smaller than the max/min of the data shown in the diagram,
-   * the algorithm will limit the gradient-stop's y-value. If that is'nt done, the gradients would not work properly in
+   * the algorithm will limit the gradient-stop's y-value (see [bounding_factor_gradients][@link bounding_factor_gradients]). If that is not done, the gradients would not work properly in
    * some cases due to paperjs as the underlying framework. If the limiting is applied, a warning will be logged. 
    * 
    * @type {[string, number][]} gradients in the form of [color_string, y_value_stop]
@@ -841,7 +852,9 @@ export class RidgelineChartComponent implements AfterViewInit {
     this.data.set_raw_data([],1);
   }
 
-
+  /**
+   * Callback resize event listener of the window, to adjust canvas & paperjs size
+   */
   private adjust_size()
   {
     //Canvas scales automatically to width

@@ -53,25 +53,7 @@ public class SensorHandler {
 
     for (Pair<SensorType, Session> sensor : sensors) {
       if (currentTime.getSecond() % getSecondsForSensorType(sensor.getLeft()) == 0) {
-        switch (sensor.getLeft()){
-          case TEMPERATURE:
-            sendToSensor_GaugeChart(daoLib, WebSocketService.getJWT(sensor.getRight()).getResource(), currentTime, sensor);
-            break;
-          case LIGHT:
-            break;
-          case ANGLE:
-            break;
-          case CO2:
-            break;
-          case MOTION:
-            break;
-          case PERCENT:
-            break;
-          default:
-            sendToSensor(daoLib, WebSocketService.getJWT(sensor.getRight()).getResource(), currentTime, sensor);
-            break;
-        }
-//        sendToSensor(daoLib, WebSocketService.getJWT(sensor.getRight()).getResource(), currentTime, sensor);
+        sendToSensor(daoLib, WebSocketService.getJWT(sensor.getRight()).getResource(), currentTime, sensor);
       }
     }
   }
