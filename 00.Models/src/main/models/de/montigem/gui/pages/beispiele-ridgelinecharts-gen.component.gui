@@ -1,17 +1,23 @@
 webpage RidgelineChartSamplePage(
     socket RidgelineChartData chartData1,
-    //socket RidgelineGraph ridgeLineData,
     all RidgelineChartData chartData
-    //all BeispieleLineChart lineChartData2
 ) {  // webpage declaration with data init
-
   column(nospace) {
       navigation "navigationBarLinks" {
           tab "Info" {
-            link: "../charts"
+              link: "../charts"
+          }
+          tab "Density & Gauge Charts" {
+            link: "../density_gauge_dashboard"
           }
           tab "BarCharts" {
-            link: "../barcharts/1"
+              link: "../barcharts"
+          }
+          tab "Heatmap" {
+              link: "../heatmapcharts"
+          }
+          tab "GaugeCharts" {
+            link: "../gaugecharts"
           }
           tab "HorizontalBarCharts" {
               link: "../horizontalbarcharts"
@@ -22,11 +28,11 @@ webpage RidgelineChartSamplePage(
           tab "PieCharts" {
             link: "../piecharts/1"
           }
-          tab "LineCharts" {
-              link: "../linecharts"
-            }
+          tab "DensityChart" {
+            link: "../densitycharts"
+          }
           tab "Ridgeline" {
-              link: "./"
+            link: "./"
           }
       }
   }
@@ -63,26 +69,18 @@ webpage RidgelineChartSamplePage(
                 <ridgeline-chart
                   [alpha]=0.2
                   [overshoot]=30
-                  [rawData]=data_dynamic
+                  [raw_data]=data_dynamic
                   [overwrite_data]=\"false\"
                   [labels]=labels_dynamic
                   [font_size]=12
                   [color_gradients]=color_gradients_dynamic
-                  [x_is_time]=\"true\"
+                  [x_is_time]=\"false\"
                   [show_date]=\"false\"
-                  [align_x_label_to]=1000
-                  [max_x_range]=10>
+                  [align_x_label_to]=5
+                  [max_x_range]=10
+                  [relative_x_precision]=1>
                 </ridgeline-chart>
               "}
-                //ridgelinechart "RidgeLineChart" {           // line chart declaration with name
-                    //data : <lineChartData         // data reference (see first line)
-                    // stepSizeX : 3              // X Axis step size (irrelevant if realtime chart)
-                    //stepSizeY : 2                 // Y Axis step size
-                    //title: "Realtime LineChart"   // chart title
-                    //realtime                      // if chart shows realtime data (enables animation)
-                    // overwriteData              // incoming data overwrites current data for chart if set,
-                                                // otherwise the data is appended to existing list
-                //}
             }
         }
     }
@@ -98,7 +96,7 @@ webpage RidgelineChartSamplePage(
                 <ridgeline-chart
                   [alpha]=0.8
                   [overshoot]=30
-                  [rawData]=data_static
+                  [raw_data]=data_static
                   [overwrite_data]=\"true\"
                   [labels]=labels_static
                   [font_size]=12

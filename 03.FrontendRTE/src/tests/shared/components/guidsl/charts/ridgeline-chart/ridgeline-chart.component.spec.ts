@@ -313,22 +313,22 @@ describe('Components', () => {
 
                 it('has_data and reset',
                     () => {
-                        expect(chart.hasData()).toBeFalsy();
+                        expect(chart.has_data()).toBeFalsy();
 
-                        chart.rawData = [[[9,3]]];
-                        expect(chart.hasData()).toBeTruthy();
+                        chart.raw_data = [[[9,3]]];
+                        expect(chart.has_data()).toBeTruthy();
 
                         chart.overwrite_data = true;
-                        chart.rawData = []; // With overwrite_data=true this corresponds to reset
-                        expect(chart.hasData()).toBeFalsy();
+                        chart.raw_data = []; // With overwrite_data=true this corresponds to reset
+                        expect(chart.has_data()).toBeFalsy();
 
                         chart.overwrite_data = false;
-                        chart.rawData = [[],[[9,3]]];
-                        expect(chart.hasData()).toBeTruthy();
-                        chart.rawData = []; // won't overwrite
-                        expect(chart.hasData()).toBeTruthy();
-                        chart.resetData();
-                        expect(chart.hasData()).toBeFalsy();
+                        chart.raw_data = [[],[[9,3]]];
+                        expect(chart.has_data()).toBeTruthy();
+                        chart.raw_data = []; // won't overwrite
+                        expect(chart.has_data()).toBeTruthy();
+                        chart.reset_data();
+                        expect(chart.has_data()).toBeFalsy();
                     }
                 )
 

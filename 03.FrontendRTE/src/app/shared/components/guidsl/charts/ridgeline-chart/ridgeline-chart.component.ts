@@ -638,18 +638,18 @@ export class Data
 
 
 /**
- * This component can be used to create / show a ridgeline chart 
+ * This component can be used to create / show a ridgeline chart.
  * If you want to display density charts, please provide 2D density data already
  * Expected data format: 
- * List of list of [x,y] data (i.e. list for each ridge)
- * Please make sure that the number of labels corresponds to the number of ridges which should be displayed
- * (First label corresponds to first ridge etc)
+ * List of list of [x,y] data (i.e. list for each ridge).
+ * Please make sure that the number of labels corresponds to the number of ridges which should be displayed.
+ * (First label corresponds to first ridge etc.).
  * 
  * @example
  * <ridgeline-chart
  *  [alpha]=0.8
  *  [overshoot]=30
- *  [rawData]=data_ridgeline
+ *  [raw_data]=data_ridgeline
  *  [overwrite_data]="true"
  *  [labels]=labels_ridgeline
  *  [font_size]=12
@@ -782,31 +782,31 @@ export class RidgelineChartComponent implements AfterViewInit {
   /**
    * Set raw data which is then transformed and shown in the plot
    * 
-   * @param {number[][][]} rawData 
+   * @param {number[][][]} raw_data 
    * Consists of a list of:
    *  a list of [x, y] data (for each ridgeline)
    * to be displayed. 
    * Note: If you want to display density charts, please note that you need to compute them yourself, and then just pass them as [x, y] data
    */
   @Input()
-  public set rawData(rawData: number[][][]){
-    // if (rawData.length <= 0)
+  public set raw_data(raw_data: number[][][]){
+    // if (raw_data.length <= 0)
     // {
     //   return;
     // }
 
-    this.had_data_before = this.hasData();
+    this.had_data_before = this.has_data();
 
     //Change behaviour depending on whether we only add data and want to perform our analysis only on that, or whether we actually want to reset the previously set data and overwrite everything
     //Also: First-time behaviour (if no data was set previously) is the same
     if (this.overwrite_data || !this.had_data_before)
     {
-      this.data.set_raw_data(rawData, this.max_x_range);
+      this.data.set_raw_data(raw_data, this.max_x_range);
     }
-    else if (rawData.length > 0)
+    else if (raw_data.length > 0)
     {
       //This is a bit less CPU-expensive - we set the data block that needs to be updated, which can change e.g. the x-range of our data
-      this.data.update_raw_data(rawData, this.max_x_range);
+      this.data.update_raw_data(raw_data, this.max_x_range);
     }
 
     //Transformation of the (new) data now depends e.g. on the size on the canvas and thus is done within UI functions
@@ -840,7 +840,7 @@ export class RidgelineChartComponent implements AfterViewInit {
    * Can be used to check if the internal data structure for the ridgelines was set
    * @returns {boolean} True if data is set, false otherwise
    */
-  public hasData(): boolean{
+  public has_data(): boolean{
     return this.data.has_data();
   }
 
@@ -848,7 +848,7 @@ export class RidgelineChartComponent implements AfterViewInit {
   /**
    * Resets the data of the plot.
    */
-  public resetData() {
+  public reset_data() {
     this.data.set_raw_data([],1);
   }
 
@@ -906,7 +906,7 @@ export class RidgelineChartComponent implements AfterViewInit {
       this.data.transform_color_gradients(this.config, this._alpha, this.canvas.height);
 
       // Should not be called too often
-      if (this.hasData()){
+      if (this.has_data()){
         this.scope.project.clear();
 
         //Draw grid for data

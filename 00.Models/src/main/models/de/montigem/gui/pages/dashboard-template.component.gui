@@ -97,7 +97,7 @@ webpage DashboardTemplate {
                             <ridgeline-chart
                             [alpha]=0.8
                             [overshoot]=30
-                            [rawData]=data_ridgeline
+                            [raw_data]=data_ridgeline
                             [overwrite_data]=\"true\"
                             [labels]=labels_ridgeline
                             [font_size]=\"12\"
