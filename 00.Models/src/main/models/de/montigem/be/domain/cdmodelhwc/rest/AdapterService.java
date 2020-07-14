@@ -124,6 +124,8 @@ public class AdapterService {
 					getClass());
 		}
 
+		//The following code sends the retrieved data to the database with the SensorDAO
+
 		JsonElement element = new Gson().fromJson(json, JsonElement.class);
 		float value = element.getAsJsonObject().get("data").getAsFloat();
 		ZonedDateTime timeStamp = ZonedDateTime.now();

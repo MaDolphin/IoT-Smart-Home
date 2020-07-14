@@ -201,6 +201,22 @@ public class SensorDAO extends SensorDAOTOP {
         }
         return sensor.getValues();
     }
+
+    /**
+     * @Description: extract sensor data from json string containing the JSON array "data"
+     * Example JSON:
+     * { "data": [
+     *    {"sensorId":"SensorX20", "type":"ANGLE", "value":82, "timeStamp":"{{timestamp}}"},
+     *    {"sensorId":"SensorX21", "type":"LIGHT", "value":89, "timeStamp":"{{timestamp}}"},
+     *    {"sensorId":"SensorX22", "type":"CO2", "value":90, "timeStamp":"{{timestamp}}"},
+     *    {"sensorId":"SensorX23", "type":"TEMPERATURE", "value":91, "timeStamp":"{{timestamp}}"},
+     *    {"sensorId":"SensorX24", "type":"PERCENT", "value":92, "timeStamp":"{{timestamp}}"},
+     *    {"sensorId":"SensorX25", "type":"MOTION", "value":93, "timeStamp":"{{timestamp}}"}
+     *   ]
+     * }
+     * @Param: [json]
+     * @return: java.lang.String
+     */
     @Transactional
     public String parseSensorValue(String json){
         try {

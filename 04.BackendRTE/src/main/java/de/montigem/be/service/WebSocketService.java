@@ -104,7 +104,7 @@ public class WebSocketService {
         SensorHandler.getInstance().add(session, SensorType.valueOf(usage));
         // + do the same as default
       case None:
-      case Add: //If client wants to add sensorData in JSON format - usage has no effect
+      case Add: //If the websocket client wants to add sensorData in JSON format - the usage field has no effect
         callback = msg -> daoLib.getSensorDAO().parseSensorValue(msg);
         break;
       default:
