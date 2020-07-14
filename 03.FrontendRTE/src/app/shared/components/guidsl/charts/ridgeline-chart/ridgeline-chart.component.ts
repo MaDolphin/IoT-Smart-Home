@@ -336,7 +336,6 @@ export class Data
     //Get relevant data information
     this.xy_min_max = this.get_xy_min_max(this.values);
     this.compute_ranges();
-    console.log(this.values);
 
     //Transform needs to be called
     this.has_untransformed_data = true;
@@ -997,8 +996,6 @@ export class RidgelineChartComponent implements AfterViewInit {
   private plot_ridge(data_row: number[][], gradient_max_y_values: [paper.Color, number][], index: number)
   {
     let y_from = this.config.y_axis_start + this.config.ridges_offset * index;
-
-    //console.log(data_row);
 
     //Only draw a plot if there's actually any data
     if (data_row.length == 0)

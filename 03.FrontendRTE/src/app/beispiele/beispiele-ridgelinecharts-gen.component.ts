@@ -175,17 +175,6 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
         let data_transformed = this.split_data_on_days(this.transformDTO(this.chartData)[0]);
         this.data_static = data_transformed[0];
         this.labels_static = data_transformed[1];
-        //Just for presentation
-        // this.data_static = [];
-        // for (let j = 0; j < 2; ++j)
-        // {
-        //   this.data_static[j] = [];
-        //   for (let i = -2; i < 15; i+=0.25)
-        //   {
-        //     this.data_static[j].push([i * 360000, Math.sin((i + j) / 2.0) * Math.random() * 20]);
-        //   }
-        // }
-        // this.labels_static = ["Income Mon", "Income Tue"];
       });
   }
 
@@ -201,7 +190,13 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     let res_data = [];
     let res_labels = [];
     let current_value_index = 0;
-    
+
+    if (data[0].length > 0){
+      // Skip all values which are more than 7 days due.
+      let now = new Date();
+      let seven_days_ago = new Date(now.getTime()-518400000);
+      current_value_index = data[0].findIndex(x => (new Date(x[0])).getDate()>=seven_days_ago.getDate());
+    }
 
     while (current_value_index < data[0].length){
       res_data.push([]); // Append one ridge for each day
@@ -215,30 +210,14 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
       let d_str = date.getDate().toString().padStart(2,"0");
       res_labels.push(''+d_str+"."+month_str+"."+y_str+"\n");
 
-
-      // For logging
-      // let h_str = date.getHours().toString().padStart(2,"0");
-      // let min_str = date.getMinutes().toString().padStart(2,"0");
-      // let s_str = date.getSeconds().toString().padStart(2,"0");
-      // //let ms_str = date.getMilliseconds().toString().padStart(3,"0");
-      // console.log(''+h_str+':'+min_str+':'+s_str);
-
       while ((current_value_index < data[0].length) && (current_day == (new Date(data[0][current_value_index][0]).getDate()))){
-        let new_data_entry = [data[0][current_value_index][0] % 86400000, data[0][current_value_index][1]];
+        let new_data_entry = [data[0][current_value_index][0] % 86400000 + 82800000, // %--> Same values in x-direction; +... --> value = equals 1:00:00 GMT
+                              data[0][current_value_index][1]];
         res_data[res_data.length-1].push(new_data_entry);
         current_value_index++;
       }
     }
-
     return [res_data, res_labels];
-
-    // for (let ridge_index=0; ridge_index<data[0].length; ridge_index++){
-    //   while (current_day == (new Date(data[0][current_valu][0]).getDate())){
-
-    //   }
-    // }
-
-    // Assume subsequent days
   }
 
 
@@ -315,18 +294,6 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
     }
     let all_data = [test_data_1, test_data_2, test_data_3, test_data_4, test_data_5];
 
-    //For test purposes
-    // let thresholds = [-15, -5, 0, 5, 10, 15, 20, 25];
-    // let bandwidth = 1.0;
-    // let test_raw_data = [];
-    // for (let data of all_data)
-    // {
-    //   test_raw_data.push(this.get_kde(thresholds, bandwidth, this.get_column(data)));
-    // }
-
-    // console.log(test_raw_data);
-    
-    // return test_raw_data;
     return all_data;
   }
 

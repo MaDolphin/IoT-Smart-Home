@@ -37,6 +37,29 @@ webpage RidgelineChartSamplePage(
       }
   }
 
+  row (space-evenly, spaceabove) {
+    container(90%) {
+      card {
+          head{
+              row(stretch) {
+                  label "Explanation"
+              }
+          }
+          body {
+              row {
+                  textoutput {
+                      "On the left side you can see a dynamic plot. The intention of this plot is not to show the communication with the Backend. Instead, the focus lies on demonstrating the real-time capabilities of the RidgelineChartComponent. As a consequence the data for this plot is not sent from the backend, but generated in beispiele-ridgelinecharts-gen.component.ts. However, it also indicates a proper functioning of the socket-architecture, because each time a message is received a new value of the generated data is added to the plot-data, i.e., the socket-architecture works as pulsing."
+                  }
+              }
+              row {
+                  textoutput {
+                      "In order to activate the plot on the right side, you need to add data to the Backend by executing 07.Scripts/Tools/DataGeneratorStaticRidgeline.py. This plot indicates that RidgelineCharts can be used for various purposes, e.g., it shows the trend of the data of one fictitious temperature sensor over several days."
+                  }
+              }
+          }
+      }
+    }
+  }
 
   row (space-evenly, spaceabove) {
 
