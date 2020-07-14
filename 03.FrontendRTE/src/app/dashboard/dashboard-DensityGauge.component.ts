@@ -3,12 +3,12 @@ import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CommandRestService} from '@shared/architecture/command/rte/command.rest.service';
 import {WebSocketService} from "@services/websocket.service";
-import {BeispieleDensityGaugeDashboardGenComponentTOP} from "@targetgui/beispiele-density-gauge-dashboard-gen.component/beispiele-density-gauge-dashboard-gen.component-top";
+import {DashboardDensityGaugeComponentTOP} from "@targetgui/dashboard-DensityGauge.component/dashboard-DensityGauge.component-top";
 
 @Component({
-    templateUrl: '../../../target/generated-sources/gui/beispiele-density-gauge-dashboard-gen.component/beispiele-density-gauge-dashboard-gen.component.html',
+    templateUrl: '../../../target/generated-sources/gui/dashboard-DensityGauge.component/dashboard-DensityGauge.component.html',
 })
-export class DashboardDensityGaugeComponent extends BeispieleDensityGaugeDashboardGenComponentTOP {
+export class DashboardDensityGaugeComponent extends DashboardDensityGaugeComponentTOP {
     constructor(protected _webSocketService: WebSocketService,
                 protected _router: Router,
                 protected _route: ActivatedRoute,

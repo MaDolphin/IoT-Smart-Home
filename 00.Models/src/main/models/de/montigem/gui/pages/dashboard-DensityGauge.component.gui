@@ -33,7 +33,7 @@ row (space-evenly, spaceabove) {
              Passend zu der Auswahl werden in den Diagrammen,
              die jeweils dazu gehörigen Daten angezeigt.
              Das GaugeChart zeigt die aktuellen Daten an und unten im
-             DensityChart kann der zeitliche Verlauf der Daten analysiert werden.
+             DensityChart können die Häufigkeiten der Daten analysiert werden.
           "}
           dropdown "" {
             input: <sensorType
