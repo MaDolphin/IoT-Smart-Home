@@ -8,14 +8,14 @@ import {BeispieleDensityGaugeDashboardGenComponentTOP} from "@targetgui/beispiel
 @Component({
     templateUrl: '../../../target/generated-sources/gui/beispiele-density-gauge-dashboard-gen.component/beispiele-density-gauge-dashboard-gen.component.html',
 })
-export class BeispieleDensityGaugeDashboardGenComponent extends BeispieleDensityGaugeDashboardGenComponentTOP {
+export class DashboardDensityGaugeComponent extends BeispieleDensityGaugeDashboardGenComponentTOP {
     constructor(protected _webSocketService: WebSocketService,
                 protected _router: Router,
                 protected _route: ActivatedRoute,
                 protected _commandRestService: CommandRestService) {
 
         super(_commandRestService, _route, _router, _webSocketService);
-    }
+    } 
 
     title = 'Density & Gaugechart';
     public densitysensordata;

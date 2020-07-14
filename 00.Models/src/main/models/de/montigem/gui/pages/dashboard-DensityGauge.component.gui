@@ -1,0 +1,75 @@
+webpage DensityGaugeDashboardSamplePage(socket LineGraph data,
+    all DensitySensorData densitysensordata,
+    all GaugeChartData chartData
+) {  // webpage declaration with data init
+
+  column(nospace) {
+      navigation "navigationBarLinks" {            
+            tab "Dashboard" {
+              link: "../dashboard"
+            }
+            tab "Template" {
+              link: "../template"
+            }
+            tab "Example-RlHm" {
+              link: "../Example-RlHm"
+            }
+            tab "DensityGauge" {
+              link: "./"
+            }
+            
+        }
+    }
+
+row (space-evenly, spaceabove) {
+  container(60%) {
+      card {
+        head {
+          label "Dashboard"
+        }
+        body {
+          textoutput {"
+             Wähle hier die Art von Sensoren, die angezeigt werden sollen.
+             Passend zu der Auswahl werden in den Diagrammen,
+             die jeweils dazu gehörigen Daten angezeigt.
+             Das GaugeChart zeigt die aktuellen Daten an und unten im
+             DensityChart kann der zeitliche Verlauf der Daten analysiert werden.
+          "}
+          dropdown "" {
+            input: <sensorType
+            labelAbove
+          }
+        }
+      }
+    }
+}
+row (space-evenly, spaceabove) {
+    container(40%) {
+        card {
+          head {
+            label "Gauge Chart"
+          }
+          body {
+            html {" <gauge-chart
+                      [data]=\"chartData\"
+                      [sensorType]=\"sensorType\"
+                      [min]=\"-40\"
+                      [max]=\"50\"
+            ></gauge-chart> "}
+          }
+        }
+      } // container for card 2
+    container(50%) {
+        card {
+            head {
+            row(stretch){
+                label "Density Chart"
+                }
+            }
+            body {
+              html {"<density-chart [data2]=\"densitysensordata\" [sensorType]=\"sensorType\"></density-chart>"}
+            }
+        }
+    }
+}
+}

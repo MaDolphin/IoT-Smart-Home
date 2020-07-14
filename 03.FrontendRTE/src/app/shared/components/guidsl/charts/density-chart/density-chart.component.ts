@@ -18,7 +18,9 @@ export class DensityChartComponent implements OnChanges {
   data2;
   @Input()
   transitionTime = 1000;
-
+  @Input()
+  sensorType;
+ 
   levels:Array<datatypes> = [
       {num: 0, name: "temperature"},
       {num: 1, name: "CO2"},
@@ -35,7 +37,7 @@ export class DensityChartComponent implements OnChanges {
 
   constructor() {}
 
-  margin = {top: 30, right: 600, bottom: 30, left: 100};
+  margin = {top: 30, right: 200, bottom: 50, left: 100};
   firstCall = 1;
   currentData: Array<Data2Model> = [];
   x; // x axis
@@ -44,8 +46,27 @@ export class DensityChartComponent implements OnChanges {
   paths; // path element for each density curve
 
   /*** update chart if new data arrives **/
-  ngOnChanges(changes: SimpleChanges): void {  
-    this.updateData(false);
+  ngOnChanges(changes: SimpleChanges): void { 
+    if(this.selectedLevel.name == this.sensorType)
+    {
+        this.updateData(false);
+    }else{
+        console.log(this.sensorType);
+        if(this.sensorType === "CO2")
+        {
+            this.selectedLevel = this.levels[1];
+        }
+        else if(this.sensorType === "Temperature")
+        {
+            this.selectedLevel = this.levels[0];
+        }
+        else if(this.sensorType === "All")
+        {
+            this.selectedLevel = this.levels[2];
+        }
+        console.log(this.selectedLevel.name);
+        this.onSelectionChange();
+    }
   }
   
   /**if user changes selection display new chart**/
@@ -209,8 +230,8 @@ export class DensityChartComponent implements OnChanges {
       /**
        * Creates the legend
        */
-      this.svg.append('circle').attr('cx', 750).attr('cy', 30 * index + 40).attr('r', 6).style('fill', color[index]);
-      this.svg.append('text').attr('x', 770).attr('y', 30 * index + 40).text(this.getTypeFromSensorId(types[index]))
+      this.svg.append('circle').attr('cx', 50+index*120).attr('cy', 150).attr('r', 6).style('fill', color[index]);
+      this.svg.append('text').attr('x', 60+index*120).attr('y', 150).text(this.getTypeFromSensorId(types[index]))
         .style('font-size', '14px').attr('alignment-baseline', 'middle');
     }
   }

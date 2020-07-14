@@ -23,6 +23,7 @@ export class BeispieleDensitychartsGenComponent extends BeispieleDensitychartGen
     }
     title = 'Densitychart';
     public densitysensordata;
+    public sensorType;
     
     
     
