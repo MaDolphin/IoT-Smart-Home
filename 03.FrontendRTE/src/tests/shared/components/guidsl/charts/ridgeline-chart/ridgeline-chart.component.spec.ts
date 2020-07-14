@@ -1,4 +1,4 @@
-import { Data, RidgelineChartComponent, Ridgeline_Config } from '@shared/components/guidsl/charts/ridgeline-chart/ridgeline-chart.component'
+import { Data, RidgelineChartComponent, RidgelineConfig } from '@shared/components/guidsl/charts/ridgeline-chart/ridgeline-chart.component'
 import * as paper from 'paper';
 import { N } from '@angular/cdk/keycodes';
 import { TestBed, async } from '@angular/core/testing';
@@ -63,7 +63,7 @@ describe('Components', () => {
                     this.dataT.set_raw_data(raw_data, 1000);
                     this.dataT.set_color_gradients(color_gradients);
 
-                    let config = new Ridgeline_Config();
+                    let config = new RidgelineConfig();
                     config.set_params(["1","2"], 2, 1000, 797, 14, 20, 2, 100);
 
                     this.dataT.transform_data(config);
@@ -242,10 +242,10 @@ describe('Components', () => {
                 it('Config: set_params',
                     () => {
                         // Create Config
-                        this.config = new Ridgeline_Config();
+                        this.config = new RidgelineConfig();
                         this.config.set_params(["1","2"], 2, 1000, 797, 14, 20, 2, 100);
 
-                        let config : Ridgeline_Config = this.config;
+                        let config : RidgelineConfig = this.config;
                         expect(config.ridges_offset).toEqual(225);
                         expect(config.ridges_height).toEqual(270);
                         expect(config.grid_line_start_x).toBeCloseTo(18,0.5);

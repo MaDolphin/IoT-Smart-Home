@@ -8,7 +8,7 @@ import { Config } from 'protractor';
  * needed to transform and plot the data of the Ridgelines.
  * Export ONLY for testing!
  */
-export class Ridgeline_Config {
+export class RidgelineConfig {
   /// ridges
   /** Describes the size ot the space between two subsequent ridges. */
   ridges_offset: number;
@@ -490,7 +490,7 @@ export class Data
    * Also invert y value for drawing
    * @param config Configuration data to find out on which values to scale / transform the data (e.g. fit data to coordinate system of the canvas)
    */
-  public transform_data(config : Ridgeline_Config)
+  public transform_data(config : RidgelineConfig)
   {
     //Only transform if that is necessary
     if (!this.has_untransformed_data && !config.size_was_changed)
@@ -532,7 +532,7 @@ export class Data
    *                      y-coordinate at which a color stop may reside. That is due to the problem that the
    *                      color gradients will not work properly if they reside too far outside of the visible area.
    */
-  public transform_color_gradients(config : Ridgeline_Config, alpha : number, canvas_height : number)
+  public transform_color_gradients(config : RidgelineConfig, alpha : number, canvas_height : number)
   {
     //Only transform if that is necessary
     if ((!this.has_untransformed_color_gradients || this.values.length == 0) && !config.size_was_changed)
@@ -755,8 +755,8 @@ export class RidgelineChartComponent implements AfterViewInit {
 
   /** Ridgeline data object, see [Data class][@link Data] if you want to know implementation internals */
   private data : Data = new Data();
-  /** Ridgeline configuration object, see [Configuration class (Ridgeline_Config)][@link Ridgeline_Config] if you want to know implementation internals */
-  private config: Ridgeline_Config = new Ridgeline_Config();
+  /** Ridgeline configuration object, see [Configuration class (RidgelineConfig)][@link RidgelineConfig] if you want to know implementation internals */
+  private config: RidgelineConfig = new RidgelineConfig();
 
   /**
    * Remember if data has ever been set before (for first-time setup)
@@ -930,7 +930,7 @@ export class RidgelineChartComponent implements AfterViewInit {
    * @param data Data class which stores information about e.g. the data range, which is useful for drawing the x- and y-axis
    * @param config Configuration data, explicitly set by the user or derived from the set data, to e.g. find out where to draw the labels
    */
-  private plot_grid(labels: string[], data: Data, config: Ridgeline_Config)
+  private plot_grid(labels: string[], data: Data, config: RidgelineConfig)
   {
     //Val for later
     let line_start_x = config.grid_line_start_x;
