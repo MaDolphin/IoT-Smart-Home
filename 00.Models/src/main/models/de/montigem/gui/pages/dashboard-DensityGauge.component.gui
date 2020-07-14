@@ -4,42 +4,25 @@ webpage DensityGaugeDashboardSamplePage(socket LineGraph data,
 ) {  // webpage declaration with data init
 
   column(nospace) {
-      navigation "navigationBarLinks" {
-          tab "Info" {
-              link: "../charts"
-          }
-          tab "Density & Gauge Charts" {
-            link: "./"
-          }
-          tab "BarCharts" {
-              link: "../barcharts"
-          }
-          tab "Heatmap" {
-              link: "../heatmapcharts"
-          }
-          tab "GaugeCharts" {
-            link: "../gaugecharts"
-          }
-          tab "HorizontalBarCharts" {
-              link: "../horizontalbarcharts"
-          }
-          tab "TimeLineCharts" {
-              link: "../timelinecharts/1"
-          }
-          tab "PieCharts" {
-            link: "../piecharts/1"
-          }
-          tab "DensityChart" {
-            link: "../densitycharts"
-          }
-          tab "Ridgeline" {
-            link: "../ridgelinecharts"
-          }
-      }
-  }
+      navigation "navigationBarLinks" {            
+            tab "Dashboard" {
+              link: "../dashboard"
+            }
+            tab "Template" {
+              link: "../template"
+            }
+            tab "Example-RlHm" {
+              link: "../Example-RlHm"
+            }
+            tab "DensityGauge" {
+              link: "./"
+            }
+            
+        }
+    }
 
 row (space-evenly, spaceabove) {
-  container(40%) {
+  container(60%) {
       card {
         head {
           label "Dashboard"
@@ -59,6 +42,8 @@ row (space-evenly, spaceabove) {
         }
       }
     }
+}
+row (space-evenly, spaceabove) {
     container(40%) {
         card {
           head {
@@ -73,12 +58,8 @@ row (space-evenly, spaceabove) {
             ></gauge-chart> "}
           }
         }
-      }
-}
-
-row (space-evenly, spaceabove) {
-    // container for card 2
-    container(80%) {
+      } // container for card 2
+    container(50%) {
         card {
             head {
             row(stretch){
@@ -86,10 +67,9 @@ row (space-evenly, spaceabove) {
                 }
             }
             body {
-              html {"<density-chart [data2]=\"densitysensordata\"></density-chart>"}
+              html {"<density-chart [data2]=\"densitysensordata\" [sensorType]=\"sensorType\"></density-chart>"}
             }
         }
     }
 }
-
 }

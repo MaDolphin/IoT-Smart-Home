@@ -16,6 +16,9 @@ webpage DashboardExampleRlHm(
             tab "Example-RlHm" {
               link: "./"
             }
+            tab "DensityGauge" {
+              link: "../DensityGauge"
+            }
         }
     }
 

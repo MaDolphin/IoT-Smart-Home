@@ -24,6 +24,7 @@ import { GuiDslComponentsModule } from '@shared/components/guidsl/guidsl-compone
 import { InputModule } from '@shared/components/guidsl/input/input.module';
 import { DashboardComponent } from '@dashboard/dashboard.component';
 import {DashboardExampleRlHmComponent} from '@dashboard/dashboard-ExampleRlHm.component';
+import { DashboardDensityGaugeComponent } from '@dashboard/dashboard-DensityGauge.component';
 import {InfoComponent} from './info/info.component';
 import {DashboardTemplateComponent} from '@dashboard/dashboard-template.component';
 
@@ -52,6 +53,7 @@ export const MY_DATE_FORMATS = {
     AppComponent,
     DashboardComponent,
     DashboardExampleRlHmComponent,
+    DashboardDensityGaugeComponent, 
     DashboardTemplateComponent,
     InfoComponent
   ],
