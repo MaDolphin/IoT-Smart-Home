@@ -221,7 +221,12 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
   }
 
 
-  
+  /**
+   * Returns the data which is to be shown in the plot
+   * Note: This function itself generates data and, thus, the messages only work as pulsing.
+   * Consequently, here is no real connection to the backend. (Also see explanation on corresponding webpage.)
+   * @param message The currently received message from backend.
+   */
   public getData(message){
     if (this.useDynamicBackendData){ // Currently sent via REST (all) and not via websocket
       // Transforme data_static to that which is necessary here
@@ -231,7 +236,7 @@ export class BeispieleRidgelinechartsGenComponent extends BeispieleRidgelinechar
       console.log("TODO: Add socket getData part again!");
 
     } else {
-      // NOTE: ONLY FOR TESTING (QUICK AND DIRTY)
+      // Note: This is only code for demonstrating the capabilities of the Ridgelineplot
       if (!this.realtimeTest){
         return this.dummyData;
       }
