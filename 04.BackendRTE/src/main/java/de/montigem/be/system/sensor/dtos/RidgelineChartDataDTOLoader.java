@@ -33,7 +33,7 @@ public class RidgelineChartDataDTOLoader extends RidgelineChartDataDTOLoaderTOP 
     System.out.println("Seconds:"+seconds);
     List<RidgelineDataEntryDTO> entries1 = new ArrayList<>();
     List<SensorValue> values = daoLib.getSensorDAO().getListOfSensorValueById("1");
-    if(!values.isEmpty() || values != null) {
+    if(values != null) {
       for (SensorValue ausgabe : values) {
         entries1.add(new RidgelineDataEntryDTO(1, ausgabe.getTimestamp().toInstant().toEpochMilli(), ausgabe.getValue()));
 
