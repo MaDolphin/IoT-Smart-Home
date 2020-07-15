@@ -68,7 +68,7 @@ describe('Components', () => {
 
                 it('timeToString',
                     () => {
-                        expect('0:00').toEqual(component.timeToString(0,86400));
+                        expect('0:00').toEqual(component.timeToString(component.getUTCOffset(),86400));
                     }
                 );
 

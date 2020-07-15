@@ -58,33 +58,36 @@ webpage DashboardExampleRlHm(
       }
     }
   }
-  row (space-evenly, spaceabove) {
-    card {
-          head {
-            row(stretch) {
-              label "Heatmap Chart of Temperatures"
+  row (space-evenly, space : r l) {
+    container(45%) {
+      card {
+            head {
+              row(stretch) {
+                label "Heatmap Chart of Temperatures"
+              }
             }
+            body{
+              html {"
+                      <heatmap-chart [data]=\"temperaturedata\" [defaultColor]=\"InColor1\" [defaultColNum]=\"InColNum1\">
+                      </heatmap-chart>
+                  "}
           }
-          body{
-            html {"
-                    <heatmap-chart [data]=\"temperaturedata\" [defaultColor]=\"InColor1\" [defaultColNum]=\"InColNum1\">
-                    </heatmap-chart>
-                "}
         }
-      }
-    
-    card {
-          head {
-            row(stretch) {
-              label "Heatmap Chart of Temperature-Timestamps"
+    }
+    container(45%) {
+      card {
+            head {
+              row(stretch) {
+                label "Heatmap Chart of Temperature-Timestamps"
+              }
             }
-          }
-          body{
-            html {"
-                    <heatmap-chart [data]=\"temperaturedata\" [defaultColor]=\"InColor2\" [defaultColNum]=\"InColNum2\" [timestampdata]=true>
-                    </heatmap-chart>
-                "}
-          }
+            body{
+              html {"
+                      <heatmap-chart [data]=\"temperaturedata\" [defaultColor]=\"InColor2\" [defaultColNum]=\"InColNum2\" [timestampdata]=true>
+                      </heatmap-chart>
+                  "}
+            }
+      }
     }
   }
 

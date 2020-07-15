@@ -181,7 +181,7 @@ export class HeatmapChartComponent implements OnChanges {
   /**
    * @param loop_factor A modulo value for binning
    */
-  loop_factor  = 10;
+  loop_factor : number  = 10;
   /**
    * @param prettyprint_timestamps Wether the values on the X-Axis should be converter to Timestamp-Strings
    */
@@ -199,7 +199,7 @@ export class HeatmapChartComponent implements OnChanges {
   {
     if(value<this.min_num_seperations) {this.num_seperations = this.min_num_seperations;}
     else if(value > this.max_num_seperations){this.num_seperations = this.max_num_seperations;}
-    else {this.num_seperations = value;}
+    else {this.num_seperations = +value;}
     if(this.data) this.computed_data = this.rearrange_array(this.data.entries);    
   }
 
@@ -207,10 +207,10 @@ export class HeatmapChartComponent implements OnChanges {
    * Updates internal parameters @param loop_factor and  @param computed_data based on User-Inputs
    * @param value Number entered by the used
    */
-  enter_num_loop_factor(value)
+  enter_num_loop_factor(value:number)
   {
     if(value<2) this.loop_factor=2;
-    else this.loop_factor=value;
+    else this.loop_factor = +value;
     if(this.data) this.computed_data = this.rearrange_array(this.data.entries); 
   }
   
@@ -285,8 +285,12 @@ export class HeatmapChartComponent implements OnChanges {
     {
       min = 0;
       max = this.loop_factor;
+      if(this.timestampdata){
+        var UTCoffset = this.getUTCOffset();
+        min = min + UTCoffset;
+        max = max + UTCoffset;
+      } 
     }
-
     //Period between earliest and latest timestamp 
     var diff;
     diff = max-min;
@@ -313,7 +317,7 @@ export class HeatmapChartComponent implements OnChanges {
       {
         //Count the occurences in this chunk
         for (var entry of somedata) {
-          if((this.loop_days) && ((min + j*step) <= (entry.timestamp % this.loop_factor) && (entry.timestamp % this.loop_factor) < (min + (j+1)*step))){
+          if((this.loop_days) && ((min + j*step) <= ((entry.timestamp-UTCoffset) % this.loop_factor + UTCoffset) && ((entry.timestamp-UTCoffset) % this.loop_factor + UTCoffset) < (min + (j+1)*step))){
             counts[names.indexOf(entry.name)]++;
           }
           else if((min + j*step) <= entry.timestamp && entry.timestamp < (min + (j+1)*step)){
@@ -362,13 +366,13 @@ export class HeatmapChartComponent implements OnChanges {
     var date = new Date((timestamp) * 1000);
     
     //Hours part from the timestamp
-    var hours = date.getUTCHours();
+    var hours = date.getHours();
     //Minutes part from the timestamp
-    var minutes = "0" + date.getUTCMinutes();
-    var datum = date.getUTCDate();
+    var minutes = "0" + date.getMinutes();
+    var datum = date.getDate();
     //For unknown reasons Months start at index 0
-    var month = date.getUTCMonth()+1;
-    var year = date.getUTCFullYear();
+    var month = date.getMonth()+1;
+    var year = date.getFullYear();
 
     //Removes dates if data covers less than a day
     if(difference>86400)
@@ -381,5 +385,10 @@ export class HeatmapChartComponent implements OnChanges {
       //return timestamp;	
     }
   };
+
+  getUTCOffset(){
+    var date = new Date(0);
+    return date.getTimezoneOffset()*60;
+  }
 
 }
