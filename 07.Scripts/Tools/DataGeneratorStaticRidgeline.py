@@ -1,3 +1,5 @@
+#generates temperature sensor data for one week and sends it to the backend via a POST request received by the SensorService in the backend
+
 import json
 import time
 import datetime

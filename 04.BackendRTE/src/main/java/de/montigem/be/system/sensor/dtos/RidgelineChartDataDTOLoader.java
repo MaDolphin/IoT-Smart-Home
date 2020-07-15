@@ -17,27 +17,35 @@ public class RidgelineChartDataDTOLoader extends RidgelineChartDataDTOLoaderTOP 
   {
     super();
   }
+
+  /**
+   * Transfers the temperature Data of Sensor with Id 1 from the Database into Dtos for the coresponding chart
+   */
   
+
   public RidgelineChartDataDTOLoader(DAOLib daoLib, SecurityHelper securityHelper)
   {
     // Example implementation with two ridgelines each with three data points
+    
+    
     ZonedDateTime date = ZonedDateTime.now();
     double seconds = date.toInstant().toEpochMilli();
     System.out.println("Seconds:"+seconds);
     List<RidgelineDataEntryDTO> entries1 = new ArrayList<>();
     List<SensorValue> values = daoLib.getSensorDAO().getListOfSensorValueById("1");
-    for(SensorValue ausgabe : values)
-    {
-      entries1.add(new RidgelineDataEntryDTO(1, ausgabe.getTimestamp().toInstant().toEpochMilli(), ausgabe.getValue()));
+    if(!values.isEmpty() || values != null) {
+      for (SensorValue ausgabe : values) {
+        entries1.add(new RidgelineDataEntryDTO(1, ausgabe.getTimestamp().toInstant().toEpochMilli(), ausgabe.getValue()));
 
+      }
+      RidgelineDataDTO ridgeline1 = new RidgelineDataDTO(1, "Row 1", entries1);
+
+      List<RidgelineDataDTO> ridgelines = new ArrayList<>();
+      ridgelines.add(ridgeline1);
+
+      RidgelineChartDataDTO chart = new RidgelineChartDataDTO(1, ridgelines);
+      setDTO(chart);
     }
-    RidgelineDataDTO ridgeline1 = new RidgelineDataDTO(1, "Row 1", entries1);
-
-    List<RidgelineDataDTO> ridgelines = new ArrayList<>();
-    ridgelines.add(ridgeline1);
-
-    RidgelineChartDataDTO chart = new RidgelineChartDataDTO(1, ridgelines);
-    setDTO(chart);
   }
   
   public RidgelineChartDataDTOLoader(DAOLib daoLib, long id, SecurityHelper securityHelper)
