@@ -25,7 +25,7 @@ export class GaugeChartComponent implements OnInit {
         domain: ['#E44D25', '#7aa3e5', '#5AA454', '#CFC0BB', '#a8385d', '#aae3f5']
     };
 
-    // default settings
+    /** default settings */
     view: any[] = [400, 400];
     /** init value: showing a legend */
     legend: boolean = true;
@@ -43,6 +43,7 @@ export class GaugeChartComponent implements OnInit {
     public dataSet: any = [];
     /** data that is actually shown */
     public selectedDataSet: any = [];
+    /** intern variable to store the sensorType, can be changed via this.sensorType from extern */
     private _sensorType: any = "All";
 
     /**
@@ -52,6 +53,10 @@ export class GaugeChartComponent implements OnInit {
         this.recalcBigTicks();
     }
 
+    /**
+     * function to calculate the count of the big Ticks
+     * so the count will be a multiple of 10 or 100 depending on the data
+     */
     recalcBigTicks() {
         this.bigTicks = (this.max - this.min) / 10; // Alle 10 Schritte
         while (this.bigTicks > 15) { // Solange mehr als 10 Ticks, dann halbiere die Anzahl
@@ -140,11 +145,19 @@ export class GaugeChartComponent implements OnInit {
         }
     }
 
+    /**
+     * set SensorType from extern to filter the data
+     * @param sensorType
+     */
     @Input()
     set sensorType(sensorType){
         this._sensorType = sensorType;
         this.updateSelectedDataset();
     }
+
+    /**
+     * get the setted sensorFilter
+     */
     get sensorType(): any{
         return this._sensorType;
     }

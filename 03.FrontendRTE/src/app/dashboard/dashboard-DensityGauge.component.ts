@@ -17,16 +17,22 @@ export class DashboardDensityGaugeComponent extends DashboardDensityGaugeCompone
         super(_commandRestService, _route, _router, _webSocketService);
     } 
 
-    title = 'Density & Gaugechart';
-    public densitysensordata;
+    /** the selected dropdown value to insert it in the other components */
     public sensorType;
+    /** controller for the dropdown */
     public _sensorTypeControl;
 
+    /**
+     * starts initDropDown()
+     */
     ngOnInit() {
         super.ngOnInit();
         this.initDropDown();
     }
 
+    /**
+     * init the dropdown for the sensorType selection
+     */
     private initDropDown() {
         this._sensorTypeControl.setOptions([
             'All',
