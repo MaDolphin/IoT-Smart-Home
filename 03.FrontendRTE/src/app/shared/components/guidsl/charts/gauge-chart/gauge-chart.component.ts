@@ -111,7 +111,8 @@ export class GaugeChartComponent implements OnInit {
     /**
      * @ignore
      */
-    constructor() {}
+    constructor() {
+    }
 
     /**
      * refreshes the displayed data, when the new given data has at least one element
@@ -127,6 +128,15 @@ export class GaugeChartComponent implements OnInit {
             //console.log(gaugeData.entries);
 
             t.dataSet = gaugeData.entries;
+
+            // Rename Sensor 1 to CO2 and Sensor 2 to Temperature
+            t.dataSet.forEach(function (entry: any) {
+                if (entry.name == "1") {
+                    entry.name = "CO2";
+                } else if (entry.name == "2") {
+                    entry.name = "Temperature";
+                }
+            });
 
             t.dataSet.forEach(function (entry: any) {
                 //console.log(entry);
@@ -150,7 +160,7 @@ export class GaugeChartComponent implements OnInit {
      * @param sensorType
      */
     @Input()
-    set sensorType(sensorType){
+    set sensorType(sensorType) {
         this._sensorType = sensorType;
         this.updateSelectedDataset();
     }
@@ -158,7 +168,7 @@ export class GaugeChartComponent implements OnInit {
     /**
      * get the setted sensorFilter
      */
-    get sensorType(): any{
+    get sensorType(): any {
         return this._sensorType;
     }
 
