@@ -49,9 +49,10 @@ export class DensityChartComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void { 
     if(this.selectedLevel.name == this.sensorType)
     {
+        //update data with animation, but no change of axes
         this.updateData(false);
     }else{
-        console.log(this.sensorType);
+        //set level based on received sensor type
         if(this.sensorType === "CO2")
         {
             this.selectedLevel = this.levels[1];
@@ -64,17 +65,20 @@ export class DensityChartComponent implements OnChanges {
         {
             this.selectedLevel = this.levels[2];
         }
-        console.log(this.selectedLevel.name);
         this.onSelectionChange();
     }
   }
   
   /**if user changes selection display new chart**/
   public onSelectionChange(): void {
+      //reset data and update chart
       this.currentData = [];
       this.updateData(true);
   }
   
+  /**Chart will be updated with new data - on refresh true
+  **  also the axes will be refreshed - on refresh false
+  **  only the data will be updated **/
   public updateData(refresh):void
   { 
     if (this.data2 == null) {
@@ -89,16 +93,15 @@ export class DensityChartComponent implements OnChanges {
         }
         if(refresh)
         {  
+            //refresh chart with new data
             this.createDensityChart(this.currentData);
         }else{
+            //update chart with additional new data
             this.updateChart(this.currentData);
         }
     }
   }
 
-/**  onResize(changes: SimpleChanges) {
-    this.updateChart(changes.data2.currentValue);
-  }**/
   public createDensityChart(data2: Data2Model[]): void {
     const densityElement = this.chartContainer.nativeElement;
     const data = data2;
@@ -230,8 +233,8 @@ export class DensityChartComponent implements OnChanges {
       /**
        * Creates the legend
        */
-      this.svg.append('circle').attr('cx', 50+index*120).attr('cy', 150).attr('r', 6).style('fill', color[index]);
-      this.svg.append('text').attr('x', 60+index*120).attr('y', 150).text(this.getTypeFromSensorId(types[index]))
+      this.svg.append('circle').attr('cx', 50+index*120).attr('cy', 145).attr('r', 6).style('fill', color[index]);
+      this.svg.append('text').attr('x', 60+index*120).attr('y', 145).text(this.getTypeFromSensorId(types[index]))
         .style('font-size', '14px').attr('alignment-baseline', 'middle');
     }
   }
