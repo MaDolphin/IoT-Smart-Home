@@ -228,6 +228,16 @@ abstract public class DexTransformation {
     return isTopClassExistend(generateTOP, type, packageName, handcodePath);
   }
 
+  protected String checkIfTOPExtension(String packageName, String className) {
+    if (generateTOP && TransformationUtils
+        .existsHandwrittenFile(className, packageName, handcodePath.get(),
+            TransformationUtils.JAVA_FILE_EXTENSION)) {
+      className += TransformationUtils.TOP_EXTENSION;
+      return checkIfTOPExtension(packageName, className);
+    }
+    return className;
+  }
+
   /**
    * return input ast
    *

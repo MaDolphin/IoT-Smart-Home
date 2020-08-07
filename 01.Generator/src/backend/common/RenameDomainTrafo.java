@@ -35,7 +35,7 @@ public class RenameDomainTrafo extends DexTransformation {
           .existsHandwrittenFile(clazz.getName(), packageName, handcodePath.get(),
               TransformationUtils.JAVA_FILE_EXTENSION)) {
         // Rename class
-        clazz.setName(clazz.getName() + TransformationUtils.TOP_EXTENSION);
+        clazz.setName(checkIfTOPExtension(packageName, clazz.getName()));
         // TOP classes are always abstract
         ASTModifier modifier = clazz.getModifierOpt().isPresent() ?
             clazz.getModifier() :
