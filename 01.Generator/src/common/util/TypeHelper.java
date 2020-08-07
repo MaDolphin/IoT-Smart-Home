@@ -166,6 +166,10 @@ public class TypeHelper extends AbstractTypeHelper {
         return "Long";
       case "boolean":
         return "Boolean";
+      case "float":
+        return "Float";
+      case "double":
+        return "Double";
       default:
         return type;
     }

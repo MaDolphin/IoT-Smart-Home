@@ -73,15 +73,6 @@ public abstract class CreateTrafo extends ExtendTrafo {
     return Optional.of(addedClass);
   }
 
-  protected String checkIfTOPExtension(String packageName, String className) {
-    if (generateTOP && TransformationUtils
-        .existsHandwrittenFile(className, packageName, handcodePath.get(),
-            TransformationUtils.JAVA_FILE_EXTENSION)) {
-      className += TransformationUtils.TOP_EXTENSION;
-    }
-    return className;
-  }
-
   @Override
   // This trafo creates an additional interface for the existing domain interface
   protected Optional<ASTCDInterface> getOrCreateExtendedInterface(ASTCDInterface domainInterface, CDTypeSymbol typeSymbol) {
