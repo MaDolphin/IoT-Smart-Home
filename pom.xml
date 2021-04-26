@@ -50,7 +50,7 @@
 
 		<!-- Test Dependency Versions -->
 		<junit.version>4.12</junit.version>
-		<commons-io.version>2.4</commons-io.version>
+		<commons-io.version>2.7</commons-io.version>
 
 		<!-- Plugin Versions -->
 		<maven.compiler.version>3.6.1</maven.compiler.version>
